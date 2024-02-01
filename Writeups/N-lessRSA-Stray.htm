@@ -23,33 +23,39 @@
 <style>@font-face{font-display:auto;font-family:Roboto Mono;font-style:italic;font-weight:100;src:local("Roboto Mono"),url(/fonts/Roboto-Mono-Thin.ttf) format("truetype")}@font-face{font-display:auto;font-family:Roboto Mono;font-style:italic;font-weight:100;src:local("Roboto Mono"),url(/fonts/Roboto-Mono-Thin-Italic.ttf) format("truetype")}@font-face{font-display:auto;font-family:Roboto Mono;font-style:italic;font-weight:300;src:local("Roboto Mono"),url(/fonts/Roboto-Mono-Light.ttf) format("truetype")}@font-face{font-display:auto;font-family:Roboto Mono;font-style:italic;font-weight:300;src:local("Roboto Mono"),url(/fonts/Roboto-Mono-Light-Italic.ttf) format("truetype")}@font-face{font-display:auto;font-family:Roboto Mono;font-style:normal;font-weight:400;src:local("Roboto Mono"),url(/fonts/Roboto-Mono.ttf) format("truetype")}@font-face{font-display:auto;font-family:Roboto Mono;font-style:italic;font-weight:400;src:local("Roboto Mono"),url(/fonts/Roboto-Mono-Italic.ttf) format("truetype")}@font-face{font-display:auto;font-family:Roboto Mono;font-style:normal;font-weight:500;src:local("Roboto Mono"),url(/fonts/Roboto-Mono-Medium.ttf) format("truetype")}@font-face{font-display:auto;font-family:Roboto Mono;font-style:italic;font-weight:500;src:local("Roboto Mono"),url(/fonts/Roboto-Mono-Medium-Italic.ttf) format("truetype")}@font-face{font-display:auto;font-family:Roboto Mono;font-style:normal;font-weight:600;src:local("Roboto Mono"),url(/fonts/Roboto-Mono-Bold.ttf) format("truetype")}@font-face{font-display:auto;font-family:Roboto Mono;font-style:italic;font-weight:600;src:local("Roboto Mono"),url(/fonts/Roboto-Mono-Bold-Italic.ttf) format("truetype")}@font-face{font-display:auto;font-family:Montserrat;font-style:normal;font-weight:400;src:local("Montserrat"),url(/fonts/Montserrat-Regular.ttf) format("truetype")}.slide-to-next-enter-active,.slide-to-next-leave-active,.slide-to-prev-enter-active,.slide-to-prev-leave-active{overflow:hidden!important;transition-duration:.3s;transition-property:transform;transition-timing-function:linear}.slide-to-next-leave-to,.slide-to-prev-enter-from{transform:translateX(-100vh)}.slide-to-next-enter-from,.slide-to-prev-leave-to{transform:translateX(100vh)}.layout-enter-active,.layout-leave-active{transition:all 5s ease-out}.layout-enter-from{transform:scale(95%,0)}.layout-leave-to{height:0!important}:root{--accents-color:transparent;--color-on-bg-accent:#fff;--los-fuzzys-green:#54dc2d;--los-fuzzys-red:#e24044;--los-fuzzys-purple:#8362e4;--los-fuzzys-gray:rgba(51,51,51,.788);--bg-gradient-green:#0a2e00;--bg-gradient-red:#540304;--bg-gradient-purple:#311683;--bg-gradient:#000;--border-color:#555;--glow-color:transparent;--glow-red:#b70c11;--glow-green:#1b6706;--glow-purple:#906ef7;--scrollbar-button-up-url:url(/images/scrollbar/scroll-button-up-red.svg);--scrollbar-button-down-url:url(/images/scrollbar/scroll-button-down-red.svg);--scrollbar-track-piece-color:#1a1a1a}.output-content::-webkit-scrollbar,.page-container::-webkit-scrollbar{background:transparent;width:15px}.output-content::-webkit-scrollbar-button,.page-container::-webkit-scrollbar-button{border:2px solid var(--border-color);display:none;height:15px;position:relative}.output-content::-webkit-scrollbar-button:decrement:start,.page-container::-webkit-scrollbar-button:decrement:start{background:var(--scrollbar-button-up-url);border-radius:0 0 5px 5px}.output-content::-webkit-scrollbar-button:increment:end,.page-container::-webkit-scrollbar-button:increment:end{background:var(--scrollbar-button-down-url);border-radius:5px 5px 0 0}.output-content::-webkit-scrollbar-button:decrement:end,.output-content::-webkit-scrollbar-button:increment:start,.page-container::-webkit-scrollbar-button:decrement:end,.page-container::-webkit-scrollbar-button:increment:start{display:none}.output-content::-webkit-scrollbar-track,.page-container::-webkit-scrollbar-track{background:transparent}.output-content::-webkit-scrollbar-track-piece,.page-container::-webkit-scrollbar-track-piece{background:linear-gradient(90deg,transparent 34%,var(--scrollbar-track-piece-color) 35%,var(--scrollbar-track-piece-color) 65%,transparent 66%)}.output-content::-webkit-scrollbar-thumb,.page-container::-webkit-scrollbar-thumb{background:var(--accents-color);border:2px solid #0c0c0c;border-radius:1rem}.terminal-container{transition:transform .7s ease-out}.navbar-container{opacity:1;transition:opacity .7s ease-out;transition-delay:1s}.navbar-container.faded{opacity:0}.layout{opacity:1;transition:opacity .6s ease-out;transition-delay:1.5s}.layout.faded{opacity:0}.cli-container{opacity:1;transition:opacity .7s ease-out;transition-delay:1.25s}.cli-container.faded{opacity:0}</style>
 <style>@font-face{font-display:auto;font-family:Roboto Mono;font-style:italic;font-weight:100;src:local("Roboto Mono"),url(/fonts/Roboto-Mono-Thin.ttf) format("truetype")}@font-face{font-display:auto;font-family:Roboto Mono;font-style:italic;font-weight:100;src:local("Roboto Mono"),url(/fonts/Roboto-Mono-Thin-Italic.ttf) format("truetype")}@font-face{font-display:auto;font-family:Roboto Mono;font-style:italic;font-weight:300;src:local("Roboto Mono"),url(/fonts/Roboto-Mono-Light.ttf) format("truetype")}@font-face{font-display:auto;font-family:Roboto Mono;font-style:italic;font-weight:300;src:local("Roboto Mono"),url(/fonts/Roboto-Mono-Light-Italic.ttf) format("truetype")}@font-face{font-display:auto;font-family:Roboto Mono;font-style:normal;font-weight:400;src:local("Roboto Mono"),url(/fonts/Roboto-Mono.ttf) format("truetype")}@font-face{font-display:auto;font-family:Roboto Mono;font-style:italic;font-weight:400;src:local("Roboto Mono"),url(/fonts/Roboto-Mono-Italic.ttf) format("truetype")}@font-face{font-display:auto;font-family:Roboto Mono;font-style:normal;font-weight:500;src:local("Roboto Mono"),url(/fonts/Roboto-Mono-Medium.ttf) format("truetype")}@font-face{font-display:auto;font-family:Roboto Mono;font-style:italic;font-weight:500;src:local("Roboto Mono"),url(/fonts/Roboto-Mono-Medium-Italic.ttf) format("truetype")}@font-face{font-display:auto;font-family:Roboto Mono;font-style:normal;font-weight:600;src:local("Roboto Mono"),url(/fonts/Roboto-Mono-Bold.ttf) format("truetype")}@font-face{font-display:auto;font-family:Roboto Mono;font-style:italic;font-weight:600;src:local("Roboto Mono"),url(/fonts/Roboto-Mono-Bold-Italic.ttf) format("truetype")}@font-face{font-display:auto;font-family:Montserrat;font-style:normal;font-weight:400;src:local("Montserrat"),url(/fonts/Montserrat-Regular.ttf) format("truetype")}.slide-to-next-enter-active,.slide-to-next-leave-active,.slide-to-prev-enter-active,.slide-to-prev-leave-active{overflow:hidden!important;transition-duration:.3s;transition-property:transform;transition-timing-function:linear}.slide-to-next-leave-to,.slide-to-prev-enter-from{transform:translateX(-100vh)}.slide-to-next-enter-from,.slide-to-prev-leave-to{transform:translateX(100vh)}.layout-enter-active,.layout-leave-active{transition:all 5s ease-out}.layout-enter-from{transform:scale(95%,0)}.layout-leave-to{height:0!important}:root{--accents-color:transparent;--color-on-bg-accent:#fff;--los-fuzzys-green:#54dc2d;--los-fuzzys-red:#e24044;--los-fuzzys-purple:#8362e4;--los-fuzzys-gray:rgba(51,51,51,.788);--bg-gradient-green:#0a2e00;--bg-gradient-red:#540304;--bg-gradient-purple:#311683;--bg-gradient:#000;--border-color:#555;--glow-color:transparent;--glow-red:#b70c11;--glow-green:#1b6706;--glow-purple:#906ef7;--scrollbar-button-up-url:url(/images/scrollbar/scroll-button-up-red.svg);--scrollbar-button-down-url:url(/images/scrollbar/scroll-button-down-red.svg);--scrollbar-track-piece-color:#1a1a1a}.output-content::-webkit-scrollbar,.page-container::-webkit-scrollbar{background:transparent;width:15px}.output-content::-webkit-scrollbar-button,.page-container::-webkit-scrollbar-button{border:2px solid var(--border-color);display:none;height:15px;position:relative}.output-content::-webkit-scrollbar-button:decrement:start,.page-container::-webkit-scrollbar-button:decrement:start{background:var(--scrollbar-button-up-url);border-radius:0 0 5px 5px}.output-content::-webkit-scrollbar-button:increment:end,.page-container::-webkit-scrollbar-button:increment:end{background:var(--scrollbar-button-down-url);border-radius:5px 5px 0 0}.output-content::-webkit-scrollbar-button:decrement:end,.output-content::-webkit-scrollbar-button:increment:start,.page-container::-webkit-scrollbar-button:decrement:end,.page-container::-webkit-scrollbar-button:increment:start{display:none}.output-content::-webkit-scrollbar-track,.page-container::-webkit-scrollbar-track{background:transparent}.output-content::-webkit-scrollbar-track-piece,.page-container::-webkit-scrollbar-track-piece{background:linear-gradient(90deg,transparent 34%,var(--scrollbar-track-piece-color) 35%,var(--scrollbar-track-piece-color) 65%,transparent 66%)}.output-content::-webkit-scrollbar-thumb,.page-container::-webkit-scrollbar-thumb{background:var(--accents-color);border:2px solid #0c0c0c;border-radius:1rem}.glow-border{border-color:var(--accents-color)!important;border-style:solid;border-width:2px;box-shadow:inset 0 0 7px 1px var(--glow-color),0 0 5px 0 var(--glow-color)}body,html{background-color:transparent;background-color:#000;background:radial-gradient(var(--bg-gradient),#000);font-family:Roboto Mono;margin:0;padding:0;width:100vw}.main-app{align-items:center;display:flex;flex-direction:column;justify-content:center}.author{color:#777;margin:.2rem}.author a{color:currentColor;text-decoration:none;transition:all .1s linear}.author a:hover{color:#fff;text-shadow:0 0 2px var(--accents-color)}.bug-container{bottom:0;height:300px;pointer-events:none;position:absolute;right:0;width:300px}@media (width > 600px){.main-app{box-sizing:border-box;height:100dvh;padding:.5rem;width:100vw}}@media (width <= 600px){#__nuxt{background:radial-gradient(#540304,#000);box-sizing:border-box;height:100dvh;padding:.5rem}.main-app{height:100%;width:100%}.bug-container{display:none}}@media (width < 430px){body{font-size:.85rem}}footer{font-size:.8rem;opacity:1;padding-top:.5rem;text-align:center;transition:opacity .7s ease-out;width:100%;z-index:1}footer.fade{opacity:0}@media (width <= 430px){footer{font-size:.6rem}}</style>
 <link rel="stylesheet" href="N-less%20RSA%20TheStray%CF%80rate_files/entry.8b0ecd1e.css">
-<link rel="preload" as="fetch" crossorigin="anonymous" href="#/writeups/2023/crew-ctf/deception/_payload.json">
-<link rel="modulepreload" as="script" crossorigin="" href="N-less%20RSA%20TheStray%CF%80rate_files/entry.37e139cb.js">
-<link rel="modulepreload" as="script" crossorigin="" href="#/_nuxt/default.0157c090.js">
-<link rel="modulepreload" as="script" crossorigin="" href="#/_nuxt/_...slug_.14fafd62.js">
-<link rel="modulepreload" as="script" crossorigin="" href="#/_nuxt/arrowIcon.6ee2deee.js">
-<link rel="modulepreload" as="script" crossorigin="" href="#/_nuxt/ContentRenderer.4fbbdd45.js">
-<link rel="modulepreload" as="script" crossorigin="" href="#/_nuxt/ContentRendererMarkdown.vue.c37fd5e4.js">
-<link rel="modulepreload" as="script" crossorigin="" href="#/_nuxt/ContentDoc.4c83a8cb.js">
-<link rel="modulepreload" as="script" crossorigin="" href="#/_nuxt/ContentQuery.5091908c.js">
-<link rel="modulepreload" as="script" crossorigin="" href="#/_nuxt/asyncData.85dba75c.js">
-<link rel="modulepreload" as="script" crossorigin="" href="#/_nuxt/ContentRendererMarkdown.5865cdb4.js">
-<link rel="modulepreload" as="script" crossorigin="" href="#/_nuxt/ProseH2.1ce8ba99.js">
-<link rel="modulepreload" as="script" crossorigin="" href="#/_nuxt/ProseP.61841540.js">
-<link rel="modulepreload" as="script" crossorigin="" href="#/_nuxt/ProsePre.31909df8.js">
-<link rel="modulepreload" as="script" crossorigin="" href="#/_nuxt/ProseCode.d8aaa4a2.js">
-<link rel="modulepreload" as="script" crossorigin="" href="#/_nuxt/ProseA.dcf185e9.js">
-<link rel="prefetch" as="script" crossorigin="" href="#/_nuxt/Static.6bc68d37.js">
-<link rel="prefetch" as="script" crossorigin="" href="#/_nuxt/Dynamic.e3e966bd.js">
-<link rel="prefetch" as="script" crossorigin="" href="#/_nuxt/index.3bfbb45b.js">
-<link rel="prefetch" as="script" crossorigin="" href="#/_nuxt/Cached.8f060787.js">
-<link rel="prefetch" as="script" crossorigin="" href="#/_nuxt/WithoutCache.33798cfa.js">
-<link rel="prefetch" as="script" crossorigin="" href="#/_nuxt/Screenshot.b9ffadcb.js">
-<link rel="prefetch" as="script" crossorigin="" href="#/_nuxt/client-db.8e724bef.js">
-<link rel="prefetch" as="script" crossorigin="" href="#/_nuxt/page.972aa2d0.js">
-<link rel="prefetch" as="script" crossorigin="" href="#/_nuxt/defu.573334b8.js">
-<link rel="prefetch" as="script" crossorigin="" href="#/_nuxt/error-404.53024387.js">
-<link rel="prefetch" as="script" crossorigin="" href="#/_nuxt/error-500.084ec6bc.js">
+<link rel="modulepreload" as="script" href="js/ProseA.dcf185e9.js">
+<link rel="modulepreload" as="script" href="js/asyncData.85dba75c.js">
+<link rel="modulepreload" as="script" href="js/ContentRendererMarkdown.5865cdb4.js">
+<link rel="modulepreload" as="script" href="js/ContentDoc.4c83a8cb.js">
+<link rel="modulepreload" as="script" href="js/ContentQuery.5091908c.js">
+<link rel="modulepreload" as="script" href="js/ContentRenderer.4fbbdd45.js">
+<link rel="modulepreload" as="script" href="js/ContentRendererMarkdown.vue.c37fd5e4.js">
+<link rel="modulepreload" as="script" href="js/_...slug_.e1ecb17e.js">
+<link rel="modulepreload" as="script" href="js/default.0157c090.js">
+<link rel="modulepreload" as="script" href="js/entry.37e139cb.js">
+<link rel="modulepreload" as="script" href="js/_payload.json">
+<link rel="modulepreload" as="script" href="js/ProseImg.cd3888ff.js">
+<link rel="modulepreload" as="script" href="js/ProseH1.74aa1eb4.js">
+<link rel="modulepreload" as="script" href="js/ProseP.61841540.js">
+<link rel="modulepreload" as="script" href="js/ProseEm.a47fc591.js">
+<link rel="modulepreload" as="script" href="js/ProseLi.f01ca901.js">
+<link rel="modulepreload" as="script" href="js/ProseUl.9bf28a7d.js">
+<link rel="modulepreload" as="script" href="js/Static.6bc68d37.js">
+<link rel="modulepreload" as="script" href="js/Dynamic.e3e966bd.js">
+<link rel="modulepreload" as="script" href="js/WithoutCache.33798cfa.js">
+<link rel="modulepreload" as="script" href="js/index.3bfbb45b.js">
+<link rel="modulepreload" as="script" href="js/Cached.8f060787.js">
+<link rel="modulepreload" as="script" href="js/Screenshot.b9ffadcb.js">
+<link rel="modulepreload" as="script" href="js/client-db.8e724bef.js">
+<link rel="modulepreload" as="script" href="js/page.972aa2d0.js">
+<link rel="modulepreload" as="script" href="js/defu.573334b8.js">
+<link rel="modulepreload" as="script" href="js/index.9853b0b0.js">
+<link rel="modulepreload" as="script" href="js/arrowIcon.6ee2deee.js">
+<link rel="modulepreload" as="script" href="js/ProseStrong.3b986912.js">
+<link rel="modulepreload" as="script" href="js/ProseH2.1ce8ba99.js">
+<link rel="modulepreload" as="script" href="js/ProseH3.026597b1.js">
+<link rel="modulepreload" as="script" href="js/ProseH4.75a63be3.js">
+
 <link rel="icon" href="#/images/favicon_green.ico">
 <link as="font" href="#/fonts/Roboto-Mono-Thin.ttf" type="font/ttf" crossorigin="anonymous">
 <link as="font" href="#/fonts/Roboto-Mono-Thin-Italic.ttf" type="font/ttf" crossorigin="anonymous">
@@ -180,7 +186,47 @@ factors = [<span class="ct-806137">2, 2, 2,2, 5,17 ,23,127,34883,64327,31855469,
                 exit(m.decode())
 </code></pre>
 </div>
-</code><p>Wait for it and voila ! flag is wgmy{a9722440198c2abad490478875be2815}.</p>
+</code>
+
+<!-- [ -->
+
+<p>Later I found another script that does the same thing, here it is :</p>
+
+<code data-v-564f77c2="" style="position: relative; display: block;" language="bash" highlights="" meta=""><!----><div class="github-dark">
+<pre><code>
+<span class="ct-857441">from</span> Crypto.Util.number <span class="ct-857441">import</span> isPrime, long_to_bytes
+<span class="ct-857441">from</span> itertools <span class="ct-857441">import</span> combinations
+<span class="ct-857441">from</span> functools <span class="ct-857441">import</span> reduce
+
+<span class="ct-857441">def</span> <span class="ct-806137">decrypt</span>(p, q, e, ct):
+    phi = (p - <span class="ct-806137">1</span>) * (q - <span class="ct-806137">1</span>)
+    d = pow(e, -<span class="ct-806137">1</span>, phi)
+    pt = pow(ct, d, p * q)
+    <span class="ct-857441">return</span> long_to_bytes(pt)
+
+phi=<span class="ct-806137">340577739943302989719266782993735388309601832841016828686908999285012058530245805484748627329704139660173847425945160209180457321640204169512394827638011632306948785371994403007162635069343890640834477848338513291328321869076466503121338131643337897699133626182018407919166459719722436289514139437666592605970785141028842985108396221727683676279586155612945405799488550847950427003696307451671161762595060053112199628695991211895821814191763549926078643283870094478487353620765318396817109504580775042655552744298269080426470735712833027091210437312338074255871034468366218998780550658136080613292844182216509397934480</span>
+e=<span class="ct-806137">65537</span>
+ct=<span class="ct-806137">42363396533514892337794168740335890147978814270714150292304680028514711494019233652215720372759517148247019429253856607405178460072049996513931921948067945946086278782910016494966199807084840772350780861440737097778578207929043800432279437709296060384506082883401105820800844187947410153745248466533960754243807208804084908637481187348394987532434982032302570226378255458486161579167482667571132674473067323283939026297508548130085016660893371076973067425309491443342096329853486075971866389182944671697660246503465740169215121081002338163263904954365965203570590704089906222868145676419033148652705335290006075758484</span>
+<span class="ct-244866"># Combination of Factordb and YAFU</span>
+factors = [<span class="ct-806137">2, 2, 2,2, 5,17 ,23,127,34883,64327,31855469,41906999093,103832676376161046043,42928682841447187075836289855892629156535900514107927517684293084786844441409957297894592527460787241683614840492974772427636887719994128565592152980944126724469079274172144474672062412412603584793646346956898729686409791648474545298852872995161295471414165954724402947,6420760786362823769296653774296236632402429318675915367452603711386456193709958608737754568883471330653872083531628632121784399208909036073963921230370375260817560046504060944356316155772191086712627421688528565251967757404295337261653707746185260317688974197060087034705221140112831521071507609</span> ]
+
+<span class="ct-857441">for</span> n <span class="ct-857441">in</span> range(<span class="ct-806137">1</span>, len(factors) + <span class="ct-806137">1</span>):
+    <span class="ct-857441">for</span> comb <span class="ct-857441">in</span> combinations(factors, n):
+        prod = reduce(int.__mul__, comb)
+        <span class="ct-857441">if</span> isPrime(prod + <span class="ct-806137">1</span>) <span class="ct-857441">and</span> isPrime(phi // prod + <span class="ct-806137">1</span>):
+            p = prod + <span class="ct-806137">1</span>
+            q = phi // (p - <span class="ct-806137">1</span>) + <span class="ct-806137">1</span>
+            m = decrypt(p, q, e, ct)
+            <span class="ct-857441">if</span> b<span class="ct-533739">"wgmy"</span> <span class="ct-857441">in</span> m:
+                <span class="ct-857441">print</span>(m.decode())
+                <span class="ct-857441">break</span>
+</code></pre>
+</div>
+
+
+<!-- ] -->
+
+<p>Wait for it and voila ! flag is wgmy{a9722440198c2abad490478875be2815}.</p>
 
 
 
