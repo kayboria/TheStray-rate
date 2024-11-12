@@ -1996,6 +1996,24 @@ then create the filelist.txt with the following paths:
 </div>
 
 
+
+<div class="github-dark">
+    <pre><code>
+-------------------[ippsec Blue]--------------------------------
+
+Ippsec in this episode discovered that nmap -sC runs default scripts and not safe scripts, and he said it was doing mistake in all of his previous episodes. He discovered that because when he run the -sC on smb-vuln-ms17-010.nse vulnerable box the  nmap with -sC did not show the box is vulnerable and when he checked the file of ms17 he found the category is safe!
+
+grep -r categories /usr/share/nmap/scripts/*.nse | grep default | awk -F: '{print $1}'
+
+grep -r categories /usr/share/nmap/scripts/*.nse | grep -oP  '".*?"' | sort -u
+
+
+------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
+
 <div class="github-dark">
     <pre><code>
 -------------------[Ippsec stacked ]--------------------------------
@@ -2007,6 +2025,35 @@ But you need to be lucky that the other internal site in the same origin, or the
 
     </code></pre>
 </div>
+
+<div class="github-dark">
+    <pre><code>
+-------------------[install upgraded empire ! ]--------------------------------
+
+- first you have to make sure you have enough space if not give your vm more space from the  vm settings than using gparted as this coused me a lot of 
+  errors when i was trying to install empire
+- second run the following command so that upgraded python3 empire installing in your vm:
+apt-get update
+apt-get install python3 python3-pip git -y
+git clone https://github.com/BC-SECURITY/Empire.git
+cd Empire
+./setup/install.sh
+./empire
+
+-then it will be installed 
+
+
+- RUN EMPIRE FROM A CONTAINER 
+docker run -it --rm -p 1337:1337 empire
+
+
+...------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
+
+
 
 <div class="github-dark">
     <pre><code>
@@ -2052,6 +2099,147 @@ But you need to be lucky that the other internal site in the same origin, or the
 
 <div class="github-dark">
     <pre><code>
+-------------------[Certificates]--------------------------------
+========= 
+
+Another thing that really Enhanced my CS knowledge is certificates and the servers handshake and dns, first of all os the image that I created which is the system go toward a straight line for finding dns if it couldn't it start going to the tree of DNS after it gets the ip it starts the tcp 3 way handshake and that is like after it is done the 3 tcp handshake it is like start showing up to the server, then the client send hello with its available ciphers amd few things, and the server then  send like a very large data in one backet that has server choosed ciphers and server certificates and public key and the OCSP the (now the public key is an issue because any hacker can change the public key of that server to his and steal the messages, also remember that certificates are important because it freezes the status of the server and gives you a freezed insight about the server in a specific time and it tells you for example, this user has been using his public key for 3 or 4 years) client gets the public key and waunder either  to trust it or not, so it takes the certificate and make sure the CA trusted public key is not invoked using the OCSP then it take off the signature of the certificate once it works it mean 2 important things, the first is that the certificate is really coming from CA second thing is the information inside like the public key of the server doesn't change means there is no hacker trying to impersonate the server so all good then if the server asks for the client certificate it should be in the next third request if the client if not then starting the 4 block key that I saw in one of the CTFs and also next topic is the paused sessions that I also read about 
+
+================
+------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
+
+<div class="github-dark">
+    <pre><code>
+-------------------[Certificates]--------------------------------
+========= 
+
+The information that change my view etirely about computer science was when I knew the \x3c\x0f, 0x0f3c, test formats and how to write to file with what i call using normal user mode and machine mode where machine mode writing bytes instead of ASCII strings
+
+from this basis, I knew how to check the validity of pwn payload and the orders it should be in.
+
+also it helped me to understand ecnryption and decryption vision in computer science and the reality that every thing 
+
+goes back to the format:
+
+00000000: 696d 706f 7274 2061 7267 7061 7273 650a  import argparse.
+
+
+
+also it helped me to understand that the middle hex is the essential part, while the right most side can be generated according to the table I want to use, by ddefault the ASCII table is used and displayed which is called encoding where I give how many bits a word represents 
+
+
+
+this script translate from user normal mode to machine mode: 
+python -c &quot;print(&#39;&#39;.join([&#39;\\\\x{:02x}&#39;.format(ord(b)) for b in &#39;hAPI hacker&#39;]))&quot;
+
+When the string &#8220;hAPI hacker&#8221; is encoded in UTF-8, it becomes the following:
+\x68\x41\x50\x49\x20\x68\x61\x63\x6K\x65\x72
+
+When the string &#8220;hAPI hacker&#8221; is encoded in UTF-8, it becomes the following:
+
+python -c &quot;print(&#39;&#39;.join([&#39;\\\\x{:02x}&#39;.format(b) for b in bytearray(&#39;hAPI hacker&#39;.encode(&#39;utf-16be&#39;))]))&quot;
+\u{68}\u{41}\u{50}\u{49}\u{20}\u{68}\u{61}\u{63}\u{6b}\u{65}\u{72}
+or
+\x00\x68\x00\x41\x00\x50\x00\x49\x00\x20\x00\x68\x00\x61\x00\x63\x00\x6b\x00\x65\x00\x72
+
+So it is like most importantly, you&#39;re having the right bytes of the text, after that by changing the table you get different results
+
+doomedra to little endianess
+python -c &quot;print(&#39;doomedra&#39;[::-1].encode(&#39;hex&#39;))&quot;
+617264656d6f6f64
+
+get the decimal of any hex
+echo $((16#3c))
+
+So, when yiu cat a file you get its content as strings ? Because cat will get the bytes/hex and it will by default directly use the ASCII table to represent the hex that is why sometimes you'll see dumps, ASCII will tell cat look, take one byte/hex at a time like 65 and do the swip between the hex/byte according to this scheme ...
+Chinese table for example says no look take 2 bytes/hex and swip with my scheme to get a meaningful words ... etc
+
+
+----------------------------------------------------------------
+The above changed my view because that means everything I see is actually in 00000000: 696d 706f 7274 2061 7267 7061 7273 650a format, all programs, softwares, images, OS images etc even network packets wireshark or tcpdump or snort etc
+--------------------------------------------------------------
+After my understanding of the  
+00000000: 696d 706f 7274 2061 7267 7061 7273 650a  import argparse.
+
+And after doing the CTF of otterCTF forensic image I understood even how packets works because everything is bytes in the above format is a content then they create some headers and length etc info about the bytes and call the bytes as payload and create the thing that understand these headers (called as protocol like TCP IP etc or for example windows exe) so it is like if everything apple pie.
+
+beside that, imagine you run pwndbg on a binary, the layout is that in the memory your application is an individual context that is why we can debug multiple programs at the same time and see that an instruction is having the same address in different programs, because what we are seeing is all virtual just to represent its place in the context. then in this context there is section that has different things which we can also see via the debugger, in general each program will have a huge dump of space from the memory to uses it as the program ones, however the operating system will force a specific layout for the program to be inside the context , this layout is called process memory map. 
+so for linux for example any program the programming will write and compile when it runs it will ends up in the memory in the following linux memory map
+.text segment
+.data sesgment
+.bss segment
+.heap segment (grow down!)
+.stack segment (grow up!)
+
+beside that keep in mind the thing that changed your mind in understanding computer science that when stack grows it pushes the data from the end of the address, let's say the stack want to push some data like 0xdeadbeaf to the address 00000000 and remember that each two places is one byte so 00aa is 2 bytes 00 is a byte and aa is a byte
+00000000: 0000000000000000
+after push
+00000000: 00000000afbeadde
+
+so we can see here in the address when there is push it will be from the end to the start, this will help you to find pushed things when you are doing pwning beside that the idea i learned about that each process or program has its own context or space in memory and that is why i can see the same address used in mutliple apps when debuging in the same system solved a huge error for me because now i understand that I can't know the physical address when debugging it is all virtual because when i want to debug an app it is like saying to the memory give me access to the room number ## and the memory can find this room according to its physical address identifier for applications then he will let me inside the room where the app has its own virtual addresses it uses inside to refer to thing, inside the room as i said suppose to be a huge dump of memory addresses and dump data, however it is splitted into segments according to how the operating system agrees on.
+
+
+with knowing that, I can know where i can find specific information inside this dump of data inside the app, for example .text is above data segment so means .text ofc will have lower addresses, and .data has lower addresses than the heap addresses 
+
+
+also after knowing the above you can finish any assembly exploitation book and can create marlwares and do a lot of things like create shellcodes and understand how windows works from inside to create malwares, beside that it helped me to relearn C in memory level not just coding ...
+
+================
+------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
+
+<div class="github-dark">
+    <pre><code>
+-------------------[purpose of NTLM]--------------------------------
+========= 
+
+The whole purpose of challenge/response kind of authentication is to avoid passing the user cred through the network 
+
+That is why in NTLM authentication the  DC first check the domain if not local domain  then challenge/response if local domain then security context it
+================
+------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
+
+<div class="github-dark">
+    <pre><code>
+-------------------[]--------------------------------
+========= 
+
+Most of the things try to get the ntlm credentials like shadow copy (NinjaCopy) Dsync kerbraosting mikikatz responder (and the other thing) GetUsersSPNs.ps1
+================
+------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
+
+
+<div class="github-dark">
+    <pre><code>
+-------------------[To change the default evilginx information before evilginx sign it]--------------------------------
+========= 
+
+Morning Mr Aizzat, I foundout something interesting if you remember before we was trying to launch evilginx and faced dozens of certificate format errors (specially that PKCS#8 format) and we where trying chatGPT and google how to generate .crt and .key and lots of openssl commands but openssl does&#39;t generate any .crt and .key pairs and we got .pem lot of miss. However I found a way to generate these pairs and evilginx happily accepted the pair. the method is using keystore explorer to generate and export both the cert and private key and it will be exported in the correct format as evilginx wishes using the following method:  for certificate export &gt; Head only + X.509 + PEM to /root/.evilginx/crt/ca.crt     for the private key exort &gt; OpenSSL &gt; uncheck Encrypt box check PEM output to /root/.evilginx/crt/ca.key please html encode special characters
+
+================
+------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
+
+
+<div class="github-dark">
+    <pre><code>
 -------------------[smb relay]--------------------------------
 what i understrand from the smb relay attack is that, normally there is a file share server and clients, the client once will typo the share name he will not get it so he will start asking who has this share ?? using LLMNR or NBT-NS as a resolution discovery without the need of DNS so here we come and say yes i have this share, the client will believe us we will ask them to authenticate etc we will make him do the normal process here while we will forward it to the main server i was questioning that since the share name from the beginning is wrong it means we won't authenticate anyway even if we are MITM, but what i understood is that the authentication process by itself is enough for us to list the shares in the sharing server so eventhough we will get rejected but we will be authenticated ! which is what we want to list the shares and the "share doesn't exists error we will send it to the client" so next time you typo the share name you should pull your hair out because you won't feel it while there might be an attacker who forwarded the "share does't exist error for you :) and that is why mitigating it by disabling LLMNR and NBT-NS which will make the client not ask 'who has this share' thus the attacker can't know if there is any client missing to find a share or vlan client isolation to lower the possibility of someone sniffing on clients asking of typo shares 
 
@@ -2061,6 +2249,78 @@ if you got the NTLMv2 hash crack it baby hashcat -m 5600 hash.txt password_List.
 
     </code></pre>
 </div>
+
+<div class="github-dark">
+    <pre><code>
+-------------------[ippsec timelapse]--------------------------------
+ippsec found .pfx certificate and he extracted the cert and the private key using openssl commands you can tech the episode if you need to know how 
+
+and to check if winrm port is open use 
+nmap -p 5985-5986 [[ip]] -v
+5985 non ssl winrm
+5986 ssl winrm
+
+so when he got the cert and private key out of the .pfx he could login to winrm using
+evil-winrm  -S -i [ip] -c key.cert -k key.pem
+
+he extracted the cert with
+
+and the private key with
+
+this is the path to read the powershell commands
+C:\Users\legacyy\APPDATA\roaming\microsoft\windows\powershell\psreadline/ConsoleHost_history.txt
+
+he also used bloodhound ingestor using the command:
+python3 bloodhound.py -c all -dc dc01.timelapse.htb -d timelapse -u svc_deploy -p '' -ns []ip
+------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
+
+<div class="github-dark">
+    <pre><code>
+-------------------[Me tryhackme - Ultratech]--------------------------------
+backtick - enable you to files in the system which is like XXE or LFI
+
+when i discovered that there is an api that takes an ip address from me to ping i knew that the ping . $myinput is behind the hood
+the api was like 10.10.186.172:8081/ping?ip=
+
+so i know that any tool in linux if you give it the backtick like ping `ls` it will bring the first result of ls and thus
+when the ping will fail the error will expose the file name in the system
+
+so you can search for any parameter and if you know that parameter is using  some tool you can use the backtick with it to
+know the file name in the directory 
+------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
+
+<div class="github-dark">
+    <pre><code>
+-------------------[Ippsec Jerry]--------------------------------
+when ippsec wanted to try the c2 silent trinity he got cipher error where after the client did the  3 way tcp handshakes the client said hello with sending its availble ciphers the nthe server sent everything but the client crushed from the first tie which is no cipher they are matching on 
+------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
+
+<div class="github-dark">
+    <pre><code>
+-------------------[Me tryhackme - wonderland]--------------------------------
+privilege escalation
+
+if you can run any .py as root you can see the paths that it searches for python3 -c 'import sys; print (sys.path)'
+if there is '' this means the script will first search for the library in the current directory so if you wrote 
+bash .py script with the name of the library you can execute it and get root shell 
+------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
+
 
 <style>.github-dark{color:#e1e4e8;background:#24292e;}.ct-806137{color:#B392F0;}.ct-767297{color:#E1E4E8;}.ct-244866{color:#9ECBFF;}.ct-533739{color:#79B8FF;}.ct-326375{color:#6A737D;}.ct-857441{color:#F97583;}.ct-211346{color:#85E89D;}.ct-657843{color:#FFAB70;}</style></div></article></div><div class="bug-container" data-v-3d677fb4=""><svg id="bug-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="-500 -500 1000 1000" shape-rendering="geometricPrecision" text-rendering="geometricPrecision"><g id="centeredGroup"><g><g id="bug" transform="scale(0.3)" class="no-anim"><g transform="matrix(0 1 1 0 -181 -190)"><g><g transform="translate(-73.5169-38.4886)" clip-rule="evenodd"><path d="M272.925,109.032c0,0,2.559-23.035,20.345-41.841c17.786-18.805,30.24-26.227,38.841-28.59c1.337-.367,6.54,0,8.501,3.634c1.96,3.634,0,8.784-2.694,10.238-8.867,4.783-26.383,16.413-33.997,26.707-8.238,11.14-17.851,29.476-17.051,37.977l-13.945-8.125Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path><g transform="matrix(-1 0 0 1 508.385 0)" clip-rule="evenodd"><path d="M272.925,109.032c0,0,2.559-23.035,20.345-41.841c17.786-18.805,30.24-26.227,38.841-28.59c1.337-.367,6.54,0,8.501,3.634c1.96,3.634,0,8.784-2.694,10.238-8.867,4.783-26.383,16.413-33.997,26.707-8.238,11.14-17.851,29.476-17.051,37.977l-13.945-8.125Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><path d="M254.526,97.911c-35.103,18.394-69.049,34.232-69.049,86.61h138.098c0-52.378-33.945-68.216-69.049-86.61Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="matrix(-1 0 0 1 435.535-38.4886)" clip-rule="evenodd"><path d="M220.774,403.471c-62.815-37.555-58.198-88.343-58.198-88.343v-115.076h183.9v115.076c0,0,4.617,50.788-58.198,88.343l-.269-1.022v-58.76l20.108-16.434v-32.545c7.793-2.587,13.421-9.94,13.421-18.598c0-10.814-8.779-19.592-19.592-19.592s-19.592,8.778-19.592,19.592c0,8.847,5.877,16.332,13.937,18.762v27.052l-19.775,17.268v70.735c-5.044,2.543-10.45,5-16.243,7.348v-87.247c8.012-2.459,13.845-9.921,13.845-18.735c0-10.813-8.779-19.592-19.592-19.592s-19.592,8.779-19.592,19.592c0,8.814,5.833,16.276,13.846,18.735v87.247l-.158-.064c-2.771-1.127-5.522-2.304-8.247-3.538-2.593-1.174-5.161-2.401-7.704-3.679l-.135-.067v-63.735l-19.775-14.268v-20.792c7.541-2.726,12.937-9.953,12.937-18.431c0-10.813-8.779-19.591-19.592-19.591s-19.592,8.778-19.592,19.591c0,8.658,5.628,16.012,13.421,18.599v25.953l21.109,14.434v50.76l-.27,1.022Zm33.752-101.852c5.341,0,9.676,4.336,9.676,9.676c0,5.341-4.335,9.677-9.676,9.677-5.34,0-9.676-4.336-9.676-9.677c0-5.34,4.336-9.676,9.676-9.676Zm-48.42-18.592c5.34,0,9.676,4.336,9.676,9.676c0,5.341-4.336,9.677-9.676,9.677-5.341,0-9.676-4.336-9.676-9.677c0-5.34,4.335-9.676,9.676-9.676Zm95.84-16.592c5.341,0,9.677,4.336,9.677,9.677c0,5.34-4.336,9.676-9.677,9.676-5.34,0-9.676-4.336-9.676-9.676c0-5.341,4.336-9.677,9.676-9.677Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="translate(-73.5169-38.4886)" clip-rule="evenodd"><g transform="matrix(-.909773 0 0 1 493.319 0)" clip-rule="evenodd"><path d="M166.979,225.446c0-.889-.794-1.612-1.772-1.612h-28.799c-5.068,0-9.183,3.744-9.183,8.354c0,4.611,4.115,8.354,9.183,8.354h28.799c.978,0,1.772-.722,1.772-1.611v-13.485Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="matrix(-.866025-.5-.5 0.866025 609.497791 100.975794)" clip-rule="evenodd"><g id="evygBKlPSqr13_tr" transform="translate(139.737,232.188) rotate(0)"><path d="M139.737,232.188c0-4.61-3.743-8.354-8.354-8.354h-42.772c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h42.772c4.611,0,8.354-3.743,8.354-8.354Z" transform="translate(-139.737,-232.188)" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g></g></g><g transform="translate(-73.5169-38.4886)" clip-rule="evenodd"><g transform="matrix(-1 0 0 1 508.385 41.2501)" clip-rule="evenodd"><path d="M166.979,225.446c0-.889-.722-1.612-1.612-1.612h-29.788c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h29.788c.89,0,1.612-.722,1.612-1.611v-13.485Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="matrix(-.707107 0.707107 0.707107 0.707107 310.015271 10.447407)" clip-rule="evenodd"><g id="evygBKlPSqr18_tr" transform="translate(139.737,232.188) rotate(0)"><path d="M139.737,232.188c0-4.61-3.743-8.354-8.354-8.354h-42.772c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h42.772c4.611,0,8.354-3.743,8.354-8.354Z" transform="translate(-139.737,-232.188)" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g></g></g><g transform="translate(-73.5169-38.4886)" clip-rule="evenodd"><g transform="matrix(-1 0 0 1 508.385 92.3776)" clip-rule="evenodd"><path d="M166.979,225.446c0-.889-.722-1.612-1.612-1.612h-29.788c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h29.788c.89,0,1.612-.722,1.612-1.611v-13.485Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="matrix(0 1.06393 1 0 140.199 180.854)" clip-rule="evenodd"><path d="M166.979,232.188c0-4.61-3.519-8.354-7.852-8.354h-24.05c-4.334,0-7.852,3.744-7.852,8.354c0,4.611,3.518,8.354,7.852,8.354h24.05c4.333,0,7.852-3.743,7.852-8.354Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="matrix(-.866025-.5-.5 0.866025 609.497658 221.785295)" clip-rule="evenodd"><g id="evygBKlPSqr25_tr" transform="translate(139.73775,232.188433) rotate(0)"><path d="M139.737,232.188c0-4.61-3.743-8.354-8.354-8.354h-42.772c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h42.772c4.611,0,8.354-3.743,8.354-8.354Z" transform="translate(-139.73775,-232.188433)" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g></g></g><g transform="translate(-73.5169-38.4886)" clip-rule="evenodd"><g transform="matrix(.909773 0 0 1 15.066 0)" clip-rule="evenodd"><path d="M166.979,225.446c0-.889-.794-1.612-1.772-1.612h-28.799c-5.068,0-9.183,3.744-9.183,8.354c0,4.611,4.115,8.354,9.183,8.354h28.799c.978,0,1.772-.722,1.772-1.611v-13.485Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="translate(-3.73987 0)" clip-rule="evenodd"><g id="evygBKlPSqr30_tr" transform="translate(139.737,232.188) rotate(45)"><path d="M139.737,232.188c0-4.61-3.743-8.354-8.354-8.354h-42.772c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h42.772c4.611,0,8.354-3.743,8.354-8.354Z" transform="translate(-139.737,-232.188)" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g></g></g><g transform="translate(-73.5169-38.4886)" clip-rule="evenodd"><g transform="translate(0 41.2501)" clip-rule="evenodd"><path d="M166.979,225.446c0-.889-.722-1.612-1.612-1.612h-29.788c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h29.788c.89,0,1.612-.722,1.612-1.611v-13.485Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="matrix(.866025-.5 0.5 0.866025-104.112656 142.225892)" clip-rule="evenodd"><g id="evygBKlPSqr35_tr" transform="translate(139.737,232.188) rotate(0)"><path d="M139.737,232.188c0-4.61-3.743-8.354-8.354-8.354h-42.772c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h42.772c4.611,0,8.354-3.743,8.354-8.354Z" transform="translate(-139.737,-232.188)" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g></g></g><g transform="translate(-73.5169-38.4886)" clip-rule="evenodd"><g transform="translate(0 92.3776)" clip-rule="evenodd"><path d="M166.979,225.446c0-.889-.722-1.612-1.612-1.612h-29.788c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h29.788c.89,0,1.612-.722,1.612-1.611v-13.485Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="matrix(0 1.06393-1 0 368.186 180.854)" clip-rule="evenodd"><path d="M166.979,232.188c0-4.61-3.519-8.354-7.852-8.354h-24.05c-4.334,0-7.852,3.744-7.852,8.354c0,4.611,3.518,8.354,7.852,8.354h24.05c4.333,0,7.852-3.743,7.852-8.354Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="translate(-3.73987 120.809)" clip-rule="evenodd"><g id="evygBKlPSqr42_tr" transform="translate(139.737,232.188) rotate(30)"><path d="M139.737,232.188c0-4.61-3.743-8.354-8.354-8.354h-42.772c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h42.772c4.611,0,8.354-3.743,8.354-8.354Z" transform="translate(-139.736996,-232.188)" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g></g></g></g><rect id="bug-rect" x="0" width="362" height="380"></rect></g></g><animateMotion dur="30s" repeatCount="indefinite" rotate="auto-reverse" path="M -500 -500 M 500 -500 M -500 500 M 638 646 C 244 99 294 251 237 -148 C 229 -325 -43 -261 -138 -205 C -455 -57 -374 404 64 339 C 355 327 290 -273 -109 -143 C -336 -66 -356 16 -378 106 C -413 252 -319 649 -5 451 C 293 243 -326 155 -145 -36 C -45 -124 431 60 144 222 C -149 368 -258 13 17 -110 C 325 -218 203 200 34 181 C -419 161 37 637 635 649"></animateMotion></g></g></svg></div><!--]--></div></div><div class="cli-container" data-v-3d677fb4="" data-v-159c5976=""><div class="cli-output glow-border" data-v-159c5976="" data-v-3fc3914e=""><button class="close-output-btn glow-border" data-v-3fc3914e=""><img src="N-less%20RSA%20TheStray%CF%80rate_files/close_output.svg" alt="v" data-v-3fc3914e=""></button><div class="output-content hide-content" data-v-3fc3914e=""><span data-v-3fc3914e="">/writeups/ $ </span></div></div><div class="cli-prompt glow-border" data-v-159c5976=""><p data-v-159c5976="">
                 <span style="color: indianred;">root@</span>
