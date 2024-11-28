@@ -498,3 +498,470 @@ here we have nine herbs. the problem with this is in order to get therapeutic am
 of herbs you will need to take high dosages and that would be very cost prohibitive very
 quickly so there is a better way 
 
+
+
+PHYTOCHEMISTRY
+
+> what is phytochemistry? 
+> the word phyto means plant. 
+> So it simply means plant chemistry. And chemistry is a field of study
+that examines the properties
+> you do not need to be a chemist to be a great herbalist, but every herbalist should learn the basics of phytochemistry
+> and there are numerous reasons for this One reason is because if you're creating a formula, you should know which chemical groups mix well together. > A second reason is because it will give you insight on how various phytochemicals interact with particular body systems. 
+> And a third reason is because it will help you select the correct solvent to extract the phytochemicals that you require.
+
+
+* Metabolites
+> How do herbs work?
+> Well, from a chemistry perspective,
+there are substances called metabolites. And metabolites are basically chemicals
+that allow the plant to metabolize. And there's two types of metabolites. 
+> There's primary metabolites
+and secondary metabolites.
+> And if you're new to herbal
+medicine, you might assume that plants work medicinally based on nutrition.
+> And nutrition falls under
+the category of primary metabolites. And there is some truth to that.
+> There are quite a number
+of medicinal herbs that are quite nutritious, and they definitely help
+people recover through that mechanism.
+> But primary metabolites
+are more geared towards the essential functions of the plant.
+> These are chemicals that facilitate things
+like respiration, photosynthesis, the growth of the plant,
+and all the other essential functions.
+> But when we're talking about how plants
+work medicinally, we're primarily We're talking about the secondary metabolites.
+> Secondary metabolites are mostly
+associated with defense. Defense against insects and animals,
+defense against pathogens, other common diseases, defense against other plants.
+> You might not know this,
+but a lot of plants are in chemical war with each other. They'll send chemicals into the soil to
+attack the competing plants around them that are not part of their same species.
+> What else?
+> They send chemicals out to attract
+pollinating insects and animals. 
+> This one's really interesting. Communicate between plant
+and other friendly organisms. 
+> So if an ash bore is invading a woodlot
+and the ash trees on the outside are attacked first, they will send
+chemical warnings to the trees further in to start ramping up their own chemical
+defenses, their own immune system.
+> So the majority of herbs we're talking
+about that work medicinally use secondary metabolites. And so basically, these defenses
+are chemicals that our bodies can actually use for themselves. 
+> And so that's what we're going
+to be focusing on in this section.
+
+How Do Herbs "Work"?
+Primary Metabolites       Secondary Metabolites
+- provides the basis of   - Defend against insects and animals
+nutrition in human diet   - Defend against plant pathogens
+- Some medicinal herbs    - Defend against other plants
+use primary metabolites   - Attract pollinating and seed dispersing animals
+- Essential for survival  - Protection from ultraviolet light and oxidation
+of the plant              - Communicate between plant and other friendly 
+- Respiration               organisms
+- Photosynthesis          - Majority of medicinal herbs use secondary 
+- Growth, structure         metabolites
+- All other essential
+functions
+
+* Compounds
+> Before we go any further, I want to cover
+some foundational concepts of chemistry.
+> Before we go any further, I want to cover
+some foundational concepts of chemistry.
+> you're going to hear that all the time,
+especially if you're into researching the chemistry aspect of herbal medicine.
+> Compounds are basically
+made of molecules, and molecules are made of two or more atoms.
+> A great example of a
+molecule would be H₂O.
+> That stands for two
+hydrogens and one oxygen.
+> You should know this one as water.
+
+* Atoms
+> let's talk about atoms.
+> The diagram at the top is a representation
+of an oxygen atom,
+> and the diagram at the bottom is
+a representation of two hydrogen
+> atoms bonded to an oxygen atom. And atoms are the basic units of matter.
+> They're composed of protons,
+neutrons, and electrons. If you look at the top diagram,
+the red and yellow spheres represent the protons and neutrons,
+which together make the nucleus.
+> In orbiting around them,
+the blue spheres are the electrons. And protons are positively charged,
+electrons are negatively charged, and neutrons are neutrally charged.
+> And the number of electrons on each
+shell is determined by a certain pattern. 
+> And the first shell will always
+have two electrons on it.
+> The second shell will always have eight,
+and so on, according to the formula.
+> Now, the outermost shell is called
+the valent shell, and it wants to be full.
+> And you can see that in the oxygen valent shell, there's only six electrons.
+> And we know that according to the formula,
+there could be eight electrons.
+> So that's what's going to allow it to bond
+to the two hydrogen atoms, because the hydrogen atom only has one electron.
+> So when you add in the two hydrogen atoms,
+it's adding in the two electrons, and that's going to satisfy the valence shell.
+
+
+* Polarity
+> As mentioned, electrons
+have a negative charge.
+> When atoms are bonded together
+into a molecule, the negative charge of the electrons
+affects the overall electrical charge of the molecule.
+> When that electrical charge is unevenly
+distributed, the molecule is said to be polar.
+> Polarity is basically the value
+of how polar a molecule is. 
+> To recap, the electronegativity
+of the atoms that make up the molecule determines its polarity.
+> Let's take a look at our H₂O example.
+> We have hydrogen atoms
+donating electrons to our oxygen atom.
+> The hydrogen atoms are going to become
+less negative and more positive, and the oxygen atom is going to be
+more negative and less positive.
+> The difference in electrical charge
+across the molecule causes its polarity.
+>  Electronegativity is a measure of an atom's ability to attract shared electrons in a chemical bond. The scale most commonly used to quantify electronegativity is the Pauling scale, developed by Linus Pauling.
+> Oxygen has 8 protons in its nucleus, which strongly attracts electrons. The smaller size of oxygen compared to elements in lower periods also means that its valence electrons are closer to the nucleus and more tightly held, contributing to its higher electronegativity.
+> Why Hydrogen is Less Electronegative:
+Hydrogen has only 1 proton in its nucleus, so it does not have the same effective nuclear charge as oxygen.
+Its electron configuration is 1s¹, and hydrogen can only hold two electrons in its first shell, meaning it has a lower tendency to attract electrons compared to oxygen.
+> In short, the electrical charge difference across the water molecule (due to the unequal sharing of electrons between oxygen and hydrogen) creates a polar molecule, which means it has a positive end and a negative end. This polarity has profound effects on the behavior of water and contributes to its many special properties.
+
+* Solubility
+> Another concept solubility which is ability for a  substance to dissolve in a solvent
+> Solvent: liquid substance capable of dissolving other substances
+> so we used them for extracting chemical compunds from herbs
+> The General principle: like dissolved like 
+> practically speaking, High polarity solvents used to extract high polarity compunds
+> and low polarity solvents used to extract low polarity compounds
+
+solvent     Polarity
+Water       1.000
+Glycerol    0.812
+(glycerin)
+Ethanol     0.654
+Acetic Acid 0.648
+Acetone     0.355
+Ethyl       0.228 
+acetate
+Diethyl     0.117
+ether
+Hexane      0.009
+Olive oil   0.000
+
+> The key takeaway here as a herbalist
+is that you really want to make sure you're choosing the proper solvent
+for the compounds in the herbs that you're trying to extract.
+> Practically, what that means is you
+may need to adjust the water content or the alcohol content according
+to what you're trying to accomplish.
+
+
+* Most Common Elements found in Medicinal Herbs
+> first of all by elements here meant is atoms
+> if you look in the periodic table of elements there is a hundred and eighteen elements listed 
+> but in herbal medicine you are gonna find six of them occur over and over again
+> and those are:
+- Carbon
+- Hydrogen
+- Oxygen
+- Nitrogen
+- silver
+- phosphur
+
+* Major Categories of Compounds in Herbs
+> there are seven major chemical compounds that are found in herbs
+> the categories are broken down to:
+- Carbohydrates
+- Phenols
+- Amino acids
+- Lipids
+- Terpenoids
+- Steroids
+- Alkaloids
+
+* Carbohydrates
+> Carbohydrates are broken down into several categories:
+- Organic Acids
+- Monosaccharides
+- Disaccharides
+- Oligosaccharides
+- Polysaccharides
+  - Homopolysaccharides
+  - Heteropolysaccharides
+    - Gums and Mucilages
+    - Immunomodulating polysaccharides
+
+* Gums and Mucilages
+> Mucilages are slippery slimy substances which are natural a part of the plant
+> while Gums areproduced in response to injury, insect attacks, infection
+> Herbs:Flaxseed, chia seed, marshmallow, slippery elm, Acacia gum
+> it is important to realize that this do not cure any conditions but they are very soothing so they'll be extremely helpful for inflammation.
+> your gut digestive enzymes do not break them down
+> although your gut flora will help decompose them, but basically, they're going to be great sources of fiber
+> Mucalages and gums are extremely useful for treating GI tract disorders.
+> Some examples are inflammation, lesions, ulcers, acid reflux, GERD, indigestion, diarrhea, and dyspepsia.
+
+* Phenol
+> The next category of compounds found in
+herbs or phytochemicals is called phenols.
+> phenols break down
+into 18 subcategories.
+> We're definitely not going
+to cover all of them.
+> But for the purpose of this page, I want
+you to be familiar with three of them.
+> But what are phenols?
+> Phenols are compounds with one or more
+alcohol groups attached to an aromatic ring.
+> You can see in the diagram, the aromatic ring represented by the hexagon and the OH group attached alcohol group.
+> in general, phenols are bacteriocidal, they're anthelmintic, and they are anesthetic.
+
+- Phenolic acids                - Flavonoids
+- Phenylpropandoids             - Hydrolyzable tannins
+- Coumarins                     - Proanthocyanidins & condensed tannins
+- Furanocoumarins               - Isoflavones (isoflavonoids)
+- Lignans                       - Benzofurans
+- Phenylpropanoid derivates     - Chromones
+- Stilbenoids                   - Pholorglucinol derivatives
+- Xanthones                     - Phenolic Resins
+- Styrylpyrones                 - Quinones
+
+* Flavonoids
+> The first group of phenols I
+want to talk about is flabinoids.
+> Flabinoids decrease the permeability
+and fragility of blood vessels in the capillary bed.
+> That makes them very useful
+for conditions like edema.
+> Edema is basically swollen tissues.
+> Some examples of flabinoid
+would be rutin and quercetin.
+> some examples of herbs that have
+flabinoid would be
+- Hawthorn
+- Elder flowers
+- Rue
+> Now, there's a type
+of Flavonoids called tannins.
+> And tannins are basically
+long chains of polymers, which means the molecule, the Flavonoids molecule,
+is repeated over and over and over again, up to 50 different times.
+>  they're known for their astringency,
+which means they constrict tissues or they tighten them up.
+> They're very prevalent
+in anti-wrinkle creams.
+> Some uses of tannins would be diarrhea,
+pyrea, hemorrhoids, dermatitis, varicose veins, and poison ivy.
+> A few herbal examples would be white oak
+bark, bayberry, and agrimony.
+> Tannins: Astringent. They forcee fluid from mucosal tissue
+
+* Anthraquinones
+> The next group of phenols
+I want to discuss is anthraquinones.
+> anthraquinones
+are actually a subcategory belonging to the quinone class.
+> Quinones are basically three-ring
+hydrocarbon structures that have the quinone molecule in the center of them.
+> And this arrangement of molecules tends to
+cause colors of red, orange, and purple.
+> So some examples of herbs that
+have high anthraquinone content would be
+- Rhubarb
+- Aloe
+- Senna
+- Cascara sagrada
+> the major action is a laxative effect.
+> And it does this by
+stimulating peristalsus, which basically means it causes direct contraction
+of the peristalsus muscles in the colon to push out the stool.
+> The obvious use for this
+would be constipation.
+
+* Phenolic Acids
+> The final group of phenols I want
+to talk about is phenolic acids.
+> Phenolic acids are used
+for their analgesic effect. That basically means they
+reduce one's perception of pain.
+> But it's important to note that it doesn't
+actually mean they remove the root cause of pain.
+> An example of a phenolic
+acid would be salicin.
+> A pharmaceutical example/version you might be
+familiar with is acetylsalicylic acid.
+> They can be used for chronic pain, but
+they're not recommended for acute pain.
+> The reason for that is because it takes
+at least six hours to accumulate in the blood.
+> Some herbal examples would be 
+- meadowsweet
+- white willow
+- aspen
+- poplar
+
+* Lipids
+> The next category
+of phytochemicals are the lipids.
+> lipids are divided into
+- Fatty acids
+  - Essential fatty acids
+  - Saturated fatty acids
+  - Unsaturated fatty acids
+  - Trans fatty acids
+- Triglycerides
+- Waxes
+- Alkamides
+- Polyalkenes
+- Phospholipids
+
+> What are lipids?
+> Well, technically,
+lipids are composed of esters of long-chain fatty acids and alcohol
+that include carbon, hydrogen, and oxygen.
+> That just sounds confusing.
+> What I want you to remember is they're
+primarily either oils, fats, or waxes.
+> What separates them usually is
+their state at normal temperature.
+> For example, the triglycerides,
+which are oils, are liquid at normal temperature
+> fats are solid at normal temperature
+> and When it comes to waxes,
+they're actually made of a combination of things, metal alcohol and fatty acids.
+> Lipids are good for your entire body
+structure, but the main thing I want you to remember is that they're good
+for your brain and your heart.
+> They can be found in roots and fruit,
+but primarily, you're going to really see them in nuts and seeds. example
+- Flaxseed
+- hempseed
+- chia seeds
+- walnuts 
+- etc
+> A word of warning is about the trans fats. They are terrible for you.
+> I'm sure you've heard it
+a million times, but avoid them. They're primarily found in processed food.
+
+Terpenoids
+> our next category
+of phytochemicals are the Terpenoids.
+> Terpenoids are divided into
+- Monoterpenes
+- Diterpenes
+- Triterpenes
+- Tetraterpenes
+- Sesquiterpenes
+- Saponins
+- Botanical steroids
+- Essential oil and oleoresins
+
+> Terpenoids are derived from five
+carbon precursor isopreens, and that's a bit beyond the scope of this course.
+> But basically, what I want you
+to remember is that they produce strong aromas and odors.
+> Terpenoids form the largest ingredient
+in volatile oils, aka essential oils.
+> So think of your essential oil diffuser
+that makes your house smell good.
+> So essential oils are antiseptic.
+> They are irritating locally,
+and that's why you don't apply them to skin without a carrier oil.
+> And they're also systemically relaxing.
+> So a few herbal examples
+would be 
+- peppermint
+- cinnamon
+- clove.
+> And the essential oil
+in peppermint is menthol.
+> So some examples of what you could
+use peppermint for would be to freshen your breath, to soothe smooth muscle,
+which would help with intestinal spasms.
+> Think of irritable bowel syndrome.
+> You could use it to relax tight skeleton
+muscles and help thin your mucus.
+
+* Steroids
+> The next category of phytochemicals are
+the steroids
+> but we're going to focus on a subcategory called cardiac glycosides.
+> cardiac glycosides
+are specific for the function and rhythm of the heart muscle.
+> cardiac glycosides
+increase the force of myocardial contractions, your heart pumping.
+> Now, this has the effect of decreasing
+your heart rate and the conductivity. 
+> The pharmaceutical industry actually
+uses a cardiac glycoside called Digitalis
+> that comes from the herb foxglove
+> foxglove is quite toxic,
+and so it's usually banned.
+> But cardiac glycosides can be found in
+other herbs, and some examples would be
+- Pleurisy root
+- Figwort
+- Lily-of-the-valley
+
+* Alkaloids
+> The final category
+of phytochemicals are the alkaloids.
+> alkaloids are divided into seven
+subcategories, but we're not going to focus on any particular subcategory.
+> What are alkaloids?
+> alkaloids are molecules
+that contain at least one nitrogen atom. 
+> And alkaloids are the most potent
+medicinal category of all the phytochemicals.
+> And they're used extensively
+in pharmaceuticals, for example,
+- morphine
+- ephedra
+> Alkaloids are not very water-soluble.
+> So when you're making tinctures,
+you want to make sure you're using ethanol as your solvent.
+> ow, herbs that have a high concentration
+of alkaloids can be quite toxic.
+> And normally, you just vomit them up,
+but you want to take extra care for children and the elderly.
+> For example, one of my favorite
+herbs is common comfrey.
+> But there are some species of comfrey,
+such as Russian comfrey and prickly comfrey, where the alkaloid levels
+are just too toxic no matter the age.
+> Now, even with common comfrey,
+which is used for broken bones, cuts, and burns, there are pyralisidine
+alkaloids that can harm the liver.
+> But these are in the young
+leaves and young roots.
+> Nevertheless, it is a controversial herb,
+so if you're going to use it, make sure you do your research first.
+
+- Allantoin
+- Methylxanthines
+- Betalain
+- Pyrrolizidine
+- Isoquinoline
+- Piperidine
+- Tropane
+
+More about Phytochemistry books references
+- Herbal Constituents - Lisa Ganora
+fantastic book no matter if you are just starting now or 
+if you're an expert
+- Pharmacognosy, phytochemistry medicinal plants 2nd Edition - Jean Bruneton
+if you want to go a little more crazy 
