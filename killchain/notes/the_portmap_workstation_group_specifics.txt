@@ -1,44 +1,12 @@
 *************************[port maps]*************************
 
 
-------------------------------------------
-(ospg:slort) when the lfi using http did not work i used the smb with & instead of ? and it worked
--------------------------------------------
-(htb:buff) the exploit is a good resource for burpsuite upload httb format
---------------------------------------------
-the difference when an application is running above nginx or apache is that the project could be running on a different port inside the box (ospg:)
--------------------------------------------------
-hashcat hash discover
-
-hashcat --example-hashes | grep -B2 '\$1\$'
------------------------------------------------------
-[*] SSTI - enables you to execute commands
-https://medium.com/@trixiahorner/tryhackme-injectics-walkthrough-c62f0df2a434
-------------------------------------------------------
-brute force protocols
-https://medium.com/@Kyle591/%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3%E6%96%B9%E6%B3%95%E6%B1%87%E6%80%BB-%E4%B9%8B%E8%BF%9C%E7%A8%8B%E6%9C%8D%E5%8A%A1%E7%88%86%E7%A0%B4%E7%AF%87-dbba9cb9097
-
--------------------------------------------------------
-SCF attack
-https://github.com/Greenwolf/ntlm_theft
---------------------------------------------------------
 wordlists
-
-usernames:
-/usr/share/wordlists/seclists/Usernames/xato-net-10-million-usernames.txt
-/usr/share/wordlists/seclists/Usernames/Names/names.txt
-
-
 
 vhosts:
 /usr/share/wordlists/seclists/Discovery/DNS/subdomains-top1million-110000.txt
 
-wfuzz -c -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -u "http://flight.htb" -H "Host: FUZZ.flight.htb" --hw 530
-
 parameter fuzzing:
-/usr/share/wordlists/SecLists/Discovery/Web-Content/burp-parameter-names.txt
-
-wfuzz  -w /usr/share/wordlists/seclists/Discovery/Web-Content/burp-parameter-names.txt  -X POST -d "{'user':'admin','password':'test'}"  -u 'http://192.168.242.203/login.php?FUZZ=test' --hw 534
 
 endpoints:
 /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
@@ -134,17 +102,6 @@ for i in $(grep -oP '(?<=[Open ] )\S+' allports | cut -d : -f 2| sort -u);do ech
 ---------------------------------------------------------------
 (ospg:hepet) good example of connect the ports of 143 
 [*] 143 enables you to read the inbox of someone and connecting port via email
-
-(ospg:postfish) good example of connect the ports of 110 and cewl
-[*] 110 enables you to read the inbox of someone and connecting port via email
-https://medium.com/@whitebearr82/pgpractice-linux-postfish-192-168-56-137-9a48d8577c5f
-
-it teach you if you can not find users you use users wordlist to find default mail users
-/usr/share/wordlists/seclists/Usernames/Names/names.txt
-
-(ospg:hokkaido) i did the same mistake i need to search for default users same as smtp but for port 88
-
-
 ----------------------------------------------------------
 SQLMAP deleting cache
 /home/kali/.local/share/sqlmap/output/192.168.248.211
@@ -201,78 +158,6 @@ cat users.txt | awk -F\\[ '{print $2}' | awk -F\\] '{print $1}' > final_user.txt
 *************************[workstation specifics]*************************
 [there are things you can do in this workstaions with this user that you can not do on the other workstations which will get you a domaion user]
 
-
--------------------------------------------------------------------
-interesting go by clear you track kali: https://hackingpassion.com/clear-your-tracks-on-linux/
-
-https://hackingpassion.com/determine-if-your-linux-computer-or-server-is-hacked/
-
-command to run nuclei from docker: docker run -v $(pwd):/work -w /work projectdiscovery/nuclei:latest -l filteredWebsites.txt -o results.txt\n
-
-https://hacking539.rssing.com/chan-12662348/all_p67.html this is like the creds dump book I wanted for LSA protection
-
-veryveryvery special link got timestomp.exe from under is links I got from it:   https://www.forensicfocus.com/forums/general/slacker-exe-and-timestomp-exe/             "all Internet" is a rather bold statement. 😯
-
-timestomp
-https://www.jonrajewski.com/resources/
-
-Both slacker and timestomp
-https://github.com/codejanus/ToolSuite
-
-jaclaz                           Try here for Timestomp https://www.dfir.training/tools/anti-counter-forensics
-
- I came across this link yesterday, but 54KB size of slacker.exe, made me doubt.
-
-Why?
-
-You don't need megabytes of bloat in simple tools.
-
-Meet the DSFOK toolkit (a good example of compact executables)
-http//members.ozemail.com.au/~nulifetv/freezip/freeware/
-http//members.ozemail.com.au/~nulifetv/freezip/freeware/dsfok.zip
-
-Sort of dd for Windows
-dsfi.exe 5,061 bytes
-dsfo.exe 6,637 bytes
-fsz 6,144 bytes <- same use as /dev/zero can create files filled with 00's
-
-Anyways, thank you very much 😉
-
-You are welcome ) .
-
-jaclaz
------------------------------------------
-Red team workstation specifics 
-https://github.com/A-poc/RedTeam-Tools?tab=readme-ov-file#stop-windows-defender-deleting-mimikatzexe
----------------------------------------------------------------------
-some windows commands list for post exploitation https://int0x33.medium.com/day-26-the-complete-list-of-windows-post-exploitation-commands-no-powershell-999b5433b61e
-------------------------------------------------------------------------
-(htb:buff) from 0xdf this version binary of windows a that works in hack the box windows_amd64
-and this path runs binary with bypassing windows defender \programdata
--------------------------------------------------------------------------
-(ospg:monster) a very nice way to crack md5 if hashcat could not
-https://medium.com/@vivek-kumar/offensive-security-proving-grounds-walk-through-monster-59a4a4283449\
-also bypass  ban
-
-indork: site:medium.com "mdxfind"
----------------------------
-https://arz101.medium.com/hackthebox-shared-5ae8d0027c4f
-redis-cli CVE (ospg:illusion)
--------------------------------------
-(ospg:postfish)
-find / -user root ! -group root 2>/dev/null
-
-different group specifics
------------------------------
-bypass AV
-https://anubissec.github.io/Giddy-HackTheBox-WriteUp/#
-
-C2 AV bypass
-https://github.com/t3l3machus/hoaxshell
-
--------------------------------------
-privesc windows 
-https://medium.com/@kumarishefu.4507/try-hack-me-write-up-privilege-escalation-windows-privesc-403fe0af93fa
 
 ---------------------------------------------
 (ospg:hetemit) privesc via .service
@@ -413,12 +298,8 @@ https://rioasmara.com/2021/07/25/php-zip-wrapper-for-rce/
 [*] 7za,7z wild card to privesc
 https://0xdf.gitlab.io/2024/08/10/htb-usage.html
 [*] LFI to rce - when the parameter request the file from external resource and inject in the page as src bbut python does not allow that 
-[*] lfi to rce - getting the user password using shares (htb:flight)
 [*] next time try /home/user/id_rsa not .ssh only
-[*] lfi - also can be SSRF (htb:love) 
-[*] lfi - can enables you to know if the process is running as admin or high priv user (ospg:fish)
-[*] lfi - enabels you to read config files of programs aftter you  dive the internet for paths (ospg:fish)
-[*] lfi - log poisoning to RCE
+
 
 [+] traversal
 [*] you have a path traversal and a public service you should know where the conf files to get its passwords (ospg:clue)
@@ -448,7 +329,7 @@ ALL 180
 
 [*] path traversal to rce - after reading the /etc/passwd see the users and try to read their id_rsa
 
-[*]  type juggling/confusion - allow you to get RCE or bypass logins like php type juggling (ospg:potato) and (ospg:illusion)
+[*]  type juggling/confusion - allow you to get RCE or bypass logins like php type juggling (ospg:potato)
 
 [*] login page ? possible SQL injection
 
@@ -492,29 +373,3 @@ https://medium.com/@aslam.mahimkar/blind-sqli-to-rce-remote-code-execution-jarvi
 
 like sqlmap: https://ansar0047.medium.com/blind-sql-injection-detection-and-exploitation-cheatsheet-17995a98fed1
 indork: site:medium.com "';waitfor"
-
-sqlmap but with burpsuite
-https://medium.com/@trixiahorner/tryhackme-injectics-walkthrough-c62f0df2a434
-
-
-
-lfi to know all available users
-lfi to know all installed applications and its path
-lfi to know what is the current process running as 
-[
-if the lfi can read a lot of files that means the process running as a high priv user (ospg:fish)
-]
-
-github search :
-https://h8handles.medium.com/faculty-hackthebox-writeup-558e9eea9b6b
-
-
-pspy crontab [root does not want to share with me a lot of links]
-
-
-
-[amazing forensics]
-https://medium.com/@mehrnoush/behind-the-scenes-of-problem-solving-a-case-study-digital-forensic-investigation-df7a1eb0ca01
-emojis for forensics:
-https://res260.medium.com/%EF%B8%8F-%EF%B8%8F-windows-forensics-how-to-retrieve-and-parse-the-emoji-picker-history-in-the-filesystem-d3766282325a
-nice for my wevutil powershell decode:https://medium.com/@0x8080/cyber-apocalypse-ctf-2022-golden-persistence-f7bf76c68f26 indork: site:medium.com "ntuser.dat"
