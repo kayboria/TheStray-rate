@@ -1,0 +1,548 @@
+---------------------------------------------------------------
+frontend/dockerfile
+
+# Base image
+FROM node:20.9.0
+
+# Set environment variables
+ARG DEV_UID=1000
+ARG DEV_GID=1001
+ENV USER=root
+
+# Install the correct version of npm
+RUN npm install -g npm@10.1.0
+
+# Set up user and permissions
+RUN groupadd $USER || true
+RUN groupmod -g $DEV_GID $USER || true
+RUN usermod -u $DEV_UID -d /home/dev $USER || true
+RUN mkdir -p /home/dev/openproject/public/assets/frontend
+RUN chown -R $USER:$USER /home/dev
+
+WORKDIR /home/dev/openproject
+COPY . .
+# Set working directory
+WORKDIR /home/dev/openproject/frontend
+
+# Switch to non-root user
+USER $USER
+
+# Copy package files first
+COPY frontend/package.json frontend/package-lock.json ./
+
+# Ensure npm uses correct shell
+RUN npm set script-shell /bin/sh 
+
+# Remove node_modules in case it's causing caching issues
+RUN rm -rf node_modules
+
+
+
+# Copy remaining project files
+RUN npm install -g npm@10.1.0
+RUN npm install --force
+COPY frontend .
+
+# Ensure angular.json exists
+RUN if [ ! -f "angular.json" ]; then echo "Error: angular.json not found!"; exit 1; fi
+
+# Fix permissions
+RUN chmod -R 777 node_modules
+
+
+# Expose development server port
+EXPOSE 4200
+
+# Start Angular
+CMD ["npm", "run", "start", "--", "--host", "0.0.0.0", "--disable-host-check=true"]
+---------------------------------------------------------------
+backend/dockerfile
+
+FROM ruby:3.3.4-bullseye AS develop
+MAINTAINER operations@openproject.com
+
+ARG DEV_UID=1000
+ARG DEV_GID=1001
+
+ENV USER=dev
+ENV RAILS_ENV=development
+ENV NODE_MAJOR=20
+
+ENV BUNDLER_VERSION "2.5.13"
+
+# Create user and group
+RUN useradd --no-log-init -d /home/$USER -m $USER
+RUN usermod -u $DEV_UID $USER
+RUN groupmod -g $DEV_GID $USER || true
+
+# Install OS-level dependencies
+WORKDIR /home/$USER
+RUN apt-get update -qq && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    postgresql-client libffi7 libffi-dev curl build-essential
+
+# Install Node.js from nodesource
+RUN mkdir -p /etc/apt/keyrings
+RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key \
+    | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" \
+    | tee /etc/apt/sources.list.d/nodesource.list
+RUN apt-get update
+RUN apt-get install -y nodejs
+
+# Copy your backend scripts
+COPY ./docker/dev/backend/scripts/setup /usr/sbin/setup
+COPY ./docker/dev/backend/scripts/setup-bim /usr/sbin/setup-bim
+COPY ./docker/dev/backend/scripts/run-app /usr/sbin/run-app
+
+# Prepare directories and set ownership
+RUN mkdir -p /home/$USER/openproject/tmp
+RUN mkdir -p /usr/local/bundle
+RUN chown $USER:$USER /usr/local/bundle
+RUN chown $USER:$USER /home/$USER/openproject/tmp
+
+# Expose Rails port
+EXPOSE 3000
+
+# Mark volumes (common for dev)
+VOLUME [ "/usr/local/bundle", "/home/$USER/openproject", "/home/$USER/openproject/tmp" ]
+
+# Switch to the dev user
+USER $USER
+
+# Install the specified Bundler version
+RUN gem install bundler --version "${BUNDLER_VERSION}" --no-document
+
+
+#
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+# COPY GEMFILE & LOCK, THEN BUNDLE INSTALL
+# (Assumes your Gemfile and Gemfile.lock live at the root of your repo)
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+# (existing lines in your Dockerfile)
+
+WORKDIR /home/dev/openproject
+
+
+COPY . .
+USER root
+RUN chown -R dev:dev /home/dev/openproject
+USER dev
+
+# Install gems (including Rails if it's in your Gemfile)
+RUN bundle install
+
+#
+# (Optional) Copy the rest of the code if you want the container to have it by default.
+# For a dev environment with volumes, this might be optional.
+# COPY . .
+#
+
+####### Testing image below #########
+
+FROM develop AS test
+
+USER root
+RUN apt-get update -qq && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y jq
+
+COPY ./docker/dev/backend/scripts/run-test /usr/bin/run-test
+COPY ./docker/dev/backend/scripts/setup-tests /usr/bin/setup-tests
+COPY . .
+
+USER $USER
+
+---------------------------------------------------------------
+docker-compose.yml
+
+
+networks:
+  network:
+  testing:
+
+volumes:
+  downloads-test:
+  pgdata:
+  tmp:
+  opdata:
+  bundle:
+  npm:
+  pgdata-test:
+  tmp-test:
+  fedata-test:
+
+x-op-restart-policy: &restart_policy
+  restart: unless-stopped
+
+x-op-build: &build
+  context: .
+  dockerfile: ./docker/dev/backend/Dockerfile
+
+x-op-image: &image
+  image: managit:latest
+
+x-op-frontend-build: &frontend-build
+  context: .
+  dockerfile: ./docker/dev/frontend/Dockerfile
+  args:
+    DEV_UID: ${DEV_UID:-1000}
+    DEV_GID: ${DEV_GID:-1000}
+
+x-op-backend: &backend
+  build:
+    <<: *build
+  <<: [*image, *restart_policy]
+  environment:
+    RAILS_ENV: development
+    OPENPROJECT_CACHE__MEMCACHE__SERVER: cache:11211
+    OPENPROJECT_RAILS__CACHE__STORE: file_store
+    OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
+    DATABASE_URL: "postgresql://${DB_USERNAME:-openproject}:${DB_PASSWORD:-openproject}@${DB_HOST:-db}:${DB_PORT:-5432}/${DB_DATABASE:-openproject}"
+    OPENPROJECT_EDITION: ${OPENPROJECT_EDITION:-standard}
+    OPENPROJECT_WEB_MAX__THREADS: 1
+    OPENPROJECT_WEB_MIN__THREADS: 1
+    OPENPROJECT_WEB_WORKERS: 0
+    PIDFILE: /home/dev/openproject/tmpfs/pids/server.pid
+    SELENIUM_GRID_URL: "http://dummy-url"
+  volumes:
+    - ".:/home/dev/openproject"
+    - "opdata:/var/openproject/assets"
+    - "bundle:/usr/local/bundle"
+    - "tmp:/home/dev/openproject/tmp"
+  tmpfs:
+    - /home/dev/openproject/tmpfs/pids:uid=1000,gid=1000
+  networks:
+    - network
+
+services:
+  backend:
+    <<: *backend
+    tty: true
+    stdin_open: true
+    command: >
+      bash -c "
+        echo 'Running migrations...' &&
+        bundle install &&
+        bundle exec rails db:prepare &&
+        echo 'Starting Rails server...' &&
+        bundle exec rails server -b 0.0.0.0
+      "
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - cache
+
+  worker:
+    <<: *backend
+    command: bundle exec good_job start
+    depends_on:
+      - db
+      - cache
+
+  frontend:
+    build:
+      <<: *frontend-build
+    command: "node --max_old_space_size=8096 ./node_modules/@angular/cli/bin/ng serve --host 0.0.0.0 --disable-host-check=true"
+    ports:
+      - "4200:4200"
+    volumes:
+      - ".:/home/dev/openproject"
+      - "${CKEDITOR_BUILD_DIR:-./frontend/src/vendor/ckeditor/}:/home/dev/openproject/frontend/src/vendor/ckeditor/"
+    environment:
+      PROXY_HOSTNAME: backend
+    networks:
+      - network
+    depends_on:
+      - backend
+
+  db:
+    image: postgres:13
+    <<: *restart_policy
+    stop_grace_period: "3s"
+    volumes:
+      - "pgdata:/var/lib/postgresql/data"
+    environment:
+      POSTGRES_USER: ${DB_USERNAME:-openproject}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-openproject}
+      POSTGRES_DB: ${DB_DATABASE:-openproject}
+    networks:
+      - network
+    ports:
+      - "5432:5432"
+
+  cache:
+    image: memcached
+    <<: *restart_policy
+    networks:
+      - network
+
+  db-test:
+    image: postgres:13
+    stop_grace_period: "3s"
+    volumes:
+      - "pgdata-test:/var/lib/postgresql/data"
+    environment:
+      POSTGRES_DB: openproject
+      POSTGRES_USER: openproject
+      POSTGRES_PASSWORD: openproject
+    networks:
+      - testing
+
+  frontend-test:
+    build:
+      <<: *frontend-build
+    command: "npm run serve:test"
+    ports:
+      - "4201:4200"
+    volumes:
+      - ".:/home/dev/openproject"
+      - "fedata-test:/home/dev/openproject/public/assets/frontend"
+    environment:
+      PROXY_HOSTNAME: backend-test
+      FE_PORT: 4200
+      FE_HOST: frontend-test
+    networks:
+      - testing
+
+  backend-test:
+    build:
+      <<: *build
+    command: setup-tests
+    hostname: backend-test
+    networks:
+      - testing
+    depends_on:
+      - db-test
+      - frontend-test
+    environment:
+      RAILS_ENV: test
+      DATABASE_URL: "postgresql://openproject:openproject@db-test/openproject"
+      DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: "true"
+      SELENIUM_GRID_URL: "http://dummy-url"
+    volumes:
+      - ".:/home/dev/openproject"
+      - "fedata-test:/home/dev/openproject/public/assets/frontend"
+      - "opdata:/var/openproject/assets"
+      - "bundle:/usr/local/bundle"
+      - "tmp-test:/home/dev/openproject/tmp"
+      - "./tmp/capybara:/home/dev/openproject/tmp/capybara"
+
+---------------------------------------------------------------
+STACK 
+
+
+version: "3.9"
+
+networks:
+  # Each network must be attachable so services can attach at runtime
+  network:
+    driver: overlay
+    attachable: true
+
+  testing:
+    driver: overlay
+    attachable: true
+
+volumes:
+  downloads-test:
+  pgdata:
+  tmp:
+  opdata:
+  bundle:
+  npm:
+  pgdata-test:
+  tmp-test:
+  fedata-test:
+
+services:
+  backend:
+    # Swarm does not support building images directly, so point to a registry image
+    image: registry.gitlab.com/managit-team/managit-otf/managit-backend:latest
+    environment:
+      RAILS_ENV: development
+      OPENPROJECT_CACHE__MEMCACHE__SERVER: cache:11211
+      OPENPROJECT_RAILS__CACHE__STORE: file_store
+      OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
+      DATABASE_URL: "postgresql://${DB_USERNAME:-postgres}:${DB_PASSWORD:-postgres}@db:5432/${DB_DATABASE:-openproject}"
+      OPENPROJECT_EDITION: ${OPENPROJECT_EDITION:-standard}
+      OPENPROJECT_WEB_MAX__THREADS: 1
+      OPENPROJECT_WEB_MIN__THREADS: 1
+      OPENPROJECT_WEB_WORKERS: 0
+      SELENIUM_GRID_URL: "http://dummy-url"
+    volumes:
+      - "opdata:/var/openproject/assets"
+
+    ports:
+      - "3000:3000"
+    command: >
+      bash -c "
+        echo 'Running migrations...' &&
+        bundle exec rails db:prepare &&
+        echo 'Starting Rails server...' &&
+        bundle exec rails server -b 0.0.0.0
+      "
+    deploy:
+      restart_policy:
+        condition: any
+    networks:
+      - network
+
+  worker:
+    image: your-registry.com/your-namespace/managit:latest
+    environment:
+      RAILS_ENV: development
+      OPENPROJECT_CACHE__MEMCACHE__SERVER: cache:11211
+      OPENPROJECT_RAILS__CACHE__STORE: file_store
+      OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
+      DATABASE_URL: "postgresql://${DB_USERNAME:-postgres}:${DB_PASSWORD:-postgres}@db:5432/${DB_DATABASE:-openproject}"
+      OPENPROJECT_EDITION: ${OPENPROJECT_EDITION:-standard}
+      OPENPROJECT_WEB_MAX__THREADS: 1
+      OPENPROJECT_WEB_MIN__THREADS: 1
+      OPENPROJECT_WEB_WORKERS: 0
+      PIDFILE: /home/dev/openproject/tmpfs/pids/server.pid
+      SELENIUM_GRID_URL: "http://dummy-url"
+    volumes:
+      - ".:/home/dev/openproject"
+      - "opdata:/var/openproject/assets"
+      - "bundle:/usr/local/bundle"
+      - "tmp:/home/dev/openproject/tmp"
+    command: bundle exec good_job start
+    deploy:
+      restart_policy:
+        condition: any
+    networks:
+      - network
+
+  frontend:
+    image: registry.gitlab.com/managit-team/managit-otf/managit-frontend
+    command: >
+      node --max_old_space_size=8096
+      ./node_modules/@angular/cli/bin/ng serve
+      --host 0.0.0.0
+      --disable-host-check=true
+    ports:
+      - "4200:4200"
+   
+    environment:
+      PROXY_HOSTNAME: backend
+    deploy:
+      restart_policy:
+        condition: any
+    networks:
+      - network
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: ${DB_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_DB: ${DB_DATABASE:-openproject}
+    volumes:
+      - "pgdata:/var/lib/postgresql/data"
+    ports:
+      - "5432:5432"
+    deploy:
+      restart_policy:
+        condition: any
+    networks:
+      - network
+
+  cache:
+    image: memcached:latest
+    deploy:
+      restart_policy:
+        condition: any
+    networks:
+      - network
+
+      --------------------------------------
+      I updated the backend dockerfile for the ownership with rails db:seed issue
+      FROM ruby:3.3.4-bullseye AS develop
+MAINTAINER operations@openproject.com
+
+ARG DEV_UID=1000
+ARG DEV_GID=1001
+
+ENV USER=dev
+ENV RAILS_ENV=development
+ENV NODE_MAJOR=20
+
+ENV BUNDLER_VERSION "2.5.13"
+
+# Create user and group
+RUN useradd --no-log-init -d /home/$USER -m $USER
+RUN usermod -u $DEV_UID $USER
+RUN groupmod -g $DEV_GID $USER || true
+
+# Install OS-level dependencies
+WORKDIR /home/$USER
+RUN apt-get update -qq && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    postgresql-client libffi7 libffi-dev curl build-essential
+
+# Install Node.js from nodesource
+RUN mkdir -p /etc/apt/keyrings
+RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key \
+    | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" \
+    | tee /etc/apt/sources.list.d/nodesource.list
+RUN apt-get update
+RUN apt-get install -y nodejs
+
+# Copy your backend scripts
+COPY ./docker/dev/backend/scripts/setup /usr/sbin/setup
+COPY ./docker/dev/backend/scripts/setup-bim /usr/sbin/setup-bim
+COPY ./docker/dev/backend/scripts/run-app /usr/sbin/run-app
+
+COPY ./docker/dev/backend/scripts/run-test /usr/bin/run-test
+COPY ./docker/dev/backend/scripts/setup-tests /usr/bin/setup-tests
+
+# Prepare directories and set ownership
+RUN mkdir -p /home/$USER/openproject/tmp
+RUN mkdir -p /usr/local/bundle
+RUN chown $USER:$USER /usr/local/bundle
+RUN chown $USER:$USER /home/$USER/openproject/tmp
+
+# Expose Rails port
+EXPOSE 3000
+
+# Mark volumes (common for dev)
+VOLUME [ "/usr/local/bundle", "/home/$USER/openproject", "/home/$USER/openproject/tmp" ]
+
+# Switch to the dev user
+USER $USER
+
+# Install the specified Bundler version
+RUN gem install bundler --version "${BUNDLER_VERSION}" --no-document
+
+
+#
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+# COPY GEMFILE & LOCK, THEN BUNDLE INSTALL
+# (Assumes your Gemfile and Gemfile.lock live at the root of your repo)
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+# (existing lines in your Dockerfile)
+
+WORKDIR /home/dev/openproject
+
+
+COPY . .
+USER root
+RUN chown -R dev:dev /home/dev/openproject
+USER dev
+
+# Install gems (including Rails if it's in your Gemfile)
+RUN bundle install
+
+#
+# (Optional) Copy the rest of the code if you want the container to have it by default.
+# For a dev environment with volumes, this might be optional.
+# COPY . .
+#
+
+####### Testing image below #########
+
+
+RUN chown -R dev:dev /home/dev
+USER $USER

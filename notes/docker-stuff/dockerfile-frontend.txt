@@ -1,0 +1,39 @@
+frontend/dockerfile
+FROM node:20.17
+MAINTAINER operations@openproject.com
+
+ARG DEV_UID=1000
+ARG DEV_GID=1001
+
+ENV USER=root
+#ENV CHROME_BIN=/usr/bin/chromium
+
+# Install npm globally
+RUN npm install -g npm
+
+# Create necessary groups and users
+RUN groupadd $USER || true
+RUN groupmod -g $DEV_GID $USER || true
+RUN usermod -u $DEV_UID -d /home/dev $USER || true
+
+# Create directories and set permissions
+RUN mkdir -p /home/dev/openproject/public/assets/frontend
+RUN chown -R $USER:$USER /home/dev
+
+# Set the working directory
+WORKDIR /home/dev/openproject/frontend
+
+# Switch to non-root user
+USER $USER
+
+# Copy the project files
+COPY . .
+
+# Install Angular CLI and project dependencies
+RUN npm install @angular/cli --save-dev
+RUN npm install
+
+# Expose the development server port
+EXPOSE 4200
+USER $USER
+# Command to run the Angular development server

@@ -1,0 +1,286 @@
+the clone takes 2 GB 
+git clone https://oauth2:<your-personal-access-token>@gitlab.com/<namespace>/<repository>.git
+
+
+run commands for rbenv and check for zprofile befire rbenv local
+check node version
+data
+
+# Create OpenProject user and set password
+sudo groupadd openproject && \
+sudo useradd --create-home --gid openproject openproject && \
+echo "openproject:safeheaven81" | sudo chpasswd && \
+
+
+# Install system dependencies
+sudo apt-get update -y && \
+sudo apt-get install -y zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libgdbm-dev libncurses5-dev automake libtool bison libffi-dev git curl poppler-utils unrtf tesseract-ocr catdoc libxml2 libxml2-dev libxslt1-dev imagemagick && \
+sudo apt-get install -y memcached && \
+sudo apt-get install -y postgresql postgresql-contrib libpq-dev && \
+sudo apt-get install -y libpq-dev &&
+sudo apt install -y npm git 
+&& sudo apt update && sudo apt install -y apt-transport-https ca-certificates curl gnupg lsb-release && curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg && echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null && sudo apt update && sudo apt install -y docker-ce docker-ce-cli containerd.io && sudo systemctl start docker && sudo systemctl enable docker
+&& sudo apt update && sudo apt install -y firefox-esr && firefox
+&& sudo wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo gpg --dearmor -o /usr/share/keyrings/sublime-archive-keyring.gpg && echo "deb [signed-by=/usr/share/keyrings/sublime-archive-keyring.gpg] https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list && sudo apt update && sudo apt install -y sublime-text && subl
+
+
+takes less than 1GB
+
+# Start PostgreSQL service
+sudo systemctl start postgresql && \
+sudo systemctl enable postgresql && \
+
+# Setup PostgreSQL database
+sudo -u postgres createuser -P openproject && \
+sudo -u postgres createdb -O openproject openproject && \
+
+# Install Ruby with rbenv
+git clone https://github.com/rbenv/rbenv ~/.rbenv 
+~/.rbenv/bin/rbenv init
+rbenv install 3.3.4
+rbenv local 3.3.4
+source ~/.zprofile 
+bundle
+
+issue with rbenv install ? 
+
+git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build && echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bashrc && source ~/.bashrc && exec $SHELL
+
+
+takes 3 GB
+
+cp config/database.yml.example config/database.yml
+change the pass 
+sed -i "s/username: .*/username: kali/" config/database.yml
+sed -i 's/password:/password: safeheaven81/' config/database.yml
+sed -i "s/database: .*/database: openproject/" config/database.yml
+
+trust issues ?
+
+sudo sed -i 's/local   all             postgres                                md5/local   all             postgres                                trust/g' /etc/postgresql/13/main/pg_hba.conf && sudo systemctl restart postgresql
+
+
+DATABASE encoding issue ?
+
+sudo apt-get install -y locales
+sudo locale-gen en_US.UTF-8
+sudo dpkg-reconfigure locales
+
+
+
+sudo systemctl start postgresql
+sudo -i -u postgres 
+psql 
+\du
+CREATE USER openproject WITH PASSWORD 'openproject';
+
+ALTER USER openproject WITH PASSWORD 'safeheaven81';
+ALTER USER openproject WITH SUPERUSER;
+CREATE USER kali WITH PASSWORD 'safeheaven81';
+
+ALTER USER kali WITH SUPERUSER;
+UPDATE pg_database
+SET datcollate = 'en_US.UTF-8', datctype = 'en_US.UTF-8'
+WHERE datname = 'template1';
+ALTER DATABASE template1 REFRESH COLLATION VERSION;
+
+\du
+exit
+
+remove all dockers docker system prune -a --volumes
+access and install 
+docker exec -it managit-worker-1 bash bundle install
+rake db:create db:migrate
+ 
+login to docker with the command
+
+
+set all of .env config/database.yml config/database.yml.example 
+run bundle install inside 
+change the docker-compose.yml to all postgres
+
+
+
+docker login registry.gitlab.com -u <YOUR_GITLAB_USERNAME> -p <YOUR_PERSONAL_ACCESS_TOKEN>
+
+sudo docker pull registry.gitlab.com/managit-team/managit-otf/managit-backend:latest
+sudo docker tag registry.gitlab.com/managit-team/managit-otf/managit-backend:latest managit-backend
+
+sudo docker pull registry.gitlab.com/managit-team/managit-otf/managit-frontend:latest
+sudo docker tag registry.gitlab.com/managit-team/managit-otf/managit-frontend:latest managit-frontend
+
+or to push after login
+
+create and change the token role to maintainer and login with sudo for both push and login  to avoid requested access to the resource is denied
+
+sudo docker tag managit:latest registry.gitlab.com/managit-team/managit-otf/managit-backend:latest
+sudo docker push registry.gitlab.com/managit-team/managit-otf/managit-backend:latest
+
+
+gem install foreman
+gem install overmind
+
+in both the main and frontend folders run 
+rm -rf frontend/node_modules frontend/package-lock.json node_modules package-lock.json
+rm -rf node_modules package-lock.json
+npm cache clean --force
+npm install
+
+engine issue ?
+in the frontend
+
+sudo apt-get remove -y nodejs npm && curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash - && sudo apt-get install -y nodejs && npm cache clean --force && rm -rf node_modules package-lock.json && npm install
+
+
+npm run postinstall
+rails assets:precompile
+
+rails db:prepare
+rails db:create
+rails db:migrate
+rails db:seed
+
+rails c
+User.pluck(:id, :mail)
+User.find(5).update password: 'Test@12345'
+bin/dev
+
+--------------------
+docker system prune -a --volumes
+npm run serve
+bin/dev
+rails db:migrate
+rails db:setup
+rails assets:precompile
+bin/dev
+while running new terminal rails -c User.last
+and another terminal rails db:seed
+then back
+
+sudo -u openproject bash -c '\
+git clone https://github.com/sstephenson/rbenv.git ~/.rbenv && \
+echo "export PATH=\"$HOME/.rbenv/bin:$PATH\"" >> ~/.profile && \
+echo "eval \"$(rbenv init -)\"" >> ~/.profile && \
+source ~/.profile && \
+git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build && \
+rbenv install 3.3.4 && \
+rbenv rehash && \
+rbenv global 3.3.4' && \
+
+# Install Node with nodenv
+sudo -u openproject bash -c '\
+git clone https://github.com/OiNutter/nodenv.git ~/.nodenv && \
+echo "export PATH=\"$HOME/.nodenv/bin:$PATH\"" >> ~/.profile && \
+echo "eval \"$(nodenv init -)\"" >> ~/.profile && \
+source ~/.profile && \
+git clone https://github.com/OiNutter/node-build.git ~/.nodenv/plugins/node-build && \
+nodenv install 14.16.0 && \
+nodenv rehash && \
+nodenv global 14.16.0' && \
+
+# Clone OpenProject and install
+git clone https://github.com/opf/openproject.git --branch stable/15 --depth 1
+
+
+
+sudo -u openproject bash -c '\
+cd ~ && \
+git clone https://github.com/opf/openproject.git --branch stable/9 --depth 1 && \
+cd openproject && \
+gem update --system && \
+gem install bundler && \
+bundle install --deployment --without mysql2 sqlite development test therubyracer docker && \
+npm install' && \
+
+# Configure OpenProject
+sudo -u openproject bash -c '\
+cd ~/openproject && \
+cp config/database.yml.example config/database.yml && \
+sed -i "s/username: .*/username: openproject/" config/database.yml && \
+sed -i "s/password: .*/password: safeheaven81/" config/database.yml && \
+cp config/configuration.yml.example config/configuration.yml && \
+sed -i "/production:/a\\smtp_address: smtp.gmail.com\\nsmtp_port: 587\\nsmtp_domain: smtp.gmail.com\\nsmtp_user_name: YOUR_EMAIL@gmail.com\\nsmtp_password: YOUR_EMAIL_PASSWORD\\nsmtp_enable_starttls_auto: true\\nsmtp_authentication: plain\\nrails_cache_store: :memcache" config/configuration.yml && \
+RAILS_ENV="production" ./bin/rake db:create && \
+RAILS_ENV="production" ./bin/rake db:migrate && \
+RAILS_ENV="production" ./bin/rake db:seed && \
+RAILS_ENV="production" ./bin/rake assets:precompile && \
+echo "export SECRET_KEY_BASE=$(./bin/rails secret)" >> ~/.profile && \
+source ~/.profile' && \
+
+# Setup Apache and Passenger
+sudo apt-get install -y apache2 libcurl4-gnutls-dev apache2-dev libapr1-dev libaprutil1-dev && \
+sudo chmod o+x "/home/openproject" && \
+sudo -u openproject bash -c '\
+cd ~/openproject && \
+gem install passenger && \
+passenger-install-apache2-module' && \
+
+# Configure Apache
+sudo bash -c '\
+echo "LoadModule passenger_module /home/openproject/.rbenv/versions/3.3.4/lib/ruby/gems/3.0.0/gems/passenger-6.0.0/buildout/apache2/mod_passenger.so" > /etc/apache2/mods-available/passenger.load && \
+echo "<IfModule mod_passenger.c>\nPassengerRoot /home/openproject/.rbenv/versions/3.3.4/lib/ruby/gems/3.0.0/gems/passenger-6.0.0\nPassengerDefaultRuby /home/openproject/.rbenv/versions/3.3.4/bin/ruby\n</IfModule>" > /etc/apache2/mods-available/passenger.conf && \
+a2enmod passenger && \
+echo "SetEnv EXECJS_RUNTIME Disabled\n<VirtualHost *:80>\n   ServerName yourdomain.com\n   DocumentRoot /home/openproject/openproject/public\n   <Directory /home/openproject/openproject/public>\n      AllowOverride all\n      Options -MultiViews\n      Require all granted\n   </Directory>\n   <Location /assets/>\n     ExpiresActive On ExpiresDefault \"access plus 1 year\"\n   </Location>\n</VirtualHost>" > /etc/apache2/sites-available/openproject.conf && \
+a2dissite 000-default && \
+a2ensite openproject && \
+service apache2 restart' && \
+
+# Setup cron job for background jobs
+sudo -u openproject crontab -l | { cat; echo "*/1 * * * * cd /home/openproject/openproject; /home/openproject/.rbenv/versions/3.3.4/bin/rake jobs:workoff"; } | sudo -u openproject crontab -
+
+# Optional: Restart OpenProject server
+sudo -u openproject touch /home/openproject/openproject/tmp/restart.txt
+
+--------------
+- to push your container 
+login to gitlab 
+docker login registry.gitlab.com -u <YOUR_GITLAB_USERNAME> -p <YOUR_PERSONAL_ACCESS_TOKEN>
+to avoid denied: access forbidden
+
+
+--------------------------------------
+=========================================================
+                          SERVER
+
+enable rdp 
+
+sudo apt update ; sudo apt install -y xrdp xfce4 xfce4-terminal dbus-x11 ; echo "xfce4-session" > ~/.xsession ; sudo bash -c 'echo "xfce4-session" > /etc/skel/.xsession' ; sudo systemctl restart xrdp ; sudo ufw allow 3389/tcp ; sudo apt-get update -y ; \
+sudo apt-get install -y zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libgdbm-dev libncurses5-dev automake libtool bison libffi-dev git curl poppler-utils unrtf tesseract-ocr catdoc libxml2 libxml2-dev libxslt1-dev imagemagick ; \
+sudo apt-get install -y memcached ; \
+sudo apt-get install -y postgresql postgresql-contrib libpq-dev ; \
+sudo apt-get install -y libpq-dev ; \
+sudo apt install -y npm git ; \
+sudo apt update ; sudo apt install -y apt-transport-https ca-certificates curl gnupg lsb-release ; curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg ; echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null ; sudo apt update ; sudo apt install -y docker-ce docker-ce-cli containerd.io ; sudo systemctl start docker ; sudo systemctl enable docker ; \
+sudo apt update ; sudo apt install -y firefox-esr ; firefox ; \
+sudo wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo gpg --dearmor -o /usr/share/keyrings/sublime-archive-keyring.gpg ; echo "deb [signed-by=/usr/share/keyrings/sublime-archive-keyring.gpg] https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list ; sudo apt update ; sudo apt install -y sublime-text ; subl; apt install -y rbenv
+
+
+in the VPS avoid the databse psql commands for encionding to void the locale installation and run the command sed for replace ing 
+echo "local   all             kali                                md5" | sudo tee -a /etc/postgresql/13/main/pg_hba.conf
+
+
+
+this should be the content 
+
+
+
+
+local   all             postgres                                md5
+
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+
+# "local" is for Unix domain socket connections only
+local   all             all                                     md5
+# IPv4 local connections:
+host    all             all             127.0.0.1/32            md5
+# IPv6 local connections:
+host    all             all             ::1/128                 md5
+# Allow replication connections from localhost, by a user with the
+# replication privilege.
+local   replication     all                                     peer
+host    replication     all             127.0.0.1/32            md5
+host    replication     all             ::1/128                 md5
+local   all             kali                                md5
+
+
+

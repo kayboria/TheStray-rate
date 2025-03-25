@@ -1,0 +1,122 @@
+docker-compose
+networks:
+  network:
+  testing:
+
+volumes:
+  downloads-test:
+  pgdata:
+  tmp:
+  opdata:
+  bundle:
+  npm:
+  pgdata-test:
+  tmp-test:
+  fedata-test:
+
+x-op-restart-policy: &restart_policy
+  restart: unless-stopped
+
+x-op-build: &build
+  context: .
+  dockerfile: ./docker/dev/backend/Dockerfile
+
+x-op-image: &image
+  image: managit:latest
+
+x-op-frontend-build: &frontend-build
+  context: .
+  dockerfile: ./docker/dev/frontend/Dockerfile
+  args:
+    DEV_UID: ${DEV_UID:-1000}
+    DEV_GID: ${DEV_GID:-1000}
+
+x-op-backend: &backend
+  build:
+    <<: *build
+  <<: [*image, *restart_policy]
+  environment:
+    RAILS_ENV: development
+    OPENPROJECT_CACHE__MEMCACHE__SERVER: cache:11211
+    OPENPROJECT_RAILS__CACHE__STORE: file_store
+    OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
+    DATABASE_URL: "postgresql://${DB_USERNAME:-postgres}:${DB_PASSWORD:-postgres}@${DB_HOST:-db}:${DB_PORT:-5432}/${DB_DATABASE:-openproject}"
+    OPENPROJECT_EDITION: ${OPENPROJECT_EDITION:-standard}
+    OPENPROJECT_WEB_MAX__THREADS: 1
+    OPENPROJECT_WEB_MIN__THREADS: 1
+    OPENPROJECT_WEB_WORKERS: 0
+    PIDFILE: /home/dev/openproject/tmpfs/pids/server.pid
+    SELENIUM_GRID_URL: "http://dummy-url"
+  volumes:
+    - ".:/home/dev/openproject"
+    - "opdata:/var/openproject/assets"
+    - "bundle:/usr/local/bundle"
+    - "tmp:/home/dev/openproject/tmp"
+  tmpfs:
+    - /home/dev/openproject/tmpfs/pids:uid=1000,gid=1000
+  networks:
+    - network
+
+services:
+  backend:
+    <<: *backend
+    tty: true
+    stdin_open: true
+    command: >
+      bash -c "
+        echo 'Running migrations...' &&
+        bundle exec rails db:prepare &&
+        echo 'Starting Rails server...' &&
+        bundle exec rails server -b 0.0.0.0
+      "
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - cache
+
+  worker:
+    <<: *backend
+    command: bundle exec good_job start
+    depends_on:
+      - db
+      - cache
+
+  frontend:
+    build:
+      <<: *frontend-build
+    command: "node --max_old_space_size=8096 ./node_modules/@angular/cli/bin/ng serve --host 0.0.0.0 --disable-host-check=true"
+    ports:
+      - "4200:4200"
+    volumes:
+      - ".:/home/dev/openproject"
+      - "${CKEDITOR_BUILD_DIR:-./frontend/src/vendor/ckeditor/}:/home/dev/openproject/frontend/src/vendor/ckeditor/"
+    environment:
+      PROXY_HOSTNAME: backend
+    networks:
+      - network
+    depends_on:
+      - backend
+
+  db:
+    image: postgres:13
+    <<: *restart_policy
+    stop_grace_period: "3s"
+    volumes:
+      - "pgdata:/var/lib/postgresql/data"
+    environment:
+      POSTGRES_USER: ${DB_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_DB: ${DB_DATABASE:-openproject}
+    networks:
+      - network
+    ports:
+      - "5432:5432"
+
+  cache:
+    image: memcached
+    <<: *restart_policy
+    networks:
+      - network
+
+

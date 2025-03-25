@@ -1,0 +1,72 @@
+The information that change my view etirely about computer science was when I knew the \x3c\x0f, 0x0f3c, test formats and how to write to file with what i call using normal user mode and machine mode where machine mode writing bytes instead of ASCII strings
+
+from this basis, I knew how to check the validity of pwn payload and the orders it should be in.
+
+also it helped me to understand ecnryption and decryption vision in computer science and the reality that every thing 
+goes back to the format:
+
+00000000: 696d 706f 7274 2061 7267 7061 7273 650a  import argparse.
+00000010: 696d 706f 7274 2072 650a 696d 706f 7274  import re.import
+00000020: 2073 7562 7072 6f63 6573 730a 0a64 6566   subprocess..def
+00000030: 2065 7874 7261 6374 5f73 7472 696e 6773   extract_strings
+00000040: 5f66 726f 6d5f 6269 6e61 7279 2866 696c  _from_binary(fil
+00000050: 655f 7061 7468 293a 0a20 2020 2023 2052  e_path):.    # R
+00000060: 756e 2074 6865 2027 7374 7269 6e67 7327  un the 'strings'
+00000070: 2063 6f6d 6d61 6e64 206f 6e20 7468 6520   command on the 
+00000080: 6269 6e61 7279 2066 696c 650a 2020 2020  binary file.    
+00000090: 7472 793a 0a20 2020 2020 2020 2072 6573 
+
+also it helped me to understand that the middle hex is the essential part, while the right most side can be generated according to the table I want to use, by ddefault the ASCII table is used and displayed which is called encoding where I give how many bits a word represents 
+
+this script translate from user normal mode to machine mode: 
+python -c "print(''.join(['\\\\x{:02x}'.format(ord(b)) for b in 'hAPI hacker']))"
+
+When the string “hAPI hacker” is encoded in UTF-8, it becomes the following:
+\x68\x41\x50\x49\x20\x68\x61\x63\x6B\x65\x72
+
+When the string “hAPI hacker” is encoded in UTF-8, it becomes the following:
+
+python -c "print(''.join(['\\\\x{:02x}'.format(b) for b in bytearray('hAPI hacker'.encode('utf-16be'))]))"
+\u{68}\u{41}\u{50}\u{49}\u{20}\u{68}\u{61}\u{63}\u{6b}\u{65}\u{72}
+or
+\x00\x68\x00\x41\x00\x50\x00\x49\x00\x20\x00\x68\x00\x61\x00\x63\x00\x6b\x00\x65\x00\x72
+
+So it is like most importantly, you're having the right bytes of the text, after that by changing the table you get different results
+
+doomedra to little endianess
+python -c "print('doomedra'[::-1].encode('hex'))"
+617264656d6f6f64
+
+get the decimal of any hex
+echo $((16#3c))
+
+
+# createkey
+dd if=/dev/urandom of=/path/to/master.keyfile bs=4096 count=1
+# create container
+dd if=/dev/zero of=/path/to/CONTAINER bs=1 count=0 seek=1G
+
+# encrypt the container
+sudo cryptsetup -y -c aes-xts-plain64 -s 512 -h sha512 -i 5000 --use-random luksFormat /path/to/CONTAINER /path/to/master.keyfile
+
+#unlock the container
+cryptsetup luksOpen /path/to/CONTAINER PRIVATE --key-file /path/to/master.keyfile
+
+#Format the Unlocked Volume
+sudo mkfs.ext4 /dev/mapper/PRIVATE
+
+#Mount the Unlocked Volume to a Local Directory
+mkdir ~/Private
+
+sudo mount /dev/mapper/PRIVATE ~/Private
+
+# Set File Permissions
+sudo chown -R "$USER":"$USER" ~/Private
+
+#Lock the Container When You're Done
+sudo umount /root/Private && sudo cryptsetup luksClose PRIVATE
+
+#Unlock the Container When You Need It
+sudo cryptsetup luksOpen /path/to/CONTAINER PRIVATE --key-file /path/to/master.keyfile
+
+sudo mount /dev/mapper/PRIVATE ~/Private

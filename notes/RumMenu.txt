@@ -1,0 +1,1553 @@
++------------+-----------------------------------+----------------------------------+----------------------------------+
+|            | Entry Level (15--)                | Mid Level (20--)                 | Top Shelf (30++)                 |
++------------+-----------------------------------+----------------------------------+----------------------------------+
+|            | Appleton Estate White - Jamaica   | Angostura Old Oak White - Trinidad | Charbay Tropical Islands Cane - US|
+|            | Bacardi Silver - Puerto Rico      | Mount Gay Premium White - Barbados  | Oronoco Fazenda Reserva - Brazil  |
+|  L         | Barton White - Virgin Islands     | Rhum Barbancourt White - Haiti     | Papagayo Organic White - Paraguay |
+|  i         | Castillo White - Puerto Rico      | Ron Matusalem Platino - Dominican  | Rhum Clement Première Canne -     |
+|  g         | Fernandes White - Trinidad        | Republic                           | Martinique                        |
+|  h         | Flor de Caña 4 Year Old White -   | Wray & Nephew White Overproof -    | Tommy Bahama White Sand - Barbados|
+|  t         | Nicaragua                         | Jamaica                            | Starr African Light Rum -         |
+|            | Myers Original Platinum - Jamaica | El Dorado White - Guyana           | Mauritius                         |
+|  R         | Ron Castillo White - Puerto Rico  |                                    |                                   |
+|  u         |                                   |                                    |                                   |
+|  m         |                                   |                                    |                                   |
++------------+-----------------------------------+----------------------------------+----------------------------------+
+|            | Appleton Special Gold - Jamaica   | Appleton Estate VX - Jamaica      | 10 Cane - Trinidad                |
+|            | Bacardi Gold - Puerto Rico        | Brugal Anejo Rum - Dominican Republic | Rhum Barbancourt 15 year - Haiti  |
+|  G         | Palo Viejo Gold - Puerto Rico     | Gosling's Bermuda Gold - Bermuda  | Ron Matusalem Gran Reserva -      |
+|  o         | Fernandes 19 Gold - Trinidad      | Havana Club 3 Años - Cuba         | Dominican Republic                |
+|  l         | Ron Castillo Gold - Puerto Rico   | Old Mill Gold - Virgin Islands    | Mount Gay Eclipse - Jamaica       |
+|  d         | Ron Rico Gold - Puerto Rico       | Plantation Rum Grand Reserve - Barbados | Sea Wynde - Jamaica              |
+|            |                                   | Rhum Barbancourt 3-Star 4 year - Haiti |                                   |
+|  R         |                                   | Tortuga Gold - West Indies        |                                   |
+|  u         |                                   |                                    |                                   |
+|  m         |                                   |                                    |                                   |
++------------+-----------------------------------+----------------------------------+----------------------------------+
+|            | Angostura Dark 5 year - Trinidad  | Bacardi 8 year - Puerto Rico      | Angostura 1824 12 year - Trinidad |
+|            | Coruba Dark - Jamaica             | Pusser's British Navy Dark - Trinidad | Mount Gay Extra Old - Barbados    |
+|  D         | Cruzan Estate Dark 2 year - St.   | Rhum Barbancourt 8 year - Haiti   | Flor de Caña 21 year - Nicaragua  |
+|  a         | Croix                             | Myers Dark - Jamaica              | Pyrat XO Reserve Planters Gold -  |
+|  r         | Cruzan Black Strap - St. Croix    | Gosling's Black Seal - Bermuda    | Anguilla                          |
+|  k         | Diplomatico Anejo - Venezuela     |                                    | Pampero Rum Aniversario -         |
+|  R         | Fernandes Dark - Trinidad         |                                    | Venezuela                         |
+|  u         | Ron Abuelo Anejo - Panama         |                                    | Rogue Dark - US                   |
+|  m         | Trader Vic's - West Indies        |                                    | Zacapa 23 year - Guatemala        |
+|            | Whaler's Dark - US                |                                    | Zaya 12 year - Trinidad           |
+|            |                                   |                                    | Appleton Estate 21 year - Jamaica |
+|            |                                   |                                    | Pyrat Cask 1623 - Anguilla        |
++------------+-----------------------------------+----------------------------------+----------------------------------+
+|            | Admiral Nelson - US               | Kilo Kai                          |                                  |
+|            | Captain Morgan - Puerto Rico      | Montecristo - Guatemala           |                                  |
+|  S         | Castillo - Puerto Rico            |                                   |                                  |
+|  p         | Lieutenant Dan                    |                                   |                                  |
+|  i         | Sailor Jerry's Navy - Virgin Islands |                               |                                  |
+|  c         |                                   |                                   |                                  |
+|  e         |                                   |                                   |                                  |
+|  d         |                                   |                                   |
+|            |                                   |                                   |
+| R          |                                   |                                    |                                   |
+| u          | 						         	 |                                    |                                   |
+| m          |  						     	 |                                    |                                   |
++------------+-----------------------------------+----------------------------------+----------------------------------+
+| F              | Bacardi - apple, coconut, lemon,  |                                    |                                   |
+| l              | melon, orange, peach, raspberry   |                                    |                                   |
+| a              | Brinley - coconut, coffee, lime,  |                                    |                                   |
+| v              | mango, vanilla                    |                                    |                                   |
+| o              | Charbay - vanilla bean            |                                    |                                   |
+| r              | Cruzan - banana, black cherry,    |                                    |                                   |
+| e              | citrus, coconut, guava, mango,    |                                    |                                   |
+| d              | pineapple, raspberry, vanilla     |                                    |                                   |
+|                | Malibu - banana, coconut, mango,  |                                    |                                   |
+| R              | pineapple                         |                                    |                                   |
+| u              | Mount Gay - mango, vanilla        |                                    |                                   |
+| m              | Parrot Bay - coconut, key lime,   |                                    |                                   |
+|                | mango, pineapple                  |                                    |                                   |
+|                | Rum Jumbie - coconut, mango,      |                                    |                                   |
+|                | pineapple, vanilla                |                                    |                                   |
+|                | Trader Vic's - banana, coconut,   |                                    |                                   |
+|                | mango, pineapple                  |                                    |                                   |
++----------------+-----------------------------------+----------------------------------+----------------------------------+
+
+
+from country you know type: cachaca/Rhum agricole/molasses
+from there if it is from frensh it should be Rhum
+if Rhum agricole then you can know how long its aging according to the variations
+
+NOW FLAVORS & AROMAS characteristics
+
+
+aging period (oak barrel aged)
+flavor of the rhum itself (style variations)
+flavor added 
+
+////// [ Different Standards ] \\\\\\\
+
+RUM FROM AROUND THE WORLD
+
+Brazil:
+Brazil produces a spirit similar to Rhum that could be classified as Rhum Agricole called Cachaca U.S  categorize Cachaca as a kind of Rum
+
+Panama:
+Seco is a kind of alcohol similar to rum from panama, it is also similar to Vodka in that it is at least triple distilled 
+
+Indonisia:
+Batavia Arrack/Arrak:
+spirit similar to rum that also include rice in its production
+
+spanish-speaking countries:
+anejo rum smooth taste from Cuba, Guatemala, Panama, Dominican Republic, Nicaragua, Puerto Rico, Colombia, Venezuela
+
+Canary Islands:
+honey rum (Ron Miel de Canarias)
+
+English-speaking countries/Islands:
+darker rum with fuller taste that bring out more the underlying molasses flavor typical styles of these rums 
+are from Grenada, Barbados, Belize, Bermuda, Saint Kitts, Trinidad & Tobago, the Demerara, region of Guyana and Jamaica
+
+Frensh-speaking countries/islands:
+best known for Rhum Agricole more expansive than molasses-based styles, & retain sugarcane flavors and 
+from sugarcane alone.
+
+Mexico:
+produces several kinds of lighter and darker rums. and produce other less expensive flavored and unflavored
+liquors based on sugarcane such as Aguardiente de Cana, Charanda
+
+West Africa/Liberia:
+cheap strong spirit distilled from sugarcane called 'Cane Juice'  Liberian rum of CJ
+
+Europe:
+rum-like spirit made from sugar beet called "Tuzemak" (made from tuzemsky rum, domestic rum)
+
+Germany:
+Rum-Verschnitt (literally blended or cut rum), this is a distilled alcohol made from genuine darker rum(typically from Jamaica)
+rectified spirit and water.
+- often a caramel coloring is used as well
+- amount of genuine rum present can be low given that the legal minimum  is only 5%
+- the taste of Rum-Verschnitt is still quite similar to genuine darker rum
+
+Austria:
+inlander rum is similar domestic rum.  
+always spiced (Stroh), while germany Rum-Verschnitt on the other hand is never spiced or flavored
+
+
+General Flavor style:
++-------------------+---------------------------+-----------------------------+
+|                   | COUNTRIES                 | Flavor Characteristics      |
++-------------------+---------------------------+-----------------------------+
+| E                 | Jamaica                   | Spiced                      |
+| n                 | Barbados                  | Vivid                       |
+| g                 | Trinidad & Tobago         | Aromatic                    |
+| l                 | Virgin Islands            | Navy                        |
+| i                 | Antigua                   | Dark                        |
+| s                 | St. Lucia                 | Heavy                       |
+| h                 | British Guyana (Demerara) | Powerful                    |
+| -                 |                           |                             |
+| S                 |                           |                             |
+| t                 |                           |                             |
+| y                 |                           |                             |
+| l                 |                           |                             |
+| e                 |                           |                             |
+|                   |                           |                             |
+| R                 |                           |                             |
+| u                 |                           |                             |
+| m                 |                           |                             |
++-------------------+---------------------------+-----------------------------+
+| F                 | Martinique                | Dry                         |
+| r                 | Guadeloupe                | Vegetal                     |
+| e                 | Marie Galante             | Intense                     |
+| n                 | Haiti                     | Terroir                     |
+| c                 | French Guyana             | Floral                      |
+| h                 | Réunion                   | Complex                     |
+|                   | Mauritius                 | Elegant                     |
+| S                 |                           |                             |
+| t                 |                           |                             |
+| y                 |                           |                             |
+| l                 |                           |                             |
+| e                 |                           |                             |
+|                   |                           |                             |
+| R                 |                           |                             |
+| h                 |                           |                             |
+| u                 |                           |                             |
+| m                 |                           |                             |
++-------------------+---------------------------+-----------------------------+
+| S                 | Cuba                      | Lighter (Blanco)            |
+| p                 | Puerto Rico               | Buttery                     |
+| a                 | Dominican Republic        | Solera                      |
+| n                 | Venezuela                 | Oily                        |
+| i                 | Guatemala                 | Round                       |
+| s                 | Nicaragua                 | Dark (Añejo)                |
+| h                 | Panama                    | Sweet                       |
+| -                 | Colombia                  |                             |
+| S                 | Peru                      |                             |
+| t                 | Costa Rica                |                             |
+| y                 | Ecuador                   |                             |
+| l                 |                           |                             |
+| e                 |                           |                             |
+|                   |                           |                             |
+| R                 |                           |                             |
+| o                 |                           |                             |
+| n                 |                           |                             |
++-------------------+---------------------------+-----------------------------+
+
+differences between Cachaça & Rhum Agricole 
+
++-------------------+-----------------------------------------------------------+-----------------------------------------------------------+
+|                   | Cachaça                                                   | Rhum Agricole                                             |
++-------------------+-----------------------------------------------------------+-----------------------------------------------------------+
+| Base Ingredient   | from sugarcane juice                                      | from sugarcane juice                                      |
+| Aging             | aged in many different Brazilian woods                    | usually aged in American or French oak                    |
+|                   | If aged, usually 3 to 4 years                             | sometimes aged up to 10 or 15 years+                       |
+| Distillation      | can only be distilled once                                | can have different distillations                          |
+|                   | pot or column distilled, 38%-54% ABV                      | often column distilled, 65%-75% ABV                       |
+| Geographic Origin | has to be made in Brazil                                  | Martinique AOC, has to be made in there; otherwise can    |
+|                   |                                                           | be made elsewhere                                         |
+| Additives         | sweetening agents or coloring allowed                     | no additional sweetening agents or coloring allowed,      |
+|                   |                                                           | AOC or otherwise                                           |
+| Regulations       |                                                           | * Martinique AOC Rhum, has many other laws on production  |
++-------------------+-----------------------------------------------------------+-----------------------------------------------------------+
+
+Rhum Flavors different aging standards 
+
+- Mexico requires rum to be aged for minimum of 8 months
+- Dominican Republic, Venezuela, Panama requires rum to be aged for minimum of 2 years
+- French Rhum agricole can be aged as little as 3 months or years
+after 3 years aging in oak barrels, it maybe called 'Rhum Vieux' or 'old Rhum'
+
+
+Rhum Flavors different naming standards 
+Argentina defines rum as white, gold, light, extra light
+Grenada/Barbados defines rum as white, overproof, matured
+U.S defines rum as rum, rum liqueur, flavored rum
+Australia defines rum as dark,  red rum, white rum
+or
+underproof (UP), overproof (OP), triple distilled
+
+Rhum Flavors:
+
+
+French: 
+
+Martinique\Haiti is the way to arrange alcohol percent, how long stocked in oak barrel
+
+Rhum Blanc (white Rum)
+- not more than 3 months
+- colorless Rhum 
+- with 40% to 55% alcoholic concentration
+
+Rhum ambre/Rhum paille (straw Rum)
+- oak barrel aged rum, for at least 18 months
+
+Rhum Vieux/hors d'age (old Rum)
+VO: at least 3 years
+VOSP: at least 4 years
+XO: at least 6 years
+
+Rhum Martinique 'eleve sous bois' (cask aged Rum)
+- Rum must has been aged in oak barrel
+- Rum must be stocked for at least 12 uninterrupted months
+- Rum must at least contain at least 250 grams per 100 litre 
+of pure alcohol of volatile elements other than ethanols and 
+methyl at the end of aging period of time 
+
+
+Rhum Martinique 'Vieux' (Extra Aged Rum)
+ - aged in oak Casks at least 3 uninterrupted years
+ - at least 325 grams per 100 lire of pure alcohol
+ of volatile elements other than ethanols and methyl
+ at the end of the 3 years
+ -  
+
+
+------------------------------------
+Notables in Rum
+
+Bacardí
+
+The illustrious rum from the family Bacardí, is known the world over. A course on rum can’t be complete without discussing Bacardi. Bacardi Global Brands Limited is the largest privately held, family-owned spirits company in the world. Originally known for its Bacardi white rum, it was founded on February 4th, 1862, it has been family-owned for the past seven generations.
+
+
+Facundo Bacardí Massó, a Catalan wine merchant, was born in Sitges, Catalonia, (Spain) in 1814, and immigrated to Cuba in 1830. At this time, rum was inexpensively made and not considered a refined beverage. Don Facundo began attempting to "tame" rum by isolating a proprietary strain of yeast, (still used in Bacardi production today). This yeast gives Bacardi rum its unique flavor profile. After experimenting for ten years with several techniques he hit upon filtering the rum through charcoal, which removed impurities. In addition to this, Facundo aged the rum in white oak barrels, which had the effect of "mellowing" the drink and he used the technique of blending different rums, (a technique he learned as a wine merchant). The final product was the first clear or "white" rum in the world.
+
+
+Moving from the experimental stage to a more commercial endeavor, he and his brother José set up shop in a Santiago de Cuba distillery on Matadero Street that they bought in 1862. In the rafters of this building lived fruit bats – the inspiration for the Bacardi bat logo.
+
+
+The 1880's and 90's were tempestuous times for Cuba and the company. Emilio Bacardí, Don Facundo's son, was frequently imprisoned and was exiled from Cuba for being a “freedom fighter” in the rebel army against Spain in the Cuban War of Independence. Emilio's brothers, Facundo and José, and his brother-in-law Henri (Don Enrique) Schueg, remained in Cuba supporting the company during this period of war.
+
+In 1899, after the Cuban War of Independence and the U.S. occupation of Cuba, U.S. General Leonard Wood appointed Emilio Bacardí, Mayor of Santiago de Cuba. After his appointment he became Santiago's first freely elected Mayor, and later a Cuban Senator and writer.
+
+
+In Santiago, his brother Facundo M. Bacardí continued to manage the company along with Schueg, who began the company's international expansion by opening new bottling plants in Barcelona (1910) and New York City (1915). The New York plant was soon shut down due to Prohibition, yet during this time Cuba became a hotspot for U.S. tourists.In 1922, Emilio opened a new distillery in Santiago. In 1930, Schueg opened the art deco Bacardi building in Havana as the third generation of the Bacardí family was entering the business. Facundito Bacardí was known to have invited U.S.-Americans (still subject to Prohibition) to "Come to Cuba and bathe in Bacardi rum". Bacardi's transition into an international brand was due mostly to Schueg's "business genius"; Schueg branded Cuba as "the home of rum, and Bacardi as the king of rums" and expanded overseas, first to Mexico (1931), then to Puerto Rico (1936), under the brand name Ron Bacardi. Post-Prohibition production in Puerto Rico enabled rum to be sold tariff-free in the U.S. He then expanded to the United States (1944). During the World War II years, the company was led by Schueg's son-in-law José "Pepin" Bosch. Pepin founded Bacardi Imports in New York City, and was named Cuba's Minister of the Treasury in 1949.
+
+
+Bacardi & the Cuban Revolution
+
+The Bacardí family maintained a fierce opposition to Fidel Castro's revolution in Cuba in the 1960s. The Bacardi family and company left Cuba after the Castro regime confiscated the company’s Cuban assets on October 14th, 1960. However, cleverly due to concerns over the previous Cuban leader Fulgencio Batista, the company had already began foreign divisions prior to the revolution. The company moved the ownership of the company's trademarks, assets and proprietary formulas out of the country prior to the revolution, as well as constructing plants in Puerto Rico and Mexico after the prohibition era. This was to save in import taxes for rum being imported to the U.S. This also helped the company continue after the communist government confiscated without compensation all of Bacardi’s assets in Cuba.
+
+Bacardi drinks are not found in Cuba today. The main brand of rum in Cuba is Havana Club, the company it nationalized during the revolution. Bacardi later bought the brand from the original owners, the Arechabala family. The Cuban government, in partnership with French company Pernod Ricard, sells its Havana Club products internationally, except for the United States and its territories. Bacardi created its Havana Club rum based on the original recipe from the Arechabala family and manufactures it in Puerto Rico. Bacardi continues to fight a war in the courts attempting to legalize their own Havana Club trademark outside of the United States. Drinks now made in the former Cuban Bacardi distillery are sold in Cuba under the name Caney.
+
+
+The Bacardi legacy lives on in Santiago and Havana through its grand buildings and its historic significance. The Bacardi Building in Old Havana is regarded as one of the finest art deco buildings in Latin America.
+------------------------------------------------------------------------------------
+The background of rum dates back to antiquity. The development of fermented alcohols produced from sugarcane probably occurred either in ancient India or China and spread from there. Marco Polo recorded a 14th century account about a “very good wine of sugar” that was offered to him in what is now Iran. And cultivation of sugarcane can be traced back even earlier to Persians and Arabs creating and perfecting the refining of sugar in the 7th century.
+
+
+Rum was first distilled on the sugarcane plantations of the Caribbean in the 17th century. Slaves on plantations first encountered molasses, which is a byproduct of the sugar refinement process and can be then fermented into alcohol. Later, distillation of these fermented alcoholic products allowed the alcohol to be concentrated and to remove additional impurities. This is the way it's believed the first real rum was made. Custom indicates that rum originated on the island of Barbados. However, in the 1620s, the production of rum was taking place in Brazil, according to historical records.
+
+
+A document from 1651 from Barbados stated “The chief fuddling they make in the island is Rumbullion, alias Kill-Devil, and this is made of sugar canes distilled, a hot, hellish, and terrible liquor.”
+
+
+Colonial America
+
+After the development of rum in the Caribbean, the popularity of the drink spread to the North American colonies. In order to support demand for it, the first rum distillery in the British colonies of North America was set up in 1664 on what is now Staten Island. There was a distillery in Boston, Massachusetts, three years later. Manufacturing rum became the largest and most prosperous industry in Colonial New England. New England later became a center for distilling due to the metalwork, technical and cooperage skills of the people, as well as abundant lumber. Rum produced there was lighter, somewhat like whiskey. Rum made in Rhode Island at one point joined gold as a legitimate form of currency in Europe.
+
+
+Regarding the consumption of rum in the American colonies before the American Revolutionary War, estimates had every man, woman and child drinking an average of three imperial gallons, or 14 liters, of rum annually.
+
+
+In order to support the demand for the molasses needed to produce rum, along with increasing European demand for sugar in the 17th and 18th centuries, a source of labor to work the sugar plantations in the Caribbean was needed. A kind of triangular trade was established between Africa, the Caribbean and the colonies to help meet the demand. The exchange of slaves, molasses and rum was highly profitable, and the disruption to the trade caused by the Sugar Act in 1764 may have helped to incite the American Revolution.
+
+
+The popularity of rum was steady after the American Revolution. George Washington even insisted on a barrel of rum from Barbados at his 1789 inauguration.
+
+
+Rum began to play a significant role in politics; candidates tried to influence election outcomes by being generous with rum. People attended hustings, (meeting at which candidates in an election address potential voters) in order to see which candidate seemed to be more generous. Each candidate was expected to drink with the people to indicate his independent and republican nature. In the 1833 Mississippi state senate election, one candidate, Judge Edward Turner, poured his drinks and socialized with the people. He was more personable and it seemed as if he would win. The other candidate was a Methodist parson named Dick Stewart. He announced he would not pour their drinks but they could have as much as they wanted. Dick Stewart won.
+
+
+Over time, the restrictions on rum from the British islands of the Caribbean, along with the development of whiskey in America, led to a reduction in the popularity of the drink.
+
+
+Naval Rum
+
+The association of rum with piracy began with British privateers trading on the pricy commodity. When some of the privateers became pirates and buccaneers, they retained their liking for rum, and the association between them was bolstered by literary works such as Robert Louis Stevenson’s Treasure Island.
+
+
+In 1655 the British fleet captured Jamaica. This is when the association of rum with the Royal Navy began. Given the availability of domestically produced rum, the British changed the daily ration of liquor allotted to seamen from French brandy to rum. Originally the ration was given neat or mixed with lime juice, the tradition of watering down the rum began around 1740. In order to minimize the effect of alcohol on his sailors, Admiral Edward Vernon was in the practice of watering down the rum ration by making a mixture that became known as "grog". Though most believe that the term referred to the grogram cloak warn by the Admiral in rough weather, the term actually predates his famous order. The term likely originates in the West Indies, potentially of African etymology. The Royal Navy continued giving its sailors a daily ration of rum, which was known as a “tot,” until this practice was discontinued after July 31, 1970.
+
+
+In modern times, a "tot" [rum ration] is still issued for special occasions to ship crewman. The order is referred to as an order to “splice the mainbrace.” This order can only be given by the Queen, a member of the royal family or, on certain occasions, the admiralty board in the UK, with similar restrictions on other Commonwealth navies. Recently qualifying occasions have included royal marriages or birthdays or special anniversaries. In the days when daily rum rations were typical, the order to “splice the mainbrace” meant that double the rations of rum would be distributed to the crew. Originally, an order for one of the most difficult emergency repair jobs aboard a sailing ship was to “splice the mainbrace”.
+
+
+After his victory at the Battle of Trafalgar, the body of Horatio Nelson was preserved in a rum cask in order to allow transport back to England. However, upon arrival, the cask was opened and found to be empty of rum. The body, which at that point had become pickled, was removed. Upon inspection, it was found that the sailors had drilled a hole in the cask and drunk all the rum, drinking Nelson’s blood in the process. This tale serves as the basis for the term “Nelson’s blood” being used to describe rum. It is also the origin of the term “tapping the admiral” being used to refer to drinking the daily rum ration. Details of the story are in dispute, since numerous historians claim that the cask contained French brandy, while others say instead the term originated from a toast to Admiral Nelson. Variations on the story involving various famous corpses have been circulated for many years. Official record states only that the body was stored with “refined spirits” but does not specify which one.
+
+
+The Royal Navy of New Zealand was the last navy to give sailors a free daily ration of rum. The Royal Canadian Navy still gives rum on special occasions. This rum is typically provided by the commanding officer’s fund and is 150 proof. It is consumed on the order “up spirits.” The order to “splice the mainbrace” or drink rum can be given by the Queen as commander-in-chief. This took place on June 29, 2010, when she gave the order to the Royal Canadian Navy as part of the celebration of their 100th anniversary.
+
+
+Occasionally rum was consumed mixed with gunpowder, in order to either test the proof of a ration (if diluted, the gunpowder would not ignite after being soaked with alcohol) or to seal a vow or show loyalty to a rebellion.
+
+
+Colonial Australia
+
+In the early period after the creation of New South Wales, rum became an important trade good. The value of rum was based on the lack of coinage in the colony, and was based on the drink’s ability to cause the drinker to temporarily forget about the lack of creature comforts available in the new colony. The value of rum was so high that convict settlers could be persuaded to work the land owned by officers of the New South Wales Corps based off being paid in rum. Due to the popularity of rum among the settlers, the colony earned a reputation for drunkenness, though their consumption of alcohol was less than that of England at the time.
+
+
+Due in part to its distance from England, the convict colony of Australia, established in 1788, faced severe food shortages. This was worsened by poor conditions for cultivating crops and a shortage of livestock. It was eventually realized that it would be cheaper for India to supply the settlement of Sydney, instead of England. By 1817, two of every three ships leaving Sydney went to Java or India, and cargoes from Bengal fed and equipped the colony. Casks of Bengal Rum (apparently stronger than Jamaican rum and not so sweet) were brought back in every ship and taken to shore under cover, to the disappointment of the governors. British living in India grew wealthy by sending ships to Australia half full of food and half with “bad spirits.”
+
+
+In 1806, William Bligh became governor of the colony and attempted to reduce the drinking problem by outlawing the use of rum as currency. In response, the Corps of New South Wales marched with their bayonets to the Government House and arrested Bligh. Control of the colony was in the mutineers hands until the arrival of Governor Lachlan Macquarie in 1810.
+
+
+Current Day
+
+Nowadays, Rum is consumed and enjoyed all over the world. While not as popular as it once was, due to all the products and worldwide market availability; it is making a resurgence. High end rums from the Caribbean & South America and becoming quite popular. And now consumers are starting to learn about the wonderful world of Rhum Agricole and Cachaca as well. There's a wolrd of flavors out there and history will tell how Rum continues to evolve and grow.
+-------------------------------------------------------------------------------
+Notables in Rum
+
+DonQ
+
+Another noteworthy, is the exceptional rum Don Q. Don Q is Puerto Rican rum, distilled, manufactured, bottled, and distributed by Destilería Serrallés from its corporate facility in Ponce, Puerto Rico. Don Q is the top-selling rum in Puerto Rico. The rum is named after Don Quijote, the protagonist in Miguel Cervantes' classic Spanish novel.
+
+The Serrallés family was a Spanish family from Cataluña that migrated to Puerto Rico in the mid-1830s, and established a sugar cane plantation in the outskirts of Ponce, Puerto Rico. They were successful in harvesting and refining cane sugar and exporting it to the United States, the United Kingdom and France. The plantation became very prosperous, and virtually became a company town, with its own rail line, workers' housing, transportation fleet, commissary, and private -- later public -- airport (Ponce's Mercedita Airport).
+
+
+In 1865, the family opened a rum distillery at the plantation, "Hacienda Mercedita". Juan Serrallés, imported a still from France, which enabled him to produce his first casks of rum.
+
+
+The Serrallés operation produced various local rum brands. Eventually, the family decided to launch a refined brand with the intention of exporting it elsewhere. The Don Q brand was launched in 1934, and became popular with locals who considered rival Bacardi either harsher in taste or a foreign brand (when Bacardí opened its distilling operations in Puerto Rico in the early 1930s it was considered a Cuban brand since its headquarters were based in Cuba).
+
+
+Five of seven of Don Q's offerings have achieved success at international spirit ratings competitions. Don Q Gran Añejo rum has earned one double gold, two silver, and one bronze medal at the San Francisco World Spirits Competitions between 2008 and 2012.In September 2011, the American Academy of Hospitality Sciences awarded Don Q Gran Añejo a five-star rating. Gran Añejo is the first rum ever to receive this rare distinction, reserved for only the best in travel, hospitality products and services. The American Academy of Hospitality Sciences Board of Trustees recognized in Destilería Serrallés for DonQ Gran Añejo exceptional quality and character.
+
+
+
+
+Golden & Aged rums: 
+
+2
+00:00:06,450 --> 00:00:09,640
+There really are no set standards for its production.
+
+3
+00:00:09,690 --> 00:00:14,800
+This can lead to some difficult choices particularly when it comes to age where golden rums.
+
+4
+00:00:14,940 --> 00:00:18,150
+It's very important to read the label on gold colored rums.
+
+5
+00:00:18,150 --> 00:00:24,240
+If you want to learn a bit about their production though not all labels are as revealing as others.
+
+6
+00:00:24,240 --> 00:00:27,650
+Some gold drums are blends of rums of various ages.
+
+7
+00:00:27,690 --> 00:00:33,630
+Others are a straight rum age for a specific amount of time while still others typically cheaper ones
+
+8
+00:00:33,720 --> 00:00:40,400
+are blended with spirits other than rum or may contain artificial colors to give them amber color.
+
+9
+00:00:40,410 --> 00:00:46,110
+It's also important to note that not all rums require the same amount of time in the barrel climate
+
+10
+00:00:46,110 --> 00:00:48,900
+plays a large role in aging times.
+
+11
+00:00:48,930 --> 00:00:54,090
+For instance the Caribbean's warm humid climate can make a rum in just a few years that taste similar
+
+12
+00:00:54,180 --> 00:00:59,920
+to an American rum that's been aged for a decade or more for less than 15 dollars.
+
+Dark rum:
+
+2
+00:00:04,050 --> 00:00:08,880
+There's really two styles within the category of darkroom those that are aged and charred oak for a
+
+3
+00:00:08,880 --> 00:00:14,390
+long period of time and those that begin with a distill it made from the darkest molasses.
+
+4
+00:00:14,460 --> 00:00:22,050
+The second category is often called black strap and these rums very rich thick and sometimes quite interesting.
+
+5
+00:00:22,170 --> 00:00:27,390
+Age dark rooms are used in a number of cocktails and often are floated on top of a finished drink.
+
+6
+00:00:27,500 --> 00:00:33,890
+The Mai Tai is a good example of a dark rum float cocktail some of the higher proof dark rooms that
+
+7
+00:00:33,890 --> 00:00:40,700
+are floated are also used when lighting drinks on fire and other cocktail recipes such as a dark and
+
+8
+00:00:40,700 --> 00:00:44,060
+stormy were designed for a particular dark rum.
+
+9
+00:00:44,300 --> 00:00:51,330
+In that particular case it's Gosling's black seal rum
+
+Spiced Rum:
+1
+00:00:01,770 --> 00:00:08,730
+Spiced rum brands spiced rum is a flavored rum that's a category unto itself.
+
+2
+00:00:08,730 --> 00:00:11,220
+The spice blends vary from brand to brand.
+
+3
+00:00:11,270 --> 00:00:13,460
+You will notice spiced rum when you smell it.
+
+4
+00:00:14,410 --> 00:00:17,490
+Some drinkers really enjoy spice rums and others do not.
+
+5
+00:00:18,750 --> 00:00:26,880
+Nutmeg cinnamon vanilla clove cardamom peppercorn a mix all spice and orange peel are among the ingredients
+
+6
+00:00:26,880 --> 00:00:29,070
+used in spice drums.
+
+7
+00:00:29,070 --> 00:00:33,990
+It's a nice way to get an interesting flavour into drinks and spiced rums are featured in a number of
+
+8
+00:00:33,990 --> 00:00:40,950
+popular cocktails brands 
+
+Flavored rum:
+1
+00:00:01,530 --> 00:00:03,660
+And flavored rum brands.
+
+2
+00:00:03,660 --> 00:00:09,360
+The options for flavored terms are increasing almost as fast as flavored vodkas typically rums take
+
+3
+00:00:09,360 --> 00:00:14,450
+on the flavor of tropical fruits and can be great for adding a little flavor to tiki drinks.
+
+4
+00:00:14,460 --> 00:00:19,380
+There's also a number of cocktails that specifically call for a flavored rum especially when it comes
+
+5
+00:00:19,380 --> 00:00:22,450
+in something interesting like coconut rum.
+
+6
+00:00:22,500 --> 00:00:25,880
+There can be significant differences in play the drums.
+
+7
+00:00:25,890 --> 00:00:32,010
+Some brands will do natural infusion of flavors while others opt for artificial flavors and sometimes
+
+8
+00:00:32,010 --> 00:00:35,880
+add sugars to sweeten the rum making it into something of a liqueur.
+
+9
+00:00:36,000 --> 00:00:40,740
+Just like all rums the lack of regulations and disclosure should make the flavored rum drinker more
+
+10
+00:00:40,740 --> 00:00:42,750
+cautious when shopping.
+
+11
+00:00:42,750 --> 00:00:47,870
+If you want a guarantee of quality to your flavored rum you should just try and fusing it yourself.
+
+12
+00:00:47,940 --> 00:00:54,900
+Light rum is an ideal candidate for homemade infusions but you can try these flavored brands such as
+
+
+---------------------------------------------------------------------
+FOODS WITH RUM
+
+Spirits, Cocktails & Food Pairings
+
+
+Although most people think of wine when thinking of pairing a beverage with food, those with a more adventurous palate can find great matches with distilled spirits either straight up or with the cocktails made from them. When pairing straight spirits or cocktails it is very important to remember that you are dealing with much higher alcohol content. Servings of these beverages should be either much smaller or suited to the whole meal to avoid ending up being very intoxicated.
+
+
+Hard alcohol can be loosely divided into two groups. Those made with fruit and non-grain ingredients are considered “Agricultural Spirits” and they include: Brandy, Tequila, and Rum. The second group comprises grain based alcohols, which include: Whiskeys, Bourbons, Scotch, Vodka, and Gin. As with wine, there is a huge range within a variety and it is heavily influenced by distillation, process, location, soil, water, and how it may be aged, if at all.
+
+
+When serving alcohol straight as a meal accompaniment, it is usually best to recommend either adding an ice cube or two, or add a splash of water, even if the guest typically prefers it neat. The added water makes the nuances of the alcohol more accessible to the palate and allows it to combine better with food.
+
+
+In general, robustly flavored foods match best with distilled spirits. Although many have a range of strengths and tastes within a single variety of alcohol, few can be described as delicate, particularly when served on the rocks. They need meals that will stand up to them, rather than be overwhelmed by them. In some cases, such as Rum, the local cuisine is a perfect match. Think jerked chicken! But don`t let that limit you though; experimentation remains key.
+
+
+Cocktails have a lesser amount of alcohol in them which can make it easier to consume them with food without over imbibing, although care should still be taken. One of the nice things about cocktails is that there is a huge range of flavors to choose from even within a single spirit. Try matching flavors with the accompanying tastes in the cocktails. For instance, a cocktail with mint does well with lamb. While we can only cover some of the most popular cocktails for each spirit and foods to match here; keep the concept of matching meal ingredients & flavors in mind when pairing with the wide array of cocktails available.
+
+
+The cocktail recipes listed below are traditional in nature, and come with many recipe variations. Think of how a variation of an ingredient can change the flavor profile of a cocktail, but also potentially how it can become unexpectedly spectacular with a dish! Also, be mindful that the exact amounts of each portion of ingredient within the cocktail can throw off a cocktail; with too much tartness, alcohol or sweetness. Balance is key in a cocktail and being able to successfully pair it with food.
+
+
+As with any food and beverage pairing, always keep all flavors detected in both in the cocktail/spirit and all components of the dish including sauces and vegetables in the forefront of the mind.
+
+
+Use guidelines to pair spirits & food, like you do with wine pairing…
+
+
+Tip 1: SWEET WITH HEAT
+
+Pair spicy foods with cocktails or rum that have some residual sugar Residual sugar actually cools down spice and creates balance between the food and the rum. A sweet coconut rum like Malibu, will offset and balance heat.
+
+Alternatively, avoid pairing spicy food with highly alcoholic or tannic rum. The heat of the food will actually intensify the alcohol and the tannins in the rum, which in turn will make the dish seem even spicier.
+
+
+Tip 2: SMOKE WITH OAK
+
+Pair grilled or charred foods with rums that have been aged in oak. Because oak aged rums are often more intense, they can overwhelm the flavors in a dish, so they need to be paired with foods that match that intensity. Grilled/charred foods tend to tame that oaky intensity and to bring out the fruit flavors of the rum instead. An oak spiced rum like Don Q oak barrel spiced rum works on a couple levels. There is moderate sweetness but a strong backbone of oak to contrast with the smoke. And smoke and spice always go well together.
+
+
+Tip 3: MATCH FLAVORS AND TEXTURES
+
+Pair foods with rum or cocktails that have similar—or complementary—flavors and textures. An easy way to do this is to match mildly flavored rum/cocktails with mildly flavored foods and big, flavorful foods with big, flavorful rum/cocktails. Similarly, rich foods should be paired with rich rum/cocktails. When food and rum/cocktails have similar qualities, they complement each other and enhance the textures/flavors that they have in common. Such as a Thai Coconut Soup or Coconut curry with a Pina Colada. They both share a rich, creamy texture.
+
+
+Tip 4: ACID AND TANNIN WITH FAT
+
+Pair fried or fatty foods with rum/cocktails that are high in acid (example: Classic Daiquiri, Think citric acid) or tannin (example: Aged Rhum Agricole Martinique). Acid cuts through richness in food and rounds out the flavors in your mouth. It also acts as a palate cleanser, which helps create balance between rich/oily foods and rum. However, avoid pairing acidic rum with creamy sauces. (Think of squeezing lemon into a cup of milk!) This pairing will clash, so you’re better off pairing cream-based dishes with a complementary rum instead.
+
+Like acid, tannin also cuts through richness. This is another reason why the red wine with red meat rule works—the tannins in a wine like Cabernet Sauvignon cut through fat and help strip it from your tongue. The same works for rum. Tannins are imparted into rum through aging in wood barrels. Tannins essentially act as a palate cleanser so that you aren’t overwhelmed by the richness of the dish.
+
+
+Tip 5: SWEET WITH SALT
+
+Pair sweet rum or cocktails with salty foods. If you’ve ever had chocolate-covered pretzels or kettle corn, you know firsthand that salty and sweet can be a magical pairing. This same principle applies to salty foods paired with off-dry (slightly sweet) or sweet rum. The combination makes sweet rum taste less sweet and more fruity, and salty food taste less salty and more savory. In effect, the sweet counteracts the salt and vice versa so that both elements shine. A classic example of this is pairing Rum Runner with Jerked Chicken.
+
+
+Tip 6: SWEET WITH SWEET
+
+Pair dessert with wine that is at least as sweet as the dessert itself, if not sweeter. Sweet rums/cocktails showcase the sweet flavors in food, but if the food is sweeter than the cocktail, the rum will just taste flabby.
+
+Another good rule to follow is to pair dessert with a sweet rum that has complementary flavors. For example, Spiced rum has a sweet, cinnamon flavor that goes nicely with sweet, cinnamon apple desserts.
+
+
+Tip 7: WHAT GROWS TOGETHER GOES TOGETHER
+
+Pair foods of a particular ethnicity or region with rums from the same place (example: Spanish food with Spanish rum). Ethnic/regional pairings are typically a match made in heaven because the agriculture and sugarcane share the same terroir, so they naturally have flavors that complement each other.
+
+
+Tip 8: CONTRAST
+
+This is kind of a reiteration of previously stated rules. But opposite flavors or intensities do sometimes attract. The key is to make sure one doesn’t completely overwhelm the other. A play with sweetness and tartness levels when pairing as well. Cocktails allow a vast array of pairing possibilities that are sometimes limited with other beverages.
+
+
+THE BOTTOM LINE
+
+While there are no hard and fast rules for food and alcohol pairings, these simple guidelines can help you with the process. That said, tastes are subjective, so it’s really up to you to decide what pairings work best. Ultimately, the most important pairing rule to follow is to drink what you like! No pairing recommendation will ever be successful unless you actually enjoy what’s in your glass!
+
+
+
+Rum
+
+Rum is made from distilled sugar cane in the form of either cane juice or molasses. There is a large range from clean white rums to the darker, spicier rums of the Caribbean. While the latter can be delightful on their own, or try that dark rum with chocolate, most white rums are better suited to cocktails. Rum is not heavily regulated and a wide variety of additives and flavors can be found in it including vanilla, cocoa, musk, allspice, coffee, herbs and fruits. Not surprisingly, it is very well suited to typical Caribbean fare such as jerk chicken or Jamaican Beef Patties. It pairs beautifully with most types of spicy cuisine including Mexican, Tex-Mex, Cajun and Thai.
+
+
+Food for White or Silver rums, Daiquiris and Mojitos
+
+Sharply flavored rum cocktails made with lime such as classic daiquiris and mojitos are perfect pairings for seafood. Think shrimp/prawns, fish tacos and raw fish preparations such as ceviche. Careful of the acidity in the drink and ceviche though. Sweeter pina coladas - rum, coconut and pineapple - are great with chicken, especially fried chicken or chicken satay. Coconut plays well with peanut sauce.
+
+
+Food for Golden rums and Rum Punches
+
+The kind you’d use for a rum punch - which again is sweet. These will go with a range of Caribbean dishes, especially jerk chicken and, deep-fried fish. The sweetness of a punch also works with the smoky glaze of barbecued ribs and blackened fish or chicken. Or simply nibble some plantain chips with it.
+
+
+Food for Dark rum
+
+If it's made up into a cocktail ranging from a simple serve such as rum and coke to an Old Fashioned think beef. One of my best pairings this year was steak with an Añejo Rum Old Fashioned. Rum and coke is classic with a burger or, again, American-style barbecue. Dark rum loves brisket.
+
+
+Food for Premium Rum
+
+High quality sipping rums are a great pairing for dark chocolate bars and brownies but think of them too with desserts or cakes with dried fruits such as raisins (an extra shot with some rum and raisin ice cream would be delicious or try rum instead of sherry with the Christmas cake).
+
+Banana is also a classic pairing for rum, as is pineapple. Try it with bananas foster or banana tarte tatin and with pineapple upside down cake. And it was wonderful with a coconut bread crumble with rum sauce. Apple pie
+
+
+Food for Rhum Agricole
+
+As Martinique is a major producer of these types of rum, no doubt the local cuisine is a great match. Accra is a form of fritter, most frequently filled with salt fish, or prawns. The tannins in an aged Rhum Agricole can cut through the fat in the dish. Also, Boudin a type of sausage would pair well.
+
+
+Rhum and Chocolate - A classic pairing. Works well after a good meal. It is sometimes followed by the perfect cigar and Rhum tasting. This all makes perfect sense as sugarcane, cocoa and tobacco are all tropical species they share similar soil and climate. The end products have the same or similar geographic roots.
+
+
+Rhum Agricole and Cheese -Various cheese can be paired with French Rhum including goat cheese. As opposed to chocolate, rum and cheese are like pairing the opposites. Strong drinks from tropical countries with subtle and soft dairy products.
+
+
+
+Rum Cocktails
+
+
+Mojito – Rum, mint, and lime juice – The clean taste of a Mojito pairs nicely with Thai foods such as Pad Thai. Try roasted lamb. Think of how mint sauce is great with lamb. Salads
+
+
+Hurricane – Rum, orange juice, pineapple juice, grenadine – Chicken. Try it with a spicy Cajun crawfish & shrimp Etouffee. Empanadas. Fish and chips, Spicy Jambalaya, BBQ
+
+
+Daiquiri – Rum, lime juice, ice, simple syrup – Serve it with shrimp cocktail or chips and salsa. Guacamole, Avocado. fish tacos and raw fish preparations such as ceviche or sushi
+
+
+Piña Colada – Rum, pineapple juice, coconut cream – Pairs well with lighter Mexican fare such as nachos, tacos or quesadillas. Coconut shrimp, Conch fritters. Fried foods
+
+
+Perfect Storm – Rum, apple cider, ginger beer, sugar, vanilla bean – Great with grilled sausages, hamburgers or barbeque. Blue Cheese, Chocolate
+
+
+Peach Rum Punch – Citrus Flavored Rum, peach nectar, pineapple juice, ginger ale – Try it with a spicy shrimp dish. Asian Stir Fry, Parma Ham and Dry Sausages, French Cheeses, Chocolate
+
+
+-----------------------------------
+A course on Rum can’t be complete without discussing Tiki Culture. In fact it’s integral.
+
+Tiki Culture. What is it ?
+
+Tiki culture is a theme of exotically decorated bars and restaurants catering an escapist longing for travel to tropical regions of the South Pacific. Synonymous with Rum, mock tiki carvings and complex, alluringly named alcoholic drinks, it eventually spilled over into residential recreation and larger cultural awareness. Dark woods, thatch, rattan and bamboo make up the basic building blocks of the décor and furniture. Tropical plants, waterfalls, hand-carved Tiki gods and Moai, along with nautical accents arranged in a somewhat mysterious display reminiscent of foreign lands make up an atmosphere of true Tiki.
+
+Starting in California in the 1930s and then spreading around the world, it was inspired by the sentimental appeal of an idealized South Pacific, particularly Hawaii, Polynesia and Oceania.
+
+Food is an Americanized combination of South Pacific and Asian cuisine; drinks are mostly rum-based, complex, fairly strong and are not really supposed to be sweet.
+
+
+Tropical Cocktails are at the center of the movement, and are served as a ritual – not just a drink – involving chunks of exotic fruits and even real flowers as garnish, exciting swizzle sticks, and occasionally even flames. Very special drinks are served in large bowls with extra long straws for a party of four.
+
+Historically and geographically, Tiki is defined by Polynesian culture – specifically, Tiki was the first man on Earth, according to most cultures. But that’s not what 20th & 21st Century Tiki Culture in America (and most of the world) is about now.
+
+After the war, returning soldiers wanted to forget the war , but they also wanted to remember the good times. Tiki Bars sprang up all over the states, moving from the California coast clear over to the Atlantic.
+
+Tiki bars flourished in the ’50s, giving the cocktail set a new place to mingle as well as providing a nice, close-to-home adventure for the thriving middle class. Visiting a Tiki Bar with a live Polynesian music and dance floorshow was like taking a mini vacation. Then in the 1960s the fad slowed as people were busy with hippie culture and Vietnam.
+
+By the 1970s, Tiki culture had been worn down to ‘kitsch’. It was no longer considered a fun, but considered an old, out-dated and corny style that belonged to the old generation. Few bars remained. In the 1980’s, TV shows like “Hawaii 5-0”, “Fantasy Island” and “Magnum P.I.” brought the tropics back into our homes.
+
+Places like Key West and San Francisco somehow managed to keep the culture quietly alive, adapting to new trends. The Florida Keys branched out with its own Tiki culture, incorporating vivid colors, open-air bars and Parrot Head music with Jimmy Buffet at the musical wheel. Pirate culture, similar to Tiki Culture, gained popularity, and the two started to overlap in a wonderfully adventurous way. By the early 1990’s Tiki resurged. With the advent of Mixologists discovering Tiki recipes. Tiki culture was rediscovered to what it is today.
+
+
+How it all started
+
+The common theory is that Tiki Bars started popping up in America after World War II, when soldiers returning from the South Pacific started spreading the word of how wonderful the beautiful tropical islands were with their hula girls and swaying palms. Well, that’s not really true; the first Tiki Bars in America, by most accounts, were started in the 1930s by a couple of guys who had spent time in the islands and thought it would be fun to theme their bars with a tropical flavor.
+
+
+Don the Beachcomber
+
+When 27-year-old Ernest Gantt opened the first Don the Beachcomber location in 1934, it was just a small 24-seat watering hole in Los Angeles. A traveler by nature, Gantt had accrued a respectable collection of odds and ends he found washed up on the beach and elsewhere during South Pacific excursions. He used those treasures to decorate his tropical escape.
+
+His drinks, while branded as “Polynesian cocktails,” were actually Polynesian-inspired SoCal cocktails made with ingredients like falernum and fresh, local produce. They were new, they were distinct, and they were wildly popular. The bar quickly caught on, and Gantt eventually gave in fully to his tropical calling by changing his name to Donn Beach.
+
+During WWII, Beach shipped out with the U.S. Air Force, leaving his bar in the care of his ex-wife Cara Irene. Upon returning to the U.S., Beach found out that Irene had been busy. She had expanded Don the Beachcomber from one to 16 locations across California and a few other states. After signing on as a consultant for the new chain, Beach packed his bags and headed for Hawaii, where he spent the rest of his days manning a bar on Waikiki Beach.
+
+Beach’s drinks were revolutionary. We can thank him for cocktails like the Zombie, Pearl Diver and Three Dots and a Dash, as well as essential spiced syrups and mixes still found in tiki recipes today.
+
+The formulas for many of his signature cocktails, particularly the Zombie, were mysteriously coded by numbers referring to bottles on his bar. Other bars often tried to poach Beach’s bartenders to learn his secrets, but it never worked. Beach didn’t teach anyone except his most trusted and loyal employees how to make his proprietary cocktails, syrups and mixes.
+
+Beach’s drinks remained largely mysterious throughout his career, and he took some of his secrets with him to the grave when he died in 1989 at the age of 81. But in the early 2000’s, bartender and tiki aficionados were finally able to track down the original recipe for the Zombie.
+
+
+Trader Vic
+
+Victor Bergeron (later known as Trader Vic) was a fan of Don the Beachcomber from the beginning—so much so that he even admitted to swiping a few ideas from the Los Angeles hotspot to use in his own Oakland bar, Hinky Dink’s. “I felt I could do it better,” Bergeron once said.
+
+In 1937, Bergeron transformed Hinky Dink’s from a modest bar into the tiki den known as Trader Vic’s, a moniker that came from Bergeron’s habit of exchanging drinks and food for nautical items that guests brought in, which he used to decorate the bar.
+
+Bergeron’s most famous credited creation is the Mai Tai, a blend of two rums, lime juice, orange curaçao and orgeat. He allegedly came up with the famous recipe in 1944, but there’s a rumor that it was one of the drink’s he stole from Don the Beachcomber. Bergeron always insisted otherwise, though. “I originated the Mai Tai,” he once said in an interview with The New York Times. “Anybody who says I didn't create this drink is a stinker.”
+
+Bergeron is also credited with creating tiki classics like the Fog Cutter and El Diablo, and he is responsible for one of the main tiki books, Trader Vic’s Book of Food & Drink. It was the first in a series of tiki-centric recipe books he went on to author. Throughout the rest of his life, Bergeron continued to expand his popular tiki haven into a multi-million dollar chain with 25 locations around the world. In 1951, he even followed his hero, friend and rival, Donn Beach, to Hawaii, where he opened a Trader Vic’s in Honolulu.
+
+Thanks to both Beach and Bergeron, tiki became more than just a cocktail trend. Those two men made it a lifestyle. The next time you find yourself holding a Mai Tai, be sure to raise your tiki mug to the two original tiki masters.
+
+
+Conclusion
+
+Rum continues to be popular throughout the world. With higher end brands coming into the market, its refined the category overall. Turning it from a beverage that some may just associate with a beach vacation, into a beverage that can be sipped and savored much like a fine cognac. And with a pricetag to match sometimes.
+
+So whether decided for a tropical cocktail or sipping a fine aged rum neat; know that you’re sipping history with a sometimes wild and dubious past.
+
+----------------------------
+ WHAT IS AGUARDIENTE?
+
+It is Colombia's national liquor and while it is also made in other countries such as Spain, Portugal and others throughout Latin America, Colombia is known for its Aguardiente. Translated to mean "fire water", there are several brands in Colombia with varying degrees of anise, some more fiery or sweet than others. Colombians drink Aguardiente year-round, but it's especially enjoyed during the holidays.
+
+Aguardiente is an anise-flavoured liqueur made from distilled sugar cane and contains between 24%-29% alcohol content. After the sugar cane is distilled, various amount of aniseed is added, giving it its licorice taste. To me, liquors made from anise taste exactly like liquid licorice.
+
+
+HOW TO DRINK AGUARDIENTE
+
+Because of Aguardiente's strong anise flavor, most people drink it without mixing it with juices or other liquors. So the next time you're in Colombia, order Aguardiente, prepare yourself for the shocked stare you'll get, and then drink away!
+--------------------------------
+What’s Cachaça
+
+Cachaça (pronounced kah-SHAH-sah) is a distilled spirit made from sugar cane juice. It is produced exclusively in Brazil and is often inaccurately thought of as rum. It’s most similar to Rhum Agricole; what they produce in French speaking Caribbean islands. (As both products are produced by using sugarcane juice, as opposed to molasses like traditional rum). The main difference between them is the location and types of wood used to age them in. Brazil’s national spirit, Cachaça —and its most famous cocktail, the Caipirinha—were mostly enjoyed in Brazil for the longest time. Now the spirit has started to travel the globe
+
+
+Cachaça vs. Rum
+
+It's easy to refer to Cachaça as Brazilian rum and when it was first imported into the U.S., Cachaça was listed as a category of rum, out of convenience. However, Cachaça was most likely created before rum and is credited by many historians as Latin America's first distilled beverage. It's more appropriate to consider Cachaça a separate category of liquor that's related to rum because they share a sugar-based distillate.
+
+
+The primary difference is that Cachaça is made from freshly pressed sugar cane juice. Rum, on the other hand, is most often distilled from sugar by-products like molasses (Rhum Agricole is made with sugar cane). It's a technicality, but an important one because Cachaça tends to have a raw, vegetal, fruity taste with a more subtle sweetness. Additionally, aged rums often spend time in used bourbon or sherry barrels while aged Cachaça may rest in native woods, which impart a unique and exotic flavor profile.
+
+
+Summary
+
+Ingredients: Sugar cane
+
+Proof: 80–100
+
+ABV: 40–50%
+
+Origin: Brazil
+
+Taste: Sweet, vegetal, fruity
+
+Aged: Unaged or up to 3 years or more
+
+Serve: Straight, on the rocks, cocktails, shots
+
+
+What Is Cachaça made from?
+
+Cachaça is made exclusively in Brazil and is the national spirit of the South American country. It had long been known as a poor man's drink though this has changed, and some brilliant artisan Cachaça s are produced today. There are over 3,000 legal distilleries in Brazil and nearly that same number producing Cachaça illegally. Just like any other distiller, those who make Cachaça can experiment with the sugar cane, distillation process, and barrel aging to bring out particular flavor nuances in the spirit.
+
+
+It is a requirement that Cachaça is fermented from freshly pressed sugar cane juice. The cane must be grown in Brazil, though distillers use different varietals to impart subtle variations in the Cachaça they produce. The juice is fermented with yeast to convert the sugar into alcohol and then distilled. Typically, it undergoes a single distillation and premium Cachaça s tend to use copper pot stills. Some styles of Cachaça are bottled directly after distillation or a period of resting in stainless steel tanks while others are aged.
+
+
+Aging makes Cachaça truly unique. Distillers may use American or French oak barrels, either new or used (previously housing spirits like bourbon or brandy). They may also use any variety of indigenous woods to create their barrels and each adds to the uniqueness of the Cachaça. A Cachaça aged in Brazil nut barrels will have a completely different flavor profile than one aged in zebrawood, for instance. Brazilian amburana, balsam, cabreúva, tapinhoã, and teak are among the many types of wood employed.
+
+
+The majority of Cachaça is 40 percent alcohol by volume (ABV, 80 proof). Some producers choose to bottle their specialty Cachaça s at a higher proof. As is the case with whiskey, this means you're getting a liquor with a fuller flavor.
+
+
+What Does It Taste Like?
+
+The flavor of Cachaça can vary greatly though it often has a subtle sweetness (much less than rum). It's often vegetal and has a few fruity notes. Many of the more industrial brands can have a chemical alcohol taste while top-shelf brands will have a more pronounced fruitiness and delicious undertones of sweets.
+
+
+Types
+
+Similar to rum and tequila, the different types of Cachaça are classified by color which is determined by how they're stored after distillation.
+
+
+Branca:
+
+"White" in Portuguese, Branca Cachaça s may also be labeled as Prata (silver), Clássica (classic), or Tradicional (traditional).
+
+These are either unaged, rested in stainless steel vats, or stored in wood that does not affect the spirit's color for less than one year.
+
+Amarela:
+
+Amarela means "yellow" and this type might be labeled Ouro (gold) or Envelhecida (aged).
+
+In order to qualify as an aged Cachaça, a bottle must be comprised of at least 50 percent Cachaça that spent a minimum of one year in barrels that hold no more than 700 liters. "Premium" aged Cachaça needs to be entirely made up of 1-year or older spirit while "extra premium" notes that all of the Cachaça is at least three years old.
+
+
+Popular Brands
+
+Exporting Cachaça has not been a priority for Brazil's distillers until recent years. Even now, the brands available in the U.S. and other countries are limited. The good news is that the majority of the Cachaça you will find outside of Brazil is premium quality. While you might enjoy one more than another, the chances are slim of finding a bad Cachaça.
+
+Avuá
+
+Bossa
+
+Cabana
+
+Leblon
+
+Novo Fogo
+
+Yaguara
+
+Ypióca
+
+
+How to Drink Cachaça
+
+Cachaça can be drunk anyway you like. Top-shelf Cachaça s are the best for sipping straight or enjoying on the rocks. Some people like it as a shot as well. It's also a very versatile liquor for cocktails and is quickly finding a home in the modern bar. However, Cachaça is so ingrained in Brazilian culture that it is best appreciated in the country's national drink, the caipirinha. It is to Cachaça what the old-fashioned is to bourbon and it's made in the same manner but with lime and sugar.
+
+
+Cocktail Recipes
+
+The caipirinha and batida are two essential Cachaça cocktails from Brazil. New recipes featuring it are continually being developed, pairing it with both common and exotic flavors. It can be used in many rum cocktails as well.
+
+Batida
+
+Café Brasileiro
+
+Caipirinha
+
+Raspberry Bellini
+
+Rhyme & Reason
+
+-----------------------
+
+ RUM flavors and aromas:
+there are three types of presentation styles for Rum. Brands vary in ingredients and styles, but they all fall broadly into a classification listed
+
+ Light
+
+ Delicate Light and dry slight
+ notes of barrel Aging
+
+ Medium 
+
+Hints of vanilla, Anise &
+Molasses
+
+Full Flavored 
+
+Full vanilla  & caramel flavors 
+molasses fruit & spicy notes
+
+ Nose:
+Banana
+Caramel
+Toffee
+Marshmallow
+Toast
+Cocout
+Spice
+white & black pepper
+Citrus (Lemon,Bitter & sweet orange,grapefruit,lime)
+Tobacco
+Pecans
+Vanilla 
+Mocha
+Smokey
+ Charcoal
+ Floral
+ Nutty
+ Walnut
+ Almond
+ Hazelnut
+ Alcohol
+ Medicinals 
+
+ Palate
+Toasty
+Vanilla
+Buttery
+Creamy
+Spicy
+Pepper
+Caramel
+Honey
+Maple Syrup
+Bread Dough
+Mineral
+Spices
+Tree Fruit
+Nuts
+Coffee
+Toffee
+
+Mouthfeel:
+Creamy
+Citrus
+Heat
+Sweetness
+Woody
+Acidic
+Dry
+Silky
+Rich
+Viscous
+
+
+
+
+
+
+
+
+
+
+
+
+
+============ LEGAL STANDARDS OF RUM U.S. & EUROPEAN UNION =============
+
+Legal Definitions U.S. & European Union
+
+
+United States
+
+TITLE 27--Alcohol, Tobacco Products and Firearms
+CHAPTER I--ALCOHOL AND TOBACCO TAX AND TRADE BUREAU, DEPARTMENT OF THE TREASURY
+SUBCHAPTER A—ALCOHOL 5.22
+
+The standards of identity.
+Standards of identity for the several classes and types of distilled spirits set forth in this section shall be as follows:
+
+(f) Class 6; rum. ‘‘Rum’’ is an alcoholic distillate from the fermented juice of sugar cane, sugar cane syrup, sugar cane molasses, or other sugar cane by-products, produced at less than 190° proof in such manner that the distillate possesses the taste, aroma and characteristics generally attributed to rum, and bottled at not less than 80° proof; and also includes mixtures solely of such distillates.
+
+
+European Union
+
+Regulation (EC) No 110/2008 of the European Parliament and of the Council of 15 January 2008 on the definition, description, presentation, labeling and the protection of geographical indications of spirit drinks and repealing Council Regulation (EEC) No 1576/89
+
+1. Rum
+
+(a) Rum is:
+
+(i) a spirit drink produced exclusively by alcoholic fermentation and distillation, either from molasses or syrup produced in the manufacture of cane sugar or from sugar-cane juice itself and distilled at less than 96 % vol. so that the distillate has the discernible specific organoleptic characteristics of rum, or
+
+(ii) a spirit drink produced exclusively by alcoholic fermentation and distillation of sugar-cane juice which has the aromatic characteristics specific to rum and a volatile substances content equal to or exceeding 225 grams per hectolitre of 100 % vol. alcohol. This spirit may be placed on the market with the word "agricultural" qualifying the sales denomination "rum" accompanied by any of the geographical indications of the French Overseas Departments and the Autonomous Region of Madeira as registered in Annex III.
+
+(b) The minimum alcoholic strength by volume of rum shall be 37, 5 %.
+
+(c) No addition of alcohol as defined in Annex I(5), diluted or not, shall take place.
+
+(d) Rum shall not be flavoured.
+
+(e) Rum may only contain added caramel as a means to adapt colour.
+
+(f) The word "traditionnel" may supplement any of the geographical indications mentioned in category 1 of Annex III where the rum is produced by distillation at less than 90 % vol., after alcoholic fermentation of alcohol-producing materials originating exclusively in the place of production considered. This rum must have a volatile substances content equal to or exceeding 225 grams per hectolitre of 100 % vol. alcohol and must not be sweetened. The use of the word "traditionnel" does not prevent the use of the terms "from sugar production" or "agricultural" which may be added to the sales denomination "rum" and to geographical indications.
+
+This provision shall not affect the use of the word "traditionnel" for all products not covered by this provision, according to their own specific criteria.
+
+
+
+
+
+
+
+
+
+========== LEGAL STANDARDS MARTINIQUE RHUM AOC ===============
+
+The 2014 Martinique Appellation d’Origine Contrôlée, in English
+
+
+Published in the AGRI BO of December 25, 2014
+
+Specifications of the controlled label of origin “Rhum agricole Martinique” approved by Decree No. 2014-1542 of 18 December 2014 concerning the controlled label of origin “Rhum agricole Martinique”, JORF of 20 December 2014
+
+SPECIFICATIONS OF THE DESIGNATION OF ORIGIN CONTROLLED
+
+“Rhum Agricultural Martinique”
+
+
+Part I Technical Sheet
+
+
+A. NAME AND CATEGORY OF THE APPELLATION
+
+Only those entitled to the controlled label of origin “agricultural rhum Martinique”, originally recognized by the Decree of 5 November 1996, can apply to agricultural rhums complying with the specific provisions set out below.
+
+The controlled label of origin ‘agricultural rhum Martinique’ is registered in Annex III to Regulation (EC) No 110/2008 of the European Parliament and of the Council of January 15th, 2008 in the category of rhum spirit drinks Annex II, Point 1.
+
+B. DESCRIPTION OF SPIRIT BEVERAGE
+
+Rhums with a controlled label of origin “rhum agricole Martinique” have at the time of marketing an alcoholic strength by volume greater than or equal to 40% and at least a content of volatile elements other than methyl and ethyl alcohol of 225 grams per hectolitre of pure alcohol.
+
+Rhums with a registered designation of origin “rhum agricole Martinique” and a “white” (“blanc”) label are characterized by their clarity and lack of color, low aggressiveness and aromatic finesse. Among the flavors present, one can notice especially fruity, floral, vegetable and spicy notes.
+
+The rhums with a controlled label of origin “rhum agricole Martinique” supplemented with the mention “old” (“vieux”) are characterized by their honey color with dark mahogany and their roundness. Among the aromas present, woody, fruity, spicy, empyreumatic, and balsamic aromas can be noted. These agricultural rhums contain at least a volatile element content other than methyl and ethyl alcohols of 325 grams per hectolitre of pure alcohol when marketed to the consumer.
+
+The rhums with controlled label of origin “rhum agricultural Martinique” aged in wood have characteristics related to the stay under wood whose coloring. These include fruity, floral, vegetal, spicy, balsamic and empyreumatic flavors. These rhums have a minimum content of volatile elements other than methyl and ethyl alcohol of 250 grams per hectolitre of pure alcohol when marketed to the consumer.
+
+C. DEFINITION OF THE GEOGRAPHICAL AREA
+
+The production of plant material for replanting, harvesting and sugar cane processing, distillation, maturation, aging of agricultural rhums and the conditioning of “old” agricultural rhums are carried out in the territory of the following municipalities, with the exception of islets and rocks of the department of Martinique:
+
+Ajoupa-Bouillon, les Anses-d’Arlets, Basse-pointe, Bellefontaine, Case-Pilote, Le Carbet, Le Diamant, Ducos, Fond-Saint-Denis, Fort-de-France, Le François, Grand-Rivière, Gros-Morne, Le Lamentin, Le Lorrain, Macouba, Le Marigot, Le Marin, Morne-Rouge, Morne-Vert, Le Précheur, Rivière-Pilote, RivièreSalée, Le Robert, Saint-Esprit, Saint-Joseph, Saint-Pierre, Sainte-Anne, Sainte-Marie, Sainte-Luce, Schoelcher, La Trinité, Trois Ilets, Le Vauclin.
+
+Sugar cane is harvested from cultivated plots in the production area bounded by cadastral (map) sections, plots or parts of plots, as approved by the National Institute of Origin and Quality at The competent national committee of May 22, 1996, February 27-28, 2001, September 6, 2007 and June 9, 2010.
+
+The National Institute of Origin and Quality shall submit to the municipalities concerned the graphic documents establishing the boundaries of the area so approved.
+
+D. DESCRIPTION OF THE METHOD OF OBTAINING:
+
+    Plant material
+
+Sugarcane varieties belong to the species Saccharum officinarum and Saccharum spontaneum or derived from their hybridization.
+
+They are the subject of acclimatization, multiplication and selection work in the geographical area over a minimum period of 4 years before any use with a view to the development of agricultural rhum with controlled label of origin “agricultural rhum Martinique “. Transgenic (genetically modified) sugar cane varieties are prohibited.
+
+    Cultivation of cane
+
+Sugar cane irrigation is limited to a maximum period of 6 months following the date of cutting or planting. It is prohibited between December 1st and the cut date. Any substance intended to promote the maturation of canes is prohibited.
+
+    Cane harvest
+
+For a harvest year, the cutting period shall begin no earlier than January 1st and end no later than August 31st of the year concerned.
+
+    Analytical criteria for cane juice
+
+The juices extracted from the rods have the following values:
+
+    richness in sugars greater than or equal to 14 ° Brix;
+
+    pH greater than or equal to 4.7.
+
+The values ​​of brix and pH are calculated on the average of the day’s loadings from the same plot.
+
+    Cane yields and entry into production
+
+The yield of a parcel is the ratio between the weight of the canes harvested on the parcel and implemented at the distillery, and the planted area of ​​that parcel. This yield must be less than or equal to 120 tons of cane per hectare. A parcel may enter production in the year following planting.
+
+    Juice Extraction
+
+Before grinding by mills, the rods are cut by cane cutters or shredders, which can be combined.
+
+The extraction of the juice combines mechanical pressure and an imbibition of the rods. The pressure is exerted cold in horizontal mills. The imbibition is carried out exclusively at ambient temperature from water or small juices from the last mills.
+
+The juice is clarified by mechanical methods without heating or liming.
+
+    Conduct of fermentation
+
+The fermentation of the juices is of the discontinuous type, in an open tank of inert material with a maximum capacity of 500 hectoliters. Continuous and closed fermentations are prohibited.
+
+The use of any technique for enriching sugars in the juice, in particular by adding by-products of the manufacture of sugar (syrup or molasses) is prohibited.
+
+The maximum duration of fermentation is limited to 120 hours from the end of the tanking of the juice until distillation.
+
+Fermented juices shall have an alcoholic strength by volume not exceeding 7.5%.
+
+    Distillation
+
+Distillation takes place between January 2nd and September 5th of the year in question.
+
+The traditional principle is the continuous multi-stage distillation with reflux (distillation by column comprising a zone of exhaustion and a zone of concentration in which are installed trays ensuring the contact between the liquid and gaseous flows which cross them against the current).
+
+The main characteristics of the installations are as follows:
+
+    The heating of the fermented cane juice is carried out by direct injection of steam or by a boiler in which the steam heats the vinasse through a tubular exchanger;
+
+    The column is composed of:
+
+        A depletion zone with at least 15 stainless steel or copper trays;
+
+        An all-copper concentration zone with 5 to 9 trays;
+
+    The diameters of the columns are between 0.7 and 2 meters in the depletion zone;
+
+    Retrogradation (reflux) is carried out by one or more wine heaters or condensers.
+
+Each installation includes a combination of water heaters (s) and water condenser (s) that condense and cool the vapors. The condensates from these heat exchangers are directed in different combinations either at the head of the concentration column or towards the casting.
+
+The extraction processes on the liquid phase during distillation making it possible to modify the partial concentration of the distillate in certain compounds (rectification) are prohibited.
+
+The compounds deemed undesirable are downgraded in the residue (vinasse) or eliminated in the atmosphere by degassing trumpets.
+
+The agricultural rhum produced over a day shows in the daily collector an alcoholic strength by volume:
+
+    Greater than or equal to 65%;
+
+    Less than or equal to 75%.
+
+    Rhum breeding
+
+The “white” agricultural rhums show no coloring and have a minimum period of maturation in tanks of 6 weeks after distillation. (This typically refers to resting in metal tanks.)
+
+Agricultural rhum “grown under wood” (?) is housed in an oak wooden container and aged at least twelve months after being placed in wood.
+
+“Vieux” (old) agricultural rhums are aged in an oak wooden container with a capacity of less than 650 liters at least three years after being placed in wood.
+
+The “vieux” agricultural rhums for which the vintage of the distillation year (also termed a “millesime”) is claimed are aged in an oak wooden container with a capacity of less than 650 liters at least six years after being placed in wood. (Note: There are longer age statements that are addressed later.)
+
+The minimum durations defined above are realized without interruption, with the exception of the manipulations required for the production of the products. (This refers to transferring rhum between barrels, such as when “topping up” barrels that have lost rhums due to evaporation.)
+
+    Finishing
+
+Finishing methods are permitted in such a way that their effect on the obscuration of agricultural rhum is less than 2% vol. Obscuration, in particular as a result of the extraction of wood or the adaptation of coloring, Addition of caramel, expressed in % volume, is obtained by the difference between the actual alcoholic strength by volume and the gross alcoholic strength by volume. (This is important and vaguely worded. Some experts have stated that this clause allows some amount of sweetening to be added. This controversial addition comes as a surprise to many people.)
+
+E. ELEMENTS SUPPORTING THE LINK TO THE GEOGRAPHICAL ENVIRONMENT
+
+    Description of the natural factors and human factors of the link to the soil
+
+The geographical area covers the island of Martinique. The tropical climate of Martinique is influenced by trade winds and very hot marine currents coming from the equator. With a warm and humid season from June to December and a drier season between January and May, this climate is generally in line with sugar cane production, which requires temperatures above 20° C, heavy precipitation during the period of vegetative growth and a period of moderate water stress during the maturation phase. However, within the island, certain sectors are less favored for the production of canes for agricultural rhum. As a result, a sugar cane growing area is delineated within the geographical area.
+
+It first espouses the orographic and rainfall boundaries by excluding the mountainous and rainy part of the north of the island and prevents mainly the soils presenting a strong hydromorphic in the first 50 centimeters especially present in the bottoms of alluvial valleys and the soils of coastal areas and mangroves with salty upwelling.
+
+However, within this delimited area, depending on the altitude and the exposure to the winds, there is a great diversity of climatic regions associated with numerous microclimates with different characteristics depending on the soil water reserve, precipitation regime and of the daily thermal amplitude (temperature swigs). Each of these sectors in which sugar cane behaves differently, houses the cane sole for the supply of distilleries on the island.
+
+This sole cane is characterized by the presence of fifteen varieties whose spatial distribution varies according to their adaptation to the microclimatic characteristics of each sector.
+
+The know-how of sugar cane cultivation has been organized around varietal selection (see historical elements) and the mechanization that has accompanied the development of cane cultivation for decades.
+
+    Historical elements concerning the factors linked to the terroir
+
+The cultivation of sugar cane began in Martinique around 1640 (the Rouennais TREZEL obtained the monopoly of the manufacture of the sugar in 1639) then it developed under the influence of Portuguese and Dutch emigrants. This production was exclusively carried out until the end of the 19th century in “maison” (houses), a term that designates an entity for the production of cane and its attendant transformation of the place of life of all those who work there.
+
+Plant material
+
+The cane was introduced in America with a variety called Creole Cane, which would have been the only one cultivated until the introduction, of the Ile Bourbon in 1785, of a new variety, known as Cane d’Othaite or Canne Bourbon. Other introductions in the nineteenth century succeeded the Lesser Antilles.
+
+At the end of the 19th century, the propagation of canes by seedling was developed, and pollinations could be controlled, with the production of the first seeds from directed fertilization of cane flowers, in two agronomic research centers, A Dutch in Java, the other English in Barbados.
+
+Thus appeared a profusion of varieties chosen empirically by the industrialists and the planters whose adaptation to the local characteristics proved sometimes catastrophic. In order to avoid the uncontrolled introduction of exogenous plant material in Martinique, the Sugar Cane Technical Center (CTCS) was created in 1952. Then in the 1960s and 1970s, control of the introduction and spread of varieties was introduced from the introduction of systematic trials to monitor the botanical, agronomic and technological characteristics of the new hybrids coming from a dozen international agronomic selection stations.
+
+More than six hundred varieties are compared on the station of the CTCS and each year between fifty and one hundred new pre-selected clones are implanted. In this way, some 4,000 hybrid varieties were tested in Martinique in the second half of the 20th century.
+
+Development of the rhum industry in Martinique
+
+From the 17th century onwards, the molasses supplied by the refining of sugar was fermented and then distilled with the aid of crude appliances consisting of a boiler connected to a coil placed in a cask of cold water.
+
+As elsewhere at that time, rhum was essentially in Martinique a by-product of sugar, hot and cheap. Its export to the first forbidden metropolis (Continental France) will be strictly framed at the end of the 18th century and gradually liberalized at the beginning of the 19th century. In 1854, with the total abolition of customs duties by the Napoleon III government, production and exports to the metropolis exploded to make Martinique the world’s largest producer of rhum in the last decade of the 19th century with more than 220,000 Hl to 55% vol.
+
+In the 19th century, a number of technological innovations revolutionized the production of rhum in Martinique.
+
+Emergence of agricultural rhum
+
+The arrival of the first steam engines, which will increase the cane crushing capacity and improve the extraction of sugar, will upset the cane economy of the eighteenth century. These machines, which are based on the combustion of residues from cane pressing (bagasse), will make it possible to establish, in the most accessible regions, genuine independent sugar mills that used to be used for the hydraulic power of rivers. Between 1884 and 1896 a severe crisis of overproduction led to the closure of the most uncompetitive Martinique dwellings. Several of them,
+
+Ruined by the loss of their outlets, abandon the production of sugar for which they are no longer competitive and are then converted into the manufacture of rhum, exclusively produced from cane juice. Thus begins the production of agricultural rhum which will take a considerable boom in Martinique while the Martinique sugar economy will have to suffer from the competition of others with better sugar yields.
+
+Installation of distillation columns
+
+At the same time, the continuous distillation columns adapted to the materials used in Metropolitan France for the production of beet alcohol, known as Creole columns, are gradually replacing discontinuous ironing machines in Martinique and Guadeloupe. These creole columns have great advantages in terms of energy consumption, ease of operation and above all production capacity, which makes it possible to treat quickly the fermented cane juice (or vesou) whose quality does not wait (it spoils quickly). On the other hand, since they are inferior to the stills in order to carry out the fractionation of the impurities, specific know-how and distillation materials will gradually be established in order to collect the high-boiling esters, which contribute considerably to the tormation of the natural bouquets while eliminating the impurities which, by their unpleasant smell and taste, depreciate the eau-de-vie. Thus, heating of the fermented cane juice to be distilled will be strengthened by the use of powerful boilers or large capacity wine heaters, and the columns whose diameter is increased will contain only a few concentrating plates. On the other hand, bare-fire heating disappears in favor of the use of steam from the exhaust of steam engines which produce from bagasse the energy required to grind the cane in each of the distilleries.
+
+Analytical Characteristics
+
+At the end of the 1914-1918 war (World War I), rhum production reached levels never before seen. Rhum, the only alcoholic beverage whose production has not been hampered by the fighting has been abundantly consumed in Metropolitan France and the distilleries have developed their production tools to meet the demand. Martinique, which in 15 years has recovered from the destruction of Saint Pierre (due to the volcanic eruption of Mount Pelée in 1902), remains the main supplier of rhum in the metropolis. But at the end of hostilities, the needs are no longer the same and overproduction is rampant. From this crisis emerges a regulatory environment that will strongly orient the characters of the agricultural rhum of the French Antilles and mainly of the agricultural rhum of Martinique.
+
+In the face of declining prices, producers distilled very high grade rectified alcohols, which were less expensive to produce and transport. Under the pressure of the other French regions producing spirits, in 1922, the authorities were contingent on the entry into France of rhum from the French West Indies exempt from the tax levied on foreign spirits. On the other hand, the importation of high-grade rhum is prohibited in order to protect the metropolitan industrial alcohol industry which is reorganized after the destruction of the war. In 1938, rhum was defined on the basis of analytical standards, and in particular a minimum quantity of non-alcohol elements, which made it possible to verify that the spirits had not been distilled at a high alcohol content. These parameters, maximum degree of distillation and minimum content of volatile substances, have remained elements of the definition of the product since, even now, national or Community regulations derive from the 1938 text.
+
+    Components related to the reputation of the product
+
+The rhum of Martinique is an agricultural rhum, obtained from the fermented juice of the sugar cane. It thus presents analytical characteristics that distinguish it from molasses rhums. Among the agricultural rhums, Martinique rhum has original organoleptic characteristics.
+
+The first agricultural rhum of Martinique was reported at the beginning of the 19th century, at the sugar factory of Fonds Préville in the municipality of Macouba. The notoriety of Martiniquan agricultural rhums was established as early as the Universal Exhibition of 1855, as evidenced by the first and second class medals won by the Martiniquais Rousseau and Morin fils and Raboutet respectively.
+
+The rise of the agricultural rhum generates various frauds which elicit the creation in 1895 of the agricultural union of Martinique by the agricultural rhumics of Martinique. Its object was to maintain “the good reputation” of the agricultural rhum of Martinique by fighting “the frauds to which its sale in France gives rise”.
+
+To this end, the trade union has issued certificates of origin which ensured that the sweet materials originating from the rhum were produced exclusively from the canes of the mentioned dwelling and not from foreign molasses. This certificate enabled the beneficiary to affix the trade mark to the drums and bottles constituting the certified consignment.
+
+This action was continued by the creation in 1935 of a specific trade union which proposed bottled rhums with guarantee of origin and quality control by a tasting commission. This collective practice of tasting has always been maintained and has been integrated into the heart of operations to control the quality of the appellation d’origine contrôlée.
+
+After the Second World War, unlike the production of molasses rhum, which declines as a result of the decline in sugar production, agricultural rhum production is growing from the dynamism of local consumption and from the notoriety to the metropolis of major brands.
+
+Special case of old rhum
+
+From the beginning of the twentieth century, Martinique embarked on the production of “old” agricultural rhums under the leadership of Mr. Jacques BALLY. This production, which quickly became commercially successful, was soon threatened by counterfeit products in Metropolitan France, suggesting by their coloring and labeling that they were aged under wood. To guarantee to the consumer the presentation of rhums resulting from an aging under wood of several years in Martinique, develops before the Second World War, their expedition in bottles.
+
+The regulation made this condition mandatory by Decree 63-765 of 25 July 1963 for the application of the amended law of 1 August 1905 on the prevention of fraud, which reserved the term old Rhums:
+
+    Containing at least 325 grams per hectolitre of pure alcohol of volatile substances;
+
+    Having been aging for at least three years in oak wood vessels with a capacity of not more than 650 liters;
+
+    Having been bottled and labeled by the holder of an aging account.
+
+In fact, since the allocation of aging accounts has been linked to a distiller or breeder activity, the packaging of old rhums has always been carried out in the production area.
+
+    Causal link between the geographical area, quality and characteristics of the product
+
+The typicality of agricultural rhum with controlled label of origin Martinique is the result of a combination of elements relating to the natural environment of the island and to the history of traditional rhum of the Antilles.
+
+The production of sugar cane is favored by the climatic conditions of Martinique which allow both its vegetative growth during the wet season and its maturation during the dry season.
+
+However, the topographical conditions of some landlocked areas of the island have not allowed to follow the intensification of production demanded from the nineteenth century by the sugar industry. As a result, some dwellings have been forced to switch to agricultural rhum production.
+
+This production of agricultural rhum was able to develop thanks to technological innovations arrived in the West Indies such as the steam engine which operates thanks to the burning of the bagasse or the continuous distillation columns coming from Metropolitan France.
+
+These columns have been adapted to take into account the specificities of fermented cane juice, which are themselves derived from the conditions of fermentation and therefore from the climatic characteristics. The materials had to evolve in order to comply with the regulations governing traditional rhum when it was established between 1922 and 1938 (maximum alcoholic strength by volume and minimum content of volatile substances) and specific know-how of distillation developed in this particular context.
+
+These regulatory constraints have also had an impact on the conditions under which the cane was put into operation because, since it was impossible to raise the alcoholic strength by volume in order to get rid of undesirable tastes, the distilleries in Martinique had to act on the quality of the raw materials to produce agricultural rhums appreciated by consumers. For example, in the production of agricultural rum, the presence of distilleries is necessary in order to shorten the time between cutting and distillation, thus avoiding bacterial alterations and improving the quality of the distilleries. Fermented cane juice. Under the influence of high ambient temperature and dwellings made of oak barrels, aging is marked by a strong evaporation, an acceleration of the oxidation reactions and extraction of the compounds of the wood giving to the old rum all its Organoleptic characteristics
+
+Obligation of conditioning in the area of ​​old rhums
+
+The requirement for conditioning in the area ensures the quality conferred by the specific requirements of the “old” agricultural rhum: minimum aging duration, maximum housing capacity, physicochemical characteristics … (see 3.Elements related to Reputation of the product). It avoids the transport of rhums by boat of several weeks to the centers of consumption. This transport in tanks by necessarily interrupting before bottling, the obligation of aging under housing of small capacity wood required for “old” rhums constitutes a risk for the identity and quality of these products and therefore for their notoriety .
+
+Consequently, the packaging in the area limits the manipulation and transfer of rhums, which constitute, like the transport in tanks, a risk of alteration.
+
+Lastly, the conditioning in the area allows a greater control of the quality of the old rhums, which would make it very difficult to separate between the places of production and the operators who would market them. This control includes, in particular, the monitoring of the aging accounts and an analytical and organoleptic examination on the rhum in bottles.
+
+F. NAME AND ADDRESS OF APPLICANT
+
+Trade Union of Defense of the Designation of Origin “Rhum Agricole Martinique”
+
+Factory SOUDON
+
+Route of the Green Pre
+
+97232 Le Lamentin
+
+Tel: 05 96 51 93 35
+
+aocmartinique@codermq.com
+
+G. CONTINGENT REQUIREMENTS TO BE OBSERVED UNDER COMMUNITY AND / OR NATIONAL PROVISIONS
+
+H. POSSIBLE GEOGRAPHICAL INDICATIONS OR ADDITIONAL LABELING RULES
+
+The rhums for which the controlled label of origin “agricultural rhum Martinique” is claimed cannot be put up for sale or sold without the name mentioned above being registered and accompanied by the words “appellation d’origine contrôlée”, or ” Appellation contrôlée “, all in very apparent characters.
+
+The controlled label of origin “agricultural rhum Martinique” is compulsorily supplemented with the words “white” or “old” for rhums meeting the production conditions fixed for these mentions in this specification.
+
+No denomination suggesting an aging can appear on the labeling of other agricultural rhum Martinique than the “old” rhums.
+
+The words “white” or “old” are inscribed in the same visual field as that of the controlled designation of origin and in dimensions of characters which must not be greater than both height and width than those of the component the name of the appellation.
+
+The following statements relating to an aging period may only supplement the term ‘old’ if the minimum durations defined below are achieved without interruption, except for the manipulations required for the product:
+
+    “VO” for agricultural rhums aged at least 3 years;
+
+    The words “VSOP”, “Réserve Spéciale”, “Cuvée Spéciale”, “Très Vieux”, for agricultural rhums aged at least 4 years old;
+
+    The words “Extra Vieux”, “Grande Réserve”, “Hors d’Age ” and “XO” for agricultural rhums aged at least 6 years old.
+
+On the movement titles, invoices and any commercial document mentioning the controlled label of origin “Martinique rhum” in rhum “old” must appear at least either the age account of the rhum shipped or one of the designations -above.
+
+In any drink, when an agricultural rhum enjoying the controlled label of origin “Martinique rhum” is used in conjunction with another rhum, the mixture thus obtained loses the right to the benefit of the said appellation of origin.
+
+
+Part II Reporting obligations and record keeping
+
+    Reporting obligations
+
+Operators shall make the following declarations:
+
+Declaration of partial allocation
+
+Agricultural rhums benefiting from the controlled label of origin “agricultural rhum Martinique”
+
+Come from cane harvested from parcels located in the production area defined in C and which have been the subject of a declaration of allocation.
+
+This declaration is forwarded to the defense and management body before January 1st preceding the cutting period. It includes in particular the references of the producer, the cadastral references of the parcels, the planted area and the cultivated varieties.
+
+Any modification of the parcels must be declared by January 1st before the cutting period.
+
+Declarations of commencement and termination of works, interruption or resumption of distillation works
+
+A copy of these declarations provided for in the general regulations shall be transmitted to the defense and management body within the same time limit. The total of the quantities claimed per campaign is appended to the declaration of completion of work.
+
+Declaration of claim
+
+This declaration shall be forwarded to the defense and management body each year not later than February 10th of the year following the distillation period.
+
+It summarizes the quantities in volumes and pure alcohol of rhums in AOC “Martinique rhum” developed from their distillation.
+
+It divides these rhums into the different categories: “blanc” (“white”), “élevé sous bois” (“high in wood”), “vieux” (“old”). It indicates the volumes that may be decommissioned or re-allocated to one or other of these categories during the year.
+
+Each claim shall include the following references for the quantity concerned:
+
+    Distillation period;
+
+    Volume in hl (hectoliters) of pure alcohol;
+
+    housing reference;
+
+    list of the plots of cane used;
+
+    Weight of cane received per plot.
+
+Declaration of placing in wood
+
+This declaration shall be transmitted to the defense and management body at the latest when the statement of claim is transmitted. It includes in particular the dates and place of distillation of agricultural rhum and the address of the cellar, the capacity of the dwellings used, the volume and the alcoholic strength by volume
+
+From agricultural rhum to logging.
+
+    Record Keeping
+
+Reception register for canes
+
+This record includes the following: date of delivery, identification of carrier, reference planter, reference plots, weight, analytical characteristics (pH and Brix degree)
+
+Fermentation log
+
+This register includes the following elements: Tank number, date and time of vatting, volume of cane juice put into fermentation.
+
+Distillation register
+
+This register shall include, in particular: the date and time of start and end of distillation, the references of the distilled vats, the alcoholic strength by volume of the distilled vats, the quantity and alcoholic strength by volume of the agricultural rhums obtained (in the daily collector)
+
+Summary record of old rhums and their dwellings
+
+This register includes the following summary elements: total volume of old rhums and total volume of aging rhums and total capacity of their dwellings.
+
+Monthly log of entry and exit of distillation rhums
+
+The register shall include at least the following: inputs, outputs and initial and final stocks of rhums of each category and additional information in pure alcohol.
+
+Each distribution of the quantities committed by category (“blanc”, “vieux”, “élevé sous bois”) is the subject of a specific line for recording movements.
+
+The registers and declarations provided for by the general regulations, in particular the Monthly Customs Summary Report (DRM), the annual inventory or the material accounting booklets may be used for the presentation of such data.
+
+
+Part III Main points to check and evaluation methods
+
+Main points to be checkedEvaluation methodsArea for the production, harvesting, processing, distillation, maturation, aging of agricultural rhums, and conditioning of “old” agricultural rhumsDocument reviewFermentation equipment (vats) Distillation equipment (composition and dimensioning of columns)Visual inspection and / or document reviewMaximum yieldDocument reviewCutting periodDocument reviewDegree Brix and pH: minimum values of juice extracted from canesMeasuresMaximum TAV of fermented cane juiceDocument reviewAnalytical characteristics at distillation: Minimum and maximum TAVAnalytical ControlsMaximum capacity of “old” agricultural rhum housingDocument Review and / or Visual InspectionMinimum maturation, aging or agingDocument review and / or Number of dwellingsOrganoleptic characteristics of “white” rhums and rhums grown under woodOrganoleptic examinationOrganoleptic characteristics of “old” rhumsOrganoleptic examination reinforced on packaged productsAnalytical characteristics of “white” rhums and wood-rumAnalytical reviewAnalytical characteristics of “old” rhumsReinforced analytical review on packaged products
+
+
+References for control structures
+
+National Institute of Origin and Quality (I.N.A.O.)
+
+12, rue Henri Rol-Tanguy
+
+TSA 30003
+
+93555 – MONTREUIL-SOUS-BOIS CEDEX
+
+Tel: (33) (0) 1.73.30.38.00
+
+Fax: (33) (0) 1.73.30.38.04
+
+Email: info@inao.gouv.fr
+
+The control of compliance with these specifications is carried out by a third party body offering guarantees of competence, impartiality and independence under the authority of INAO on the basis of an approved inspection plan.
+
+The inspection plan recalls the self-checks carried out by the operators on their own activity and the internal controls carried out under the responsibility of the defense and management body. It indicates the external controls carried out by the third party body as well as the analytical and organoleptic examinations.
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+-------------------- VODKA --------------------------
+
+flavors 
+popcorn potatto Grapes beetroot sugarcane cereal grains++
+
+ABVs:
+
+
+Currently, typical Belarusian, Polish, Russian and Lithuanian Vodkas:
+40 percent alcohol by volume pr 80 proof. 
+
+for any "European Vodka" by the European Union:
+A minimum 37.5% ABV or alcohol by volume has been established
+
+
+
+ ancient predecessors that are still around and being enjoyed today.
+
+Russian Yubileynaya or "Anniversary vodka":
+- is an example of flavored vodka which sometimes includes bitter tinctures and is made from malt spirit and water. 
+
+Pertsovka:
+- its vodka flavored with honey and pepper,
+- known in Russia
+
+15
+01:17.030 --> 01:23.950
+Zubrowka Polish or Zubrovka  Belarus:
+- In these countries the leaves of Bison Grass are used to make this type of vodka.
+It has mildly sweet flavors, herbal qualities and amber coloring.
+
+18
+01:33.000 --> 01:39.460
+Nalyvka in Ukraine and Nalewka in Poland and sometimes used in the Ukraine:
+- Is a distinct kind of vodka based spirit, using flavors that include fruit, roots, flowers, and herbs.
+- These are usually made at home or produced by small distilleries.
+
+21
+01:52.410 --> 01:59.150
+Akvavit:
+- It's distilled from either grain in Denmark, Sweden, and Germany or potatoes in Denmark, Sweden, and Norway.
+- After distillation Akvavit's flavored with herbs, spices or fruit oils. 
+
+Horilka:
+
+- Its Ukrainian and it's usually distilled from honey or grains but it can be distilled also from potatoes, sugar, or beets
+
+
+Starka:
+
+- It's a traditional dry vodka distilled from rye grains, currently produced only in Poland.
+- Starka is made from natural rye spirit and aged in oak barrels with small additions of lime tree and apple tree leaves.
+- It may be distilled up to two times with no additional refinement. 
+
+Korn:
+
+- It's a German distilled beverage that's usually made from rye, but at times made from barley or wheat.
+- It's less filtered typically than vodka, leaving more congeners and thus more grain taste in the final product.
+
+
+Krupnik in Lithuania and Poland:
+
+- It's a traditional sweet alcoholic beverage or liqueur based on grain spirits and honey.
+- Its origins trace back to their early 1300's and it was used traditionally for medicinal purposes. 
+This was because it was mixed with honey.
+- Also known for its healing powers during that time. Goldwasser. It's a Polish beverage very similar 
+to vodka flavored with roots and herbs.
+- Its production can be traced back to ancient times
+
+
+Krydda Brannvin. Nordic countries:
+- follow flavoring traditions. 
+- Flavored with herbs, fruits, and spices.
+- This type of vodka is often served for holidays in midsummer.
+- Sweden has over 40 common kinds of herb flavored vodkas. As we can see there's many variations that you
+may or may not have heard of.
+
+
+
+
+00:56.040 --> 01:01.170
+Later the development of the "Coffey" or continuous still change the world of spirits after these first
+
+
+38
+02:52.990 --> 02:58.450
+produced from fruits, grains, potatoes, or any number of flavored alcohol infusions.
+
+
+57
+04:04.240 --> 04:09.310
+The following brands produced a majority of flavored vodkas Stolichnaya from Russia, Finlandia from
+
+58
+04:09.310 --> 04:11.980
+Finland and Absolut from Sweden.
+
+
+--
+
+
+ two basic types. Plain and flavored. Plain
+
+4
+00:21.870 --> 00:27.570
+Vodka is a simple mixture of essentially nothing more than a mixture of 40% Ethanol and 60%
+
+5
+00:27.570 --> 00:28.420
+water.
+
+6
+00:28.440 --> 00:33.540
+Of course there may be small amounts of impurities or congeners in the mix but they're truly minute.
+
+7
+00:33.900 --> 00:38.590
+Basic vodka is alcohol, water, and trace amounts of sugar and citric acid.
+
+8
+00:38.670 --> 00:40.280
+When we say vodka tastes good,
+
+9
+00:40.380 --> 00:44.880
+what we really mean is that the Vodka has a clean, smooth, and neutral taste.
+
+
+
+Mixes:
+
+French Martini
+
+INGREDIENTS:
+
+2 OZ (60ml) Vodka
+½ OZ (15ml) Chambord or (Crème de Cassis Liqueur)
+1 ½ OZ (45ml) Pineapple Juice
+GARNISH: Raspberry or Lemon Twist
+
+
+Banana Split Martini
+
+INGREDIENTS:
+
+1 ½ OZ (45ml) Vodka
+¾ OZ (22ml) Crème de cacao
+½ OZ (22ml) Banana Liqueur
+Splash Cream (optional)
+GARNISH: Banana, Whipped Cream, Chocolate, Cherry
+
+Bay Breeze
+
+simple vodka and fruit juice drink refrshing on hot days. 
+Preferable more cranberry juice to pineaple
+
+
+INGREDIENTS:
+
+1 ½ OZ (45ml) Vodka
+2 OZ (60ml) Cranberry Juice
+2 OZ (60ml) Pineapple Juice
+(Equal Parts each Juice)
+GARNISH: Lime
+
+Black Russian
+
+Delicious and simple coctail
+
+
+INGREDIENTS:
+
+1 ½ OZ (45ml) Vodka
+1 ½ OZ (45ml) Kahlúa or other coffee liqueur
+GARNISH: NO GARNISH

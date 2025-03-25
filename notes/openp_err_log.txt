@@ -1,0 +1,714 @@
+[2024-03-06 10:00:40] ╭──────────── git repo clone ───────────╼
+[2024-03-06 10:00:40] │  › fetching app source code
+[2024-03-06 10:00:40] │ => Selecting branch "main"
+[2024-03-06 10:02:55] │ => Checking out commit "ec906927664f92c44d35073baafb7c42d2d29f2e"
+[2024-03-06 10:02:58] │ 
+[2024-03-06 10:02:58] │  ✔ cloned repo to /workspace
+[2024-03-06 10:02:58] ╰────────────────────────────────────────╼
+[2024-03-06 10:02:58] 
+[2024-03-06 10:02:58] ╭──────────── buildpack detection ───────────╼
+[2024-03-06 10:02:58] │  › using Ubuntu 22.04 stack
+[2024-03-06 10:02:58] │ Detected the following buildpacks suitable to build your app:
+[2024-03-06 10:02:58] │ 
+[2024-03-06 10:02:58] │    heroku/nodejs-engine         v1.5.3    
+[2024-03-06 10:02:58] │    heroku/ruby                  v1.244.3  (Ruby)
+[2024-03-06 10:02:58] │    digitalocean/ruby-appdetect  v0.0.3    
+[2024-03-06 10:02:58] │    digitalocean/procfile        v0.0.4    (Procfile)
+[2024-03-06 10:02:58] │    digitalocean/custom          v0.1.2    (Custom Build Command)
+[2024-03-06 10:02:58] │ 
+[2024-03-06 10:02:58] │ For documentation on the buildpacks used to build your app, please see:
+[2024-03-06 10:02:58] │ 
+[2024-03-06 10:02:58] │    Ruby  v1.244.3  https://do.co/apps-buildpack-ruby
+[2024-03-06 10:02:58] ╰─────────────────────────────────────────────╼
+[2024-03-06 10:02:58] 
+[2024-03-06 10:02:58] ╭──────────── app build ───────────╼
+[2024-03-06 10:02:58] │ ---> Node.js Buildpack
+[2024-03-06 10:02:58] │ ---> Installing toolbox
+[2024-03-06 10:02:58] │ ---> - jq
+[2024-03-06 10:03:00] │ ---> - yj
+[2024-03-06 10:03:02] │ ---> Getting Node version
+[2024-03-06 10:03:02] │ ---> Resolving Node version
+[2024-03-06 10:03:07] │ ---> Downloading and extracting Node v16.17.1
+[2024-03-06 10:03:13] │ ---> Parsing package.json
+[2024-03-06 10:03:14] │ ---> No file to start server
+[2024-03-06 10:03:14] │ ---> either use 'docker run' to start container or add index.js or server.js
+[2024-03-06 10:03:15] │ -----> Installing bundler 2.3.10
+[2024-03-06 10:03:15] │ -----> Removing BUNDLED WITH version in the Gemfile.lock
+[2024-03-06 10:03:20] │ -----> Compiling Ruby/Rails
+[2024-03-06 10:03:25] │ -----> Using Ruby version: ruby-3.2.1
+[2024-03-06 10:03:25] │ -----> Loading Bundler Cache
+[2024-03-06 10:03:25] │ -----> Installing dependencies using bundler 2.3.10
+[2024-03-06 10:03:25] │        Running: BUNDLE_WITHOUT='development:test' BUNDLE_PATH=/layers/heroku_ruby/gems/vendor/bundle BUNDLE_BIN=vendor/bundle/bin BUNDLE_DEPLOYMENT=1 bundle install -j4
+[2024-03-06 10:03:31] │        Fetching gem metadata from https://rubygems.org/.......
+[2024-03-06 10:03:31] │        Fetching https://github.com/opf/omniauth
+[2024-03-06 10:03:32] │        Fetching https://github.com/opf/md-to-pdf
+[2024-03-06 10:03:36] │        Fetching https://github.com/opf/omniauth-openid_connect-providers.git
+[2024-03-06 10:03:37] │        Fetching https://github.com/opf/omniauth-openid-connect.git
+[2024-03-06 10:03:39] │        Fetching rake 13.0.6
+[2024-03-06 10:03:40] │        Installing rake 13.0.6
+[2024-03-06 10:03:40] │        Fetching concurrent-ruby 1.2.2
+[2024-03-06 10:03:40] │        Fetching minitest 5.19.0
+[2024-03-06 10:03:40] │        Fetching builder 3.2.4
+[2024-03-06 10:03:40] │        Fetching erubi 1.12.0
+[2024-03-06 10:03:40] │        Installing erubi 1.12.0
+[2024-03-06 10:03:40] │        Installing builder 3.2.4
+[2024-03-06 10:03:40] │        Installing minitest 5.19.0
+[2024-03-06 10:03:40] │        Fetching racc 1.7.1
+[2024-03-06 10:03:40] │        Installing concurrent-ruby 1.2.2
+[2024-03-06 10:03:40] │        Installing racc 1.7.1 with native extensions
+[2024-03-06 10:03:40] │        Fetching crass 1.0.6
+[2024-03-06 10:03:40] │        Fetching rack 2.2.8
+[2024-03-06 10:03:40] │        Installing crass 1.0.6
+[2024-03-06 10:03:40] │        Installing rack 2.2.8
+[2024-03-06 10:03:40] │        Fetching nio4r 2.5.9
+[2024-03-06 10:03:40] │        Installing nio4r 2.5.9 with native extensions
+[2024-03-06 10:03:40] │        Fetching websocket-extensions 0.1.5
+[2024-03-06 10:03:40] │        Fetching marcel 1.0.2
+[2024-03-06 10:03:40] │        Installing websocket-extensions 0.1.5
+[2024-03-06 10:03:40] │        Fetching mini_mime 1.1.5
+[2024-03-06 10:03:40] │        Installing marcel 1.0.2
+[2024-03-06 10:03:40] │        Installing mini_mime 1.1.5
+[2024-03-06 10:03:40] │        Using date 3.3.3
+[2024-03-06 10:03:40] │        Fetching timeout 0.4.0
+[2024-03-06 10:03:40] │        Fetching method_source 1.0.0
+[2024-03-06 10:03:40] │        Installing timeout 0.4.0
+[2024-03-06 10:03:40] │        Fetching thor 1.2.2
+[2024-03-06 10:03:40] │        Installing method_source 1.0.0
+[2024-03-06 10:03:40] │        Fetching zeitwerk 2.6.11
+[2024-03-06 10:03:40] │        Installing thor 1.2.2
+[2024-03-06 10:03:40] │        Installing zeitwerk 2.6.11
+[2024-03-06 10:03:40] │        Fetching multi_json 1.15.0
+[2024-03-06 10:03:40] │        Fetching public_suffix 5.0.3
+[2024-03-06 10:03:40] │        Installing multi_json 1.15.0
+[2024-03-06 10:03:40] │        Fetching aes_key_wrap 1.1.0
+[2024-03-06 10:03:40] │        Installing public_suffix 5.0.3
+[2024-03-06 10:03:40] │        Installing aes_key_wrap 1.1.0
+[2024-03-06 10:03:40] │        Fetching rbtree3 0.7.1
+[2024-03-06 10:03:40] │        Fetching attr_required 1.0.1
+[2024-03-06 10:03:40] │        Installing rbtree3 0.7.1 with native extensions
+[2024-03-06 10:03:40] │        Installing attr_required 1.0.1
+[2024-03-06 10:03:40] │        Fetching aws-eventstream 1.2.0
+[2024-03-06 10:03:40] │        Installing aws-eventstream 1.2.0
+[2024-03-06 10:03:40] │        Fetching aws-partitions 1.801.0
+[2024-03-06 10:03:40] │        Installing aws-partitions 1.801.0
+[2024-03-06 10:03:40] │        Fetching jmespath 1.6.2
+[2024-03-06 10:03:40] │        Installing jmespath 1.6.2
+[2024-03-06 10:03:40] │        Fetching bcrypt 3.1.19
+[2024-03-06 10:03:40] │        Installing bcrypt 3.1.19 with native extensions
+[2024-03-06 10:03:41] │        Fetching bindata 2.4.15
+[2024-03-06 10:03:41] │        Installing bindata 2.4.15
+[2024-03-06 10:03:41] │        Fetching msgpack 1.7.1
+[2024-03-06 10:03:41] │        Installing msgpack 1.7.1 with native extensions
+[2024-03-06 10:03:41] │        Fetching browser 5.3.1
+[2024-03-06 10:03:41] │        Installing browser 5.3.1
+[2024-03-06 10:03:41] │        Using budgets 1.0.0 from source at `modules/budgets`
+[2024-03-06 10:03:41] │        Using bundler 2.4.6
+[2024-03-06 10:03:41] │        Fetching mime-types-data 3.2023.0218.1
+[2024-03-06 10:03:41] │        Installing mime-types-data 3.2023.0218.1
+[2024-03-06 10:03:41] │        Fetching ssrf_filter 1.1.1
+[2024-03-06 10:03:41] │        Installing ssrf_filter 1.1.1
+[2024-03-06 10:03:41] │        Fetching excon 0.100.0
+[2024-03-06 10:03:41] │        Installing excon 0.100.0
+[2024-03-06 10:03:41] │        Fetching formatador 1.1.0
+[2024-03-06 10:03:41] │        Installing formatador 1.1.0
+[2024-03-06 10:03:41] │        Fetching commonmarker 0.23.10
+[2024-03-06 10:03:41] │        Installing commonmarker 0.23.10 with native extensions
+[2024-03-06 10:03:41] │        Using costs 1.0.0 from source at `modules/costs`
+[2024-03-06 10:03:41] │        Fetching daemons 1.4.1
+[2024-03-06 10:03:41] │        Installing daemons 1.4.1
+[2024-03-06 10:03:41] │        Fetching dalli 3.2.5
+[2024-03-06 10:03:41] │        Installing dalli 3.2.5
+[2024-03-06 10:03:41] │        Using grids 1.0.0 from source at `modules/grids`
+[2024-03-06 10:03:41] │        Fetching declarative 0.0.20
+[2024-03-06 10:03:41] │        Installing declarative 0.0.20
+[2024-03-06 10:03:41] │        Fetching raabro 1.4.0
+[2024-03-06 10:03:41] │        Installing raabro 1.4.0
+[2024-03-06 10:03:41] │        Fetching trailblazer-option 0.1.2
+[2024-03-06 10:03:41] │        Installing trailblazer-option 0.1.2
+[2024-03-06 10:03:41] │        Fetching uber 0.1.0
+[2024-03-06 10:03:41] │        Installing uber 0.1.0
+[2024-03-06 10:03:41] │        Fetching unf_ext 0.0.8.2
+[2024-03-06 10:03:41] │        Installing unf_ext 0.0.8.2 with native extensions
+[2024-03-06 10:03:43] │        Fetching dry-inflector 1.0.0
+[2024-03-06 10:03:43] │        Installing dry-inflector 1.0.0
+[2024-03-06 10:03:43] │        Fetching escape_utils 1.3.0
+[2024-03-06 10:03:43] │        Installing escape_utils 1.3.0 with native extensions
+[2024-03-06 10:03:43] │        Fetching faraday-net_http 3.0.2
+[2024-03-06 10:03:43] │        Installing faraday-net_http 3.0.2
+[2024-03-06 10:03:43] │        Using ruby2_keywords 0.0.5
+[2024-03-06 10:03:43] │        Fetching fastimage 2.2.7
+[2024-03-06 10:03:43] │        Installing fastimage 2.2.7
+[2024-03-06 10:03:43] │        Fetching ffi 1.15.5
+[2024-03-06 10:03:43] │        Installing ffi 1.15.5 with native extensions
+[2024-03-06 10:03:43] │        Fetching front_matter_parser 1.0.1
+[2024-03-06 10:03:43] │        Installing front_matter_parser 1.0.1
+[2024-03-06 10:03:43] │        Fetching glob 0.4.0
+[2024-03-06 10:03:43] │        Installing glob 0.4.0
+[2024-03-06 10:03:43] │        Fetching jwt 2.7.1
+[2024-03-06 10:03:43] │        Installing jwt 2.7.1
+[2024-03-06 10:03:43] │        Fetching memoist 0.16.2
+[2024-03-06 10:03:43] │        Installing memoist 0.16.2
+[2024-03-06 10:03:43] │        Fetching os 1.1.4
+[2024-03-06 10:03:44] │        Installing os 1.1.4
+[2024-03-06 10:03:44] │        Fetching httpclient 2.8.3
+[2024-03-06 10:03:44] │        Installing httpclient 2.8.3
+[2024-03-06 10:03:44] │        Fetching retriable 3.1.2
+[2024-03-06 10:03:44] │        Installing retriable 3.1.2
+[2024-03-06 10:03:44] │        Fetching rexml 3.2.6
+[2024-03-06 10:03:44] │        Installing rexml 3.2.6
+[2024-03-06 10:03:44] │        Fetching webrick 1.8.1
+[2024-03-06 10:03:44] │        Installing webrick 1.8.1
+[2024-03-06 10:03:44] │        Fetching gravatar_image_tag 1.2.0
+[2024-03-06 10:03:44] │        Installing gravatar_image_tag 1.2.0
+[2024-03-06 10:03:44] │        Fetching hana 1.3.7
+[2024-03-06 10:03:44] │        Installing hana 1.3.7
+[2024-03-06 10:03:44] │        Fetching hashie 3.6.0
+[2024-03-06 10:03:44] │        Installing hashie 3.6.0
+[2024-03-06 10:03:44] │        Fetching htmlbeautifier 1.4.2
+[2024-03-06 10:03:44] │        Installing htmlbeautifier 1.4.2
+[2024-03-06 10:03:44] │        Fetching htmldiff 0.0.1
+[2024-03-06 10:03:44] │        Installing htmldiff 0.0.1
+[2024-03-06 10:03:44] │        Fetching htmlentities 4.3.4
+[2024-03-06 10:03:44] │        Fetching http-accept 1.7.0
+[2024-03-06 10:03:44] │        Installing http-accept 1.7.0
+[2024-03-06 10:03:44] │        Installing htmlentities 4.3.4
+[2024-03-06 10:03:44] │        Fetching ice_cube 0.16.4
+[2024-03-06 10:03:44] │        Fetching iso8601 0.13.0
+[2024-03-06 10:03:44] │        Installing ice_cube 0.16.4
+[2024-03-06 10:03:44] │        Using json 2.6.3
+[2024-03-06 10:03:44] │        Fetching regexp_parser 2.8.1
+[2024-03-06 10:03:44] │        Installing iso8601 0.13.0
+[2024-03-06 10:03:44] │        Fetching redcarpet 3.6.0
+[2024-03-06 10:03:45] │        Installing regexp_parser 2.8.1
+[2024-03-06 10:03:45] │        Installing redcarpet 3.6.0 with native extensions
+[2024-03-06 10:03:45] │        Fetching rouge 4.1.3
+[2024-03-06 10:03:45] │        Installing rouge 4.1.3
+[2024-03-06 10:03:45] │        Fetching yard 0.9.34
+[2024-03-06 10:03:45] │        Installing yard 0.9.34
+[2024-03-06 10:03:45] │        Fetching matrix 0.4.2
+[2024-03-06 10:03:45] │        Installing matrix 0.4.2
+[2024-03-06 10:03:45] │        Fetching pdf-core 0.9.0
+[2024-03-06 10:03:45] │        Installing pdf-core 0.9.0
+[2024-03-06 10:03:45] │        Fetching ttfunk 1.7.0
+[2024-03-06 10:03:45] │        Installing ttfunk 1.7.0
+[2024-03-06 10:03:45] │        Fetching text-hyphen 1.5.0
+[2024-03-06 10:03:45] │        Installing text-hyphen 1.5.0
+[2024-03-06 10:03:45] │        Fetching messagebird-rest 1.4.2
+[2024-03-06 10:03:45] │        Installing messagebird-rest 1.4.2
+[2024-03-06 10:03:45] │        Fetching mini_magick 4.12.0
+[2024-03-06 10:03:45] │        Installing mini_magick 4.12.0
+[2024-03-06 10:03:45] │        Fetching net-ldap 0.18.0
+[2024-03-06 10:03:45] │        Installing net-ldap 0.18.0
+[2024-03-06 10:03:45] │        Fetching netrc 0.11.0
+[2024-03-06 10:03:45] │        Installing netrc 0.11.0
+[2024-03-06 10:03:45] │        Fetching oj 3.15.1
+[2024-03-06 10:03:45] │        Installing oj 3.15.1 with native extensions
+[2024-03-06 10:03:47] │        Fetching okcomputer 1.18.4
+[2024-03-06 10:03:47] │        Installing okcomputer 1.18.4
+[2024-03-06 10:03:47] │        Fetching rubyzip 2.3.2
+[2024-03-06 10:03:47] │        Installing rubyzip 2.3.2
+[2024-03-06 10:03:47] │        Using openproject-boards 1.0.0 from source at `modules/boards`
+[2024-03-06 10:03:47] │        Using openproject-documents 1.0.0 from source at `modules/documents`
+[2024-03-06 10:03:47] │        Using openproject-webhooks 1.0.0 from source at `modules/webhooks`
+[2024-03-06 10:03:47] │        Using openproject-job_status 1.0.0 from source at `modules/job_status`
+[2024-03-06 10:03:47] │        Using openproject-ldap_groups 1.0.0 from source at `modules/ldap_groups`
+[2024-03-06 10:03:47] │        Fetching openproject-octicons 19.6.7
+[2024-03-06 10:03:47] │        Installing openproject-octicons 19.6.7
+[2024-03-06 10:03:48] │        Fetching recaptcha 5.14.0
+[2024-03-06 10:03:48] │        Installing recaptcha 5.14.0
+[2024-03-06 10:03:48] │        Using openproject-storages 1.0.0 from source at `modules/storages`
+[2024-03-06 10:03:48] │        Using openproject-team_planner 1.0.0 from source at `modules/team_planner`
+[2024-03-06 10:03:48] │        Fetching rotp 6.2.2
+[2024-03-06 10:03:48] │        Installing rotp 6.2.2
+[2024-03-06 10:03:48] │        Fetching ruby-ole 1.2.12.2
+[2024-03-06 10:03:48] │        Installing ruby-ole 1.2.12.2
+[2024-03-06 10:03:48] │        Fetching ox 2.14.17
+[2024-03-06 10:03:48] │        Installing ox 2.14.17 with native extensions
+[2024-03-06 10:03:48] │        Fetching pg 1.5.3
+[2024-03-06 10:03:48] │        Installing pg 1.5.3 with native extensions
+[2024-03-06 10:03:49] │        Fetching stringio 3.0.7
+[2024-03-06 10:03:49] │        Installing stringio 3.0.7 with native extensions
+[2024-03-06 10:03:50] │        Fetching rack-timeout 0.6.3
+[2024-03-06 10:03:50] │        Installing rack-timeout 0.6.3
+[2024-03-06 10:03:50] │        Fetching rinku 2.0.6
+[2024-03-06 10:03:50] │        Installing rinku 2.0.6 with native extensions
+[2024-03-06 10:03:51] │        Fetching ruby-progressbar 1.13.0
+[2024-03-06 10:03:51] │        Installing ruby-progressbar 1.13.0
+[2024-03-06 10:03:51] │        Fetching secure_headers 6.5.0
+[2024-03-06 10:03:51] │        Installing secure_headers 6.5.0
+[2024-03-06 10:03:51] │        Fetching semantic 1.6.1
+[2024-03-06 10:03:51] │        Installing semantic 1.6.1
+[2024-03-06 10:03:51] │        Fetching stringex 2.8.6
+[2024-03-06 10:03:51] │        Installing stringex 2.8.6
+[2024-03-06 10:03:51] │        Fetching structured_warnings 0.4.0
+[2024-03-06 10:03:51] │        Installing structured_warnings 0.4.0
+[2024-03-06 10:03:51] │        Fetching svg-graph 2.2.2
+[2024-03-06 10:03:51] │        Installing svg-graph 2.2.2
+[2024-03-06 10:03:51] │        Fetching will_paginate 4.0.0
+[2024-03-06 10:03:51] │        Installing will_paginate 4.0.0
+[2024-03-06 10:03:51] │        Fetching i18n 1.14.1
+[2024-03-06 10:03:51] │        Installing i18n 1.14.1
+[2024-03-06 10:03:51] │        Fetching tzinfo 2.0.6
+[2024-03-06 10:03:51] │        Installing tzinfo 2.0.6
+[2024-03-06 10:03:51] │        Fetching rack-test 2.1.0
+[2024-03-06 10:03:51] │        Installing rack-test 2.1.0
+[2024-03-06 10:03:51] │        Fetching appsignal 3.4.10
+[2024-03-06 10:03:51] │        Installing appsignal 3.4.10 with native extensions
+[2024-03-06 10:03:54] │        Fetching request_store 1.5.1
+[2024-03-06 10:03:54] │        Installing request_store 1.5.1
+[2024-03-06 10:03:54] │        Fetching rack-accept 0.4.5
+[2024-03-06 10:03:54] │        Installing rack-accept 0.4.5
+[2024-03-06 10:03:54] │        Fetching rack-attack 6.6.1
+[2024-03-06 10:03:54] │        Installing rack-attack 6.6.1
+[2024-03-06 10:03:54] │        Fetching rack-cors 2.0.1
+[2024-03-06 10:03:54] │        Installing rack-cors 2.0.1
+[2024-03-06 10:03:54] │        Fetching rack-protection 3.0.6
+[2024-03-06 10:03:54] │        Installing rack-protection 3.0.6
+[2024-03-06 10:03:54] │        Fetching sprockets 3.7.2
+[2024-03-06 10:03:54] │        Installing sprockets 3.7.2
+[2024-03-06 10:03:54] │        Fetching warden 1.2.9
+[2024-03-06 10:03:54] │        Installing warden 1.2.9
+[2024-03-06 10:03:54] │        Fetching websocket-driver 0.7.6
+[2024-03-06 10:03:54] │        Installing websocket-driver 0.7.6 with native extensions
+[2024-03-06 10:03:54] │        Using net-protocol 0.2.1
+[2024-03-06 10:03:54] │        Fetching dry-core 1.0.0
+[2024-03-06 10:03:54] │        Installing dry-core 1.0.0
+[2024-03-06 10:03:54] │        Fetching addressable 2.8.5
+[2024-03-06 10:03:54] │        Installing addressable 2.8.5
+[2024-03-06 10:03:54] │        Fetching aws-sigv4 1.6.0
+[2024-03-06 10:03:54] │        Installing aws-sigv4 1.6.0
+[2024-03-06 10:03:54] │        Fetching nokogiri 1.15.4 (x86_64-linux)
+[2024-03-06 10:03:54] │        Installing nokogiri 1.15.4 (x86_64-linux)
+[2024-03-06 10:03:55] │        Fetching mime-types 3.4.1
+[2024-03-06 10:03:55] │        Installing mime-types 3.4.1
+[2024-03-06 10:03:55] │        Fetching airbrake-ruby 6.2.1
+[2024-03-06 10:03:55] │        Installing airbrake-ruby 6.2.1
+[2024-03-06 10:03:55] │        Using openproject-reporting 1.0.0 from source at `modules/reporting`
+[2024-03-06 10:03:55] │        Using dashboards 1.0.0 from source at `modules/dashboards`
+[2024-03-06 10:03:55] │        Using my_page 1.0.0 from source at `modules/my_page`
+[2024-03-06 10:03:55] │        Using overviews 1.0.0 from source at `modules/overviews`
+[2024-03-06 10:03:55] │        Fetching representable 3.2.0
+[2024-03-06 10:03:55] │        Installing representable 3.2.0
+[2024-03-06 10:03:55] │        Fetching puma 6.4.0
+[2024-03-06 10:03:55] │        Installing puma 6.4.0 with native extensions
+[2024-03-06 10:03:55] │        Fetching unf 0.1.4
+[2024-03-06 10:03:55] │        Installing unf 0.1.4
+[2024-03-06 10:03:56] │        Fetching faraday 2.7.10
+[2024-03-06 10:03:56] │        Installing faraday 2.7.10
+[2024-03-06 10:03:56] │        Fetching mustermann 3.0.0
+[2024-03-06 10:03:56] │        Installing mustermann 3.0.0
+[2024-03-06 10:03:56] │        Using openproject-avatars 1.0.0 from source at `modules/avatars`
+[2024-03-06 10:03:56] │        Using omniauth 1.9.0 from https://github.com/opf/omniauth (at fe862f9@fe862f9)
+[2024-03-06 10:03:56] │        Fetching bootsnap 1.16.0
+[2024-03-06 10:03:56] │        Installing bootsnap 1.16.0 with native extensions
+[2024-03-06 10:03:56] │        Fetching icalendar 2.8.0
+[2024-03-06 10:03:56] │        Installing icalendar 2.8.0
+[2024-03-06 10:03:56] │        Fetching rubytree 2.0.2
+[2024-03-06 10:03:56] │        Installing rubytree 2.0.2
+[2024-03-06 10:03:56] │        Fetching prawn 2.4.0
+[2024-03-06 10:03:56] │        Installing prawn 2.4.0
+[2024-03-06 10:03:56] │        Using openproject-github_integration 1.0.0 from source at `modules/github_integration`
+[2024-03-06 10:03:56] │        Using openproject-recaptcha 1.0.0 from source at `modules/recaptcha`
+[2024-03-06 10:03:56] │        Fetching spreadsheet 1.3.0
+[2024-03-06 10:03:56] │        Fetching sys-filesystem 1.4.3
+[2024-03-06 10:03:56] │        Installing sys-filesystem 1.4.3
+[2024-03-06 10:03:56] │        Fetching psych 5.1.0
+[2024-03-06 10:03:56] │        Installing spreadsheet 1.3.0
+[2024-03-06 10:03:56] │        Installing psych 5.1.0 with native extensions
+[2024-03-06 10:03:56] │        Fetching i18n-js 4.2.3
+[2024-03-06 10:03:56] │        Installing i18n-js 4.2.3
+[2024-03-06 10:03:56] │        Fetching activesupport 7.0.7
+[2024-03-06 10:03:56] │        Installing activesupport 7.0.7
+[2024-03-06 10:03:56] │        Fetching et-orbi 1.2.7
+[2024-03-06 10:03:56] │        Installing et-orbi 1.2.7
+[2024-03-06 10:03:56] │        Fetching tzinfo-data 1.2023.3
+[2024-03-06 10:03:57] │        Fetching warden-basic_auth 0.2.1
+[2024-03-06 10:03:57] │        Installing tzinfo-data 1.2023.3
+[2024-03-06 10:03:57] │        Fetching net-imap 0.3.7
+[2024-03-06 10:03:57] │        Installing net-imap 0.3.7
+[2024-03-06 10:03:57] │        Fetching net-pop 0.1.2
+[2024-03-06 10:03:57] │        Installing warden-basic_auth 0.2.1
+[2024-03-06 10:03:57] │        Installing net-pop 0.1.2
+[2024-03-06 10:03:57] │        Fetching net-smtp 0.3.3
+[2024-03-06 10:03:57] │        Fetching dry-logic 1.5.0
+[2024-03-06 10:03:57] │        Installing net-smtp 0.3.3
+[2024-03-06 10:03:57] │        Fetching css_parser 1.14.0
+[2024-03-06 10:03:57] │        Installing dry-logic 1.5.0
+[2024-03-06 10:03:57] │        Installing css_parser 1.14.0
+[2024-03-06 10:03:57] │        Fetching json-schema 4.0.0
+[2024-03-06 10:03:57] │        Fetching aws-sdk-core 3.180.3
+[2024-03-06 10:03:57] │        Installing json-schema 4.0.0
+[2024-03-06 10:03:57] │        Fetching loofah 2.21.3
+[2024-03-06 10:03:57] │        Installing loofah 2.21.3
+[2024-03-06 10:03:57] │        Fetching ruby-saml 1.15.0
+[2024-03-06 10:03:57] │        Installing aws-sdk-core 3.180.3
+[2024-03-06 10:03:57] │        Installing ruby-saml 1.15.0
+[2024-03-06 10:03:57] │        Fetching sanitize 6.0.2
+[2024-03-06 10:03:57] │        Installing sanitize 6.0.2
+[2024-03-06 10:03:57] │        Fetching fog-core 2.3.0
+[2024-03-06 10:03:57] │        Fetching airbrake 13.0.3
+[2024-03-06 10:03:57] │        Installing fog-core 2.3.0
+[2024-03-06 10:03:57] │        Fetching disposable 0.6.3
+[2024-03-06 10:03:57] │        Installing airbrake 13.0.3
+[2024-03-06 10:03:57] │        Installing disposable 0.6.3
+[2024-03-06 10:03:57] │        Fetching roar 1.2.0
+[2024-03-06 10:03:57] │        Fetching domain_name 0.5.20190701
+[2024-03-06 10:03:57] │        Installing roar 1.2.0
+[2024-03-06 10:03:57] │        Fetching simpleidn 0.2.1
+[2024-03-06 10:03:57] │        Installing domain_name 0.5.20190701
+[2024-03-06 10:03:57] │        Fetching faraday-follow_redirects 0.3.0
+[2024-03-06 10:03:57] │        Installing simpleidn 0.2.1
+[2024-03-06 10:03:57] │        Installing faraday-follow_redirects 0.3.0
+[2024-03-06 10:03:57] │        Fetching signet 0.17.0
+[2024-03-06 10:03:57] │        Fetching mustermann-grape 1.0.2
+[2024-03-06 10:03:57] │        Installing mustermann-grape 1.0.2
+[2024-03-06 10:03:57] │        Installing signet 0.17.0
+[2024-03-06 10:03:57] │        Using openproject-auth_plugins 1.0.0 from source at `modules/auth_plugins`
+[2024-03-06 10:03:57] │        Using openproject-calendar 1.0.0 from source at `modules/calendar`
+[2024-03-06 10:03:57] │        Using openproject-meeting 1.0.0 from source at `modules/meeting`
+[2024-03-06 10:03:57] │        Fetching prawn-table 0.2.2
+[2024-03-06 10:03:57] │        Using openproject-xls_export 1.0.0 from source at `modules/xls_export`
+[2024-03-06 10:03:57] │        Fetching rails-dom-testing 2.2.0
+[2024-03-06 10:03:57] │        Installing rails-dom-testing 2.2.0
+[2024-03-06 10:03:57] │        Installing prawn-table 0.2.2
+[2024-03-06 10:03:57] │        Fetching globalid 1.1.0
+[2024-03-06 10:03:57] │        Fetching activemodel 7.0.7
+[2024-03-06 10:03:57] │        Installing globalid 1.1.0
+[2024-03-06 10:03:57] │        Fetching html-pipeline 2.14.3
+[2024-03-06 10:03:57] │        Installing activemodel 7.0.7
+[2024-03-06 10:03:57] │        Installing html-pipeline 2.14.3
+[2024-03-06 10:03:57] │        Fetching delayed_job 4.1.11
+[2024-03-06 10:03:57] │        Fetching view_component 3.5.0
+[2024-03-06 10:03:57] │        Installing delayed_job 4.1.11
+[2024-03-06 10:03:57] │        Fetching plaintext 0.3.4
+[2024-03-06 10:03:57] │        Installing view_component 3.5.0
+[2024-03-06 10:03:57] │        Installing plaintext 0.3.4
+[2024-03-06 10:03:57] │        Fetching ruby-duration 3.2.3
+[2024-03-06 10:03:57] │        Fetching fugit 1.8.1
+[2024-03-06 10:03:57] │        Installing fugit 1.8.1
+[2024-03-06 10:03:57] │        Fetching mail 2.8.1
+[2024-03-06 10:03:57] │        Fetching dry-types 1.7.1
+[2024-03-06 10:03:57] │        Installing mail 2.8.1
+[2024-03-06 10:03:58] │        Installing dry-types 1.7.1
+[2024-03-06 10:03:58] │        Fetching rails-html-sanitizer 1.6.0
+[2024-03-06 10:03:58] │        Installing rails-html-sanitizer 1.6.0
+[2024-03-06 10:03:58] │        Fetching omniauth-saml 1.10.3
+[2024-03-06 10:03:58] │        Fetching aws-sdk-kms 1.71.0
+[2024-03-06 10:03:58] │        Fetching aws-sdk-sns 1.65.0
+[2024-03-06 10:03:58] │        Installing omniauth-saml 1.10.3
+[2024-03-06 10:03:58] │        Installing aws-sdk-kms 1.71.0
+[2024-03-06 10:03:58] │        Fetching fog-json 1.2.0
+[2024-03-06 10:03:58] │        Installing aws-sdk-sns 1.65.0
+[2024-03-06 10:03:58] │        Installing fog-json 1.2.0
+[2024-03-06 10:03:58] │        Fetching fog-xml 0.1.4
+[2024-03-06 10:03:58] │        Installing ruby-duration 3.2.3
+[2024-03-06 10:03:58] │        Fetching http-cookie 1.0.5
+[2024-03-06 10:03:58] │        Fetching json_schemer 1.0.3
+[2024-03-06 10:03:58] │        Installing fog-xml 0.1.4
+[2024-03-06 10:03:58] │        Fetching json-jwt 1.16.3
+[2024-03-06 10:03:58] │        Installing json_schemer 1.0.3
+[2024-03-06 10:03:58] │        Installing http-cookie 1.0.5
+[2024-03-06 10:03:58] │        Installing json-jwt 1.16.3
+[2024-03-06 10:03:58] │        Fetching swd 2.0.2
+[2024-03-06 10:03:58] │        Fetching webfinger 2.1.2
+[2024-03-06 10:03:58] │        Fetching googleauth 1.7.0
+[2024-03-06 10:03:58] │        Installing swd 2.0.2
+[2024-03-06 10:03:58] │        Using md_to_pdf 0.0.20 from https://github.com/opf/md-to-pdf (at cc28665@cc28665)
+[2024-03-06 10:03:58] │        Installing webfinger 2.1.2
+[2024-03-06 10:03:58] │        Fetching activejob 7.0.7
+[2024-03-06 10:03:58] │        Fetching activerecord 7.0.7
+[2024-03-06 10:03:58] │        Fetching activemodel-serializers-xml 1.0.2
+[2024-03-06 10:03:58] │        Installing activejob 7.0.7
+[2024-03-06 10:03:58] │        Installing activemodel-serializers-xml 1.0.2
+[2024-03-06 10:03:58] │        Installing googleauth 1.7.0
+[2024-03-06 10:03:58] │        Fetching carrierwave 1.3.2
+[2024-03-06 10:03:58] │        Fetching date_validator 0.12.0
+[2024-03-06 10:03:58] │        Installing carrierwave 1.3.2
+[2024-03-06 10:03:58] │        Installing date_validator 0.12.0
+[2024-03-06 10:03:58] │        Fetching email_validator 2.2.4
+[2024-03-06 10:03:58] │        Installing activerecord 7.0.7
+[2024-03-06 10:03:58] │        Installing email_validator 2.2.4
+[2024-03-06 10:03:58] │        Fetching validate_url 1.0.15
+[2024-03-06 10:03:58] │        Fetching openproject-token 3.0.1
+[2024-03-06 10:03:58] │        Fetching deckar01-task_list 2.3.2
+[2024-03-06 10:03:58] │        Installing validate_url 1.0.15
+[2024-03-06 10:03:58] │        Installing openproject-token 3.0.1
+[2024-03-06 10:03:58] │        Fetching delayed_cron_job 0.9.0
+[2024-03-06 10:03:58] │        Using rdoc 6.5.0
+[2024-03-06 10:03:58] │        Fetching puma-plugin-statsd 2.4.0
+[2024-03-06 10:03:58] │        Installing delayed_cron_job 0.9.0
+[2024-03-06 10:03:58] │        Installing puma-plugin-statsd 2.4.0
+[2024-03-06 10:03:58] │        Fetching actionview 7.0.7
+[2024-03-06 10:03:58] │        Fetching grape 1.7.1
+[2024-03-06 10:03:58] │        Installing actionview 7.0.7
+[2024-03-06 10:03:58] │        Installing grape 1.7.1
+[2024-03-06 10:03:58] │        Installing deckar01-task_list 2.3.2
+[2024-03-06 10:03:58] │        Fetching validate_email 0.1.6
+[2024-03-06 10:03:58] │        Installing validate_email 0.1.6
+[2024-03-06 10:03:58] │        Using openproject-auth_saml 1.0.0 from source at `modules/auth_saml`
+[2024-03-06 10:03:58] │        Fetching aws-sdk-s3 1.132.1
+[2024-03-06 10:03:58] │        Using openproject-two_factor_authentication 1.0.0 from source at `modules/two_factor_authentication`
+[2024-03-06 10:03:58] │        Fetching fog-aws 3.19.0
+[2024-03-06 10:03:58] │        Installing aws-sdk-s3 1.132.1
+[2024-03-06 10:03:58] │        Fetching rest-client 2.1.0
+[2024-03-06 10:03:58] │        Fetching rack-oauth2 2.2.0
+[2024-03-06 10:03:58] │        Installing rest-client 2.1.0
+[2024-03-06 10:03:58] │        Installing fog-aws 3.19.0
+[2024-03-06 10:03:58] │        Installing rack-oauth2 2.2.0
+[2024-03-06 10:03:59] │        Fetching google-apis-core 0.11.0
+[2024-03-06 10:03:59] │        Fetching actionpack 7.0.7
+[2024-03-06 10:03:59] │        Installing google-apis-core 0.11.0
+[2024-03-06 10:03:59] │        Fetching openproject-primer_view_components 0.7.0
+[2024-03-06 10:03:59] │        Installing actionpack 7.0.7
+[2024-03-06 10:03:59] │        Fetching activerecord-import 1.4.1
+[2024-03-06 10:03:59] │        Installing openproject-primer_view_components 0.7.0
+[2024-03-06 10:03:59] │        Fetching activerecord-nulldb-adapter 0.9.0
+[2024-03-06 10:03:59] │        Installing activerecord-nulldb-adapter 0.9.0
+[2024-03-06 10:03:59] │        Installing activerecord-import 1.4.1
+[2024-03-06 10:03:59] │        Fetching acts_as_list 1.1.0
+[2024-03-06 10:03:59] │        Installing acts_as_list 1.1.0
+[2024-03-06 10:03:59] │        Fetching acts_as_tree 2.9.1
+[2024-03-06 10:03:59] │        Installing acts_as_tree 2.9.1
+[2024-03-06 10:03:59] │        Fetching auto_strip_attributes 2.6.0
+[2024-03-06 10:03:59] │        Fetching awesome_nested_set 3.5.0
+[2024-03-06 10:03:59] │        Installing auto_strip_attributes 2.6.0
+[2024-03-06 10:03:59] │        Installing awesome_nested_set 3.5.0
+[2024-03-06 10:03:59] │        Fetching with_advisory_lock 4.6.0
+[2024-03-06 10:03:59] │        Installing with_advisory_lock 4.6.0
+[2024-03-06 10:03:59] │        Fetching delayed_job_active_record 4.1.7
+[2024-03-06 10:03:59] │        Installing delayed_job_active_record 4.1.7
+[2024-03-06 10:03:59] │        Fetching friendly_id 5.5.0
+[2024-03-06 10:03:59] │        Fetching paper_trail 12.3.0
+[2024-03-06 10:03:59] │        Installing friendly_id 5.5.0
+[2024-03-06 10:03:59] │        Installing paper_trail 12.3.0
+[2024-03-06 10:03:59] │        Fetching store_attribute 1.1.1
+[2024-03-06 10:03:59] │        Fetching grape_logging 1.8.4
+[2024-03-06 10:03:59] │        Installing store_attribute 1.1.1
+[2024-03-06 10:03:59] │        Installing grape_logging 1.8.4
+[2024-03-06 10:03:59] │        Fetching google-apis-gmail_v1 0.30.0
+[2024-03-06 10:03:59] │        Installing google-apis-gmail_v1 0.30.0
+[2024-03-06 10:03:59] │        Fetching openid_connect 2.2.0
+[2024-03-06 10:04:00] │        Fetching actioncable 7.0.7
+[2024-03-06 10:04:00] │        Installing openid_connect 2.2.0
+[2024-03-06 10:04:00] │        Installing actioncable 7.0.7
+[2024-03-06 10:04:00] │        Fetching activestorage 7.0.7
+[2024-03-06 10:04:00] │        Fetching actionmailer 7.0.7
+[2024-03-06 10:04:00] │        Installing actionmailer 7.0.7
+[2024-03-06 10:04:00] │        Installing activestorage 7.0.7
+[2024-03-06 10:04:00] │        Fetching railties 7.0.7
+[2024-03-06 10:04:00] │        Installing railties 7.0.7
+[2024-03-06 10:04:00] │        Fetching gon 6.4.0
+[2024-03-06 10:04:00] │        Installing gon 6.4.0
+[2024-03-06 10:04:00] │        Fetching meta-tags 2.18.0
+[2024-03-06 10:04:00] │        Fetching sprockets-rails 3.4.2
+[2024-03-06 10:04:00] │        Installing meta-tags 2.18.0
+[2024-03-06 10:04:00] │        Installing sprockets-rails 3.4.2
+[2024-03-06 10:04:00] │        Using openproject-backlogs 1.0.0 from source at `modules/backlogs`
+[2024-03-06 10:04:00] │        Using openproject-bim 1.0.0 from source at `modules/bim`
+[2024-03-06 10:04:00] │        Fetching closure_tree 7.4.0
+[2024-03-06 10:04:00] │        Using omniauth-openid-connect 0.4.0 from https://github.com/opf/omniauth-openid-connect.git (at efddc06@efddc06)
+[2024-03-06 10:04:00] │        Fetching actionmailbox 7.0.7
+[2024-03-06 10:04:00] │        Fetching actiontext 7.0.7
+[2024-03-06 10:04:00] │        Installing closure_tree 7.4.0
+[2024-03-06 10:04:00] │        Installing actionmailbox 7.0.7
+[2024-03-06 10:04:00] │        Installing actiontext 7.0.7
+[2024-03-06 10:04:00] │        Using omniauth-openid_connect-providers 0.2.0 from https://github.com/opf/omniauth-openid_connect-providers.git (at 7559f44@7559f44)
+[2024-03-06 10:04:00] │        Fetching carrierwave_direct 2.1.0
+[2024-03-06 10:04:00] │        Installing carrierwave_direct 2.1.0
+[2024-03-06 10:04:00] │        Fetching actionpack-xml_parser 2.0.1
+[2024-03-06 10:04:00] │        Fetching activerecord-session_store 2.0.0
+[2024-03-06 10:04:00] │        Fetching doorkeeper 5.6.6
+[2024-03-06 10:04:00] │        Fetching rails 7.0.7
+[2024-03-06 10:04:00] │        Installing actionpack-xml_parser 2.0.1
+[2024-03-06 10:04:00] │        Installing activerecord-session_store 2.0.0
+[2024-03-06 10:04:00] │        Fetching lograge 0.12.0
+[2024-03-06 10:04:00] │        Installing doorkeeper 5.6.6
+[2024-03-06 10:04:00] │        Installing rails 7.0.7
+[2024-03-06 10:04:00] │        Fetching lookbook 2.0.5
+[2024-03-06 10:04:00] │        Installing lograge 0.12.0
+[2024-03-06 10:04:00] │        Fetching openproject-octicons_helper 19.6.7
+[2024-03-06 10:04:00] │        Fetching rails-i18n 7.0.7
+[2024-03-06 10:04:00] │        Installing rails-i18n 7.0.7
+[2024-03-06 10:04:00] │        Installing openproject-octicons_helper 19.6.7
+[2024-03-06 10:04:00] │        Fetching responders 3.1.0
+[2024-03-06 10:04:00] │        Installing responders 3.1.0
+[2024-03-06 10:04:00] │        Fetching turbo-rails 1.4.0
+[2024-03-06 10:04:00] │        Installing turbo-rails 1.4.0
+[2024-03-06 10:04:01] │        Fetching lobby_boy 0.1.3
+[2024-03-06 10:04:01] │        Installing lobby_boy 0.1.3
+[2024-03-06 10:04:01] │        Fetching typed_dag 2.0.2
+[2024-03-06 10:04:01] │        Using openproject-openid_connect 1.0.0 from source at `modules/openid_connect`
+[2024-03-06 10:04:01] │        Installing lookbook 2.0.5
+[2024-03-06 10:04:01] │        Installing typed_dag 2.0.2
+[2024-03-06 10:04:01] │        Bundle complete! 180 Gemfile dependencies, 266 gems now installed.
+[2024-03-06 10:04:01] │        Gems in the groups 'development' and 'test' were not installed.
+[2024-03-06 10:04:01] │        Bundled gems are installed into `/layers/heroku_ruby/gems/vendor/bundle`
+[2024-03-06 10:04:01] │        Post-install message from html-pipeline:
+[2024-03-06 10:04:01] │        -------------------------------------------------
+[2024-03-06 10:04:01] │        Thank you for installing html-pipeline!
+[2024-03-06 10:04:01] │        You must bundle Filter gem dependencies.
+[2024-03-06 10:04:01] │        See html-pipeline README.md for more details.
+[2024-03-06 10:04:01] │        https://github.com/jch/html-pipeline#dependencies
+[2024-03-06 10:04:01] │        -------------------------------------------------
+[2024-03-06 10:04:01] │        Post-install message from doorkeeper:
+[2024-03-06 10:04:01] │        Starting from 5.5.0 RC1 Doorkeeper requires client authentication for Resource Owner Password Grant
+[2024-03-06 10:04:01] │        as stated in the OAuth RFC. You have to create a new OAuth client (Doorkeeper::Application) if you didn't
+[2024-03-06 10:04:01] │        have it before and use client credentials in HTTP Basic auth if you previously used this grant flow without
+[2024-03-06 10:04:01] │        client authentication. 
+[2024-03-06 10:04:01] │        
+[2024-03-06 10:04:01] │        To opt out of this you could set the "skip_client_authentication_for_password_grant" configuration option
+[2024-03-06 10:04:01] │        to "true", but note that this is in violation of the OAuth spec and represents a security risk.
+[2024-03-06 10:04:01] │        
+[2024-03-06 10:04:01] │        Read https://github.com/doorkeeper-gem/doorkeeper/issues/561#issuecomment-612857163 for more details.
+[2024-03-06 10:04:01] │        Post-install message from icalendar:
+[2024-03-06 10:04:01] │        ActiveSupport is required for TimeWithZone support, but not required for general use.
+[2024-03-06 10:04:01] │        Post-install message from rubyzip:
+[2024-03-06 10:04:01] │        RubyZip 3.0 is coming!
+[2024-03-06 10:04:01] │        **********************
+[2024-03-06 10:04:01] │        
+[2024-03-06 10:04:01] │        The public API of some Rubyzip classes has been modernized to use named
+[2024-03-06 10:04:01] │        parameters for optional arguments. Please check your usage of the
+[2024-03-06 10:04:01] │        following classes:
+[2024-03-06 10:04:01] │          * `Zip::File`
+[2024-03-06 10:04:01] │          * `Zip::Entry`
+[2024-03-06 10:04:01] │          * `Zip::InputStream`
+[2024-03-06 10:04:01] │          * `Zip::OutputStream`
+[2024-03-06 10:04:01] │        
+[2024-03-06 10:04:01] │        Please ensure that your Gemfiles and .gemspecs are suitably restrictive
+[2024-03-06 10:04:01] │        to avoid an unexpected breakage when 3.0 is released (e.g. ~> 2.3.0).
+[2024-03-06 10:04:01] │        See https://github.com/rubyzip/rubyzip for details. The Changelog also
+[2024-03-06 10:04:01] │        lists other enhancements and bugfixes that have been implemented since
+[2024-03-06 10:04:01] │        version 2.3.0.
+[2024-03-06 10:04:01] │        Post-install message from rubytree:
+[2024-03-06 10:04:01] │            ========================================================================
+[2024-03-06 10:04:01] │                            Thank you for installing RubyTree.
+[2024-03-06 10:04:01] │        
+[2024-03-06 10:04:01] │            Note::
+[2024-03-06 10:04:01] │        
+[2024-03-06 10:04:01] │            - 2.0.0 is a major release with BREAKING API changes.
+[2024-03-06 10:04:01] │                    See `API-CHANGES.md` for details.
+[2024-03-06 10:04:01] │        
+[2024-03-06 10:04:01] │            - `Tree::TreeNode#depth` method has been removed (it was broken).
+[2024-03-06 10:04:01] │        
+[2024-03-06 10:04:01] │            - Support for `CamelCase` methods names has bee removed.
+[2024-03-06 10:04:01] │        
+[2024-03-06 10:04:01] │            - The predicate methods no longer have `is_` or `has_` prefixes. However,
+[2024-03-06 10:04:01] │              aliases with these prefixes exist to support existing client code.
+[2024-03-06 10:04:01] │        
+[2024-03-06 10:04:01] │            - Use of integers as node names does not require the optional
+[2024-03-06 10:04:01] │              `num_as_name` flag.
+[2024-03-06 10:04:01] │        
+[2024-03-06 10:04:01] │            - `structured_warnings` is no longer a dependency.
+[2024-03-06 10:04:01] │        
+[2024-03-06 10:04:01] │            - Explicit support for rbx Ruby has been removed.
+[2024-03-06 10:04:01] │        
+[2024-03-06 10:04:01] │            ========================================================================
+[2024-03-06 10:04:01] │        Bundle completed (35.87s)
+[2024-03-06 10:04:01] │        Cleaning up the bundler cache.
+[2024-03-06 10:04:01] │        Removing bundler (2.3.10)
+[2024-03-06 10:04:02] │ -----> Detecting rake tasks
+[2024-03-06 10:04:05] │ -----> Preparing app for Rails asset pipeline
+[2024-03-06 10:04:05] │        Running: rake assets:precompile
+[2024-03-06 10:04:09] │        rake aborted!
+[2024-03-06 10:04:09] │        ActiveRecord::ConnectionNotEstablished: connection to server at "127.0.0.1", port 5432 failed: Connection refused
+[2024-03-06 10:04:09] │         Is the server running on that host and accepting TCP/IP connections?
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/activerecord-7.0.7/lib/active_record/connection_adapters/postgresql_adapter.rb:87:in `rescue in new_client'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/activerecord-7.0.7/lib/active_record/connection_adapters/postgresql_adapter.rb:77:in `new_client'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/activerecord-7.0.7/lib/active_record/connection_adapters/postgresql_adapter.rb:37:in `postgresql_connection'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/activerecord-7.0.7/lib/active_record/connection_adapters/abstract/connection_pool.rb:656:in `public_send'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/activerecord-7.0.7/lib/active_record/connection_adapters/abstract/connection_pool.rb:656:in `new_connection'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/activerecord-7.0.7/lib/active_record/connection_adapters/abstract/connection_pool.rb:700:in `checkout_new_connection'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/activerecord-7.0.7/lib/active_record/connection_adapters/abstract/connection_pool.rb:679:in `try_to_checkout_new_connection'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/activerecord-7.0.7/lib/active_record/connection_adapters/abstract/connection_pool.rb:640:in `acquire_connection'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/activerecord-7.0.7/lib/active_record/connection_adapters/abstract/connection_pool.rb:341:in `checkout'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/activerecord-7.0.7/lib/active_record/connection_adapters/abstract/connection_pool.rb:181:in `connection'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/activerecord-7.0.7/lib/active_record/connection_adapters/abstract/connection_handler.rb:211:in `retrieve_connection'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/activerecord-7.0.7/lib/active_record/connection_handling.rb:313:in `retrieve_connection'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/activerecord-7.0.7/lib/active_record/connection_handling.rb:280:in `connection'
+[2024-03-06 10:04:09] │        /workspace/config/constants/open_project/null_db_fallback.rb:33:in `fallback'
+[2024-03-06 10:04:09] │        /workspace/config/initializers/05-null_db_fallback.rb:35:in `<top (required)>'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/railties-7.0.7/lib/rails/engine.rb:667:in `load'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/railties-7.0.7/lib/rails/engine.rb:667:in `block in load_config_initializer'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/activesupport-7.0.7/lib/active_support/notifications.rb:208:in `instrument'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/railties-7.0.7/lib/rails/engine.rb:666:in `load_config_initializer'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/railties-7.0.7/lib/rails/engine.rb:620:in `block (2 levels) in <class:Engine>'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/railties-7.0.7/lib/rails/engine.rb:619:in `each'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/railties-7.0.7/lib/rails/engine.rb:619:in `block in <class:Engine>'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/railties-7.0.7/lib/rails/initializable.rb:32:in `instance_exec'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/railties-7.0.7/lib/rails/initializable.rb:32:in `run'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/railties-7.0.7/lib/rails/initializable.rb:61:in `block in run_initializers'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/railties-7.0.7/lib/rails/initializable.rb:50:in `each'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/railties-7.0.7/lib/rails/initializable.rb:50:in `tsort_each_child'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/railties-7.0.7/lib/rails/initializable.rb:60:in `run_initializers'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/railties-7.0.7/lib/rails/application.rb:372:in `initialize!'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/railties-7.0.7/lib/rails/railtie.rb:226:in `public_send'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/railties-7.0.7/lib/rails/railtie.rb:226:in `method_missing'
+[2024-03-06 10:04:09] │        /workspace/config/environment.rb:32:in `<top (required)>'
+[2024-03-06 10:04:09] │        <internal:/layers/heroku_ruby/ruby/vendor/ruby-3.2.1/lib/ruby/3.2.0/rubygems/core_ext/kernel_require.rb>:37:in `require'
+[2024-03-06 10:04:09] │        <internal:/layers/heroku_ruby/ruby/vendor/ruby-3.2.1/lib/ruby/3.2.0/rubygems/core_ext/kernel_require.rb>:37:in `require'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/zeitwerk-2.6.11/lib/zeitwerk/kernel.rb:38:in `require'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/railties-7.0.7/lib/rails/application.rb:348:in `require_environment!'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/railties-7.0.7/lib/rails/application.rb:506:in `block in run_tasks_blocks'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/sprockets-rails-3.4.2/lib/sprockets/rails/task.rb:61:in `block (2 levels) in define'
+[2024-03-06 10:04:09] │        
+[2024-03-06 10:04:09] │        Caused by:
+[2024-03-06 10:04:09] │        PG::ConnectionBad: connection to server at "127.0.0.1", port 5432 failed: Connection refused
+[2024-03-06 10:04:09] │         Is the server running on that host and accepting TCP/IP connections?
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/pg-1.5.3/lib/pg/connection.rb:696:in `async_connect_or_reset'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/pg-1.5.3/lib/pg/connection.rb:824:in `connect_to_hosts'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/pg-1.5.3/lib/pg/connection.rb:759:in `new'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/pg-1.5.3/lib/pg.rb:63:in `connect'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/activerecord-7.0.7/lib/active_record/connection_adapters/postgresql_adapter.rb:78:in `new_client'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/activerecord-7.0.7/lib/active_record/connection_adapters/postgresql_adapter.rb:37:in `postgresql_connection'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/activerecord-7.0.7/lib/active_record/connection_adapters/abstract/connection_pool.rb:656:in `public_send'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/activerecord-7.0.7/lib/active_record/connection_adapters/abstract/connection_pool.rb:656:in `new_connection'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/activerecord-7.0.7/lib/active_record/connection_adapters/abstract/connection_pool.rb:700:in `checkout_new_connection'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/activerecord-7.0.7/lib/active_record/connection_adapters/abstract/connection_pool.rb:679:in `try_to_checkout_new_connection'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/activerecord-7.0.7/lib/active_record/connection_adapters/abstract/connection_pool.rb:640:in `acquire_connection'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/activerecord-7.0.7/lib/active_record/connection_adapters/abstract/connection_pool.rb:341:in `checkout'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/activerecord-7.0.7/lib/active_record/connection_adapters/abstract/connection_pool.rb:181:in `connection'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/activerecord-7.0.7/lib/active_record/connection_adapters/abstract/connection_handler.rb:211:in `retrieve_connection'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/activerecord-7.0.7/lib/active_record/connection_handling.rb:313:in `retrieve_connection'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/activerecord-7.0.7/lib/active_record/connection_handling.rb:280:in `connection'
+[2024-03-06 10:04:09] │        /workspace/config/constants/open_project/null_db_fallback.rb:33:in `fallback'
+[2024-03-06 10:04:09] │        /workspace/config/initializers/05-null_db_fallback.rb:35:in `<top (required)>'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/railties-7.0.7/lib/rails/engine.rb:667:in `load'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/railties-7.0.7/lib/rails/engine.rb:667:in `block in load_config_initializer'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/activesupport-7.0.7/lib/active_support/notifications.rb:208:in `instrument'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/railties-7.0.7/lib/rails/engine.rb:666:in `load_config_initializer'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/railties-7.0.7/lib/rails/engine.rb:620:in `block (2 levels) in <class:Engine>'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/railties-7.0.7/lib/rails/engine.rb:619:in `each'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/railties-7.0.7/lib/rails/engine.rb:619:in `block in <class:Engine>'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/railties-7.0.7/lib/rails/initializable.rb:32:in `instance_exec'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/railties-7.0.7/lib/rails/initializable.rb:32:in `run'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/railties-7.0.7/lib/rails/initializable.rb:61:in `block in run_initializers'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/railties-7.0.7/lib/rails/initializable.rb:50:in `each'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/railties-7.0.7/lib/rails/initializable.rb:50:in `tsort_each_child'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/railties-7.0.7/lib/rails/initializable.rb:60:in `run_initializers'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/railties-7.0.7/lib/rails/application.rb:372:in `initialize!'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/railties-7.0.7/lib/rails/railtie.rb:226:in `public_send'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/railties-7.0.7/lib/rails/railtie.rb:226:in `method_missing'
+[2024-03-06 10:04:09] │        /workspace/config/environment.rb:32:in `<top (required)>'
+[2024-03-06 10:04:09] │        <internal:/layers/heroku_ruby/ruby/vendor/ruby-3.2.1/lib/ruby/3.2.0/rubygems/core_ext/kernel_require.rb>:37:in `require'
+[2024-03-06 10:04:09] │        <internal:/layers/heroku_ruby/ruby/vendor/ruby-3.2.1/lib/ruby/3.2.0/rubygems/core_ext/kernel_require.rb>:37:in `require'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/zeitwerk-2.6.11/lib/zeitwerk/kernel.rb:38:in `require'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/railties-7.0.7/lib/rails/application.rb:348:in `require_environment!'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/railties-7.0.7/lib/rails/application.rb:506:in `block in run_tasks_blocks'
+[2024-03-06 10:04:09] │        /layers/heroku_ruby/gems/vendor/bundle/ruby/3.2.0/gems/sprockets-rails-3.4.2/lib/sprockets/rails/task.rb:61:in `block (2 levels) in define'
+[2024-03-06 10:04:09] │        Tasks: TOP => environment
+[2024-03-06 10:04:09] │        (See full trace by running task with --trace)
+[2024-03-06 10:04:09] │ 
+[2024-03-06 10:04:09] │  !
+[2024-03-06 10:04:09] │  !     Precompiling assets failed.
+[2024-03-06 10:04:09] │  !     Attempted to access a nonexistent database:
+[2024-03-06 10:04:09] │  !     https://devcenter.heroku.com/articles/pre-provision-database
+[2024-03-06 10:04:09] │  !
+[2024-03-06 10:04:09] │ ERROR: failed to build: exit status 1
+[2024-03-06 10:04:10] │ 
+[2024-03-06 10:04:10] │ 
+[2024-03-06 10:04:10] │ For documentation on the buildpacks used to build your app, please see:
+[2024-03-06 10:04:10] │ 
+[2024-03-06 10:04:10] │    Ruby  v1.244.3  https://do.co/apps-buildpack-ruby
+[2024-03-06 10:04:10] │ 
+[2024-03-06 10:04:10] │  ✘ build failed
+[]

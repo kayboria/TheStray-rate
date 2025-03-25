@@ -1,0 +1,239 @@
+[drone SecOps]
+
+Glossary
+
+Systems
+COTS: Commercial-Off-The-Shelf (can be bought from a store)
+FPV: First Person View
+RPAS: Remotely Piloted System (mostly Africa + Australia)
+sUAS: Small Unmanned Aerial System (<25kg)
+UAS: Unmanned Aerial System (mostly Europe + USA)
+UAV: Unmanned Aerial Vehicle
+VTOL: Vertical Take-off and Lift
+
+Fleet Management
+UAM: Unmanned Aerial Mobility
+UTM: UAS Traffic Management System
+
+Countermeasures
+CUAS/CUAV/C-UAS/C-UAV: Counter-UAS/UAV (Anti-Drone)
+
+Radiocommunications
+ISM: Industrial, Scientific, and Medical – radio spectrum bands
+RF: Radio Frequency
+SDR: Software Defined Radio
+
+Documentation
+SOP: Standard Operating Procedure
+
+General
+DIY: Do-It-Yourself (Home-made)
+SAR: Search and Rescue
+TTP: Tactics, Techniques, and Procedures
+
+Cyber Security
+APT: Advanced Persistent Threat
+DDoS: Distributed Denial of Service
+Deauth: Deauthenticate
+PoC: Proof of Concept
+Privesc: Privilege Escalation (within a digital system)
+
+Security
+CBRN: Chemical, Biological, Radioactive, Nuclear
+GEOINT: Geospatial Intelligence
+IED: Improvised Explosive Device
+ISR: Intelligence, Surveillance, Reconnaissance
+OSINT: Open Source Intelligence
+SIGINT: Signals Intelligence
+SECOPS: Security Operations
+OPSEC: Operational Security
+TI: Threat Intelligence
+TOR: The Onion Routing (Dark Web)
+
+Airspace
+ATC: Air Traffic Control tower
+BVLOS: Beyond Visual Line of Sight
+GUTMA: Global UTM Association
+LAANC: Low Altitude Authorization and Notification Capability
+NFZ: No-Fly-Zone
+NOTAM: Notice To Airmen
+
+Authorities
+CAA: Civil Aviation Authority (UK)
+CAAS: Civil Aviation Authority of Singapore
+CASA: Civil Aviation Safety Authority (Australia)
+FAA: Federal Aviation Administration
+FCC: Federal Communications Commission
+LE: Law Enforcement
+
+
+Threat Intelligent
+> creating incident reports of threat actors 
+> positives and negatives of certain counter drone systems
+> collecting different incidents
+site vulnerability assessments for defense of drone
+
+
+
+red team aerial threat assessments for offensive side
+
+-----------------------------------------------
+coverr some of the drone and infrastructure sides of cybersecurity finishing off 
+-----------------------------------------------
+
+
+
+
+-----------------------------------------------
+poining you to the best drone forensics resources that you can only have and together to try give us a story of what's going on out there
+
+> quick way to understand how the first responders might be able to observe  what a drone was doing or where it came from
+> your drone forensics knowledge and resources will come from:
+- INTERPOL and their member groups
+- VTO labs
+- URSA Inc 
+> Root Cause Analysis (RCA)
+> some drones might have anti-Forensics measures
+> Anti-Forensics
+- just like cyber-security, need to be ready for:
+- LTE/5G usage,virtual-private-networks (VPNs)
+- Automated GPS and GPS-denied routes
+- custom-made drones, controllers/FPV goggles
+> INTERPOL framework for responding to drone incident
+> there is no better guide than reading through and following for drone forensics
+> use this document for creating internal policy, SOPs, or forensic analysis
+> are you thinking that well, i have got the documentation but how can i prepare and practice  that ?
+> he introduced VTO lab
+> it is a company which they took a whole punch of different drones 79 drones all of different brands and models flew them around to give dummy data sample data of what you might see in drone system 
+> form logical physical chip offs, trying to understand the drone, the controller, what kind of file format and storages you might expect what kind of different systems might be in place you have to analyse and put this all in one place for you
+> these resources allow you to download the datasets and practice on them
+- https://droneforensics.com/
+- https://cfreds.nist.gov/drone-images.html
+- https://dfrws.org/wp-content/uploads/2019/06/pres_drone_forensics_program.pdf
+> in terms of using other tooling there are a lot of others 
+> everything from 
+- FTK t o xray, spiderforensics oxygen forensics 
+> different orgs have different tools that they like to use 
+> FTK is what he likes to use and he give this youtube link 
+- using AccessData FTK to assess drone systems
+- https://www.youtube.com/watch?v=bxGbrfFUdfQ
+> what you might also find interesting the unique items around drone forensics which include things like trying to track the telematry of when they have payload and when they drop that payload this is the resource 
+- UAV and payload dropping forensic analysis - David Kovar
+- https://www.youtube.com/watch?v=LpMmaxISCLQ
+- https://www.usenix.org/sites/default/files/conference/protected-files/lisa16_slides_kovar.pdf
+- https://ursasecure.com/2019/08/30/detecting-uav-payload-delivery-the-power-of-platform-delivered-uav-forensics/
+> what happens when you have no tooling no forensics background and no t eam to have all this information discovery 
+> On the fly forensics — no tooling
+> In some cases, organisations will require immediate forensic analysis to answer what happened in a situation. This may include if the drone was malicious in nature or simply lost battery power mid-flight.
+
+> AirData (https://airdata.com/) ingests flight logs (.DAT files) and displays them in ways that are useful for identifying and visualising immediate details of an incident.
+
+> The rest of the information can be assessed with traditional forensic tools such as AccessData Forensic Toolkit (FTK), EnCase, Spyder Forensics, Oxygen Forensics, URSA Inc, MSAB XRY.
+
+- https://app.airdata.com/flight/366a133325da0ad4596c952a34042cfa/GENERAL
+View a ‘quick observation’ of the flight linked above.
+
+> Was the drone flying over 400ft or was it related to the altitude change of cliffs near the ocean?
+https://app.airdata.com/flight/d95278689654f8013f810067b2fba2d1/GENERAL
+View a ‘quick observation’ of the flight linked above.
+
+> What happened to the drone 4m30s in, what action did the drone and what could have caused it?
+
+> collecting law inforcement resources such as CCTV near by areas using this with the drone rather than just focusing on the information from the drone alone 
+> airdata and similar tools are very useful to get that .log file and if you carefully extracted that and operant procedure might have different ways to extract data from  different drones 
+
+> this is an interesting case to look at 
+- a drone came down, the analysis conducted they found quite a few GPS locations launch locations and address in vicksburg pairing this with CCTV they were able to see who actually launched the drone but didn't know who they were once they found the drone cordinates they go to their home 
+
+> Case Study - Forensics
+
+- https://www.clarionledger.com/story/news/2020/09/09/2-men-facing-charges-after-drone-carrying-contraband-crashes-cmcf/5764303002/
+
+> Forensics revealed a GPS location where the drone was used frequently — an address in Vicksburg. Once the address was visited, visual matches of CCTV capturing the pair launching the drone matched the profiles in person, and the pair were arrested.
+
+> Officials ‘reprogrammed’ the drone for future operation/use at Parchman prison. Any disadvantages of this?
+-----------------------------------------------
+
+
+
+--------------------------------------------------
+Summary
+
+> Whilst still emerging, the area of offensive and defensive drone operations is wide. There are many considerations from protecting friendly drones, defending against rogue ones, assessing counter-measures, and analyzing systems of interest.
+> As a start, begin by giving your drone security operations a home separated by offensive and defensive operations. Build out your Standard Operating Procedures, Drone Security Policies, and conduct Table-Top exercises to develop maturity in your security posture. Conduct regular physical and digital reviews of your software, hardware, and digital footprint (OPSEC) as a UAS/UTM/CUAS vendor.
+
+> Lastly, treat this as just the beginning of your journey; there are whole separate worlds to Forensics, Red Teaming, Penetration Testing, and Aerial Threat Simulations that require further study and background knowledge — this course provides the fundamental inclusion of UAS into those operations.
+
+> Thank you for joining us and we look forward to welcoming you in for future classes.
+
+> We @Mike and @arison will be available on Slack for discussion, questions, and support.
+
+> We take feedback extremely seriously — will implement it both into future courses and make amendments to the current course.
+
+> You can continue to follow us:
+
+- https://dronesec.com/
+- https://twitter.com/dronesec
+- https://www.facebook.com/DroneSecNews
+- https://www.linkedin.com/company/17901794/
+-----------------------------------------------------
+
+[lexie] 
+
+you need lower KV for 6s batteries because they give you more voltage so generally 4s battery that spines 4500 kv  spinning the motor of the same exact speed of the 6s 1700 kv you need to check that 
+> batteries capacity measured in mAh
+> mAh indicate of how much current you can draw from the battery for an hour untill it's empty that is called the mah rating
+> companies claim the more c the faster you go lexie said partially true because c rate is the maximum discharge rate so the more power can go at once the better but a lot of companies are actually fluffing with their rating so you can't be really sure if 100c is 100c no way to check C rating (Discharge rate)
+
+> you can be lazy like lexie and use once battery for every drone  on long range, racing range and freestyle range because she travel a lot and she don't want to take 5 types of batteries
+> because eventhough the Lipo batteries are light weight they can get really really heavy she is using the 1400mah from tattu
+> the balancing lead is available in any battery that has more than 1s
+> it is absolutely okay to use 4s battery for something that has been created for 6s battery  because yes it's gonna be slower but will be so much smoother 
+> avoid any type of unknown name battery companies because 
+
+-------------------------------------
+how to use your Lipos in a safe way
+
+- Pick up LiPo by their body, not the leads (oh how shocking it is when a battery wire just pulls out).
+- Don't charge your battery immediately after using it; wait until it's completely cooled down (check with your hands. If the battery can be a hand warmer – it's too early).
+- Charge your battery at 1C or less, in balance mode.
+- Never use or charge a damaged battery – don't charge it if it is swollen (puffy) or has any other visible signs of damage.
+- Ensure the number of cells and battery type are set correctly on your charger to match the cell count in your battery.
+- Don't over-charge, although this is normally taken care of by the charger.
+- Don't leave the battery under the sun.
+- Always check the battery cells' state with the use of a LiPo checker.
+
+- It is extremely important to charge your batteries with a balancing lead in to ensure longevity of your battery.
+- avoid any type of unknown name battery companies (brands)
+- usually Lipos cause fire when they are physically damaged or not has been taken care of well
+- your house, health and live can depend on your use practices with your lipo
+- avoid inhaling the Lipos gas or smoke, research papers shows that the fire itself is not as dangerous as the gas and smoke itself (fluoride gas) which can destory your eyes, lungs and go to your bones through the skin so if there is gas or smoke run away from it, or put a blanket with making sure you don't inhale or touch the smoke
+- the perfect Lipo voltage is the nominal voltage of (3.7v)
+- charged Lipo voltage has the nominal voltage of (4.2v) per cell unless you are using the high voltage which you can charge to up to (4.35) but not recommended due to the fact that those Lipos will not stay long with you and this is pretty dangerous 
+- Lipo's are so good to power our drones and have fun but they can also be really dangeres if not handled properly 
+- the batteries should not go below 3.2 volts because they get damaged if they get lower than that 
+- avoid charging your batteries near your bed or next to wood specially dry wood, charge your batteries in a non-flammable place and far away from things that can catch fire 
+- store your Lipos in Torvol's LIPO SAFE BAG while moving as it is the only tested bags by firefighters against fire it will not stop the smoke but will stop the fire so it will might safe your house 
+- Don't go for the cheap Lipo safe bags they usually malt with the fire
+- charge your 6s batteries with 2 amps if you want it a bit fast use 2.5 amps but never charge it unattended be around the area
+- avoid parallal charging even though it is quicker but very dangerous specially of you don't have the experience with it 
+- always do balance charging type of charging 
+
+
+
+SAFE STORAGE
+
+
+For the times when you won't fly for 5+ days:
+
+- Be sure your LiPo's are in STORAGE (3.7V).
+- Check the cells' status before leaving them unattended with a LiPo checker.
+- Store your LiPo's in a LiPo safe bag, ammo box, or a sand pit (as it’s not flammable).
+- Keep the leads separated (they may short if touched).
+- Keep balance leads separated or secured as well (due to the same problem).
+- if you are planning not to touch your Lipos for a couple of months you can put your lipo in a trusted safe bag and through them to the fridge not the frizer and if one of the leads damaged you can put some electrical tape over it but don't leave them exposed 
+-------------------------------------
+
+Dispose 
+- don't through them to trush
+- the safest way to dispose them is to put them to discharge to 0 volts and through them in one of those trush pins that are specially made for batteries you can find them in store depend on your country

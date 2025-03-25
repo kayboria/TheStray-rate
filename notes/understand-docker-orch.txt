@@ -1,0 +1,32 @@
+when you docker swarm init a lot of very quick and effetion things of the go programming of docker essentially it does a lot of pki and security stuff
+
+- it create a root certificate for the swarm that it will use to establish  trust and sign certificates for all nodes and managers andi t will create a special certificate for this manager node because it is manager vs a worker then it create these tokens that you can actually use on other nodes to join the swarm
+
+- and then a bunch of other things from the background which it will enables the swarm API and create somethings called the raft consiss database which he will talk later in the production part of the course but just to know raft is a protocol that insure consistancy across multiple nodes and ideal for use in the cloud when we can't geurentee that any onethings gonna be available for any moment in time  you create that database on disk it stores the config of the swarm and that first manager and it encrypts it assuming you are on version 1.13+ then it will wait for any other nodes before ruplicating the database over to them and all this traffic are gonna be encrypted 
+
+- one of the key components of swarm differentiatted it when it first came out  was that we did not need an additional key/value storage system or some database architecture to be the backend config management of our swarm if you have been around the industry there is this concept of config.db which is this supperate database that you usually need to make redundant that will store all the information about the orchestration and automation system  but swarm has built that straight into docker right into the damn and handles it for us so we never really need to do anything there is no passwords to worry about there is no special services to start up or anything like that 
+
+
+docker-compose automate building multiple dockers so that you can manifest tthe build of a full system
+
+i run the stack yml file and it run managit:latest successfully but did not show it in sudo docker stack servies test as 1/1 because it was run from the local and the repo is not needed  
+
+
+- overlay networks used to create a network between all the nodes that swarm will divide for QA and redendency it is called "swarm wide bridge network" where the containers cross-host in the same virtual network can access each other in the vlan
+
+- in swarm after we for example specify 3 copies it will put one copy in each node, whatever config happens in one will happen in all the rest even though when you run docker service ps drupal and docker service inspect drupal in the VirtualIPs section there will only be one node that feature in swarm called routing mesh which is an incoming or ingress network that distribute packets for our service to the tasks for that service because we can have mor than one task and that spans all the nodes and uses kernel primitives called IPVS so not a new phancy service but a core feature in linux 
+- this is load balancing in all the nodes for traffic
+- after understanding creating multiple nodes with swarm and overlay network you can go ahead to learn stack 
+- under deploy: we speify the things that are specific to swarm configs, how many ruplicas do we want, what we wanna do when we fail over, how do we wanna do rolling updates,  and all the sort of things things that we won't care about on our local development machine 
+> we can't do the build command and that is something that will never happen in swarm because the mindset here is that building shouldn't happen in your production swarm whether it is something that your CI system should do maybe jankens and once you built your images and put them in your repository this stack will be the one that pull down these images and deploy them with the deploy option 
+> the good news when you use docker-compose compose will ignore deploy and the same with swarm stack will ignore deploy
+> so when you use stack the image copy of the container should have already be in your system to run stack because it will not build
+> stack doesn't run the container it runs a tasks of the container you can check that when you run sudo docker stack ps voteapp and the image will not have that long names of container or sudo docker stack services voteapp better to see how many replicas as well
+> when you run docker stack deploy -c example-voting-app-stack.yml voteapp it doesn't create that fast but it all what it did is create those objects in the scheduler which will then go through the process of creating the services  which then create the tasks which create the containers and also has to create the containers
+> use your own registry if you have:
+- some off line requirement
+- has to be available without the internet 
+- some restriction of security that you really can't use any hosting platform
+> in devops we want always to do rolling updates, blue/greens or canary type deployment basically some kind of deployment that give us wanderful 5/9 or 3/9 objective 
+> a container in docker enables a bunch of security features that normally if you just run apps in the host are not enabled by default
+> that includes Seccomp, Apparmer, SE linux and kernel capabilities those four things are all inside of docker and enabled by default assuming your host supports them becuase not  every linux distribution supports every security tool 

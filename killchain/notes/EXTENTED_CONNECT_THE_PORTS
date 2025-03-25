@@ -1,0 +1,13 @@
+extended
+
+CONNECT THE PORTS
+
+-----------------------------------------------------------------
+[ospg:tico]
+- Create a user
+2- Go to password change page
+3- Change password with proxy
+427["user.changePassword",("currentPassword":"Test.12345!","newPassword":"Admin123!","uid":5)])
+4- Replace the uid on the request with 1, which is the uid value of the admin user, and send the request.
+5-  So you can login with this password to admin user.
+---------------------------------------------------------------

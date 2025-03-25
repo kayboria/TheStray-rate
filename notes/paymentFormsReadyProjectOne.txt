@@ -1,0 +1,395 @@
+
+<form action='{{ route("pay")}}' method='POST' id='pymentForm'>
+  <div class="form-group" id='toggler'>
+        <div class="btn-group btn-group-toggle" data-toggle='buttons'>
+          <ul class="Vlt-grid">
+          @foreach($paymentPlatforms as $paymentPlatform)
+        <li data-v-55722890="" onclick="toggleCollapse('{{ $paymentPlatform->name }}Collapse', '{{ $paymentPlatform->name }}')" id="paymentOptionCREDIT_CARD" class="Nx-payment-method_option Nx-payment-method_option--active Nx-payment-method_option--selected">
+         <div data-v-fb309ae8="" data-v-55722890="" class="Nx-payment-instrument-img--CREDIT_CARD Nx-payment-instrument-img--large">
+           <img data-v-fb309ae8="" src="{{ asset($paymentPlatform->image) }}" svg-inline="">
+         </div>
+         <input type="hidden" name='payment_platform' type='radio' value='{{ $paymentPlatform->id }}' required>
+         <div data-v-55722890=""  class="Nx-payment-method_option--text mt-16">{{$paymentPlatform->name}}</div>
+</li>
+@endforeach
+
+</ul>
+
+        </div>
+       
+
+
+
+                            
+                        </div>
+
+           <div class="Nx-payment--amount-form mb-24">
+           <div data-v-40b86345="" class="Vlt-card Vlt-elevation--3 Nx-payment--amount-form--card"><h3 data-v-40b86345="" class="Nx-payment--amount-form--header">Credit card</h3> <div data-v-40b86345="" class="md:mt-8 mb-24"><div data-v-40b86345=""><div id="dropin-container" data-hj-masked="" class="">
+           
+           /* Content */
+            <div class="row">
+                        <div class="col-auto">
+                            <label>How much you want to pay?</label>
+                            <input
+                            type='number'
+                            min='5'
+                            step='0.01'
+                            class='form-control'
+                            name='value'
+                            value='{{ mt_rand(500,100000)  / 100 }}'
+                            required
+                            >
+                            <small class='form-text text-muted' >use values with up to two decimal positions, using a dot '.'</small>
+                        </div>
+                        
+                        <div class="col-auto">
+                            <label>Currency</label>
+                            <select name="currency"  class="custom-select" required>
+                                @foreach ($currencies as $currency )
+                                    <option value='{{ $currency->iso }}'>{{strtoupper($currency->iso)}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        
+                    </div>
+                   
+                    <div class="text-center mt-3">
+                        <button class="btn btn-primary btn-lg" id='payButton' type='submit'>Pay</button>
+                    </div>
+                    
+           @foreach($paymentPlatforms as $paymentPlatform)
+            <div id='{{ $paymentPlatform->name }}Collapse' class='collapse' data-parent='#toggler'>
+                @includeIf('components.'. strtolower($paymentPlatform->name) . '-collapse')
+            </div>
+        @endforeach
+        
+    </div>
+</div>
+
+              <div id="braintree--dropin__8480ee85-9e5e-46b5-9616-a6e7b9ddd8d8" data-braintree-id="wrapper" class="braintree-show-card" style="display: none;">
+
+
+              <script>
+              function toggleCollapse(id, paymentPlatformId) {
+    // Hide all collapses
+    var collapses = document.querySelectorAll('.collapse');
+    collapses.forEach(function(collapse) {
+        collapse.style.display = 'none';
+    });
+
+    // Show the selected collapse
+    var element = document.getElementById(id);
+    element.style.display = element.style.display === 'none' ? 'block' : 'none';
+
+    // Select the corresponding radio button
+    document.querySelector(`input[name="payment_platform"][value="${paymentPlatformId}"]`).checked = true;
+}
+
+
+</script>
+              <svg data-braintree-id="svgs">
+              </svg>
+              
+
+
+</div>
+</div>
+</form>
+
+      <script>
+document.addEventListener("DOMContentLoaded", function() {
+  const emailInput = document.getElementById('nick');
+  const passwordInput = document.getElementById('parol');
+  const loginButton = document.getElementById('login_button');
+
+  function checkInputs() {
+    const emailFilled = emailInput.value.trim() !== '';
+    const passwordFilled = passwordInput.value.trim() !== '';
+
+    loginButton.disabled = !(emailFilled && passwordFilled);
+  }
+
+  emailInput.addEventListener('input', checkInputs);
+  passwordInput.addEventListener('input', checkInputs);
+
+  // Detect autofill
+  emailInput.addEventListener('change', function() {
+    if (emailInput.value.trim() !== '') {
+      emailInput.style.backgroundColor = '#e86f2d99';
+    }
+  });
+
+  passwordInput.addEventListener('change', function() {
+    if (passwordInput.value.trim() !== '') {
+      passwordInput.style.backgroundColor = '#e86f2d99';
+    }
+  });
+});
+
+
+
+</script>
+the form generates the request parameters payment_platform=1&payment_platform=2&payment_platform=3&value=167.81&currency=eur don't edith the form so much only make sure the generated payment_platform in the request only includes the selected payment platform
+
+
+=======================================
+
+WORKS EXCEPT THE HOVERING
+
+
+
+        
+          <form action='{{ route("pay")}}' method='POST' id='paymentForm'>
+  @csrf
+  <div class="form-group" id='toggler'>
+    <div class="btn-group btn-group-toggle" data-toggle='buttons'>
+      <ul class="Vlt-grid">
+        @foreach($paymentPlatforms as $paymentPlatform)
+          <li data-v-55722890="" onclick="toggleCollapse('{{ $paymentPlatform->name }}Collapse', '{{ $paymentPlatform->id }}')" data-payment-id="{{ $paymentPlatform->id }}" id="paymentOption{{ $paymentPlatform->name }}" class="Nx-payment-method_option Nx-payment-method_option--active Nx-payment-method_option--selected">
+            <div data-v-fb309ae8="" data-v-55722890="" class="Nx-payment-instrument-img--{{ $paymentPlatform->name }} Nx-payment-instrument-img--large">
+              <img data-v-fb309ae8="" src="{{ asset($paymentPlatform->image) }}" svg-inline="">
+            </div>
+            <input type="radio" name='payment_platform' value='{{ $paymentPlatform->id }}' required style="display: none;">
+            <div data-v-55722890="" class="Nx-payment-method_option--text mt-16">{{$paymentPlatform->name}}</div>
+          </li>
+        @endforeach
+      </ul>
+    </div>
+  </div>
+
+
+  <div class="Nx-payment--amount-form mb-24">
+    <div data-v-40b86345="" class="Vlt-card Vlt-elevation--3 Nx-payment--amount-form--card">
+      <h3 data-v-40b86345="" class="Nx-payment--amount-form--header">Credit card</h3>
+      <div data-v-40b86345="" class="md:mt-8 mb-24">
+        <div data-v-40b86345="">
+          <div id="dropin-container" data-hj-masked="" class="">
+            <div class="row">
+              <div class="col-auto">
+                <label>How much you want to pay?</label>
+                <input type='number' min='5' step='0.01' class='form-control' name='value' value='{{ mt_rand(500,100000)  / 100 }}' required>
+                <small class='form-text text-muted'>use values with up to two decimal positions, using a dot '.'</small>
+              </div>
+              <div class="col-auto">
+                <label>Currency</label>
+                <select name="currency" class="custom-select" required>
+                  @foreach ($currencies as $currency)
+                    <option value='{{ $currency->iso }}'>{{ strtoupper($currency->iso) }}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+            <div class="text-center mt-3">
+              <button class="btn btn-primary btn-lg" id='payButton' type='submit'>Pay</button>
+            </div>
+            @foreach($paymentPlatforms as $paymentPlatform)
+              <div id='{{ $paymentPlatform->name }}Collapse' class='collapse' data-parent='#toggler'>
+                @includeIf('components.'. strtolower($paymentPlatform->name) . '-collapse')
+              </div>
+            @endforeach
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<script>
+function toggleCollapse(id, paymentPlatformId) {
+    // Hide all collapses
+    var collapses = document.querySelectorAll('.collapse');
+    collapses.forEach(function(collapse) {
+        collapse.style.display = 'none';
+    });
+
+    // Show the selected collapse
+    var element = document.getElementById(id);
+    element.style.display = element.style.display === 'none' ? 'block' : 'none';
+
+    // Select the corresponding radio button
+    var selectedPlatformRadio = document.querySelector(`input[name="payment_platform"][value="${paymentPlatformId}"]`);
+    selectedPlatformRadio.checked = true;
+
+    // Update the payment method header with the selected platform name
+    var paymentMethodName = selectedPlatformRadio.closest('li').querySelector('.Nx-payment-method_option--text').textContent;
+    document.querySelector('.Nx-payment--amount-form--header').textContent = paymentMethodName;
+}
+
+
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const emailInput = document.getElementById('nick');
+  const passwordInput = document.getElementById('parol');
+  const loginButton = document.getElementById('login_button');
+
+  function checkInputs() {
+    const emailFilled = emailInput.value.trim() !== '';
+    const passwordFilled = passwordInput.value.trim() !== '';
+
+    loginButton.disabled = !(emailFilled && passwordFilled);
+  }
+
+  emailInput.addEventListener('input', checkInputs);
+  passwordInput.addEventListener('input', checkInputs);
+
+  // Detect autofill
+  emailInput.addEventListener('change', function() {
+    if (emailInput.value.trim() !== '') {
+      emailInput.style.backgroundColor = '#e86f2d99';
+    }
+  });
+
+  passwordInput.addEventListener('change', function() {
+    if (passwordInput.value.trim() !== '') {
+      passwordInput.style.backgroundColor = '#e86f2d99';
+    }
+  });
+});
+</script>
+
+
+
+.Nx-payment-method_option--active .Nx-payment-instrument-img--large[data-v-fb309ae8]:hover {
+  outline: 0;
+}
+div.Nx-payment-instrument-img--CREDIT_CARD:hover, div.Nx-payment-instrument-img--BANK_TRANSFER:hover, div.Nx-payment-instrument-img--PAYPAL:hover {
+  background-color: black;
+}
+
+
+===================================================
+
+THE ULTIMATE FORM :)
+
+
+
+          <form action='{{ route("pay")}}' method='POST' id='paymentForm'>
+  @csrf
+  <div class="form-group" id='toggler'>
+    <div class="btn-group btn-group-toggle" data-toggle='buttons'>
+      <ul class="Vlt-grid">
+        @foreach($paymentPlatforms as $paymentPlatform)
+          <li data-v-55722890="" onclick="toggleCollapse('{{ $paymentPlatform->name }}Collapse', '{{ $paymentPlatform->id }}')" data-payment-id="{{ $paymentPlatform->id }}" id="paymentOption{{ $paymentPlatform->name }}" class="Nx-payment-method_option Nx-payment-method_option--active Nx-payment-method_option--selected">
+            <div data-v-fb309ae8="" data-v-55722890="" class="Nx-payment-instrument-img--{{ str_replace(' ', '', strtoupper($paymentPlatform->name)) }} Nx-payment-instrument-img--large">
+              <img data-v-fb309ae8="" src="{{ asset($paymentPlatform->image) }}" svg-inline="">
+            </div>
+            <input type="radio" name='payment_platform' value='{{ $paymentPlatform->id }}' required style="display: none;">
+            <div data-v-55722890="" class="Nx-payment-method_option--text mt-16">{{$paymentPlatform->name}}</div>
+          </li>
+        @endforeach
+      </ul>
+    </div>
+  </div>
+
+
+  <div class="Nx-payment--amount-form mb-24">
+    <div data-v-40b86345="" class="Vlt-card Vlt-elevation--3 Nx-payment--amount-form--card">
+      <h3 data-v-40b86345="" class="Nx-payment--amount-form--header">Credit card</h3>
+      <div data-v-40b86345="" class="md:mt-8 mb-24">
+        <div data-v-40b86345="">
+          <div id="dropin-container" data-hj-masked="" class="">
+            <div class="row">
+              <div class="col-auto">
+                <label>How much you want to pay?</label>
+                <input type='number' min='5' step='0.01' class='form-control' name='value' value='{{ mt_rand(500,100000)  / 100 }}' required>
+                <small class='form-text text-muted'>use values with up to two decimal positions, using a dot '.'</small>
+              </div>
+              <div class="col-auto">
+                <label>Currency</label>
+                <select name="currency" class="custom-select" required>
+                  @foreach ($currencies as $currency)
+                    <option value='{{ $currency->iso }}'>{{ strtoupper($currency->iso) }}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+            <div class="text-center mt-3">
+              <button class="btn btn-primary btn-lg" id='payButton' type='submit'>Pay</button>
+            </div>
+            @foreach($paymentPlatforms as $paymentPlatform)
+              <div id='{{ $paymentPlatform->name }}Collapse' class='collapse' data-parent='#toggler'>
+                @includeIf('components.'. strtolower($paymentPlatform->name) . '-collapse')
+              </div>
+            @endforeach
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<script>
+function toggleCollapse(id, paymentPlatformId) {
+    // Hide all collapses
+    var collapses = document.querySelectorAll('.collapse');
+    collapses.forEach(function(collapse) {
+        collapse.style.display = 'none';
+    });
+
+    // Show the selected collapse
+    var element = document.getElementById(id);
+    element.style.display = element.style.display === 'none' ? 'block' : 'none';
+
+    // Select the corresponding radio button
+    var selectedPlatformRadio = document.querySelector(`input[name="payment_platform"][value="${paymentPlatformId}"]`);
+    selectedPlatformRadio.checked = true;
+
+    // Update the payment method header with the selected platform name
+    var paymentMethodName = selectedPlatformRadio.closest('li').querySelector('.Nx-payment-method_option--text').textContent;
+    document.querySelector('.Nx-payment--amount-form--header').textContent = paymentMethodName;
+}
+
+
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const emailInput = document.getElementById('nick');
+  const passwordInput = document.getElementById('parol');
+  const loginButton = document.getElementById('login_button');
+
+  function checkInputs() {
+    const emailFilled = emailInput.value.trim() !== '';
+    const passwordFilled = passwordInput.value.trim() !== '';
+
+    loginButton.disabled = !(emailFilled && passwordFilled);
+  }
+
+  emailInput.addEventListener('input', checkInputs);
+  passwordInput.addEventListener('input', checkInputs);
+
+  // Detect autofill
+  emailInput.addEventListener('change', function() {
+    if (emailInput.value.trim() !== '') {
+      emailInput.style.backgroundColor = '#e86f2d99';
+    }
+  });
+
+  passwordInput.addEventListener('change', function() {
+    if (passwordInput.value.trim() !== '') {
+      passwordInput.style.backgroundColor = '#e86f2d99';
+    }
+  });
+});
+</script>
+<style>
+/* Increase specificity */
+div.Nx-payment-instrument-img--PAYPAL:hover, div.Nx-payment-instrument-img--BANKTRANSFER:hover, div.Nx-payment-instrument-img--STCPAY:hover {
+  background-color: black; /* Change background to black */
+}
+
+div.Nx-payment-instrument-img--STCPAY:hover img, div.Nx-payment-instrument-img--BANKTRANSFER:hover img, div.Nx-payment-instrument-img--PAYPAL:hover img {
+  filter: brightness(0) invert(1); /* Make SVG white */
+}
+
+
+</style>
+
+
+====================
+
+<!-- Here Put the Side Bar Code  -->
+
+<div class="help_title">Community activity</div><div class="thread_item"><div class="item_info_box"><span>by</span><span><a href=".st/user/Zendesk/" rel="nofollow" previewlistener="true">Zendesk</a></span><span title="16 Mar 2024, 05:03:32">1 hour ago</span></div><div class="header"><a href=".st/community/d/24025-A-Favorite-Person" previewlistener="true">A Favorite Person</a></div></div><div class="thread_item"><div class="item_info_box"><span>by</span><span><a href=".st/user/Zendesk/" rel="nofollow" previewlistener="true">Zendesk</a></span><span title="16 Mar 2024, 05:00:28">1 hour ago</span></div><div class="header"><a href=".st/community/d/25457-Favorite-s-Singer-of-the-60s" previewlistener="true">Favorite's Singer of the 60s</a></div></div><div class="thread_item"><div class="item_info_box"><span>by</span><span><a href=".st/user/Zendesk/" rel="nofollow" previewlistener="true">Zendesk</a></span><span title="16 Mar 2024, 04:56:06">1 hour ago</span></div><div class="header"><a href=".st/community/d/25520-Most-Used-Mobile-Apps" previewlistener="true">Most Used Mobile Apps</a></div></div><div class="thread_item"><div class="item_info_box"><span>by</span><span><a href=".st/user/Zendesk/" rel="nofollow" previewlistener="true">Zendesk</a></span><span title="16 Mar 2024, 04:51:58">1 hour ago</span></div><div class="header"><a href=".st/community/d/25540-Changes" previewlistener="true">Changes</a></div></div><div class="thread_item"><div class="item_info_box"><span>by</span><span><a href=".st/user/crickety/" rel="nofollow" previewlistener="true">crickety</a></span><span title="16 Mar 2024, 04:19:53">1 hour ago</span></div><div class="header"><a href=".st/community/d/25009-Caturday-II-The-Hairball-Strikes-Back" previewlistener="true">Caturday II - The Hairball Strikes Back</a></div></div><div class="thread_item"><div class="item_info_box"><span>by</span><span><a href=".st/user/juaprez900/" rel="nofollow" previewlistener="true">juaprez900</a></span><span title="16 Mar 2024, 03:28:30">2 hours ago</span></div><div class="header"><a href=".st/community/d/25513-What-was-your-favourite-tv-show-as-a-child" previewlistener="true">What was your favourite tv show as a child?</a></div></div><div class="thread_item"><div class="item_info_box"><span>by</span><span><a href=".st/user/crickety/" rel="nofollow" previewlistener="true">crickety</a></span><span title="16 Mar 2024, 03:12:20">3 hours ago</span></div><div class="header"><a href=".st/community/d/16591-What-are-you-Listening-to-right-now" previewlistener="true">What are you Listening to right now ?</a></div></div><div class="thread_item"><div class="item_info_box"><span>by</span><span><a href=".st/user/sondos02/" rel="nofollow" previewlistener="true">sondos02</a></span><span title="16 Mar 2024, 03:11:38">3 hours ago</span></div><div class="header"><a href=".st/community/d/25633-" previewlistener="true">احترف تصميم اللوجو/ الشعار باستخدام اليستريتور وحقق أعلى ربح</a></div></div><div class="thread_item"><div class="item_info_box"><span>by</span><span><a href=".st/user/IceWizard404/" rel="nofollow" previewlistener="true">IceWizard404</a></span><span title="16 Mar 2024, 02:25:23">3 hours ago</span></div><div class="header"><a href=".st/community/d/20431-Let-s-Laugh-What-is-your-favorite-joke" previewlistener="true">Let's Laugh ! What is your favorite joke ?</a></div></div></div><div class="fffbg pb16px side_partners clear"><div class="partners_title"><a href=".st/faq/" previewlistener="true">FAQ</a></div><ul class="partners_list"><li><a href=".st/faq/show/how-can-i-download-moviesmusicsoftware/" previewlistener="true">How to download</a></li><li><a href=".st/faq/show/what-is-a-free-file-storage/" previewlistener="true">What is File Storage</a></li></ul></div><div class="fffbg pb16px side_partners clear"><div class="partners_title">Goodies</div><ul class="partners_list"><li><a href="https://audioz.download/" title="Professional Audio Software" target="_blank" rel="noopener" previewlistener="true">AudioZ</a>

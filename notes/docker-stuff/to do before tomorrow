@@ -1,0 +1,166 @@
+to do before tomorrow 
+
+---------------------------------------------------------
+remove languages except en ar 
+./app/seeders/basic/setting_seeder.rb
+
+settings["available_languages"] = (Setting.available_languages + [I18n.locale.to_s]).uniq.sort
+settings["available_languages"] = ['en', 'ar']
+
+default_language_setting.set_value!(I18n.locale, force: true)
+default_language_setting.set_value!('en', force: true)
+
+---------------------------------------------------------
+
+trace and remove all diamonds
+spot-icon_baseline - comment all
+inseach: menu_node file:menu_helper func:render_single_menu_node
+the seeder users change them
+./app/seeders/development_data/users_seeder.rb
+-
+menu-block
+
+---------------------------------------------------------
+fix the upload - [docker specific]
+
+---------------------------------------------------------
+change the logo on the tab 
+/home/kali/test/managit/app/assets/images/development/
+---------------------------------------------------------
+
+adding user from the create new user - [docker specific]
+---------------------------------------------------------
+
+board not  saving + add existin + adding burger - [docker specific]
+---------------------------------------------------------
+
+change the logo in the pdf 
+
+insearch: pdf
+------------------------------------
+remove the extensions tiself of thet diamond
+design - admin/design/upsale
+enterprise edition - admin/enterprise
+
+insearch: design/upsale infile: routes.rb
+-------------------------------------------------------
+Users seeds
+
+
+---------------------------------------------------------
+
+trace and remove all diamonds
+
+[1]
+def render_single_menu_node(item, project = nil, menu_class = "op-menu")
+    # Skip rendering if the item's caption is "Team Planner", "Design", or "Enterprise Edition"
+    caption, url, selected = extract_node_details(item, project)
+    return if ["Team planners","Team Planner", "Design", "Enterprise edition","Placeholder users"].include?(caption)
+  
+    shown_in_main_menu = menu_class == "op-menu"
+  
+    link_text = "".html_safe
+  
+    if item.icon(project).present?
+      link_text << render(Primer::Beta::Octicon.new(
+                            icon: item.icon,
+                            mr: shown_in_main_menu ? 3 : 0,
+                            size: shown_in_main_menu ? :small : :medium
+                          ))
+    end
+  
+    badge_class = item.badge(project:).present? ? " #{menu_class}--item-title_has-badge" : ""
+  
+    link_text << content_tag(:span,
+                             class: "#{menu_class}--item-title#{badge_class}",
+                             lang: menu_item_locale(item)) do
+      title_text = "".html_safe + content_tag(:span, caption, class: "ellipsis") + badge_for(item)
+      if item.enterprise_feature.present? && !EnterpriseToken.allows_to?(item.enterprise_feature)
+        title_text << ("".html_safe + render(Primer::Beta::Octicon.new(icon: "op-enterprise-addons",
+                                                                       classes: "upsale-colored",
+                                                                       ml: 2)))
+      end
+      title_text
+    end
+  
+    if item.icon_after.present?
+      link_text << ("".html_safe + render(Primer::Beta::Octicon.new(icon: item.icon_after, classes: "trailing-icon")))
+    end
+  
+    html_options = item.html_options(selected:)
+    html_options[:title] ||= selected ? t(:description_current_position) + caption : caption
+    html_options[:class] = "#{html_options[:class]} #{menu_class}--item-action"
+    html_options["data-test-selector"] = "#{menu_class}--item-action"
+    html_options["target"] = "_blank" if item.icon_after.present? && item.icon_after == "link-external"
+  
+    link_to link_text, url, html_options
+  end
+
+and 
+
+[2] infile:menu_helper.rb func:render_menu insearch:menu_node
+ 
+def render_menu(menu, project = nil)
+    links = []
+    @menu = menu
+    menu_items = first_level_menu_items_for(menu, project) do |node|
+      # Skip rendering if the node caption is "Design" or "Enterprise edition"
+      next if ["Team planners","Team Planner", "Design", "Enterprise edition","Placeholder users"].include?(node.caption)
+  
+      links << render_menu_node(node, project)
+    end
+  
+    first_level = any_item_selected?(select_leafs(menu_items)) || !current_menu_item_part_of_menu?(menu, project)
+    classes = first_level ? "open" : "closed"
+  
+    if links.present?
+      content_tag("ul",
+                  safe_join(links, "\n"),
+                  class: "menu_root #{classes}",
+                  data: {
+                    "menus--main-target": "root"
+                  })
+    end
+  end
+
+[3] insearch: menu-block-
+<div class="menu-blocks--container" data-test-selector="menu-blocks--container">
+  <% @menu_nodes.each do |menu_node| -%>
+    <% next if ["Design", "Enterprise edition"].include?(menu_node.caption) %> <!-- Skip these items -->
+    
+    <%= link_to menu_node.url, { class: 'menu-block', 'data-test-selector': 'menu-block' } do %>
+      <%= render(Primer::Beta::Octicon.new(icon: menu_node.icon, height: 32, classes: "menu-block--icon", "aria-label": menu_node.caption)) %>
+      <span class="menu-block--title"> <%= menu_node.caption %> </span>
+    <% end %>
+  <% end %>
+</div>
+  ------------------------------------------------------------
+  DO $$ 
+DECLARE 
+    r RECORD;
+    sql TEXT;
+    result INT;
+BEGIN 
+    FOR r IN 
+        SELECT table_name, column_name 
+        FROM information_schema.columns 
+        WHERE table_schema = 'public' 
+    LOOP 
+        sql := format('SELECT COUNT(*) FROM %I WHERE CAST(%I AS TEXT) ILIKE %L', 
+                      r.table_name, r.column_name, '%design%');
+        
+        BEGIN
+            EXECUTE sql INTO result;
+            IF result > 0 THEN
+                RAISE NOTICE 'FOUND: Table: %, Column: %', r.table_name, r.column_name;
+            END IF;
+        EXCEPTION WHEN OTHERS THEN
+            -- Ignore errors from incompatible data types
+            CONTINUE;
+        END;
+    END LOOP; 
+END $$;
+
+
+
+

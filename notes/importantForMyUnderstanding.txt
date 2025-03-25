@@ -1,0 +1,157 @@
+the 0x08049141 is what always the addresses will return to either little or big
+indianess
+
+little indianess: \x41\x91\x04\x08
+
+
+when writing binary exploit it is like making a txt file and feeding the executable
+
+check with xxd to understand
+
+every two positions in the hex file is = 1 byte
+
+______________________________________________
+tell now what i understood this is raw bytes: \x41\x91\x04\x08
+and this is bytestream: 0x08049141
+______________________________________________ for this one shellcraft explains it well
+
+not true :) # uh I think I want to correct myself, the raw bytes are the bytes similar to
+the once we see using xxd
+
+rop.dump() will print like after executing python -c " ... "
+rop.chain
+
+when you inject strings directly it is not in little endianess
+
+64bits: pading + pop_rdi + pop_rsi + junk + hacked
+32bits: padding + hacked + (if there is more r15) + param1 + param2
+
+junk is actually the return after the hacked
+
+
+automated scripts means it finds the ropper itself for poping or 
+making the rdi = .. etc
+
+the strange looking characters appears in the terminal means 
+because the terminal always tries hardly to translate the hex
+into ASCII but it couldn't with that characters
+
+the binary having the little endian it is like everythings viewed with
+strings is for you and with little endian is my language 
+
+
+needed addresses of the library:
+ldd secureserver // for the program base
+
+readelf -s /lib/i386-linux-gnu/libc.so.6 | grep 'system' // for the program functions
+
+strings -a -t x /lib/i386-linux-gnu/libc.so.6 | grep 'bin'
+
+
+normally the addresses of the library are the same in every system
+except if you updated the library
+
+hello to \x68\x65\x6c\x6c\x6f:
+python -c "print(''.join(['\\\\x%02x' % ord(c) for c in '0tt3r']))"
+
+after xxd -p otr/00284fd21810fdc4bb3e3b1440e85d8e.otr | head -c 28 | cut -c 21-
+
+7e3d0000 to decimal 15742:
+python -c 'from pwn import *; print(u32(b"\x7e\x3d\x00\x00"))'  
+
+for the OtterCTF I could find the unsimilar CRC after having this file:
+[*] crc32 data(1): 6fe18932 
+[*] crc32 of data: 6fe18932
+[*] crc32 data(0): f6e5c465 
+[*] crc32 of data: f6e5c465
+
+and applying this oneliner on it:
+awk '{if (match($0, /[0-9a-fA-F]{8}/)) {crc = substr($0, RSTART, RLENGTH); if (NR % 2 == 0) {if (crc != prev) {print "Different CRCs found at lines:", NR-1, "and", NR; print "Values:", prev, "and", crc; exit}} else {prev = crc}}}' CRCerror.txt
+
+all the occurances:
+awk '{if (match($0, /[0-9a-fA-F]{8}/)) {crc = substr($0, RSTART, RLENGTH); if (NR % 2 == 0) {if (crc != prev) {print "Different CRCs found at lines:", NR-1, "and", NR; print "Values:", prev, "and", crc}} else {prev = crc}}}' CRCerror.txt
+
+
+https://hexed.it/ 
+https://fareedfauzi.gitbook.io/ctf-playbook/steganography
+
+
+cat /proc/cpuinfo
+
+
+we will learn how to write shellcode in mmx\sse instructions
+lm(long mode) another worl of indicate 64 mode supported
+
+some other important flags fpu\mmx\sse\lm\sse2
+
+flags is the capabilities of the processor
+
+MIP\AMD\INTEL speaks different assembly languages, that is why if you made a code for one you can't intergrate to another
+
+when you use assembly language you can use Intel or AT&T syntax
+
+
+when you want to write an assembly you don't have to write code to communicate with all the I/O because the system calls from cat /usr/include/x86_64-linux-gnu/asm/unistd_64.h | nl
+ will do it for you
+
+ in the Shellcoding course of PEntesterAcademy, how system calls called what happen in the background between user space kernel space and VDSO are byodn the scope this link might help http://blog.tinola.com/?e=5 and it is in the realm of operating systems and system programming
+
+------------------------------------------------
+HOW COMPUTER SCIENCE STARTED MAKING SENSE WIT BYTES ?:
+1. I understood that byte is every two characters when you do xxd on a file
+and i proved that using dd which transfers by byte and that proves that in:
+
+00000000: 5b2a 5d20 6d64 3520 6d61 7463 683a 2030  [*] md5 match: 0
+ every two couples are 1 byte
+
+
+ 2. Also in a variable that stores a string the: ''.join(do(v) for v in string) or
+ for v in string: print(v), this is doing the do() on each byte which is every two characters
+
+ 3. I understood the payloads created from Cryptocat Pwn series and it is all about doing the xxd on the payload and understand how the program takes the data with the endianess
+
+ 4. I still believe the program takes the data and converts it into 0x0000
+ where reverting the endianess back to the origins
+
+ 5. I found it out that, when i write inside the file, I'm writing in the right most section of xxd, but when i write using '\x3c\x44' here where hacking begins, here where I become upnormal
+
+ 6.after understaning this '\xf3' about bytes, I started understanding sooo many things about computer science and encoding ecryption, programming etc
+ ----------------------------------------
+
+
+ header = '\xf3\xa9\xdf.\xae\x0e$\xe2\xc8\xcc\xc6\xced\xac\xee\xe2\xcc\x8f\x90\x1e\xbc\xbe\xeb\xca\x18\xfe;m\xef\xcd\xfc\xf0\xe6\xdc\x88\xfa\xca\x8a\xde)\xea(J\xfe\xfd\xfe\xf6\xaf;\xc2N\x98\x1c\xcf\x88\xd3\x06\xb8*\xe7\x1a?\xa5\xef\xcb\x8eh\xf2\xdc\xa3\xdb\xaem\xa8\xc4\xf7\xee\x86\xe8\x88\xcb\xce\xcf<\x0e\xf7\xee\xcf\x0f\x1d\xce\xe8\x8e\xef\xef\xe2\xa0\xef\xff\xaa\xaa\xac\xaeh\xca\x8bw\xae8'
+
+data = '0sLs5GOe.BGHYzC vSkc YV.6 9$pbs?m85 rp yy YevjVpEL cZzHze huYJtit6PNeQt5iT6tH3Bu eJ Q3l As U0zC Ezo$w Ogs BF6zHvZ jLJ  1fFAD.lO M8v1Q wBVE W9WTxwmQKg6LTJTVrn4SWAEi   gL  aDTK LbHkGEeR jpTuFro  u uBi9XQ1w 6H 281H1LN  dwb6  bL6J61 ?NYd zed.7F E R  vt2Co$mG9.bk9 H4c   C xLYSP s  5FqD ? 0 VPncQ21K 95vv yIn9b4FkWN.9owP H8 Lj $USW 3kcHYHwbRwgbl4 3SJ3N0welGT3Q 9y LozXC ZjSG 6NR  loL Ti!dI8N5gdFNo    p26bY3EPLv$  lS N Nd5suXHJJ?AD?P D6 pV $kB2 $VgfI.ztk   YmEIDUr Ex3zyxAu9 8Sg gJjglxUmmNUK w3 riAy T2Gs5N I wi  d!!VJtFUA ra 2DN  ENs9Z0USkKA9kCdz95S A zbY3.Y   0 Pc 1ND$u  C$$9sahS  r7gEB  fX1fDdtVFufN uFu N k7 bT. VAoHS ps SGd N BBuCKvZ!Ch UlsKBp4X5azdYW'
+
+rotate = lambda v: chr( int( bin(ord(v))[2:].zfill(8)[::-1], 2 ) )
+
+def uppercase_decode(data, flag):
+    flag = ''.join(rotate(v) for v in flag)
+    data = list(data)
+
+    for i, c in enumerate(flag):
+        c = ord(c)
+        for j in range(0, 8):
+            p = i * 8 + j
+            k = 1 << j
+            if (c & k) == k:
+                data[p] = data[p].upper()
+
+    return ''.join(data)
+
+uppercase_decode(data,header)
+
+
+try: 
+    for i, c in enumerate(flag):
+        c = ord(c)
+        for j in range(0, 8):
+            p = i * 8 + j
+            k = 1 << j
+            if (c & k) == k:
+                data[p] = data[p].upper()
+except:
+    data2 = ''.join(data2)
+    pass
+--------------------------
+sometimes the 

