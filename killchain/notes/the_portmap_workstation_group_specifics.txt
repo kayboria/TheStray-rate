@@ -1,6 +1,18 @@
 *************************[port maps]*************************
 
-
+(htb:escapetwo)
+interesting go by connecting the ports with ldap
+https://ericazelic.medium.com/ldap-queries-for-offensive-and-defensive-operations-4b035b816814
+-------------------------------------------------------
+(htb:escapetwo)
+nice way to execute instead of the normal px_cmdshell
+netexec mssql ip -u sa -p pass --local-auth -X 'powershell reverse'
+----------------------------------------------
+https://arth0s.medium.com/hackthebox-rebound-write-up-insane-ab8eb3679bff
+good reference for active directory
+---------------------------------------------------------
+https://feedly.com/cve like nomi sec different goals
+----------------------------------------------
 wordlists
 
 vhosts:
@@ -236,7 +248,7 @@ msiexec /quiet /qn /i C:\PrivEsc\reverse.msi
 ---------------------------------------------------
 nice /notes/* can be bypassed with ../ to get privesc (ospg:potato)
 -------------------------------------------------------------
-docker skipping (ospg:peppo)
+docker escaping (ospg:peppo)
 https://0xffsec.com/handbook/shells/restricted-shells/
 ------------------------------------
 when you want a user use things that grep the user things in the workstation specifics like find / -user or pspy that show the user things (ospg:lavita)
@@ -286,7 +298,18 @@ https://medium.com/@hughbrown123/walk-through-hints-querier-htb-0726d5b18961
 
 *************************[group specifics]*************************
 (ospg:hutch) LAPS enables you to get the domain admin password using ldap if enabled
-
+---------------------------------------------------------------------------------------
+(htb:escapetwo) 
+interesting go by for group specifics
+https://medium.com/@jacobdiamond/how-to-leverage-aces-for-privilege-escalation-and-lateral-movement-5246fd40ca15
+indork: site:medium.com "writeowner" genericall
+------------------------------------------------------------------------------------
+amazing ceritpy resource 
+https://exploit-notes.hdks.org/exploit/windows/active-directory/shadow-credentials/#exploit?ref=0liverFlow
+from 
+https://arz101.medium.com/hackthebox-mist-c23cdea69ca5
+what pywhisker do
+https://olivierkonate.medium.com/hackthebox-certified-885faf108597
 
 
 

@@ -37,3 +37,5 @@ RUN npm install
 EXPOSE 4200
 USER $USER
 # Command to run the Angular development server
+
+

