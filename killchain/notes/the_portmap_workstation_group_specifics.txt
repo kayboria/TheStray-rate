@@ -1,5 +1,8 @@
 *************************[port maps]*************************
 
+(ospg:exghost) upload file using curl 
+curl -v -F myFile=@payload.jpg http://192.168.201.183/exiftest.php
+------------------------------------
 (htb:escapetwo)
 interesting go by connecting the ports with ldap
 https://ericazelic.medium.com/ldap-queries-for-offensive-and-defensive-operations-4b035b816814
@@ -171,6 +174,9 @@ cat users.txt | awk -F\\[ '{print $2}' | awk -F\\] '{print $1}' > final_user.txt
 [there are things you can do in this workstaions with this user that you can not do on the other workstations which will get you a domaion user]
 
 
+------------------------------------
+find unqouted services
+cmd /c wmic service get name,displayname,pathname,startmode |findstr /i "auto" |findstr /i /v "c:\windows\\" |findstr /i /v """
 ---------------------------------------------
 (ospg:hetemit) privesc via .service
 --------------------------------------------

