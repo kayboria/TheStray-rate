@@ -1,5 +1,17 @@
 *************************[port maps]*************************
 
+
+
+(ospg:kevin)
+nice way of generating msfvenom shell with no bad chars
+----------------------------------
+(ospg:hepet)
+eventhough there are multiple email services in the machine but one creds can exists in imap but
+not exists in pop3
+----------------------------------------------
+(ospg:butch) mssql inspired bolean and blind
+https://medium.com/@negan0/blind-sql-injection-f4d2b7b04a95
+-------------------------------------------
 (ospg:zeus) 
 command to filter users of rid brute
 cat users| cut -d '\' -f 2 | grep -i SidTypeUser | cut -d '(' -f 1 | sed 's/ //g' > usrs
@@ -162,6 +174,85 @@ DETACH DELETE n;
 
 MATCH (u:User)
 RETURN u;
+
+----------------------------------------
+(ospg:hokkaido) nice box to know  how the exam will be harder and more tricky in knowing the group specifics like finding genericwrite with generic query search and IT guesing it can forcefully change the password. also nice box for mssql commands and reseting the password with setuserinfo2
+
+MATCH (attackerGroup:User)-[r:GenericAll|GenericWrite|WriteOwner|WriteDacl|AllExtendedRights|ForceChangePassword|AddMember|AddSelf|AddKeyCredentialLink|Owns|WriteSPN|ReadLAPSPassword|ReadGMSAPassword]->(target)
+WHERE target:User OR target:Group OR target:Computer
+RETURN
+    attackerGroup.name AS AttackerGroup,
+    target.name AS Target,
+    labels(target) AS TargetType,
+    type(r) AS PermissionType,
+    r.isacl AS IsACLBased  
+
+and this to even bypass the nested grouping
+MATCH (attackerUser:User)
+MATCH (attackerUser)-[:MemberOf*1..5]->(attackerGroup:Group)-[r:GenericAll|GenericWrite|WriteOwner|WriteDacl|AllExtendedRights|ForceChangePassword|AddMember|AddSelf|AddKeyCredentialLink|Owns|WriteSPN|ReadLAPSPassword|ReadGMSAPassword]->(target)
+WHERE (target:User OR target:Group OR target:Computer)
+  AND NOT attackerUser.name =~ "(?i)Administrator@.*"
+RETURN
+    attackerUser.name AS AttackerUser,
+    attackerGroup.name AS ViaGroup,
+    target.name AS Target,
+    labels(target)[0] AS TargetType,
+    type(r) AS PermissionType,
+    r.isacl AS IsACLBased,
+    "Via Group Membership" AS AccessType
+ORDER BY attackerUser.name
+
+the above showed angela which is domain admin so showed angela access behind its groups but did not show molly canrDP begind its group deepseeks corrected the query and it works now DAAMN the issue were only that i typed canRDP instead of CanRDP
+MATCH (attackerUser:User)
+MATCH (attackerUser)-[:MemberOf*1..10]->(attackerGroup:Group)-[r:CanRDP|GenericAll|GenericWrite|WriteOwner|WriteDacl|AllExtendedRights|ForceChangePassword|AddMember|AddSelf|AddKeyCredentialLink|Owns|WriteSPN|ReadLAPSPassword|ReadGMSAPassword|AdminTo]->(target)
+WHERE (target:User OR target:Group OR target:Computer)
+  AND NOT attackerUser.name =~ "(?i)Administrator@.*"
+  AND NOT attackerUser.name =~ "(?i)ANGELA.DAVIES@.*"
+RETURN
+    attackerUser.name AS AttackerUser,
+    attackerGroup.name AS ViaGroup,
+    target.name AS Target,
+    labels(target)[0] AS TargetType,
+    type(r) AS PermissionType,
+    r.isacl AS IsACLBased,
+    "Via Group Membership" AS AccessType
+ORDER BY attackerUser.name
+--------------------------------
+// any group not in including admins who have a dangerious permission over another g roup
+MATCH (g:Group)-[r:GenericAll|GenericWrite|WriteOwner|WriteDacl|AllExtendedRights|ForceChangePassword|AddMember|AddSelf|AddKeyCredentialLink|Owns|WriteSPN|ReadLAPSPassword|ReadGMSAPassword]->(c:Group)
+WHERE NOT g.name =~ "(?i)Administrators@.*" 
+  AND NOT g.name =~ "(?i)Domain Admins@.*"
+  AND NOT g.name =~ "(?i)Enterprise Admins@.*"
+  AND NOT g.name =~ "(?i)Schema Admins@.*"
+  AND NOT g.name =~ "(?i)Account Operators@.*"
+  AND NOT g.name =~ "(?i)Backup Operators@.*"
+  AND NOT g.name =~ "(?i)Print Operators@.*"
+  AND NOT g.name =~ "(?i)Server Operators@.*"
+RETURN 
+    g.name AS AttackingGroup,
+    c.name AS TargetGroup,
+    "GenericWrite" AS PermissionType
+ORDER BY g.name
+
+MATCH (g:Group)-[r:GenericAll|GenericWrite|WriteOwner|WriteDacl|AllExtendedRights|ForceChangePassword|AddMember|AddSelf|AddKeyCredentialLink|Owns|WriteSPN|ReadLAPSPassword|ReadGMSAPassword]->(c)
+WHERE (c:User OR c:Group OR c:Computer) and NOT g.name =~ "(?i)Administrators@.*" 
+  AND NOT g.name =~ "(?i)Domain Admins@.*"
+  AND NOT g.name =~ "(?i)Enterprise Admins@.*"
+  AND NOT g.name =~ "(?i)Schema Admins@.*"
+  AND NOT g.name =~ "(?i)Account Operators@.*"
+  AND NOT g.name =~ "(?i)Backup Operators@.*"
+  AND NOT g.name =~ "(?i)Print Operators@.*"
+  AND NOT g.name =~ "(?i)Server Operators@.*"
+  AND NOT g.name =~ "(?i)ENTERPRISE KEY ADMINS@.*"
+  AND NOT g.name =~ "(?i)KEY ADMINS@.*"
+
+
+RETURN 
+    g.name AS AttackingGroup,
+    c.name AS TargetGroup,
+    "GenericWrite" AS PermissionType
+ORDER BY g.name
+
 ---------------------------------------------------------------------
 (ospg:cockpit)a very shocking way how he reached the sql injection
 https://github.com/danielmiessler/SecLists/blob/master/Fuzzing/Databases/MySQL-SQLi-Login-Bypass.fuzzdb.txt 
@@ -442,6 +533,27 @@ cat users.txt | awk -F\\[ '{print $2}' | awk -F\\] '{print $1}' > final_user.txt
 [there are things you can do in this workstaions with this user that you can not do on the other workstations which will get you a domaion user]
 
 
+(ospg:billyboss)
+like in the connect the port when there is website provided with its files in ftp means the website is for the specific there are commands normally gives access denied and being able to execute it give you some pre assumption like
+
+wmic qfe list // the box creator with your specific user wants you to escalate with windows system exploit
+wmic service get name,pathname,displayname,startmode | findstr /i auto | findstr /i /v "C:\Windows\\" | findstr /i /v """ // the box creator with your specific user to escalate with unqouted service
+-----------------------------------------------------
+(ospg:jacko)
+a DLL hijack privilege escalation exploit db powershell script was interesting to show writable windows environmental variables like exploiting $PATH in linux
+https://www.exploit-db.com/exploits/49382
+a very interesting exploit and box to fully understand dll hijacking
+
+dll hijacking types:
+- the dll of the service exists but the folder is writable by you (htb:analysis)
+- the dll actually does not exists so you search for the first writable PATH by you (ospg:jacko)
+
+the analysis htb did snort dll hijacking did not have exploitdb writeup but the exploit found here
+http://hyp3rlinx.altervista.org/ so this is a lesson learned after me searching steps before idk level which is like searching the connect the port with general for authentication bypass we can search workstation specifics with like dork general or this dll hijack for the software installed
+--------------------------------------------
+(ospg:squid)
+offsec walkthrough has interesting abusing a local service without using fullpower eventhough it is lengthy and more steps than TJ null writeup but more manual way
+----------------------------
 ---------------------------------------------------------------
 (ospg:vault)  checking if our user has access to modify any Group Policy Objects.
 Get-NetGPO
@@ -773,7 +885,7 @@ does not  mean you can not exploit them becuase they might have cve (ospg:electi
 bad enum workstation specifics
 find -type f -user yash 2>/dev/null (ospg:noname)
 --------------------------------------------------------
-python -m pyftpdlib --write (TCM)
+python -m pyftpdlib --write -u user --password='password' -p 21 (TCM)
 -------------------------------------
 
 reg  query "HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer" /v AlwaysInstallElevated
